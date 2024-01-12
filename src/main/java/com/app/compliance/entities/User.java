@@ -20,6 +20,7 @@ public class User implements UserDetails {
 
     private String firstname;
     private String secondname;
+    @Column(unique = true)
     private String email;
     private String password;
 
