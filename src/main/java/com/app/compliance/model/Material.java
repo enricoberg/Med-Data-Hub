@@ -2,11 +2,20 @@ package com.app.compliance.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="materials")
 public class Material {
 
 
+    public Set<Configuration> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(Set<Configuration> configs) {
+        this.configs = configs;
+    }
 
     public enum MaterialFamily{
         ABS,STEEL,ACRYLIC,ADHESIVE,ADHESIVETAPE,ALUMINIUM,CARDBOARD,ADHESIVEPAPER,MEDICALPAPER,COLORANT,TPE,ETPU,FILM,HDPE,COATING,HIPS,INK,MABS,MASTERBATCH,MEMBRANE,PA,PC,LDPE,PES,PET,PETG,PMMA,PP,PPE,PRIMER,PS,PSU,PTFE,PU,PUR,PVC,PVCDEHPFREE,SAN,SEBS,SILICONE,SOLVENT,TYVEK,VARIOUS
@@ -34,6 +43,15 @@ public class Material {
 
     @Column(length = 40)
     private String supplier;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "material_configuration",
+            joinColumns = @JoinColumn(name = "material_id"),
+            inverseJoinColumns = @JoinColumn(name = "configuration_id")
+    )
+    private Set<Configuration> configs;
 
     public Integer getId() {
         return id;

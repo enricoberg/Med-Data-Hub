@@ -2,12 +2,20 @@ package com.app.compliance.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="components")
 public class Component {
 
 
+    public Set<Component> getComponents() {
+        return components;
+    }
 
+    public void setComponents(Set<Component> components) {
+        this.components = components;
+    }
 
     public enum ComponentFamily {
         MATERIALS,CAPS,CONNECTORS,CONICALCONNECTORS,INJECTIONPOINTS,FILTERS,CLAMPS,SPIKES,CHAMBERS,COVERS,TUBES,VARIOUS,BAGS,CARTONS,POUCHES,ADJUVANTS,LABELS,SFTUBE,SFVARIOUS,SFSPECIALBAGS,SFBAGS150, SFBAGS250, SFBAGS500, SFBAGS1500, SFBAGS2500, SFBAGS3500, SFBAGS4500, SFBAGS7000, PFG
@@ -56,6 +64,15 @@ public class Component {
 
     @Column(nullable = false)
     private boolean baimold;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "component_configuration",
+            joinColumns = @JoinColumn(name = "component_id"),
+            inverseJoinColumns = @JoinColumn(name = "config_id")
+    )
+    private Set<Component> components;
+
 
     public Integer getId() {
         return id;

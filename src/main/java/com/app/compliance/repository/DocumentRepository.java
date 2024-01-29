@@ -21,9 +21,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 //    List<Object[]>  getDocumentViews();
 
 
-    @Query("SELECT c.comp_id, c.description, d.revision, d.documenttype, d.ppc, d.active " +
-            "FROM Document d " +
-            "JOIN d.articlenumber c ")
+    @Query("select c.comp_id, c.description, d.revision, d.documenttype, d.ppc, d.active from Document d JOIN d.articlenumber c ")
     List<Object[]>  getDocumentViews();
 
 
