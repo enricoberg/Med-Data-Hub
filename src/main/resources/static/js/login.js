@@ -133,24 +133,8 @@ fetch('/app/auth/signin', {
 .then(data=>{
   document.cookie = `jwt=${data.token}`;
   
-  alert("Logged in!");
-  // window.location.replace("/app/home/")
-  // fetch("/app/home", {
-  //   method: "GET",
-  //   headers: {
-  //     Authorization: `Bearer ${data.token}`      
-  //   },
-  // })
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  //   .catch(error => console.error("Error:", error));
 
-
-
-
-
-
-
+  window.location.replace("/app/home")
 
 })
 .catch(error => {
@@ -161,3 +145,49 @@ fetch('/app/auth/signin', {
   
 });
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+async function validateuser(){
+  const jwt=getCookie("jwt");
+  const url = '/user/validate';
+  const jwtheader=`Bearer ${jwt}`;    
+  const requestOptions = {
+    method: 'POST', 
+    headers: {
+        'Content-type':'application/json',
+        'Authorization': jwtheader
+    }
+  }
+  try {
+      const response = await fetch(url,requestOptions);  
+      
+      if (response.status!=200) return false;
+      return true;        
+    } catch (error) {
+      return false;
+    }
+}
+
+
+async function renderpage(){
+
+  const logged = await validateuser();    
+  if(logged) window.location.replace("/app/home");  
+}
+
+
+
+renderpage();

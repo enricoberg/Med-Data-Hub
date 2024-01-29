@@ -9,6 +9,8 @@ import com.app.compliance.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/app/auth")
@@ -22,10 +24,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.signup(signUpRequest));
     }
 
-//    @PostMapping("/signin")
-//    public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest signinRequest){
-//        return ResponseEntity.ok(authenticationService.signin(signinRequest));
-//    }
+
 
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest signinRequest, HttpServletResponse response) {
@@ -34,13 +33,21 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtAuthenticationResponse);
     }
 
+
+
     @PostMapping("/refresh")
     public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
 
-    @GetMapping("/")
-    public String home(){
-        return "Welcome home";
+    @GetMapping("/logout")
+    public ResponseEntity<String> clearCookies(
+            @CookieValue(name = "jwt", defaultValue = "") String exampleCookie) {
+
+        return ResponseEntity.ok()
+                .header("Set-Cookie", "jwt=; Max-Age=0;  Path=/app")
+                .body("JWT cookies cleared");
     }
+
+   
 }

@@ -45,13 +45,13 @@ private final JWTService jwtService;
 //   public JwtAuthenticationResponse signin(SigninRequest signinRequest){
 //       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getEmail(),
 //               signinRequest.getPassword()));
-//
+
 //       var user = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
 //       var jwt = jwtService.generateToken(user);
 //       var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
-//
+
 //       JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
-//
+
 //       jwtAuthenticationResponse.setToken(jwt);
 //       jwtAuthenticationResponse.setRefreshToken(refreshToken);
 //       return jwtAuthenticationResponse;

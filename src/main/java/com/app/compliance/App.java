@@ -2,6 +2,8 @@ package com.app.compliance;
 
 import com.app.compliance.entities.Role;
 import com.app.compliance.entities.User;
+import com.app.compliance.model.Document;
+import com.app.compliance.model.Material;
 import com.app.compliance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,6 +33,16 @@ public class App implements CommandLineRunner {
             user.setPassword(new BCryptPasswordEncoder().encode("admin"));
             userRepository.save(user);
         }
+
+        System.out.println("Server running...");
+
+
+
+
+
+
+
+
     }
 
 }
