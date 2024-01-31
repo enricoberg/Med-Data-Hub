@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -34,15 +33,6 @@ public class App implements CommandLineRunner {
             userRepository.save(user);
         }
 
-        System.out.println("Server running...");
-
-
-
-
-
-
-
-
+        System.out.println("SERVER RUNNING.....");
     }
-
 }

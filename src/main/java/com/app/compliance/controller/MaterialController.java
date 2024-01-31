@@ -23,7 +23,7 @@ public class MaterialController {
     private final MaterialRepository materialRepository;
 
     @GetMapping("/")
-    public List<Material> getAllDocumentsFiltered(
+    public List<Material> getAllMaterialsFiltered(
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String family,
             @RequestParam(required = false) String plasticizer,
@@ -38,8 +38,9 @@ public class MaterialController {
 
         for (Material m : allmats) {
             if (brand!=null && !m.getBrandname().toUpperCase().contains(brand.toUpperCase())) toRemove.add(m);
-            else if (family!=null && m.getFamily()!=null && !m.getFamily().name().equals(family)) toRemove.add(m);
-            else if (plasticizer!=null && !m.getPlasticizer().toUpperCase().contains(plasticizer.toUpperCase())) toRemove.add(m);
+            else if (family!=null && !family.equals("all") && m.getFamily()!=null && !m.getFamily().name().equals(family)) toRemove.add(m);
+            else if (plasticizer!=null && m.getPlasticizer()!=null  && !m.getPlasticizer().toUpperCase().contains(plasticizer.toUpperCase())) toRemove.add(m);
+            else if(plasticizer!=null && !plasticizer.isEmpty() && m.getPlasticizer()==null) toRemove.add(m);
             else if (supplier!=null && !m.getSupplier().toUpperCase().contains(supplier.toUpperCase())) toRemove.add(m);
 
         }

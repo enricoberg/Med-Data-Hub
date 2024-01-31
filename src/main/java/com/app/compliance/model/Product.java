@@ -12,12 +12,25 @@ public class Product {
     }
 
     public enum ProductFamily{
-        AVSYSTEMS,ACUTE,CATHETERS,CONCENTRATES,CONTINENCE,CONTAINERS,ENTERAL,IRRIGATION,OEM,OSTOMY,PFG,TPN,WOUND
+        AV,BAGS,EC,AA,ENT,OEM,IU,ACCD,HW,CATH,COMP,PFG,CAL
+    }
+
+    public enum SterilizationCycle{
+        S1XETO21, S2XETO21, S1XETO22, S22XETO22, GAMMA, BETA, NONE
+    }
+
+    public enum SterilizationSite{
+        BAI,Sterilverona
     }
 
 
+
+
     @Id
-    @Column(length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(length = 20, nullable = false, unique = true)
     private String code;
 
 
@@ -33,6 +46,13 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductFamily family;
 
+    @Column(length = 40, nullable = false)
+    private String supplier;
+
+    @Column(nullable = false)
+    private boolean semifinished;
+
+
     @Column(length = 10)
     private String dhf;
 
@@ -42,8 +62,17 @@ public class Product {
     @Column(length = 60)
     private String budi;
 
-    @Column(length = 3000)
-    private String bom;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SterilizationCycle sterilizationcycle;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SterilizationSite sterilizationsite;
+
+
+    private Integer shelflife;
+
 
 
 
