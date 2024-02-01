@@ -19,7 +19,7 @@ public class ComponentController {
     private final ComponentRepository componentRepository;
 
     @GetMapping("/")
-    public List<Component> getAllDocumentsFiltered(
+    public List<Component> getAllComponentsFiltered(
             @RequestParam(required = false) String article,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String intercompany,

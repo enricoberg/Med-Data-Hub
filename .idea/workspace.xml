@@ -9,19 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Created API functionality to retrieve filtered data on materials">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_prod.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" afterDir="false" />
+    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Created frontend interfaces for adding new document, component and supplier">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Bom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/BomRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ProductRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/MaterialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/MaterialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Supplier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +32,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -60,7 +61,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;9fee0a18&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;a47d3c9a&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/non funge piu&quot;,
@@ -142,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706540814766</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Created frontend interfaces for adding new document, component and supplier">
+      <option name="closed" value="true" />
+      <created>1706711470153</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706711470153</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,6 +161,7 @@
     <MESSAGE value="Created all JPA Entities" />
     <MESSAGE value="Created API functionalities to retrieve and filter data on Documents and Components" />
     <MESSAGE value="Created API functionality to retrieve filtered data on materials" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created API functionality to retrieve filtered data on materials" />
+    <MESSAGE value="Created frontend interfaces for adding new document, component and supplier" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created frontend interfaces for adding new document, component and supplier" />
   </component>
 </project>
