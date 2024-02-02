@@ -2,6 +2,8 @@ package com.app.compliance.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="suppliers")
 public class Supplier {
@@ -29,6 +31,13 @@ public class Supplier {
     private String contact;
 
 
+    @OneToMany(
+            mappedBy = "supplier",
+            fetch = FetchType.EAGER)
+    private Set<Configuration> configurations;
+
+//    @OneToOne(mappedBy = "supplier")
+//    private Configuration configuration;
 
     public Integer getId() {
         return id;
@@ -60,5 +69,14 @@ public class Supplier {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+
+    public Set<Configuration> getConfigurations() {
+        return configurations;
+    }
+
+    public void setConfigurations(Set<Configuration> configurations) {
+        this.configurations = configurations;
     }
 }

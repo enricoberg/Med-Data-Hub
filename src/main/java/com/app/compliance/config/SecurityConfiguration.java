@@ -42,6 +42,8 @@ public class SecurityConfiguration {
                 "/queryprod/**",
                 "/querymat/**",
                 "/querysup/**",
+                "/queryboms/**",
+                "/download/**",
                 "/app/",
                 "/app/home/**",
                 "/app/logout/**",

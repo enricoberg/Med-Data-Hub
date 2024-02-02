@@ -27,13 +27,15 @@ public class ProductController {
             @RequestParam(required = false) String intercompany,
             @RequestParam(required = false) String family,
             @RequestParam(required = false) String sapstatus,
-
             @RequestParam(required = false) String semifinished,
             @RequestParam(required = false) String dhf,
             @RequestParam(required = false) String rmf,
             @RequestParam(required = false) String budi,
             @RequestParam(required = false) String sterimethod,
-            @RequestParam(required = false) String sterisite
+            @RequestParam(required = false) String sterisite,
+            @RequestParam(required = false) String shelflife
+
+
 
     ) {
 
@@ -46,6 +48,8 @@ public class ProductController {
         for (Product p : allprods) {
             if (description!=null && !description.isEmpty() && !p.getDescription().toUpperCase().contains(description.toUpperCase())) toRemove.add(p);
             else if (article!=null && !article.isEmpty() && !p.getCode().toUpperCase().contains(article.toUpperCase())) toRemove.add(p);
+            else if (shelflife!=null && !shelflife.isEmpty() && p.getShelflife()==null ) toRemove.add(p);
+            else if (shelflife!=null && !shelflife.isEmpty() &&!String.valueOf(p.getShelflife()).contains(shelflife)) toRemove.add(p);
             else if (dhf!=null && !dhf.isEmpty() && p.getDhf()==null ) toRemove.add(p);
             else if (dhf!=null && !dhf.isEmpty() &&!p.getDhf().toUpperCase().contains(dhf.toUpperCase())) toRemove.add(p);
             else if (rmf!=null && !rmf.isEmpty() && p.getRmf()==null ) toRemove.add(p);
@@ -59,6 +63,7 @@ public class ProductController {
             else if (family!=null && !family.equals("all") && !p.getFamily().name().equals(family)) toRemove.add(p);
             else if (sapstatus!=null && !sapstatus.isEmpty() && !sapstatus.equals("all") && !p.getSapstatus().name().equals(sapstatus)) toRemove.add(p);
             else if (sterimethod!=null && !sterimethod.equals("all") && !p.getSterilizationcycle().name().toUpperCase().contains(sterimethod.toUpperCase())) toRemove.add(p);
+            else if (sterisite!=null && !sterisite.isEmpty() && !sterisite.equals("all") && p.getSterilizationsite()==null ) toRemove.add(p);
             else if (sterisite!=null && !sterisite.equals("all") && !p.getSterilizationsite().name().toUpperCase().contains(sterisite.toUpperCase())) toRemove.add(p);
 
 

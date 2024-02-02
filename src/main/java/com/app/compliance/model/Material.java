@@ -9,7 +9,13 @@ import java.util.Set;
 public class Material {
 
 
+    public Set<Configuration> getConfigurations() {
+        return configurations;
+    }
 
+    public void setConfigurations(Set<Configuration> configurations) {
+        this.configurations = configurations;
+    }
 
     public enum MaterialFamily{
         ABS,STEEL,ACRYLIC,ADHESIVE,ADHESIVETAPE,ALUMINIUM,CARDBOARD,ADHESIVEPAPER,MEDICALPAPER,COLORANT,TPE,ETPU,FILM,HDPE,COATING,HIPS,INK,MABS,MASTERBATCH,MEMBRANE,PA,PC,LDPE,PES,PET,PETG,PMMA,PP,PPE,PRIMER,PS,PSU,PTFE,PU,PUR,PVC,PVCDEHPFREE,SAN,SEBS,SILICONE,SOLVENT,TYVEK,VARIOUS
@@ -38,9 +44,10 @@ public class Material {
     @Column(length = 40)
     private String supplier;
 
-//    @ManyToOne
-//    @JoinColumn(name="conf_id")
-//    private Configuration configuration;
+
+    @ManyToMany(mappedBy = "materials",
+            fetch = FetchType.EAGER)
+    private Set<Configuration> configurations;
 
 
     public Integer getId() {

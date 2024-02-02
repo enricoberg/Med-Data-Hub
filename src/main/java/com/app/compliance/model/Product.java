@@ -18,7 +18,7 @@ public class Product {
     }
 
     public enum SterilizationCycle{
-        S1XETO21, S2XETO21, S1XETO22, S2XETO22, GAMMA, BETA, NONE
+        S1XETO21, S2XETO21, S1XETO22, S2XETO22, GAMMA, BETA, BULK
     }
 
     public enum SterilizationSite{

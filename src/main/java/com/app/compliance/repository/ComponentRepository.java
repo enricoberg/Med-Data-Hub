@@ -10,4 +10,5 @@ import java.util.List;
 public interface ComponentRepository extends JpaRepository<Component,Integer> {
 
     List<Component> findAll();
+
 }

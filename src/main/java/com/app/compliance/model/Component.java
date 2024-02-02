@@ -1,15 +1,23 @@
 package com.app.compliance.model;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name="components")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Component {
 
 
+    public Set<Configuration> getConfigurations() {
+        return configurations;
+    }
 
+    public void setConfigurations(Set<Configuration> configurations) {
+        this.configurations = configurations;
+    }
 
     public enum ComponentFamily {
         MATERIALS,CAPS,CONNECTORS,CONICALCONNECTORS,INJECTIONPOINTS,FILTERS,CLAMPS,SPIKES,CHAMBERS,COVERS,TUBES,VARIOUS,BAGS,CARTONS,POUCHES,ADJUVANTS,LABELS,SFTUBE,SFVARIOUS,SFSPECIALBAGS,SFBAGS150, SFBAGS250, SFBAGS500, SFBAGS1500, SFBAGS2500, SFBAGS3500, SFBAGS4500, SFBAGS7000, PFG
@@ -59,10 +67,13 @@ public class Component {
     @Column(nullable = false)
     private boolean baimold;
 
-//    @OneToMany(
-//            mappedBy = "id",
-//            fetch = FetchType.EAGER)
-//    private Set<Configuration> configurations;
+    @OneToMany(
+            mappedBy = "component",
+            fetch = FetchType.EAGER)
+    private Set<Configuration> configurations;
+
+
+
 
 
     public Integer getId() {
