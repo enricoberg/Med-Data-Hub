@@ -1,5 +1,6 @@
 package com.app.compliance.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -34,6 +35,7 @@ public class Supplier {
     @OneToMany(
             mappedBy = "supplier",
             fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Configuration> configurations;
 
 //    @OneToOne(mappedBy = "supplier")

@@ -36,43 +36,36 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
-        String[] WHITE_LIST_URL = {"/app/auth/**",
-                "/querydocs/**",
-                "/querycomp/**",
-                "/queryprod/**",
-                "/querymat/**",
-                "/querysup/**",
-                "/queryboms/**",
-                "/download/**",
+        String[] WHITE_LIST_URL = {
+                "/app/auth/**",
                 "/app/",
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",
                 "/js/**"
-
         };
 
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(request -> request.requestMatchers("/auth/**")
-//                        .permitAll()
-//
-//                        .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
-//                        .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
-//                        .anyRequest().authenticated())
-//
-//
-//                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authenticationProvider(authenticationProvider()).addFilterBefore(
-//                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
-//                );
-//                return http.build();
+
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
                         .permitAll()
 
                         .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
-                        //.requestMatchers("/query").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/querydocs/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/querydocs/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/querycomp/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/querycomp/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/queryprod/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/queryprod/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/querymat/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/querymat/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/querysup/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/querysup/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/queryboms/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/queryboms/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/download/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/download/**").hasAnyAuthority(Role.USER.name())
 
                         .anyRequest().authenticated())
 

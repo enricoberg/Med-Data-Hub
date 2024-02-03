@@ -29,7 +29,7 @@ public class DownloadController {
         File file = new File(SERVER_LOCATION + File.separator + filename + EXTENSION);
 
         HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename + EXTENSION);
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + filename + EXTENSION);
         header.add("Cache-Control", "no-cache, no-store, must-revalidate");
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");
@@ -40,7 +40,8 @@ public class DownloadController {
         return ResponseEntity.ok()
                 .headers(header)
                 .contentLength(file.length())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
+//                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
 }

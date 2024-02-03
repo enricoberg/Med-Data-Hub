@@ -22,17 +22,20 @@ public class Configuration {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "configuration_material",
-            joinColumns = @JoinColumn(name = "material_id"),
-            inverseJoinColumns = @JoinColumn(name = "configuration_id")
+            joinColumns = @JoinColumn(name = "configuration_id"),
+            inverseJoinColumns = @JoinColumn(name = "material_id")
     )
+    @JsonManagedReference
     private Set<Material> materials;
 
     @ManyToOne
     @JoinColumn(name="component_id")
+    @JsonBackReference
     private Component component;
 
     @ManyToOne
     @JoinColumn(name="supplier_id")
+    @JsonManagedReference
     private Supplier supplier;
 
 

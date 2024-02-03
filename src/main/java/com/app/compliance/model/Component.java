@@ -70,6 +70,7 @@ public class Component {
     @OneToMany(
             mappedBy = "component",
             fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Configuration> configurations;
 
 

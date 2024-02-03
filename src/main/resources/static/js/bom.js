@@ -38,7 +38,8 @@ function renderboms(article,id){
         const requestOptions = {
           method: 'GET',
           headers: {
-              'Content-type':'application/json'
+              'Content-type':'application/json',
+              'Authorization': authenticationheader()
           }
         }
         try {
