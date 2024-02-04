@@ -1,14 +1,13 @@
 package com.app.compliance.controller;
 
 
+import com.app.compliance.model.Component;
 import com.app.compliance.model.Supplier;
 import com.app.compliance.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,31 @@ public class SupplierController {
         allsups.removeAll(toRemove);
         return allsups;
 
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<String> createNewSupplier(
+            @RequestParam("name") String name,
+            @RequestParam("sap") String sap,
+            @RequestParam("contact") String contact) {
+
+
+
+
+
+
+
+        try {
+            // Create the new Supplier object
+            Supplier supplier = new Supplier();
+            supplier.setSupplier_name(name);
+            supplier.setSap_code(sap);
+            supplier.setContact(contact);
+            //Save the newly created supplier
+            supplierRepository.save(supplier);
+        }
+        catch (Exception e) { return ResponseEntity.status(500).body("Failed to add the new supplier"); }
+        return ResponseEntity.ok("New supplier created successfully!");
     }
 
 

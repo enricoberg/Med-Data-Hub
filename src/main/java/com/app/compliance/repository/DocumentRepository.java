@@ -1,4 +1,5 @@
 package com.app.compliance.repository;
+import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,9 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
     List<Document> findByArticlenumberContaining(String searchString);
     List<Document> findByRevisionContainingAndArticlenumberContaining(String revision, String articlenumber);
+
+    Document findByArticlenumberAndActive(Component article, boolean active);
+
 
     List<Document> findByRevisionContainingAndArticlenumberContainingAndActive(String revision, String articlenumber, boolean active);
 

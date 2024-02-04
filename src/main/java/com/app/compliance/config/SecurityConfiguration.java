@@ -42,7 +42,8 @@ public class SecurityConfiguration {
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",
-                "/js/**"
+                "/js/**",
+                "/queryconfigs/**"
         };
 
 

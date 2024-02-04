@@ -9,17 +9,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Added download controller">
+    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Corrected bad configuration_material foreign keys assignment">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ConfigController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ConfigurationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ComponentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ComponentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +36,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -58,7 +65,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;1b102b9d&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;192ec7f1&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/non funge piu&quot;,
@@ -164,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706885619331</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Corrected bad configuration_material foreign keys assignment">
+      <option name="closed" value="true" />
+      <created>1706957848163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706957848163</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,6 +192,7 @@
     <MESSAGE value="Created frontend interfaces for adding new document, component and supplier" />
     <MESSAGE value="Stable version, removed manytomany relation that was causing a bug" />
     <MESSAGE value="Added download controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added download controller" />
+    <MESSAGE value="Corrected bad configuration_material foreign keys assignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected bad configuration_material foreign keys assignment" />
   </component>
 </project>

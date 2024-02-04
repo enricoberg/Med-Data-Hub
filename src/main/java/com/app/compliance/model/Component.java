@@ -32,9 +32,10 @@ public class Component {
 
     @Column(
             length = 20,
-            nullable = false
+            nullable = false,
+            name="comp_id"
     )
-    private String comp_id;
+    private String compid;
 
 
 
@@ -86,11 +87,11 @@ public class Component {
     }
 
     public String getComp_id() {
-        return comp_id;
+        return compid;
     }
 
     public void setComp_id(String comp_id) {
-        this.comp_id = comp_id;
+        this.compid = comp_id;
     }
 
     public String getDescription() {

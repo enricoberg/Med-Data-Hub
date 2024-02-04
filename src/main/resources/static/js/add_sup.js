@@ -8,17 +8,22 @@ function rendernewsuppliers(){
         dashboard.remove();
     }
     //CREATE A NEW DASHBOARD
-
+    const newTitle = document.createElement("h3");
+            const referenceElement = document.body.children[1];
+            document.body.insertBefore(newTitle, referenceElement);
+            newTitle.classList.add("bomtitle");
+            newTitle.classList.add("mt-5");
+            newTitle.innerHTML=`NEW SUPPLIER FORM - <a href="#" onclick="rendersuppliers();">BACK TO SUPPLIERS</a>`;
     const newDash = document.createElement("div");
-    const referenceElement = document.body.children[1];
-    document.body.insertBefore(newDash, referenceElement);
+    const referenceElement2 = document.body.children[2];
+    document.body.insertBefore(newDash, referenceElement2);
     newDash.classList.add("container");
     newDash.classList.add("mt-5");
     newDash.classList.add("addcomponent");
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 
-                                       <form>
+                                       <form id="newsupform">
                                            <div class="mb-3">
                                              <label for="articleinput" class="form-label">Supplier Name</label>
                                              <input type="text" class="form-control" id="nameinput" name="nameinput">
@@ -35,7 +40,7 @@ function rendernewsuppliers(){
 
 
                                            <div class="mb-3">
-                                               <button type="submit" class="btn btn-primary btn-lg mx-auto" type="button">Submit Supplier</button>
+                                               <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewsup" onclick="submitsnewsup()">Submit Supplier</button>
                                            </div>
 
 
@@ -47,3 +52,39 @@ function rendernewsuppliers(){
                                </div>`;
 
     }
+
+    function submitsnewsup(){
+
+
+
+                let form = document.getElementById('newsupform');
+                let formData = new FormData(form);
+
+
+                let name=document.querySelector("#nameinput").value;
+                let sap=document.querySelector("#sapinput").value;
+                let contact=document.querySelector("#contactinput").value;
+
+
+                const url="/querysup/new"
+                if(name=="" || sap=="") return;
+
+
+                formData.append('name', name);
+                formData.append('sap', sap);
+                formData.append('contact', contact);
+
+
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {'Authorization': authenticationheader() }
+                })
+                .then(response => {
+                    if (response.ok) alert("New Supplier added successfully!");
+                    rendersuppliers();
+                })
+                .catch(error => { alert("Something went wrong with your request"); });
+
+        }

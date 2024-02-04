@@ -8,17 +8,22 @@ function rendernewcomponents(){
         dashboard.remove();
     }
     //CREATE A NEW DASHBOARD
-
+    const newTitle = document.createElement("h3");
+        const referenceElement = document.body.children[1];
+        document.body.insertBefore(newTitle, referenceElement);
+        newTitle.classList.add("bomtitle");
+        newTitle.classList.add("mt-5");
+        newTitle.innerHTML=`NEW COMPONENT FORM - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
     const newDash = document.createElement("div");
-    const referenceElement = document.body.children[1];
-    document.body.insertBefore(newDash, referenceElement);
+    const referenceElement2 = document.body.children[2];
+    document.body.insertBefore(newDash, referenceElement2);
     newDash.classList.add("container");
     newDash.classList.add("mt-5");
     newDash.classList.add("addcomponent");
     newDash.innerHTML=`<div class="row">
                                   <div class="col-8 mx-auto mt-3">
 
-                                      <form>
+                                      <form id="newcompform">
                                           <div class="mb-3">
                                             <label for="articleinput" class="form-label">Article Number</label>
                                             <input type="text" class="form-control" id="articleinput" name="articleinput">
@@ -49,7 +54,7 @@ function rendernewcomponents(){
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Family of the component: </span>
-                                              <select class="form-select form-select-lg mb-3" aria-label="Large select example">
+                                              <select class="form-select form-select-lg mb-3" aria-label="Large select example" id="familyinput">
                                                   <option value="MATERIALS" selected>Raw materials</option>
                                                   <option value="CAPS">Caps</option>
                                                   <option value="CONNECTORS" selected>Connectors</option>
@@ -110,7 +115,7 @@ function rendernewcomponents(){
 
 
                                           <div class="mb-3">
-                                              <button type="submit" class="btn btn-primary btn-lg mx-auto" type="button">Submit Component</button>
+                                          <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewcomp" onclick="submitsnewcomp()">Submit Component</button>
                                           </div>
 
 
@@ -122,3 +127,52 @@ function rendernewcomponents(){
                               </div>`;
 
     }
+
+    
+    function submitsnewcomp(){
+      
+       
+      let type;
+      let form = document.getElementById('newcompform');
+
+      let formData = new FormData(form); 
+      let article=document.querySelector("#articleinput").value;
+      let description=document.querySelector("#descriptioninput").value;  
+      let intercompany=document.querySelector("#intercompanyinput").checked? "true" : "false";
+      let packaging=document.querySelector("#packaginginput").checked? "true" : "false";
+      let contact=document.querySelector("#contactinput").checked? "true" : "false";
+      let ca65=document.querySelector("#ca65input").checked? "true" : "false";
+      let baimold=document.querySelector("#baimoldinput").checked? "true" : "false";
+      if(document.querySelector("#typeenfit").checked) type="ENFIT";
+      else if(document.querySelector("#typeluer").checked) type="LUERLOCK";
+      else if(document.querySelector("#typetpn").checked) type="TPNLOCK";
+      else if(document.querySelector("#typenone").checked) type="none";
+      let family=document.querySelector("#familyinput").value;           
+
+      const url="/querycomp/new"
+      if(article=="" || description=="") return;
+
+
+      formData.append('article', article);
+      formData.append('description', description);
+      formData.append('intercompany', intercompany);
+      formData.append('packaging', packaging);
+      formData.append('contact', contact);
+      formData.append('ca65', ca65); 
+      formData.append('baimold', baimold);  
+      formData.append('standard', type);  
+      formData.append('family', family);                  
+
+
+      fetch(url, {
+          method: 'POST',
+          body: formData,
+          headers: {'Authorization': authenticationheader() }
+      })
+      .then(response => {
+          if (response.ok) alert("New component created successfully!");
+          rendercomponents();
+      })
+      .catch(error => { alert("Something went wrong with your request"); });
+
+}
