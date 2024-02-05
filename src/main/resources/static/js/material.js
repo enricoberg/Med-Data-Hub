@@ -15,7 +15,7 @@ function rendermaterials(){
     newDash.classList.add("dashboard");
     newDash.classList.add("documents");
     newDash.innerHTML=`
-    <div class="add_button" ><i class="fa-regular fa-square-plus"></i>Create new</div>
+    <div class="add_button" onclick="rendernewmaterials()"><i class="fa-regular fa-square-plus"></i>Create new</div>
     <form action="">
         <div class="input-group ">
             <input type="text" class="form-control documentcontrol" placeholder="Brand Name" name="brandinput" >

@@ -15,7 +15,7 @@ function renderproducts(){
         newDash.classList.add("dashboard");
         newDash.classList.add("products");
         newDash.innerHTML=`
-        <div class="add_button"><i class="fa-regular fa-square-plus"></i>Create new</div>
+        <div class="add_button" onclick="rendernewproduct()"><i class="fa-regular fa-square-plus"></i>Create new</div>
         <form action="">
             <div class="input-group ">
                 <input type="text" class="form-control documentcontrol" placeholder="Article number" name="articleinput">
@@ -28,42 +28,42 @@ function renderproducts(){
             </div>
 
             <div class=" pl-2 pt-4 ">
-                                <span >Family of the component: </span>
+                                <span >Family of the product: </span>
                                 <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" >
                                     <option value="AV" selected>A/V SYSTEMS</option>
-                                    <option value="BAGS" selected>TPN BAGS & ACCESSORIES</option>
-                                    <option value="EC" selected>EMPTY CONTAINERS</option>
-                                    <option value="AA" selected>ACUTE & APHERESIS</option>
-                                    <option value="ENT" selected>ENTERAL NUTRITION & ACCESSORIES</option>
-                                    <option value="OEM" selected>OEM</option>
-                                    <option value="IU" selected>IRRIGATION / UROLOGY</option>
-                                    <option value="ACCD" selected>ACID CONCENTRATE FOR CHRONIC DIALYSIS</option>
-                                    <option value="HW" selected>HARDWARE</option>
-                                    <option value="CATH" selected>CATHETERS & ACCESSORIES</option>
-                                    <option value="COMP" selected>COMPONENTS - VARIOUS</option>
-                                    <option value="PFG" selected>PURCHASED FINISHED GOODS</option>
+                                    <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
+                                    <option value="EC" >EMPTY CONTAINERS</option>
+                                    <option value="AA" >ACUTE & APHERESIS</option>
+                                    <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
+                                    <option value="OEM" >OEM</option>
+                                    <option value="IU" >IRRIGATION / UROLOGY</option>
+                                    <option value="ACCD" >ACID CONCENTRATE FOR CHRONIC DIALYSIS</option>
+                                    <option value="HW" >HARDWARE</option>
+                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>
+                                    <option value="COMP" >COMPONENTS - VARIOUS</option>
+                                    <option value="PFG" >PURCHASED FINISHED GOODS</option>
                                     <option value="all" selected>See All</option>
                                   </select>
                                   <span class="ml-3">SAP STATUS: </span>
                                 <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapstatusinput">
                                     <option value="M1V1" selected>M1/V1</option>
-                                    <option value="M2V1" selected>M2/V1</option>
-                                    <option value="M2V2" selected>M2/V2</option>
-                                    <option value="M3V3" selected>M3/V3</option>
-                                    <option value="M4V4" selected>M4/V4</option>
-                                    <option value="all" selected>See All</option>
+                                    <option value="M2V1" >M2/V1</option>
+                                    <option value="M2V2" >M2/V2</option>
+                                    <option value="M3V3" >M3/V3</option>
+                                    <option value="M4V4" >M4/V4</option>
+                                    <option value="all" selected >See All</option>
 
                                   </select>
                                   <span class="ml-3">Sterilization Method: </span>
                                 <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput">
                                     <option value="S1XETO21" selected>1 x ETO 21</option>
-                                    <option value="S2XETO21" selected>2 x ETO 21</option>
-                                    <option value="S1XETO22" selected>1 x ETO 22</option>
-                                    <option value="S2XETO22" selected>2 x ETO 22</option>
-                                    <option value="GAMMA" selected>Raggi Gamma</option>
-                                    <option value="BETA" selected>Raggi Beta</option>
-                                    <option value="BULK" selected>Bulk / Non sterile</option>
-                                    <option value="all" selected>See All</option>
+                                    <option value="S2XETO21" >2 x ETO 21</option>
+                                    <option value="S1XETO22" >1 x ETO 22</option>
+                                    <option value="S2XETO22" >2 x ETO 22</option>
+                                    <option value="GAMMA" >Raggi Gamma</option>
+                                    <option value="BETA" >Raggi Beta</option>
+                                    <option value="BULK" >Bulk / Non sterile</option>
+                                    <option value="all" selected >See All</option>
 
                                   </select>
 
@@ -72,14 +72,14 @@ function renderproducts(){
             <div class=" pl-2">
                                   <span class="ml-3">Intercompany: </span>
                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="intercompanyinput">
-                                      <option value="true" selected>Intercompany</option>
-                                      <option value="false" selected>Non Intercompany</option>
+                                      <option value="true" >Intercompany</option>
+                                      <option value="false" >Non Intercompany</option>
                                       <option value="all" selected>See All</option>
                                    </select>
                                    <span class="ml-3">Semifinished: </span>
                                    <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="semiinput">
-                                     <option value="true" selected>Semifinished good</option>
-                                     <option value="false" selected>Products</option>
+                                     <option value="true" >Semifinished good</option>
+                                     <option value="false" >Products</option>
                                      <option value="all" selected>See All</option>
                                    </select>
             </div>

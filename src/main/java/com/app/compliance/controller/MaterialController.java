@@ -6,9 +6,12 @@ import com.app.compliance.model.Material;
 import com.app.compliance.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -49,5 +52,33 @@ public class MaterialController {
         return allmats;
 
     }
+
+    @PostMapping("/new")
+    public ResponseEntity<String> createNewMaterial(
+            @RequestParam("name") String name,
+            @RequestParam("supplier") String supplier,
+            @RequestParam("plasticizer") String plasticizer,           
+            @RequestPart("family") String fam) {
+
+
+
+            // Create the new Material object
+            Material material = new Material();
+            Material.MaterialFamily family= Material.MaterialFamily.valueOf(fam);
+            material.setBrandname(name);
+            material.setSupplier(supplier);
+            material.setPlasticizer(plasticizer);
+            material.setFamily(family);
+            
+
+
+            //Save the Material to the database
+            try {
+                materialRepository.save(material);
+            }
+            catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the material"); }
+            return ResponseEntity.ok("New material created successfully!");
+        }
+
 
 }

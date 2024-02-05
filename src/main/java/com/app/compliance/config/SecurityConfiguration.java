@@ -67,7 +67,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/queryboms/**").hasAnyAuthority(Role.USER.name())
                         .requestMatchers("/download/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/download/**").hasAnyAuthority(Role.USER.name())
-
+                        .requestMatchers("/aux/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/aux/**").hasAnyAuthority(Role.USER.name())
                         .anyRequest().authenticated())
 
 

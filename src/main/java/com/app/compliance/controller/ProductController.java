@@ -1,16 +1,26 @@
 package com.app.compliance.controller;
+import com.app.compliance.model.Component;
 import com.app.compliance.model.Product;
+import com.app.compliance.model.Supplier;
+import com.app.compliance.model.Product.ProductFamily;
 import com.app.compliance.repository.ProductRepository;
+import com.app.compliance.repository.SupplierRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/queryprod")
@@ -19,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private final ProductRepository productRepository;
+
+    @Autowired
+    private final SupplierRepository supplierRepository;
 
     @GetMapping("/")
     public List<Product> getAllProductsFiltered(
@@ -79,6 +92,63 @@ public class ProductController {
         return allprods;
 
     }
+
+
+    @PostMapping("/new")
+    public ResponseEntity<String> createNewComponent(
+            @RequestParam("article") String article,
+            @RequestParam("description") String description,
+            @RequestParam("dhf") String dhf,
+            @RequestParam("rmf") String rmf,
+            @RequestParam("budi") String budi,
+            @RequestParam("shelf") String shelf,
+            @RequestParam("intercompany") boolean intercompany,
+            @RequestParam("semifinished") boolean semifinished,
+            @RequestParam("sterimethod") String method,
+            @RequestParam("sterisite") String site,
+            @RequestParam("sap") String sap,
+            @RequestParam("supplier") String supplier,
+            @RequestPart("family") String fam) {             
+      
+      
+                   
+
+            
+            
+
+
+            
+            try {
+                // Create the new Product object
+                Product product = new Product();
+                Product.ProductFamily family= Product.ProductFamily.valueOf(fam);
+                Product.SterilizationCycle sterimethod= Product.SterilizationCycle.valueOf(method);
+                Product.SterilizationSite sterisite = Product.SterilizationSite.valueOf(site);
+                Product.SapStatus sapstatus = Product.SapStatus.valueOf(sap);
+
+                product.setCode(article);
+                product.setDescription(description);
+                product.setDhf(dhf);
+                product.setRmf(rmf);
+                product.setBudi(budi);
+                product.setShelflife(Integer.valueOf(shelf));
+                product.setIntercompany(intercompany);
+                product.setSemifinished(semifinished);
+                product.setSterilizationcycle(sterimethod);
+                product.setSterilizationsite(sterisite);
+                product.setSapstatus(sapstatus);
+                product.setFamily(family);  
+                Optional<Supplier> supp = supplierRepository.findById(Integer.valueOf(supplier));
+                if (!supp.isPresent()) throw new NoSuchElementException("Supplier not found");
+                Supplier actualsupp = supp.get();
+                product.setSupplierid(actualsupp);
+                //Save the product to the database
+                productRepository.save(product);
+            }
+            catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the product"); }
+            return ResponseEntity.ok("New product created successfully!");
+        }
+
 
 
 }
