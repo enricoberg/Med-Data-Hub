@@ -96,3 +96,10 @@
 .dashboard{
     position: relative;
 }
+
+.bomcontainer{
+    width: 50vw;
+    
+    background-color:#0d6efd;
+    min-height: 200px;
+}

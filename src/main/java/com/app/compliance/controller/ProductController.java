@@ -150,5 +150,14 @@ public class ProductController {
         }
 
 
+    @GetMapping("/byid")
+    public Optional<Integer> RetrieveProduct(@RequestParam("article") String article) {
+        Optional<Product> opt_product=productRepository.findByCode(article);
+        if(opt_product.isPresent()) {
+            Product product = opt_product.get();
+            return Optional.of(product.getId());
+        }
+        return Optional.empty();
+    }
 
 }

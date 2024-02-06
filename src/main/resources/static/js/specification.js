@@ -146,6 +146,10 @@ async function updateDocumentsTable(totalcolumns){
 }
 
 function clearTable(totalcolumns){
+
+    const elementToRemove = document.querySelector('.bomcontainer');
+    if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
+
     //CHECK THE TABLE IS HIDDEN
         if(!document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.add("invisible");
             

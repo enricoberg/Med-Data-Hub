@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/querycomp")
@@ -87,9 +88,6 @@ public class ComponentController {
             @RequestParam("baimold") boolean baimold,
             @RequestParam("standard") String conicalstandard,
             @RequestPart("family") String fam) {
-
-
-
             // Create the new Component object
             Component component = new Component();
             Component.ComponentFamily family = Component.ComponentFamily.valueOf(fam);
@@ -105,8 +103,6 @@ public class ComponentController {
             component.setContact(contact);
             component.setCa65(ca65);
             component.setBaimold(baimold);
-
-
             //Save the file with the correct name and path
             try {
                 componentRepository.save(component);
@@ -115,6 +111,10 @@ public class ComponentController {
             return ResponseEntity.ok("New component created successfully!");
         }
 
+        @GetMapping("/byid")
+        public Optional<Component> RetrieveComponent(@RequestParam("article") Integer article) {            
+            return componentRepository.findById(article);           
+        }
 
     }
 
