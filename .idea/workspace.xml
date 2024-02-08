@@ -9,27 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Fixed visualization bug in add_bom.js">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_bom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_bom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_mat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_mat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_prod.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-    </list>
+    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Fixed Refresh Token" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,34 +38,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;2c39492c&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/non funge piu&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.Main.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.App.executor": "Run",
+    "git-widget-placeholder": "172ebde3",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ASUS/Desktop/non funge piu",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="med data hub" />
@@ -200,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707394393180</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Fixed Refresh Token">
+      <option name="closed" value="true" />
+      <created>1707419131345</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1707419131345</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +204,7 @@
     <MESSAGE value="Corrected bad configuration_material foreign keys assignment" />
     <MESSAGE value="Created POST request to add new document, component and supplier" />
     <MESSAGE value="Fixed visualization bug in add_bom.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed visualization bug in add_bom.js" />
+    <MESSAGE value="Fixed Refresh Token" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Refresh Token" />
   </component>
 </project>
