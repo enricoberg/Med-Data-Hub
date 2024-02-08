@@ -250,9 +250,7 @@ function sendconftoserver(product_id){
       body: JSON.stringify(requestObj)
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok)  throw new Error('Network response was not ok');
       alert("Configurations Inserted Successfully!");
       rendercomponents();
     })

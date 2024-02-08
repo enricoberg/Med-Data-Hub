@@ -130,7 +130,8 @@ async function rendernewdocuments(){
                 headers: {'Authorization': authenticationheader() }
             })
             .then(response => {
-                if (response.ok) alert("New document created successfully!");
+                if (!response.ok)  throw new Error('Network response was not ok');
+                alert("New document created successfully!");
                 renderspecifications();
             })
             .catch(error => { alert("Something went wrong with your request"); });

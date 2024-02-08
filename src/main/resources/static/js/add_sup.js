@@ -82,7 +82,8 @@ function rendernewsuppliers(){
                     headers: {'Authorization': authenticationheader() }
                 })
                 .then(response => {
-                    if (response.ok) alert("New Supplier added successfully!");
+                    if (!response.ok)  throw new Error('Network response was not ok');
+                    alert("New Supplier added successfully!");
                     rendersuppliers();
                 })
                 .catch(error => { alert("Your request is invalid or you do not have permission to perform it"); });

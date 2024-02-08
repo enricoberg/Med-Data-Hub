@@ -10,21 +10,9 @@ for (let input of alltextinput) {
     validate();
   });
 }
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+
+
+
 function validate(){  container.classList.contains("right-panel-active")? validate_signup() : validate_login();}
 function validate_login(){
   
@@ -132,6 +120,7 @@ fetch('/app/auth/signin', {
 })
 .then(data=>{
   document.cookie = `jwt=${data.token}`;
+  document.cookie = `refresh=${data.refreshToken}`;
   
 
   window.location.replace("/app/home")
@@ -145,49 +134,18 @@ fetch('/app/auth/signin', {
   
 });
 
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-async function validateuser(){
-  const jwt=getCookie("jwt");
-  const url = '/user/validate';
-  const jwtheader=`Bearer ${jwt}`;    
-  const requestOptions = {
-    method: 'POST', 
-    headers: {
-        'Content-type':'application/json',
-        'Authorization': jwtheader
-    }
-  }
-  try {
-      const response = await fetch(url,requestOptions);  
-      
-      if (response.status!=200) return false;
-      return true;        
-    } catch (error) {
-      return false;
-    }
-}
+
+
 
 
 async function renderpage(){
 
   const logged = await validateuser();    
-  if(logged) window.location.replace("/app/home");  
+  if(logged) window.location.replace("/app/home");
+   if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
 }
 
 
 
 renderpage();
+

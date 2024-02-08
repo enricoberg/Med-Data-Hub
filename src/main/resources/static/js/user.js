@@ -26,7 +26,6 @@ function logoutuser(){
         })
         .then(response => {
           if(response.ok) {
-
             location.replace("/app/");
           }
         })

@@ -46,7 +46,13 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .header("Set-Cookie", "jwt=; Max-Age=0;  Path=/app")
+                .header("Set-Cookie", "refresh=; Max-Age=0;  Path=/app")
                 .body("JWT cookies cleared");
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<String> validate(){
+        return ResponseEntity.ok("Permission accepted");
     }
 
    

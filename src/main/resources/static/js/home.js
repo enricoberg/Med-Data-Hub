@@ -1,47 +1,13 @@
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-  async function validateuser(){
-    const jwt=getCookie("jwt");
-    const url = '/user/validate';
-    const jwtheader=`Bearer ${jwt}`;    
-    const requestOptions = {
-      method: 'POST', 
-      headers: {
-          'Content-type':'application/json',
-          'Authorization': jwtheader
-      }
-    }
-    try {
-        const response = await fetch(url,requestOptions);  
-        
-        if (response.status!=200) return false;
-        return true;        
-      } catch (error) {
-        return false;
-      }
-  }
 
   
 
   async function renderpage(section){
     
     
-    
+
     const logged = await validateuser();
     if(!logged) window.location.replace("/app/");
+    if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
     switch(section) {
       case "users":
           renderuser();
@@ -72,7 +38,7 @@ function getCookie(cname) {
     
     
 }
-renderpage("");
+//renderpage("");
 
 document.querySelector("#usersection").addEventListener("click",()=>{
     renderpage("users");

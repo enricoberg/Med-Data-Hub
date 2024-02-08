@@ -37,7 +37,12 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         String[] WHITE_LIST_URL = {
-                "/app/auth/**",
+//                "/app/auth/**",
+                "/app/auth/signup",
+                "/app/auth/signin",
+                "/app/auth/signup",
+                "/app/auth/refresh",
+                "/app/auth/logout",
                 "/app/",
                 "/app/home/**",
                 "/app/logout/**",
@@ -49,16 +54,22 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
                         .permitAll()
-
+                        .requestMatchers("/app/auth/validate").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user").hasAnyAuthority("USER")
-                        .requestMatchers("/querydocs/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querycomp/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/queryprod/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querymat/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querysup/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/queryprod").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querysup").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
                         .requestMatchers("/queryboms").hasAnyAuthority("ADMIN","USER", "SUPERUSER")
                         .requestMatchers("/queryboms/new").hasAuthority("SUPERUSER")
+                        .requestMatchers("/querydocs/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querycomp/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/queryprod/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querymat/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querysup/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+
                         .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
                         .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
                         .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")

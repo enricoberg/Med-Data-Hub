@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class UserController {
 
-    @PostMapping("/validate")
-    public ResponseEntity<String> validate(){
-        return ResponseEntity.ok("Permission accepted");
-    }
+//    @PostMapping("/validate")
+//    public ResponseEntity<String> validate(){
+//        return ResponseEntity.ok("Permission accepted");
+//    }
 
 
 

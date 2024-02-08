@@ -35,20 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(StringUtils.isEmpty(authHeader) || !org.apache.commons.lang3.StringUtils.startsWith(authHeader, "Bearer ")){
 
-
-
-
-
-            // String token = extractTokenFromCookie(request);
-            // if (token != null) response.addHeader("Authorization", "Bearer " + token);
-            
-                    
-
-
-
-
-
-
             filterChain.doFilter(request,response);
             return;
         }
@@ -72,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 
                 
             }
+
 
         }
         filterChain.doFilter(request, response);
