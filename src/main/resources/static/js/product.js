@@ -87,7 +87,7 @@ function renderproducts(){
             <div class="resultbanner">~  Found 0 results  ~</div>
          </form>`;
 
-
+    updateProductsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 

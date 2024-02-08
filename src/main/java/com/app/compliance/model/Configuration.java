@@ -1,8 +1,10 @@
 package com.app.compliance.model;
 
+import com.app.compliance.repository.MaterialRepository;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -47,6 +49,14 @@ public class Configuration {
 
 
 
+    public void addMaterialById(MaterialRepository materialRepository, Integer materialId) {
+        Optional<Material> materialOptional = materialRepository.findById(materialId);
+        materialOptional.ifPresent(material -> {
+            this.getMaterials().add(material);
+            material.getConfigurations().add(this);
+            materialRepository.save(material);
+        });
+    }
 
 
 

@@ -27,7 +27,7 @@ function rendernewbom(product_id){
     newDash.innerHTML=`
     <form action="">      
         <div class=" pl-2 pt-4 ">
-                            <span >Component article number: </span>
+                            <span class="ml-5">Component article number: </span>
                             
 
                             
@@ -35,23 +35,22 @@ function rendernewbom(product_id){
                             <datalist id="articleinput" class="datalistcomponents">                            
                             </datalist>
 
-                            CM,KG,M,M2,PAC,
+
 
                             <input type="text" class="form-control documentcontrol mr-2" style="width:100px; display:inline-block;" placeholder="Quantity" name="qtyinput" id="qtyinput">                        
                             
-                            <select  class="form-select form-select-lg mb-3 selectcontrol mr-2" aria-label="Large select example" name="uminput" style="width:100px; display:inline-block; height: 36px;" id="uminput">
-                                <option value="PZ" selected>PZ</option>   
-                                <option value="KG" >PZ</option> 
-                                <option value="KG" >KG</option> 
-                                <option value="M" >M</option> 
-                                <option value="M2" >M2</option>                             
-                                <option value="PAC" >PAC</option> 
+                            <select  class="form-select form-select-lg mb-3 selectcontrol mr-2 text-center" aria-label="Large select example" name="uminput" style="width:100px; display:inline-block; height: 36px;" id="uminput">
+                                <option value="PZ" selected>PCS (pieces)</option>
+                                <option value="KG" >Kg (kilogram)</option>
+                                <option value="M" >m (meter)</option>
+                                <option value="M2" >m&sup2; (square meter)</option>
+                                <option value="PAC" >PAC (package)</option>
                                 
                             </select>  
                             
-                            <button type="button" class="btn btn-danger mr-2" style="width:40px; height: 36px;" onclick="removeElement()">-</button>
-                            <button type="button" class="btn btn-primary mr-2" style="width:40px; height: 36px;" onclick="addElement()">+</button>
-                            <button type="button" class="btn btn-success mr-2" style="width:40px; height: 36px;" onclick="getIntegerofProduct(${product_id})">&#10003;</button>
+                            <button type="button" class="btn btn-danger mr-2" style="width:40px; height: 36px;" onclick="removeElementBom()">-</button>
+                            <button type="button" class="btn btn-primary mr-2" style="width:40px; height: 36px;" onclick="addElementBom()">+</button>
+                            <button type="button" class="btn btn-success mr-2" style="width:40px; height: 36px;" onclick="getIntegerofProductBom(${product_id})">&#10003;</button>
         </div>        
      </form>     
      `;
@@ -89,7 +88,7 @@ function rendernewbom(product_id){
         
     }
 
- function addElement(){
+ function addElementBom(){
     let id=document.querySelector("#artinput").value;
     let qty=document.querySelector("#qtyinput").value;
     let um=document.querySelector("#uminput").value;
@@ -130,7 +129,7 @@ function rendernewbom(product_id){
 
  }
 
- function removeElement(){
+ function removeElementBom(){
     
     let bom=getBom();
     if (bom.length==0) return;
@@ -171,7 +170,7 @@ function rendernewbom(product_id){
 
   }
 
-function getIntegerofProduct(product_id){
+function getIntegerofProductBom(product_id){
       if(!confirm("Do you confirm you want to insert this BOM?")) return;
       fetch(`/queryprod/byid?article=${product_id}`,{
            method: 'GET',
@@ -219,7 +218,7 @@ function sendbomtoserver(product_id){
       renderproducts();
     })
     .catch(error => {
-      console.error('There was a problem with your fetch operation:', error);
+      alert("Your request is invalid or you do not have permission to perform it");
     });
 
 

@@ -1,6 +1,6 @@
 
 function rendermaterials(){
-    let totalcolumns=4;
+    let totalcolumns=5;
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
@@ -79,7 +79,7 @@ function rendermaterials(){
         <div class="resultbanner">~  Found 0 results  ~</div>
      </form>`;
 
-
+    updateMaterialsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 
@@ -117,6 +117,7 @@ async function updateMaterialsTable(totalcolumns){
             <div class="grid-item tableheader">Manufactured By</div>
             <div class="grid-item tableheader">Material Type</div>
             <div class="grid-item tableheader">Plasticizer</div>
+            <div class="grid-item tableheader">Datasheet</div>
 
 
             `;
@@ -165,6 +166,8 @@ async function updateMaterialsTable(totalcolumns){
         <div class="grid-item ">${obj.supplier}</div>
         <div class="grid-item ">${checknull1}</div>
         <div class="grid-item ">${checknull2}</div>
+        <div class="grid-item "><a href="/download/?filename=TDS_${obj.id}">TDS</a> ---
+        <a href="/download/?filename=SDS_${obj.id}">SDS</a></div>
         `;
         });
 

@@ -38,7 +38,7 @@ function renderspecifications(){
     <div class="resultbanner">~  Found 0 results  ~</div>                
  </form>`;
 
-
+    updateDocumentsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
         control.addEventListener("input", ()=>{

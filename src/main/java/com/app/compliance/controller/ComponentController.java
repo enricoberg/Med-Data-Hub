@@ -3,6 +3,7 @@ package com.app.compliance.controller;
 import com.app.compliance.dto.DocumentView;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
+import com.app.compliance.model.Product;
 import com.app.compliance.repository.ComponentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,11 @@ public class ComponentController {
         @GetMapping("/byid")
         public Optional<Component> RetrieveComponent(@RequestParam("article") Integer article) {            
             return componentRepository.findById(article);           
+        }
+
+        @GetMapping("/byname")
+        public Component RetrieveComponentByName(@RequestParam("id") String id) {
+            return componentRepository.findByCompid(id);
         }
 
     }

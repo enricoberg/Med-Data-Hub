@@ -11,7 +11,8 @@ function renderconfigurations(article){
     const referenceElement = document.body.children[1];
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
-    newTitle.innerHTML=`${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
+    newTitle.innerHTML=`${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a><br>
+    <a href="#" onclick="rendernewconf('${article}');">ADD NEW CONFIGURATIONS</a>`;
     updateConfigurationsTable(totalcolumns,article);
 
     }
@@ -49,6 +50,7 @@ async function updateConfigurationsTable(totalcolumns,article){
       }
     }
     try {
+    console.log(url)
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
 
@@ -58,11 +60,12 @@ async function updateConfigurationsTable(totalcolumns,article){
             return ;
         }
 
-
+        console.log(response.body)
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
             const numberofmaterials=obj.materials.length;
             for (let i=0;i<numberofmaterials;i++){
+
                 document.querySelector(".grid-container").innerHTML+=
                             `
                             <div class="grid-item ">${obj.supplier.supplier_name}</div>

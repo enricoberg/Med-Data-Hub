@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/querysup")
@@ -68,6 +69,11 @@ public class SupplierController {
         }
         catch (Exception e) { return ResponseEntity.status(500).body("Failed to add the new supplier"); }
         return ResponseEntity.ok("New supplier created successfully!");
+    }
+
+    @GetMapping("/byid")
+    public Optional<Supplier> RetrieveComponent(@RequestParam("id") Integer id) {
+        return supplierRepository.findById(id);
     }
 
 

@@ -22,28 +22,34 @@ function renderdashboard(){
     newDash.innerHTML=`<div class="dashelement">
     <img src="https://i.postimg.cc/4mFpNhf6/compound.png" alt="">
     <a href="#">QUERY COMPONENTS CONTAINING A MATERIAL</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 <div class="dashelement">
     <img src="https://i.postimg.cc/ftZ9gcCN/query.png" alt="">
     <a href="#">QUERY PRODUCTS CONTAINING A COMPONENT</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 
 <div class="dashelement">
     <img src="https://i.postimg.cc/136kQwwD/search-material.png" alt="">
     <a href="#">QUERY PRODUCTS CONTAING A MATERIAL</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 <div class="dashelement">
     <img src="https://i.postimg.cc/CR3DbTfd/multilevel.png" alt="">
     <a href="#">MULTILEVEL PRODUCT'S BILL OF MATERIALS</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 
 <div class="dashelement">
     <img src="https://i.postimg.cc/qt2KLb8w/magic.png" alt="">
     <a href="#">OTHER CUSTOM QUERY 1</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 <div class="dashelement">
     <img src="https://i.postimg.cc/qt2KLb8w/magic.png" alt="">
     <a href="#">OTHER CUSTOM QUERY 2</a>
+    <img class="wipicon" src="https://i.postimg.cc/FKmVKf2y/wip.png" alt="">
 </div>
 `;
 

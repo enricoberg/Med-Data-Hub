@@ -208,6 +208,6 @@ function rendernewproduct(){
           if (response.ok) alert("New product created successfully!");
           renderproducts();
       })
-      .catch(error => { alert("Something went wrong with your request"); });
+      .catch(error => { alert("Your request is invalid or you do not have permission to perform it"); });
 
 }

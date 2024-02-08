@@ -42,8 +42,7 @@ public class SecurityConfiguration {
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",
-                "/js/**",
-                "/queryconfigs/**"
+                "/js/**"
         };
 
 
@@ -51,24 +50,19 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
                         .permitAll()
 
-                        .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/querydocs/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/querydocs/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/querycomp/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/querycomp/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/queryprod/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/queryprod/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/querymat/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/querymat/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/querysup/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/querysup/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/queryboms/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/queryboms/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/download/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/download/**").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/aux/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/aux/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/admin").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/user").hasAnyAuthority("USER")
+                        .requestMatchers("/querydocs/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querycomp/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/queryprod/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querymat/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/querysup/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/queryboms").hasAnyAuthority("ADMIN","USER", "SUPERUSER")
+                        .requestMatchers("/queryboms/new").hasAuthority("SUPERUSER")
+                        .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+
                         .anyRequest().authenticated())
 
 

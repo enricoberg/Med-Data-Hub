@@ -3,6 +3,7 @@ package com.app.compliance.controller;
 
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Material;
+import com.app.compliance.model.Supplier;
 import com.app.compliance.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/querymat")
@@ -79,6 +81,11 @@ public class MaterialController {
             catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the material"); }
             return ResponseEntity.ok("New material created successfully!");
         }
+
+    @GetMapping("/byid")
+    public Optional<Material> RetrieveComponent(@RequestParam("id") Integer id) {
+        return materialRepository.findById(id);
+    }
 
 
 }

@@ -15,7 +15,7 @@ function renderboms(article,id){
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
     newTitle.innerHTML=`${article} Bill of Materials - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a><br>
-    <a href="#" onclick="rendernewbom(${article});">CREATE NEW BOM</a>`;
+    <a href="#" onclick="rendernewbom(${article});">ADD NEW ITEMS TO BOM</a>`;
     updateBomsTable(totalcolumns,id)
 
 

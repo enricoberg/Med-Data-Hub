@@ -116,7 +116,7 @@ function rendercomponents(){
         <div class="resultbanner">~  Found 0 results  ~</div>
      </form>`;
 
-
+    updateComponentsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 

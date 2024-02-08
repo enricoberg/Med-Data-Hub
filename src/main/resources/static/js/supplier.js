@@ -28,7 +28,7 @@ function rendersuppliers(){
         <div class="resultbanner">~  Found 0 results  ~</div>
      </form>`;
 
-
+    updateSuppliersTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 
