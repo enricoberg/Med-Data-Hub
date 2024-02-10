@@ -81,7 +81,7 @@ async function rendernewdocuments(){
                                              </div>
 
                                            <div class="mb-3">
-                                               <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewdoc" onclick="submitsnewdoc()">Submit Document</button>
+                                               <button type="button" class="btn btn-primary btn-lg mx-auto"  id="submitnewdoc" onclick="submitsnewdoc()">Submit Document</button>
                                            </div>
 
 

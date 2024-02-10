@@ -3,7 +3,6 @@ package com.app.compliance.dto;
 import lombok.Data;
 
 @Data
-
 public class SignUpRequest {
 
     private String firstName;

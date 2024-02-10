@@ -85,7 +85,7 @@ document.querySelector("#signupbutton").addEventListener('click',()=>{
     })
     .then(response => {
       if(response.ok) {
-        alert("SIGNED UP SUCCESFULLY!");
+        alert("SIGNED UP SUCCESSFULLY, PLEASE CHECK YOUR EMAIL TO ACTIVATE THE ACCOUNT!");
         location.reload();
       }
     })
@@ -134,7 +134,23 @@ fetch('/app/auth/signin', {
   
 });
 
+document.querySelector("#forgot").addEventListener('click',()=>{
+    errormessage=document.querySelector(`#loginerror`);
+    if(errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+    if(document.querySelector("#is1").value!=="") {
+    let useremail=document.querySelector("#is1").value;
+        fetch(`/app/auth/sendverification?user=${useremail}`, {method: 'GET'})
+        .then(response => { if(response.ok) window.location.replace(`/app/passwordchange?i=${useremail}`);} )
+        .catch(error => { alert("Something went wrong sending confermation email"); });
 
+
+
+
+
+
+    }
+    else{ errormessage.innerHTML="You have to insert your email first"; }
+});
 
 
 

@@ -36,3 +36,14 @@ function logoutuser(){
 
 }
 
+document.querySelector("#manualdownload").addEventListener('click',()=>{
+                fetch(document.querySelector("#manualdownload").getAttribute('targetref'), {headers: {'Authorization': authenticationheader()}})
+                        .then(response => response.blob())
+                        .then(pdfBlob => {
+                          var pdfUrl = URL.createObjectURL(pdfBlob);
+                          var newTab = window.open();
+                          newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
+                        })
+                        .catch(error => alert("The Document you are looking for does not exists"));
+                    });
+

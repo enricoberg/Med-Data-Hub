@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 public class DownloadController {
 
     private static final String EXTENSION = ".pdf";
-    private static final String SERVER_LOCATION = "/documentfolder";
+    private static final String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
 
     @GetMapping("/")
     public ResponseEntity<ByteArrayResource> download(

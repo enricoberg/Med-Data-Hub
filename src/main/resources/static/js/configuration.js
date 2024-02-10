@@ -12,7 +12,7 @@ function renderconfigurations(article){
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
     newTitle.innerHTML=`${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a><br>
-    <a href="#" onclick="rendernewconf('${article}');">ADD NEW CONFIGURATIONS</a>`;
+    <a href="#" onclick="rendernewconf('${article}');" class="addheader invisible">ADD NEW CONFIGURATIONS</a>`;
     updateConfigurationsTable(totalcolumns,article);
 
     }
@@ -54,6 +54,22 @@ async function updateConfigurationsTable(totalcolumns,article){
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
 
+        //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
+                            fetch(`/aux/getrole?email=${currentuser()}`,{
+                                        method: 'GET',
+                                        headers: {'Authorization': authenticationheader() }})
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok: ' + response.statusText);
+                                        }
+                                        return response.text();
+                                    })
+                                    .then(data => {
+                                        if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".addheader").classList.remove("invisible");
+                                    })
+                                    .catch(error => {
+                                        console.error('Error during fetch:', error);
+                                    });
 
         if (response.status !== 200) {
             console.error('Request failed with status:', response.status);

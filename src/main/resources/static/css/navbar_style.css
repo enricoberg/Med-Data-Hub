@@ -169,3 +169,7 @@ i {
  margin: 0;
  padding: 0;
 }
+#titlenav:hover{
+color: #9AFAF1;
+cursor: pointer;
+}

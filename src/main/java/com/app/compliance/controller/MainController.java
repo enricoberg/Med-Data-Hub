@@ -23,6 +23,16 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/passwordchange")
+    public String passwordchange() {
+        return "pwc";
+    }
+
+    @GetMapping("/passwordchangelogged")
+    public String passwordchangeLogged() {
+        return "pwc_logged";
+    }
+
     @GetMapping("/logout")
     public boolean deleteCookie(HttpServletResponse response) {
 

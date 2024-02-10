@@ -22,17 +22,26 @@ async function validateuser(){
             .then(data=>{
                document.cookie = `jwt=${data.token}`;
                document.cookie = `refresh=${data.refreshToken}`;
-               console.log("Successfully refreshed token");
-               return true;
+               //RETURN TRUE IF THE RESPONSE FROM THE SERVER IS OK, OTHERWISE LOGIN NOT VALID AND RETURN FALSE
+               fetch(url,requestOptions)
+               .then(response=>{ if (response.status!=200) return false;
+                                 return true; })
+               .catch(error => { return false; })
                })
-            .catch(error => { console.log("Error refreshing token");});
+            .catch(error => { console.log("Error refreshing token");
+            return false;
+            });
 
         }
-        //USE THE TOKEN
-        const response = await fetch(url,requestOptions);
-        //RETURN TRUE IF THE RESPONSE FROM THE SERVER IS OK, OTHERWISE LOGIN NOT VALID AND RETURN FALSE
-        if (response.status!=200) return false;
-        return true;
+        else{
+            //USE THE TOKEN
+                    const response = await fetch(url,requestOptions);
+                    //RETURN TRUE IF THE RESPONSE FROM THE SERVER IS OK, OTHERWISE LOGIN NOT VALID AND RETURN FALSE
+                    if (response.status!=200) return false;
+                    return true;
+
+        }
+
       } catch (error) {
         return false;
       }
@@ -42,19 +51,23 @@ async function validateuser(){
       const [, payloadBase64] = token.split('.');
       const payload = JSON.parse(atob(payloadBase64));
 
-      // Check if 'exp' claim exists in the payload
+      // Check if EXPIRATION claim exists in the payload
       if (payload && payload.exp) {
-
           const expirationTimeMs = payload.exp * 1000;
           const currentTimeMs = new Date().getTime();
-
-
-          console.log("STILL VALID: expires at: "+ expirationTimeMs);
           return currentTimeMs >= expirationTimeMs;
       } else {
           console.log("EXPIRED")
           return true;
       }
+  }
+
+  function currentuser(){
+    const token=getCookie("jwt")
+    const [, payloadBase64] = token.split('.');
+    const payload = JSON.parse(atob(payloadBase64));
+    if (payload && payload.sub) return payload.sub;
+    return null;
   }
 
   function getCookie(cname) {

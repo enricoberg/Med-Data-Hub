@@ -15,7 +15,7 @@ function renderspecifications(){
     newDash.classList.add("dashboard");
     newDash.classList.add("documents");
     newDash.innerHTML=`
-    <div class="add_button" onclick="rendernewdocuments()"><a href="#"><i class="fa-regular fa-square-plus"></i>Create new</a></div>
+    <div class="add_button invisible" onclick="rendernewdocuments()"><a href="#"><i class="fa-regular fa-square-plus"></i>Create new</a></div>
     <form action="">
     <div class="input-group ">
         <input type="text" class="form-control documentcontrol" placeholder="Article number" name="codeinput" >
@@ -96,8 +96,23 @@ async function updateDocumentsTable(totalcolumns){
     try {
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
-    
 
+        //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
+        fetch(`/aux/getrole?email=${currentuser()}`,{
+                    method: 'GET',
+                    headers: {'Authorization': authenticationheader() }})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                })
+                .catch(error => {
+                    console.error('Error during fetch:', error);
+                });
     
         if (response.status !== 200) {
             console.error('Request failed with status:', response.status);

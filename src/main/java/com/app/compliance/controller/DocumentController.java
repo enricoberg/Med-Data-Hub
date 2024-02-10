@@ -106,7 +106,7 @@ public class DocumentController {
             //Save the file with the correct name and path
             try {
                 documentRepository.save(document);
-                String SERVER_LOCATION = "/documentfolder";
+                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
                 String EXTENSION = ".pdf";
                 String typestring = null;
                 switch (type) {
