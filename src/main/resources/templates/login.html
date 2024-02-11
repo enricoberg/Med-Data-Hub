@@ -6,48 +6,50 @@
     <link rel="stylesheet" href="/css/login_style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Login page</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
 </head>
-<body>
-    <div class="container" id="container">
-        <div class="form-container sign-up-container">
-            <form  id="FormSignup" >
-                <h1>Create Account</h1>                
-                <span>Please fill in your data for registration</span>
-                <input type="text" id="il1" name="firstName" placeholder="First Name" />
-                <input type="text" id="il2"  name="lastName" placeholder="Last Name" />
-                <input type="email" id="il3"  name="email" placeholder="Email" />
-                <input type="password" id="il4"  name="password" placeholder="Password" />
-                <input type="password" id="il5"  placeholder="Repeat Password" />
-                <div class="errormessage invisible" id="signuperror">Error message</div>
-                <button id="signupbutton">Sign Me Up!</button>
-            </form>
-        </div>
-        <div class="form-container sign-in-container">
-            <form id="FormLogin" >
-                <h1>Log in</h1>                
-                <span>with an existing account</span>
-                <input id="is1" type="email" placeholder="Email" />
-                <input id="is2" type="password" placeholder="Password" />
-                <a href="#">Forgot your password?</a>
-                <div class="errormessage invisible" id="loginerror">Error message</div>
-                <button id="loginbutton">Let's go!</button>
-            </form>
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1>Material Compliance Platform</h1>
-                    <p>Click here if you are already registered</p>
-                    <button class="ghost" id="signIn">Log In</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>Material Compliance Platform</h1>
-                    <p>Click here if you want to create an account</p>
-                    <button class="ghost" id="signUp">Sign Up</button>
-                </div>
+<body class="invisible">
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form id="FormSignup">
+            <h1>Create Account</h1>
+            <span>Please fill in your data for registration</span>
+            <input type="text" id="il1" name="firstName" placeholder="First Name"/>
+            <input type="text" id="il2" name="lastName" placeholder="Last Name"/>
+            <input type="email" id="il3" name="email" placeholder="Email"/>
+            <input type="password" id="il4" name="password" placeholder="Password"/>
+            <input type="password" id="il5" placeholder="Repeat Password"/>
+            <div class="errormessage invisible" id="signuperror">Error message</div>
+            <button id="signupbutton">Sign Me Up!</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form id="FormLogin">
+            <h1>Log in</h1>
+            <span>with an existing account</span>
+            <input id="is1" type="email" placeholder="Email"/>
+            <input id="is2" type="password" placeholder="Password"/>
+            <a id="forgot">Forgot your password?</a>
+            <div class="errormessage invisible" id="loginerror">Error message</div>
+            <button id="loginbutton">Let's go!</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Med Data Hub</h1>
+                <p>Click here if you are already registered</p>
+                <button class="ghost" id="signIn">Log In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Med Data Hub</h1>
+                <p>Click here if you want to create an account</p>
+                <button class="ghost" id="signUp">Sign Up</button>
             </div>
         </div>
     </div>
-    <script src="/js/login.js"></script>
+</div>
+<script src="/js/utils.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>

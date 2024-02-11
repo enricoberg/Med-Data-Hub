@@ -33,32 +33,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        if(StringUtils.isEmpty(authHeader) || !org.apache.commons.lang3.StringUtils.startsWith(authHeader, "Bearer ")){
+        if (StringUtils.isEmpty(authHeader) || !org.apache.commons.lang3.StringUtils.startsWith(authHeader, "Bearer ")) {
 
-
-
-
-
-            // String token = extractTokenFromCookie(request);
-            // if (token != null) response.addHeader("Authorization", "Bearer " + token);
-            
-                    
-
-
-
-
-
-
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUserName(jwt);
 
-        if(StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 
-            if(jwtService.isTokenValid(jwt, userDetails)){
+            if (jwtService.isTokenValid(jwt, userDetails)) {
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -69,9 +55,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 securityContext.setAuthentication(token);
                 SecurityContextHolder.setContext(securityContext);
-                
-                
+
+
             }
+
 
         }
         filterChain.doFilter(request, response);

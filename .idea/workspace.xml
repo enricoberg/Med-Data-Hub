@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="compliance:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/MainController.java" afterDir="false" />
+    <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Fixed Verification Code bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuxController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/BomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/BomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ComponentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ConfigController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/MaterialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/MaterialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_comp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_mat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_mat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_prod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_sup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/pwc_logged.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/pwc_logged.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,12 +54,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -38,6 +76,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
@@ -47,18 +86,36 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dbd124bf&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/ricreo/Compliance App&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/non funge piu&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="med data hub" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="med data hub" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="compliance" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.app.compliance.App" />
@@ -70,7 +127,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-ebaef533" />
+        <option value="jdk-17.0.9-corretto-17.0.9-4caba194b151-107bc6b7" />
       </set>
     </attachedChunks>
   </component>
@@ -92,10 +149,107 @@
       <workItem from="1704872366858" duration="112000" />
       <workItem from="1704894113306" duration="1361000" />
       <workItem from="1705001611950" duration="1126000" />
+      <workItem from="1705055098484" duration="267000" />
+      <workItem from="1705751071372" duration="1174000" />
     </task>
+    <task id="LOCAL-00001" summary="Created API functionalities to retrieve and filter data on Documents and Components">
+      <option name="closed" value="true" />
+      <created>1706534825542</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706534825542</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Created API functionality to retrieve filtered data on materials">
+      <option name="closed" value="true" />
+      <created>1706540814766</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1706540814766</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Created frontend interfaces for adding new document, component and supplier">
+      <option name="closed" value="true" />
+      <created>1706711470153</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706711470153</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Stable version, removed manytomany relation that was causing a bug">
+      <option name="closed" value="true" />
+      <created>1706795650278</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706795650278</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added download controller">
+      <option name="closed" value="true" />
+      <created>1706885619331</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1706885619331</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Corrected bad configuration_material foreign keys assignment">
+      <option name="closed" value="true" />
+      <created>1706957848163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706957848163</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Created POST request to add new document, component and supplier">
+      <option name="closed" value="true" />
+      <created>1707042302082</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1707042302082</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fixed visualization bug in add_bom.js">
+      <option name="closed" value="true" />
+      <created>1707394393179</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1707394393180</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed Refresh Token">
+      <option name="closed" value="true" />
+      <created>1707419131345</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1707419131345</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fixed Verification Code bug">
+      <option name="closed" value="true" />
+      <created>1707576277498</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1707576277498</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Created all JPA Entities" />
+    <MESSAGE value="Created API functionalities to retrieve and filter data on Documents and Components" />
+    <MESSAGE value="Created API functionality to retrieve filtered data on materials" />
+    <MESSAGE value="Created frontend interfaces for adding new document, component and supplier" />
+    <MESSAGE value="Stable version, removed manytomany relation that was causing a bug" />
+    <MESSAGE value="Added download controller" />
+    <MESSAGE value="Corrected bad configuration_material foreign keys assignment" />
+    <MESSAGE value="Created POST request to add new document, component and supplier" />
+    <MESSAGE value="Fixed visualization bug in add_bom.js" />
+    <MESSAGE value="Fixed Refresh Token" />
+    <MESSAGE value="Fixed Verification Code bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Verification Code bug" />
   </component>
 </project>

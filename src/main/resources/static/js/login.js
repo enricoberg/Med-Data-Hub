@@ -10,21 +10,9 @@ for (let input of alltextinput) {
     validate();
   });
 }
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+
+
+
 function validate(){  container.classList.contains("right-panel-active")? validate_signup() : validate_login();}
 function validate_login(){
   
@@ -97,7 +85,7 @@ document.querySelector("#signupbutton").addEventListener('click',()=>{
     })
     .then(response => {
       if(response.ok) {
-        alert("SIGNED UP SUCCESFULLY!");
+        alert("SIGNED UP SUCCESSFULLY, PLEASE CHECK YOUR EMAIL TO ACTIVATE THE ACCOUNT!");
         location.reload();
       }
     })
@@ -132,25 +120,10 @@ fetch('/app/auth/signin', {
 })
 .then(data=>{
   document.cookie = `jwt=${data.token}`;
+  document.cookie = `refresh=${data.refreshToken}`;
   
-  alert("Logged in!");
-  // window.location.replace("/app/home/")
-  // fetch("/app/home", {
-  //   method: "GET",
-  //   headers: {
-  //     Authorization: `Bearer ${data.token}`      
-  //   },
-  // })
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  //   .catch(error => console.error("Error:", error));
 
-
-
-
-
-
-
+  window.location.replace("/app/home")
 
 })
 .catch(error => {
@@ -160,4 +133,38 @@ fetch('/app/auth/signin', {
 });
   
 });
+
+document.querySelector("#forgot").addEventListener('click',()=>{
+    errormessage=document.querySelector(`#loginerror`);
+    if(errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+    if(document.querySelector("#is1").value!=="") {
+    let useremail=document.querySelector("#is1").value;
+        fetch(`/app/auth/sendverification?user=${useremail}`, {method: 'GET'})
+        .then(response => { if(response.ok) window.location.replace(`/app/passwordchange?i=${useremail}`);} )
+        .catch(error => { alert("Something went wrong sending confermation email"); });
+
+
+
+
+
+
+    }
+    else{ errormessage.innerHTML="You have to insert your email first"; }
+});
+
+
+
+async function renderpage(){
+
+  const logged = await validateuser();    
+  if(logged) window.location.replace("/app/home");
+  else{
+    if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
+  }
+
+}
+
+
+
+renderpage();
 

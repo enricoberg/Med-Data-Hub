@@ -1,11 +1,13 @@
 package com.app.compliance.controller;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/app")
@@ -21,7 +23,21 @@ public class MainController {
         return "home";
     }
 
-    
+    @GetMapping("/passwordchange")
+    public String passwordchange() {
+        return "pwc";
+    }
+
+    @GetMapping("/passwordchangelogged")
+    public String passwordchangeLogged() {
+        return "pwc_logged";
+    }
+
+    @GetMapping("/logout")
+    public boolean deleteCookie(HttpServletResponse response) {
+
+        return true;
+    }
 
     
 }

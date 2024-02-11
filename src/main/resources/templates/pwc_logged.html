@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home_style.css">
+    <link rel="stylesheet" href="/css/login_style.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Change Password</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
+
+</head>
+<body class="">
+
+
+<div class="container mt-5 ">
+    <div class="row">
+        <div class="col-8 mx-auto mt-3">
+            <h2>Change your current password</h2>
+
+            <h2 style="font-weight: normal; font-size: medium;">Fill in the fields below to request a password
+                change</h2>
+            <form id="changepwform">
+                <div class="mb-3">
+                    <label for="securityinput" class="form-label">Current Password:</label>
+                    <input type="password" class="form-control" id="securityinput" name="securityinput"
+                           style="text-align: center;">
+                </div>
+                <div class="mb-3">
+                    <label for="pw1input" class="form-label">New Password:</label>
+                    <input type="password" class="form-control" id="pw1input" name="pw1input"
+                           style="text-align: center;">
+                </div>
+                <div class="mb-5">
+                    <label for="pw2input" class="form-label">Repeat Password:</label>
+                    <input type="password" class="form-control" id="pw2input" name="pw2input"
+                           style=" text-align: center;">
+                </div>
+                <div class="errormessage invisible mb-2" id="pwerror">Passwords are not matching</div>
+
+                <div class="mb-3" style="margin-top:25px;">
+                    <button type="button" class="btn btn-primary btn-lg mx-auto" id="submitnewdoc"
+                            onclick="validateform()">Submit New Password
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/utils.js"></script>
+<script>
+    function validateform(){
+        const userid=currentuser();
+
+        const currentpw=document.querySelector("#securityinput").value;
+        const password1=document.querySelector("#pw1input").value;
+        const password2=document.querySelector("#pw2input").value;
+        const errorbox=document.querySelector(".errormessage");
+        if(currentpw=="" || password1=="" || password2==""){
+            if(errorbox.classList.contains("invisible")) errorbox.classList.remove("invisible");
+            errorbox.innerHTML="All fields are necessary";
+            return;
+        }
+        else if(password1!=password2){
+            if(errorbox.classList.contains("invisible")) errorbox.classList.remove("invisible");
+            errorbox.innerHTML="Passwords are not matching";
+            return;
+        }
+        if(!errorbox.classList.contains("invisible")) errorbox.classList.add("invisible");
+
+        let data={
+        id: userid,
+        current: currentpw,
+        password: password1,
+        repeat: password2
+        }
+        fetch('/app/auth/changepasswordlogged', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => {
+          if(!response.ok) throw new Error("Server refused to change password");
+          alert("PASSWORD CHANGED SUCCESSFULLY");
+          window.location.replace("/app/home");
+
+
+        })
+        .catch(error => {
+          alert("UNABLE TO CHANGE PASSWORD");
+        });
+
+    }
+
+</script>
+</body>
+</html>

@@ -13,11 +13,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -29,44 +31,51 @@ public class SecurityConfiguration {
     private final UserService userService;
 
 
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-
-        String[] WHITE_LIST_URL = {"/app/auth/**",
-                
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //SET A LIST OF URLS THAT CAN BE ACCESSED WITHOUT AUTHENTICATION
+        String[] WHITE_LIST_URL = {
+                "/app/auth/signup",
+                "/app/passwordchange/**",
+                "/app/passwordchangelogged/**",
+                "/app/auth/signin",
+                "/app/auth/signup",
+                "/app/auth/refresh",
+                "/app/auth/sendverification",
+                "/app/auth/changepassword",
+                "/app/auth/changepasswordlogged",
+                "/app/auth/logout",
+                "/app/auth/verify",
                 "/app/",
-                //"/app/home/**",
-                
+                "/app/home/**",
+                "/app/logout/**",
                 "/css/**",
                 "/js/**"
-
         };
 
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(request -> request.requestMatchers("/auth/**")
-//                        .permitAll()
-//
-//                        .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
-//                        .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
-//                        .anyRequest().authenticated())
-//
-//
-//                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authenticationProvider(authenticationProvider()).addFilterBefore(
-//                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
-//                );
-//                return http.build();
+        //SET URLS TO BE ACCESSIBLE ONLY AFTER AUTHENTICATION BY SPECIFIC ROLES
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
                         .permitAll()
-
-                        .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
-                        .requestMatchers("/app/home/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/app/auth/validate").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/admin").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/user").hasAnyAuthority("USER")
+                        .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryprod").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querysup").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryboms").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryboms/new").hasAuthority("SUPERUSER")
+                        .requestMatchers("/querydocs/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querycomp/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/queryprod/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querymat/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/querysup/new").hasAnyAuthority("ADMIN", "SUPERUSER")
+                        .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .anyRequest().authenticated())
-
-
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
@@ -77,14 +86,8 @@ public class SecurityConfiguration {
     }
 
 
-
-
-
-
-
-
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService.userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -92,11 +95,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-  
+
 }

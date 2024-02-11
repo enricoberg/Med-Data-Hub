@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @GetMapping
-    public ResponseEntity<String> sayHello(){
-        return ResponseEntity.ok("Hi Admin");
+    @GetMapping("/validate")
+    public ResponseEntity<String> validate() {
+        return ResponseEntity.ok("Permission accepted");
     }
 
-    
+
 }

@@ -26,6 +26,11 @@ public class User implements UserDetails {
 
     private Role role;
 
+    private boolean activeuser;
+
+    private String activationcode;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -53,6 +58,15 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.activeuser;
     }
+
+    public String getActivationcode() {
+        return activationcode;
+    }
+
+    public void setActivationcode(String activationcode) {
+        this.activationcode = activationcode;
+    }
+
 }
