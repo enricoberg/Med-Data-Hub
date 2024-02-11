@@ -57,6 +57,8 @@ The app will be released in different stages given the urgency.
 First release to solve the issue of the documents navigation.
 Second release to implement also product data management (current)
 Third release to add advanced functionalities such as query of products containing specific materials and multilevel explosion of products (products can be made out of assemblies that have their own subassemblies) and provide an automatic way of retrieving data relevant for MDR Material Compliance Regulation that is only accessible at the moment through manual and time-consuming search.
+On final release the frontend part of the insert queries will be revisited to be more user-friendly.
+A user interface to modify inserted data will be added as well.
   
   
   
@@ -132,7 +134,8 @@ Once you have it installed, you can run the application by clicking START on the
 
   ![XAMPP SCREEN](https://i.postimg.cc/zfDb5csn/xampp.png)
 
-I have created a sql file in the Setup Folder that you can copy-paste to create and populate the database with some trial data.
+Download this archive from [Google Drive](https://drive.google.com/file/d/13zKDxiXtFuOSTavu7llxqL5v3cl2WXGs/view?usp=sharing)
+I have created a sql file in the Setup Folder that you can copy-paste to create and populate the database with some demo data.
 Then you need to set up the right properties of the app.
 Extract the folder MedDataHub and save it inside C:/Program Files/
 Inside the folder you will find example documents and the application.properties file.
