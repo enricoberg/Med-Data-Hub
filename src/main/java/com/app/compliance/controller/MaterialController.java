@@ -36,17 +36,18 @@ public class MaterialController {
     ) {
 
 
-
-
         List<Material> allmats = materialRepository.findAll();
-        List<Material> toRemove=new ArrayList<>();
-
+        List<Material> toRemove = new ArrayList<>();
+        //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         for (Material m : allmats) {
-            if (brand!=null && !m.getBrandname().toUpperCase().contains(brand.toUpperCase())) toRemove.add(m);
-            else if (family!=null && !family.equals("all") && m.getFamily()!=null && !m.getFamily().name().equals(family)) toRemove.add(m);
-            else if (plasticizer!=null && m.getPlasticizer()!=null  && !m.getPlasticizer().toUpperCase().contains(plasticizer.toUpperCase())) toRemove.add(m);
-            else if(plasticizer!=null && !plasticizer.isEmpty() && m.getPlasticizer()==null) toRemove.add(m);
-            else if (supplier!=null && !m.getSupplier().toUpperCase().contains(supplier.toUpperCase())) toRemove.add(m);
+            if (brand != null && !m.getBrandname().toUpperCase().contains(brand.toUpperCase())) toRemove.add(m);
+            else if (family != null && !family.equals("all") && m.getFamily() != null && !m.getFamily().name().equals(family))
+                toRemove.add(m);
+            else if (plasticizer != null && m.getPlasticizer() != null && !m.getPlasticizer().toUpperCase().contains(plasticizer.toUpperCase()))
+                toRemove.add(m);
+            else if (plasticizer != null && !plasticizer.isEmpty() && m.getPlasticizer() == null) toRemove.add(m);
+            else if (supplier != null && !m.getSupplier().toUpperCase().contains(supplier.toUpperCase()))
+                toRemove.add(m);
 
         }
 
@@ -59,28 +60,27 @@ public class MaterialController {
     public ResponseEntity<String> createNewMaterial(
             @RequestParam("name") String name,
             @RequestParam("supplier") String supplier,
-            @RequestParam("plasticizer") String plasticizer,           
+            @RequestParam("plasticizer") String plasticizer,
             @RequestPart("family") String fam) {
 
 
-
-            // Create the new Material object
-            Material material = new Material();
-            Material.MaterialFamily family= Material.MaterialFamily.valueOf(fam);
-            material.setBrandname(name);
-            material.setSupplier(supplier);
-            material.setPlasticizer(plasticizer);
-            material.setFamily(family);
-            
+        // Create the new Material object
+        Material material = new Material();
+        Material.MaterialFamily family = Material.MaterialFamily.valueOf(fam);
+        material.setBrandname(name);
+        material.setSupplier(supplier);
+        material.setPlasticizer(plasticizer);
+        material.setFamily(family);
 
 
-            //Save the Material to the database
-            try {
-                materialRepository.save(material);
-            }
-            catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the material"); }
-            return ResponseEntity.ok("New material created successfully!");
+        //Save the Material to the database
+        try {
+            materialRepository.save(material);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to save the material");
         }
+        return ResponseEntity.ok("New material created successfully!");
+    }
 
     @GetMapping("/byid")
     public Optional<Material> RetrieveComponent(@RequestParam("id") Integer id) {

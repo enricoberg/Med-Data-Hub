@@ -87,7 +87,7 @@ function rendernewmaterials(){
                                           </div>
                                           
                                           
-
+                                          <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                           <div class="mb-3">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewmat" onclick="submitsnewmat()">Submit Material</button>
                                           </div>
@@ -106,19 +106,25 @@ function rendernewmaterials(){
     function submitsnewmat(){
       
        
-      
+      //RETRIEVE ALL THE DATA FROM THE FORM
       let form = document.getElementById('newmatform');
-
+      let errormessage=document.querySelector(".errormessage");
       let formData = new FormData(form); 
       let name=document.querySelector("#brandnameinput").value;
       let supplier=document.querySelector("#supplierinput").value;  
       let plasticizer=document.querySelector("#plasticizerinput").value; 
       let family=document.querySelector("#familyinput").value;           
 
+
+      if(name=="" || supplier=="") {
+        if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+        errormessage.innerHTML="Attention, brandname and supplier are mandatory fields";
+        return;
+      }
+      if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
+      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
+      if(!confirm("Are you sure you want to insert this material?")) return;
       const url="/querymat/new"
-      if(name=="" || supplier=="") return;
-
-
       formData.append('name', name);
       formData.append('supplier', supplier);
       formData.append('plasticizer', plasticizer);

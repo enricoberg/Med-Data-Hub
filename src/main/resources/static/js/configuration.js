@@ -11,8 +11,8 @@ function renderconfigurations(article){
     const referenceElement = document.body.children[1];
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
-    newTitle.innerHTML=`${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a><br>
-    <a href="#" onclick="rendernewconf('${article}');" class="addheader invisible">ADD NEW CONFIGURATIONS</a>`;
+    newTitle.innerHTML=`<div>${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a></div>
+    <div class="mt-3"><a href="#" onclick="rendernewconf('${article}');" class="addheader invisible">ADD NEW CONFIGURATIONS</a></div>`;
     updateConfigurationsTable(totalcolumns,article);
 
     }

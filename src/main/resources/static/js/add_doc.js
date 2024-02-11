@@ -79,7 +79,7 @@ async function rendernewdocuments(){
                                                <label for="formFile" class="form-label">Select the file attachment</label>
                                                <input class="form-control" type="file" id="formFile" name="docfile">
                                              </div>
-
+                                            <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                            <div class="mb-3">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto"  id="submitnewdoc" onclick="submitsnewdoc()">Submit Document</button>
                                            </div>
@@ -96,14 +96,13 @@ async function rendernewdocuments(){
     }
 
     function submitsnewdoc(){
-      
-       
-      
+            //RETRIEVE THE DATA FROM THE FORM
+            let article=document.querySelector("#articleinput").value;
+            let errormessage=document.querySelector(".errormessage");
             let form = document.getElementById('newdocform');
             let fileInput=document.querySelector("#formFile");
-            let formData = new FormData(form);   
+            let formData = new FormData(form);
             let type;
-            let article=document.querySelector("#articleinput").value;
             let revision=document.querySelector("#revinput").value.toUpperCase();
             let ppc=document.querySelector("#ppcinput").value;
             let active=document.querySelector("#activeinput").checked? "true" : "false";
@@ -111,29 +110,68 @@ async function rendernewdocuments(){
             if(document.querySelector("#typeinternal").checked) type="internal";
             else if(document.querySelector("#typesupplier").checked) type="supplier";
             else if(document.querySelector("#typewi").checked) type="wi";
+            //VALIDATE THE INPUT OF THE USER
+            if(article=="" || revision=="" || ppc=="") {
+                    if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                    errormessage.innerHTML="Attention, all fields are mandatory before submitting the request";
+                    return;
+            }
+            if(fileInput.files.length ==0) {
+                    if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                    errormessage.innerHTML="Attention, you must select a file to upload first";
+                    return;
+            }
+            //CHECK THE INSERTED ARTICLE NUMBER EXISTS AND THROW AN ERROR IF NOT
 
-            const url="/querydocs/new"
-            if(article=="" || revision=="" || ppc=="" || fileInput.files.length ==0) return;
+            fetch(`/querycomp/byname?id=${article}`,{headers: {'Authorization': authenticationheader() }})
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.text();
+              })
+              .then(data => {
+
+                  if (data=== "") {
+                  if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                  errormessage.innerHTML="The article number you inserted is not present in the database";
+                  return;
+                  }
+
+                //MAKE THE QUERY IF THE ARTICLE IS VALID
+                if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
+                const url="/querydocs/new";
+
+                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
+                if(!confirm("Are you sure you want to insert this document?")) return;
+
+                formData.append('article', article);
+                formData.append('revision', revision);
+                formData.append('ppc', ppc);
+                formData.append('active', active);
+                formData.append('assembly', assembly);
+                formData.append('type', type);
 
 
-            formData.append('article', article);
-            formData.append('revision', revision);
-            formData.append('ppc', ppc);
-            formData.append('active', active);
-            formData.append('assembly', assembly);
-            formData.append('type', type);           
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {'Authorization': authenticationheader() }
+                })
+                .then(response => {
+                    if (!response.ok)  throw new Error('Network response was not ok');
+                    alert("New document created successfully!");
+                    renderspecifications();
+                })
+                .catch(error => { alert("Something went wrong with your request"); });
+                })
+                .catch(error => {
+                  console.error('There was a problem with the fetch operation:', error);
+                });
 
 
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {'Authorization': authenticationheader() }
-            })
-            .then(response => {
-                if (!response.ok)  throw new Error('Network response was not ok');
-                alert("New document created successfully!");
-                renderspecifications();
-            })
-            .catch(error => { alert("Something went wrong with your request"); });
+
+      
+
 
     }

@@ -181,10 +181,11 @@ async function updateMaterialsTable(totalcolumns){
         <div class="grid-item ">${obj.supplier}</div>
         <div class="grid-item ">${checknull1}</div>
         <div class="grid-item ">${checknull2}</div>
-        <div class="grid-item "><a href="/download/?filename=TDS_${obj.id}">TDS</a> ---
-        <a href="/download/?filename=SDS_${obj.id}">SDS</a></div>
+        <div class="grid-item "><a class="pdfopener" targetref="/download/?filename=TDS_${obj.id}">TDS</a> ---
+        <a class="pdfopener"  targetref="/download/?filename=SDS_${obj.id}">SDS</a></div>
         `;
         });
+        listenForDownloads();
 
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;

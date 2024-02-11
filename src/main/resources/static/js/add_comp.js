@@ -9,11 +9,11 @@ function rendernewcomponents(){
     }
     //CREATE A NEW DASHBOARD
     const newTitle = document.createElement("h3");
-        const referenceElement = document.body.children[1];
-        document.body.insertBefore(newTitle, referenceElement);
-        newTitle.classList.add("bomtitle");
-        newTitle.classList.add("mt-5");
-        newTitle.innerHTML=`NEW COMPONENT FORM - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
+    const referenceElement = document.body.children[1];
+    document.body.insertBefore(newTitle, referenceElement);
+    newTitle.classList.add("bomtitle");
+    newTitle.classList.add("mt-5");
+    newTitle.innerHTML=`NEW COMPONENT FORM - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
     const newDash = document.createElement("div");
     const referenceElement2 = document.body.children[2];
     document.body.insertBefore(newDash, referenceElement2);
@@ -113,7 +113,7 @@ function rendernewcomponents(){
                                                 </div>
                                           </div>
 
-
+                                          <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                           <div class="mb-3">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewcomp" onclick="submitsnewcomp()">Submit Component</button>
                                           </div>
@@ -131,10 +131,9 @@ function rendernewcomponents(){
     
     function submitsnewcomp(){
       
-       
+      //RETRIEVE DATA FROM THE FORM
       let type;
       let form = document.getElementById('newcompform');
-
       let formData = new FormData(form); 
       let article=document.querySelector("#articleinput").value;
       let description=document.querySelector("#descriptioninput").value;  
@@ -147,12 +146,21 @@ function rendernewcomponents(){
       else if(document.querySelector("#typeluer").checked) type="LUERLOCK";
       else if(document.querySelector("#typetpn").checked) type="TPNLOCK";
       else if(document.querySelector("#typenone").checked) type="none";
-      let family=document.querySelector("#familyinput").value;           
+      let family=document.querySelector("#familyinput").value;
+      let errormessage=document.querySelector(".errormessage");
 
+
+
+      if(article=="" || description=="") {
+      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+      errormessage.innerHTML="Attention, fields article and description are necessary to submit the request";
+      return;
+      }
+      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+
+      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
+      if(!confirm("Are you sure you want to insert this component?")) return;
       const url="/querycomp/new"
-      if(article=="" || description=="") return;
-
-
       formData.append('article', article);
       formData.append('description', description);
       formData.append('intercompany', intercompany);

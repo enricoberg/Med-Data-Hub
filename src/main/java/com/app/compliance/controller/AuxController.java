@@ -35,39 +35,30 @@ public class AuxController {
     private final ComponentRepository componentRepository;
 
     @Autowired
-    private final  MaterialRepository materialRepository;
+    private final MaterialRepository materialRepository;
 
     @GetMapping("/getsuppliers")
-    public List<Supplier> getAllSuppliers() {        
-        return  supplierRepository.findAll();
+    public List<Supplier> getAllSuppliers() {
+        return supplierRepository.findAll();
     }
 
     @GetMapping("/getcomponents")
-    public List<Component> getAllComponents() {        
-        return  componentRepository.findAll();
+    public List<Component> getAllComponents() {
+        return componentRepository.findAll();
     }
 
     @GetMapping("/getmaterials")
-    public List<Material> getAllMaterial() {        
-        return  materialRepository.findAll();
+    public List<Material> getAllMaterial() {
+        return materialRepository.findAll();
     }
 
     @GetMapping("/getrole")
     public String getRole(@RequestParam("email") String email) {
         Optional<User> optuser = userRepository.findByEmail(email);
-        if(!optuser.isPresent())  return null;
+        if (!optuser.isPresent()) return null;
         User user = optuser.get();
         return user.getRole().toString();
     }
 
 
-
-
-
-
-
-    
-
-
-    
 }

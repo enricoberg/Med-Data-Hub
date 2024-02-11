@@ -38,7 +38,7 @@ function rendernewsuppliers(){
                                            </div>
 
 
-
+                                           <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                            <div class="mb-3">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewsup" onclick="submitsnewsup()">Submit Supplier</button>
                                            </div>
@@ -55,21 +55,27 @@ function rendernewsuppliers(){
 
     function submitsnewsup(){
 
-
-
+                //RETRIEVE ALL THE DATA FROM THE FORM
+                let errormessage=document.querySelector(".errormessage");
                 let form = document.getElementById('newsupform');
                 let formData = new FormData(form);
-
-
                 let name=document.querySelector("#nameinput").value;
                 let sap=document.querySelector("#sapinput").value;
                 let contact=document.querySelector("#contactinput").value;
 
 
+
+                //VALIDATE THE INPUT OF THE USER
+                if(name=="" || sap==""){
+                    if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                    errormessage.innerHTML="Attention, Supplier name and sap code are mandatory fields";
+                return;
+                }
+
+                if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
+                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
+                if(!confirm("Are you sure you want to insert this document?")) return;
                 const url="/querysup/new"
-                if(name=="" || sap=="") return;
-
-
                 formData.append('name', name);
                 formData.append('sap', sap);
                 formData.append('contact', contact);

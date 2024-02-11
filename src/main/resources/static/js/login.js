@@ -158,7 +158,10 @@ async function renderpage(){
 
   const logged = await validateuser();    
   if(logged) window.location.replace("/app/home");
-   if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
+  else{
+    if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
+  }
+
 }
 
 

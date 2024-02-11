@@ -29,15 +29,13 @@ public class SupplierController {
     ) {
 
 
-
-
         List<Supplier> allsups = supplierRepository.findAll();
-        List<Supplier> toRemove=new ArrayList<>();
-
+        List<Supplier> toRemove = new ArrayList<>();
+        //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         for (Supplier s : allsups) {
-            if (name!=null && !s.getSupplier_name().toUpperCase().contains(name.toUpperCase())) toRemove.add(s);
-            else if (sapcode!=null && !s.getSap_code().toUpperCase().contains(sapcode.toUpperCase())) toRemove.add(s);
-            else if (contact!=null && !s.getContact().toUpperCase().contains(contact.toUpperCase())) toRemove.add(s);
+            if (name != null && !s.getSupplier_name().toUpperCase().contains(name.toUpperCase())) toRemove.add(s);
+            else if (sapcode != null && !s.getSap_code().toUpperCase().contains(sapcode.toUpperCase())) toRemove.add(s);
+            else if (contact != null && !s.getContact().toUpperCase().contains(contact.toUpperCase())) toRemove.add(s);
 
         }
 
@@ -53,11 +51,6 @@ public class SupplierController {
             @RequestParam("contact") String contact) {
 
 
-
-
-
-
-
         try {
             // Create the new Supplier object
             Supplier supplier = new Supplier();
@@ -66,8 +59,9 @@ public class SupplierController {
             supplier.setContact(contact);
             //Save the newly created supplier
             supplierRepository.save(supplier);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to add the new supplier");
         }
-        catch (Exception e) { return ResponseEntity.status(500).body("Failed to add the new supplier"); }
         return ResponseEntity.ok("New supplier created successfully!");
     }
 

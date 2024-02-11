@@ -3,8 +3,7 @@
 
   async function renderpage(section){
     
-    
-
+    //REDIRECTS TO THE FUNCTIONS THAT HANDLE THE VISUALIZATION OF THE PAGE
     const logged = await validateuser();
     if(!logged) window.location.replace("/app/");
     if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
@@ -33,12 +32,7 @@
       default:
         
     }
-      
-  
-    
-    
 }
-//renderpage("");
 
 document.querySelector("#usersection").addEventListener("click",()=>{
     renderpage("users");
@@ -83,3 +77,9 @@ function authenticationheader(){
     const jwt=getCookie("jwt");
     return `Bearer ${jwt}`;
 }
+
+//PERIODICALLY CHECKS IF TOKEN NEEDS TO BE REFRESHED
+setInterval(()=>{
+    const timeleft=expirationTimeLeft(getCookie("jwt"));
+    if(timeleft<70000) sendRefresh();
+}, 10000);

@@ -31,17 +31,17 @@ public class ConfigController {
     private final SupplierRepository supplierRepository;
 
 
-
     @GetMapping("/")
     public List<Configuration> getAllComponentsFiltered(
             @RequestParam(required = false) String article
     ) {
 
-        List<Configuration> allconf= configRepository.findAll();
-        List<Configuration> toRemove=new ArrayList<>();
+        List<Configuration> allconf = configRepository.findAll();
+        List<Configuration> toRemove = new ArrayList<>();
 
         for (Configuration c : allconf) {
-            if (article!=null && !c.getComponent().getComp_id().toUpperCase().equals(article.toUpperCase())) toRemove.add(c);
+            if (article != null && !c.getComponent().getComp_id().toUpperCase().equals(article.toUpperCase()))
+                toRemove.add(c);
 
         }
         allconf.removeAll(toRemove);
@@ -50,11 +50,11 @@ public class ConfigController {
 
     @PostMapping("/new")
     public ResponseEntity<String> createNewBomItem(@RequestBody ConfRequest[] bomObjects) {
-        try{
-            for (ConfRequest obj : bomObjects){
+        try {
+            for (ConfRequest obj : bomObjects) {
 
                 Optional<Configuration> opt_config = configRepository.findBySuppliercompnumber(obj.getSupcompcode());
-                if(!opt_config.isPresent()) {
+                if (!opt_config.isPresent()) {
 
                     Configuration newconfig = new Configuration();
                     newconfig.setComponent(componentRepository.findById(obj.getCompid()).get());
@@ -62,14 +62,14 @@ public class ConfigController {
                     newconfig.setSuppliercompnumber(obj.getSupcompcode());
                     configRepository.save(newconfig);
                     configRepository.insertMaterialConfiguration(newconfig.getId(), obj.getMatid());
-                }
-                else{
-                    Configuration existingconfig=configRepository.findBySuppliercompnumber(obj.getSupcompcode()).get();
+                } else {
+                    Configuration existingconfig = configRepository.findBySuppliercompnumber(obj.getSupcompcode()).get();
                     configRepository.insertMaterialConfiguration(existingconfig.getId(), obj.getMatid());
                 }
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to save the bom");
         }
-        catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the bom"); }
         return ResponseEntity.ok("New set of configs created successfully!");
     }
 

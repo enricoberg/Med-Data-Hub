@@ -29,15 +29,12 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final UserService userService;
-    
-
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //SET A LIST OF URLS THAT CAN BE ACCESSED WITHOUT AUTHENTICATION
         String[] WHITE_LIST_URL = {
-//                "/app/auth/**",
                 "/app/auth/signup",
                 "/app/passwordchange/**",
                 "/app/passwordchangelogged/**",
@@ -56,33 +53,29 @@ public class SecurityConfiguration {
                 "/js/**"
         };
 
-
+        //SET URLS TO BE ACCESSIBLE ONLY AFTER AUTHENTICATION BY SPECIFIC ROLES
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
                         .permitAll()
-                        .requestMatchers("/app/auth/validate").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
+                        .requestMatchers("/app/auth/validate").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user").hasAnyAuthority("USER")
-                        .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/queryprod").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/querysup").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/queryboms").hasAnyAuthority("ADMIN","USER", "SUPERUSER")
+                        .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryprod").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querysup").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryboms").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/queryboms/new").hasAuthority("SUPERUSER")
                         .requestMatchers("/querydocs/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querycomp/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/queryprod/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querymat/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querysup/new").hasAnyAuthority("ADMIN", "SUPERUSER")
-
-                        .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-                        .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER","SUPERUSER")
-
+                        .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .anyRequest().authenticated())
-
-
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
@@ -93,14 +86,8 @@ public class SecurityConfiguration {
     }
 
 
-
-
-
-
-
-
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService.userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -108,7 +95,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -118,5 +105,5 @@ public class SecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-  
+
 }

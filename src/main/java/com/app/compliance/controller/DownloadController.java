@@ -3,6 +3,7 @@ package com.app.compliance.controller;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,15 @@ import java.nio.file.Paths;
 public class DownloadController {
 
     private static final String EXTENSION = ".pdf";
+
     private static final String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
 
     @GetMapping("/")
     public ResponseEntity<ByteArrayResource> download(
             @RequestParam("filename") String filename) throws IOException {
         File file = new File(SERVER_LOCATION + File.separator + filename + EXTENSION);
+
+        if (!file.exists()) throw new IOException("Document not found");
 
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + filename + EXTENSION);
@@ -40,7 +44,6 @@ public class DownloadController {
         return ResponseEntity.ok()
                 .headers(header)
                 .contentLength(file.length())
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }

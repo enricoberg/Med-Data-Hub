@@ -37,6 +37,7 @@ public class App implements CommandLineRunner {
             userRepository.save(user);
         }
 
+
         System.out.println("SERVER RUNNING.....");
     }
 }

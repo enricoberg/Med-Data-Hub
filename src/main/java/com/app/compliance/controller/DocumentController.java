@@ -49,7 +49,7 @@ public class DocumentController {
         if(intspec==null) intspec=true;
         if(supplierspec==null) supplierspec=true;
 
-
+        //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
         List<Object[]> resultobjects = documentRepository.getDocumentViews();
         List<DocumentView> alldocs = getDocumentViews((resultobjects));
@@ -118,7 +118,9 @@ public class DocumentController {
                 Path destination = new File(SERVER_LOCATION, fileName).toPath();
                 Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
             }
-            catch (IOException e) { return ResponseEntity.status(500).body("Failed to save the file"); }
+            catch (IOException e) {
+                return ResponseEntity.status(500).body("Failed to save the file");
+            }
         }
 
         return ResponseEntity.ok("New doc created successfully!");

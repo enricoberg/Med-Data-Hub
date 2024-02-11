@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @GetMapping("/validate")
-    public ResponseEntity<String> validate(){
+    public ResponseEntity<String> validate() {
         return ResponseEntity.ok("Permission accepted");
     }
 
-    
+
 }

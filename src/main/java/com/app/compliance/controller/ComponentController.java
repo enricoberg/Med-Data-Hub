@@ -43,33 +43,33 @@ public class ComponentController {
     ) {
 
 
-
-
         List<Component> allcomps = componentRepository.findAll();
-        List<Component> toRemove=new ArrayList<>();
-
+        List<Component> toRemove = new ArrayList<>();
+        //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         for (Component c : allcomps) {
-            if (description!=null && !c.getDescription().toUpperCase().contains(description.toUpperCase())) toRemove.add(c);
-            else if (article!=null && !c.getComp_id().toUpperCase().contains(article.toUpperCase())) toRemove.add(c);
-            else if (intercompany!=null && intercompany.equals("true") && !c.isIntercompany()) toRemove.add(c);
-            else if (intercompany!=null  && intercompany.equals("false") && c.isIntercompany()) toRemove.add(c);
-            else if (family!=null && !family.equals("all") && !c.getFamily().name().equals(family)) toRemove.add(c);
-            else if (packaging!=null && packaging.equals("true") && !c.isPackagingmaterial()) toRemove.add(c);
-            else if (packaging!=null && packaging.equals("false") && c.isPackagingmaterial()) toRemove.add(c);
-            else if (contact!=null && contact.equals("true") && !c.isContact()) toRemove.add(c);
-            else if (contact!=null && contact.equals("false") && c.isContact()) toRemove.add(c);
-            else if (ca65!=null && ca65.equals("true") && !c.isCa65()) toRemove.add(c);
-            else if (ca65!=null && ca65.equals("false") && c.isCa65()) toRemove.add(c);
-            else if (baimold!=null && baimold.equals("true") && !c.isBaimold()) toRemove.add(c);
-            else if (baimold!=null && baimold.equals("false") && c.isBaimold()) toRemove.add(c);
-            else if (standard!=null && standard.equals("luer") && c.getStandard()==null) toRemove.add(c);
-            else if (standard!=null && standard.equals("luer") && !c.getStandard().name().equals("LUERLOCK")) toRemove.add(c);
-            else if (standard!=null && standard.equals("enfit") && c.getStandard()==null) toRemove.add(c);
-            else if (standard!=null && standard.equals("enfit") && !c.getStandard().name().equals("ENFIT")) toRemove.add(c);
-            else if (standard!=null && standard.equals("tpnlock") && c.getStandard()==null) toRemove.add(c);
-            else if (standard!=null && standard.equals("tpnlock") && !c.getStandard().name().equals("TPNLOCK")) toRemove.add(c);
-
-
+            if (description != null && !c.getDescription().toUpperCase().contains(description.toUpperCase()))
+                toRemove.add(c);
+            else if (article != null && !c.getComp_id().toUpperCase().contains(article.toUpperCase())) toRemove.add(c);
+            else if (intercompany != null && intercompany.equals("true") && !c.isIntercompany()) toRemove.add(c);
+            else if (intercompany != null && intercompany.equals("false") && c.isIntercompany()) toRemove.add(c);
+            else if (family != null && !family.equals("all") && !c.getFamily().name().equals(family)) toRemove.add(c);
+            else if (packaging != null && packaging.equals("true") && !c.isPackagingmaterial()) toRemove.add(c);
+            else if (packaging != null && packaging.equals("false") && c.isPackagingmaterial()) toRemove.add(c);
+            else if (contact != null && contact.equals("true") && !c.isContact()) toRemove.add(c);
+            else if (contact != null && contact.equals("false") && c.isContact()) toRemove.add(c);
+            else if (ca65 != null && ca65.equals("true") && !c.isCa65()) toRemove.add(c);
+            else if (ca65 != null && ca65.equals("false") && c.isCa65()) toRemove.add(c);
+            else if (baimold != null && baimold.equals("true") && !c.isBaimold()) toRemove.add(c);
+            else if (baimold != null && baimold.equals("false") && c.isBaimold()) toRemove.add(c);
+            else if (standard != null && standard.equals("luer") && c.getStandard() == null) toRemove.add(c);
+            else if (standard != null && standard.equals("luer") && !c.getStandard().name().equals("LUERLOCK"))
+                toRemove.add(c);
+            else if (standard != null && standard.equals("enfit") && c.getStandard() == null) toRemove.add(c);
+            else if (standard != null && standard.equals("enfit") && !c.getStandard().name().equals("ENFIT"))
+                toRemove.add(c);
+            else if (standard != null && standard.equals("tpnlock") && c.getStandard() == null) toRemove.add(c);
+            else if (standard != null && standard.equals("tpnlock") && !c.getStandard().name().equals("TPNLOCK"))
+                toRemove.add(c);
 
 
         }
@@ -89,40 +89,41 @@ public class ComponentController {
             @RequestParam("baimold") boolean baimold,
             @RequestParam("standard") String conicalstandard,
             @RequestPart("family") String fam) {
-            // Create the new Component object
-            Component component = new Component();
-            Component.ComponentFamily family = Component.ComponentFamily.valueOf(fam);
-            if(!conicalstandard.equals("none")) {
-                Component.ConicalStandard standard = Component.ConicalStandard.valueOf(conicalstandard);
-                component.setStandard(standard);
-            }
-            component.setFamily(family);
-            component.setComp_id(article);
-            component.setDescription(description);
-            component.setIntercompany(intercompany);
-            component.setPackagingmaterial(packaging);
-            component.setContact(contact);
-            component.setCa65(ca65);
-            component.setBaimold(baimold);
-            //Save the file with the correct name and path
-            try {
-                componentRepository.save(component);
-            }
-            catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the component"); }
-            return ResponseEntity.ok("New component created successfully!");
+        // Create the new Component object
+        Component component = new Component();
+        Component.ComponentFamily family = Component.ComponentFamily.valueOf(fam);
+        if (!conicalstandard.equals("none")) {
+            Component.ConicalStandard standard = Component.ConicalStandard.valueOf(conicalstandard);
+            component.setStandard(standard);
         }
-
-        @GetMapping("/byid")
-        public Optional<Component> RetrieveComponent(@RequestParam("article") Integer article) {            
-            return componentRepository.findById(article);           
+        component.setFamily(family);
+        component.setComp_id(article);
+        component.setDescription(description);
+        component.setIntercompany(intercompany);
+        component.setPackagingmaterial(packaging);
+        component.setContact(contact);
+        component.setCa65(ca65);
+        component.setBaimold(baimold);
+        //Save the file with the correct name and path
+        try {
+            componentRepository.save(component);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to save the component");
         }
-
-        @GetMapping("/byname")
-        public Component RetrieveComponentByName(@RequestParam("id") String id) {
-            return componentRepository.findByCompid(id);
-        }
-
+        return ResponseEntity.ok("New component created successfully!");
     }
+
+    @GetMapping("/byid")
+    public Optional<Component> RetrieveComponent(@RequestParam("article") Integer article) {
+        return componentRepository.findById(article);
+    }
+
+    @GetMapping("/byname")
+    public Component RetrieveComponentByName(@RequestParam("id") String id) {
+        return componentRepository.findByCompid(id);
+    }
+
+}
 
 
 

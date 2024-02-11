@@ -1,7 +1,7 @@
 
 function renderboms(article,id){
 
-
+    id=parseInt(id);
     let totalcolumns=4;
     clearbomtitles();
     clearTable(totalcolumns);
@@ -14,8 +14,8 @@ function renderboms(article,id){
     const referenceElement = document.body.children[1];
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
-    newTitle.innerHTML=`${article} Bill of Materials - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a><br>
-    <a href="#" onclick="rendernewbom(${article});" class="addheader invisible">ADD NEW ITEMS TO BOM</a>`;
+    newTitle.innerHTML=`<div>${article} Bill of Materials - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a></div>
+    <div class="mt-3"><a href="#" onclick="rendernewbom(${article});" class="addheader invisible">ADD NEW ITEMS TO BOM</a></div>`;
     updateBomsTable(totalcolumns,id)
 
 

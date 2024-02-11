@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,20 +48,10 @@ public class BomController {
         List<Bom> notPertaining = new ArrayList<>();
         List<Bom> allboms = bomRepository.findAll();
         for (Bom b : allboms) {
-            if (article!=null && !b.getProdid().getId().equals(article)) notPertaining.add(b);
+            if (article != null && !b.getProdid().getId().equals(article)) notPertaining.add(b);
         }
         allboms.removeAll(notPertaining);
-        List<BomView> toRemove = new ArrayList<>();
-
-
         List<BomView> allbomsfiltered = getBomViews((allboms));
-        for (BomView bom : allbomsfiltered) {
-
-        }
-
-
-
-        allbomsfiltered.removeAll(toRemove);
         return allbomsfiltered;
 
     }
@@ -71,25 +60,26 @@ public class BomController {
 
         List<BomView> bomViews = new ArrayList<BomView>();
         for (Bom result : results) {
-            String description= result.getCompid().getDescription();
-            bomViews.add(new BomView(result.getCompid().getComp_id(),description,result.getQty(),result.getUm()));
+            String description = result.getCompid().getDescription();
+            bomViews.add(new BomView(result.getCompid().getComp_id(), description, result.getQty(), result.getUm()));
         }
         return bomViews;
     }
+
     private String getStringValue(Object value) {
         return (value != null) ? value.toString() : null;
     }
 
     @PostMapping("/new")
     public ResponseEntity<String> createNewBomItem(@RequestBody BomRequest[] bomObjects) {
-            try{
-            for (BomRequest obj : bomObjects){
+        try {
+            for (BomRequest obj : bomObjects) {
                 Optional<Product> opt_product = productRepository.findById(obj.getProdid());
-                Optional<Component> opt_component= componentRepository.findById(obj.getCompid());
+                Optional<Component> opt_component = componentRepository.findById(obj.getCompid());
                 if (!opt_product.isPresent()) throw new Exception("No product retrieved");
                 if (!opt_component.isPresent()) throw new Exception("No component retrieved");
-                Product product=opt_product.get();
-                Component component=opt_component.get();
+                Product product = opt_product.get();
+                Component component = opt_component.get();
                 Bom.UnitMeasure um = Bom.UnitMeasure.valueOf(obj.getUm());
                 float qty = obj.getQty();
                 Bom bomline = new Bom();
@@ -100,11 +90,11 @@ public class BomController {
                 bomRepository.save(bomline);
             }
 
-            }
-            catch (Exception e) { return ResponseEntity.status(500).body("Failed to save the bom"); }
-            return ResponseEntity.ok("New bom created successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to save the bom");
         }
-
+        return ResponseEntity.ok("New bom created successfully!");
+    }
 
 
 }

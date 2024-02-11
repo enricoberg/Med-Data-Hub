@@ -123,7 +123,7 @@ function rendernewproduct(){
 
 
                                          
-
+                                          <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                           <div class="mb-3">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewprod" onclick="submitsnewprod()">Submit Product</button>
                                           </div>
@@ -163,7 +163,6 @@ function rendernewproduct(){
        
       let type;
       let form = document.getElementById('newprodform');
-
       let formData = new FormData(form); 
       let article=document.querySelector("#articleinput").value;
       let description=document.querySelector("#descriptioninput").value;  
@@ -177,13 +176,23 @@ function rendernewproduct(){
       let sterimethod=document.querySelector("#sterimethodinput").value;   
       let sterisite=document.querySelector("#sterisiteinput").value;   
       let sap=document.querySelector("#sapinput").value;   
-      let supplier=document.querySelector("#supplierinput").value;   
+      let supplier=document.querySelector("#supplierinput").value;
+      let errormessage=document.querySelector(".errormessage");
       
 
+
+      if(article=="" || description=="") {
+        if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+            errormessage.innerHTML="Attention, fields article and description are necessary to submit the request";
+      return;
+      }
+
+      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+
+      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
+      if(!confirm("Are you sure you want to insert this product?")) return;
+
       const url="/queryprod/new"
-      if(article=="" || description=="") return;
-
-
       formData.append('article', article);
       formData.append('description', description);
       formData.append('dhf', dhf);

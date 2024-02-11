@@ -47,3 +47,4 @@ document.querySelector("#manualdownload").addEventListener('click',()=>{
                         .catch(error => alert("The Document you are looking for does not exists"));
                     });
 
+
