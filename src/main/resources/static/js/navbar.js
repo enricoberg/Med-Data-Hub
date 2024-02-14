@@ -29,13 +29,13 @@ function test(){
 	});
 }
 $(document).ready(function(){
-	setTimeout(function(){ test(); },500);
+	setTimeout(function(){ test(); },800);
 });
 $(window).on('resize', function(){
-	setTimeout(function(){ test(); }, 500);
+	setTimeout(function(){ test(); }, 800);
 });
 $(".navbar-toggler").click(function(){
-	$(".navbar-collapse").slideToggle(450);
+	$(".navbar-collapse").slideToggle(750);
 	setTimeout(function(){ test(); });
 });
 
