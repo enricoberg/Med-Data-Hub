@@ -61,6 +61,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user").hasAnyAuthority("USER")
                         .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/querydocs/getnextrev").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/queryprod").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")

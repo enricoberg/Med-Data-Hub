@@ -72,10 +72,29 @@ public class DocumentController {
 
     }
 
-    @GetMapping("/description")
-    public List<Document> getDescriptionDocuments() {
-        return documentRepository.findByArticlenumberContaining("162");
-        //return documentRepository.findAll();
+    @GetMapping("/getnextrev")
+    public String getDescriptionDocuments(@RequestParam("article") String article,
+                                          @RequestParam("type") String documenttype
+                                          ) {
+        Document.DocumentType actualtype = null;
+        if (documenttype.equals("internal")) actualtype= Document.DocumentType.InternalSpecification;
+        else if (documenttype.equals("supplier")) actualtype= Document.DocumentType.SupplierSpecification;
+        else if (documenttype.equals("wi")) actualtype= Document.DocumentType.WI;
+
+        //THIS CALL IS USED WHEN GENERATING A NEW DOC TO AUTOMATICALLY TO LOAD THE CORRECT REVISION
+        try {
+            Component comp= componentRepository.findByCompid(article);
+            Document latestspec = documentRepository.findByArticlenumberAndActiveAndDocumenttype(comp, true, actualtype);
+            String latestrev = latestspec.getRevision();
+            int charValue = latestrev.charAt(0);
+            String next = String.valueOf((char) (charValue + 1));
+            return next;
+        }
+        catch(Exception e){
+            return "A";
+        }
+
+
     }
 
     @PostMapping("/new")
@@ -144,4 +163,7 @@ public class DocumentController {
     private String getStringValue(Object value) {
         return (value != null) ? value.toString() : null;
     }
+
+
+
 }

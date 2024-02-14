@@ -116,7 +116,7 @@ async function updateSuppliersTable(totalcolumns){
 
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
-
+            const check1= obj.contact==null ? "No contact information" : obj.contact
             document.querySelector(".grid-container").innerHTML+=
         `
         <div class="grid-item ">${obj.supplier_name}</div>

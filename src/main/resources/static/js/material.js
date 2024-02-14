@@ -172,8 +172,8 @@ async function updateMaterialsTable(totalcolumns){
 
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
-        let checknull1= obj.family==null ? "" : obj.family;
-        let checknull2= obj.plasticizer==null ? "" : obj.plasticizer;
+        let checknull1= obj.family==null ? "&#10007;" : obj.family;
+        let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
             document.querySelector(".grid-container").innerHTML+=
         `
 

@@ -14,7 +14,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     List<Document> findByArticlenumberContaining(String searchString);
     List<Document> findByRevisionContainingAndArticlenumberContaining(String revision, String articlenumber);
 
-    Document findByArticlenumberAndActive(Component article, boolean active);
+    Document findByArticlenumberAndActiveAndDocumenttype(Component article, boolean active, Document.DocumentType documenttype);
 
 
     List<Document> findByRevisionContainingAndArticlenumberContainingAndActive(String revision, String articlenumber, boolean active);
@@ -39,6 +39,20 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
             "ON d.article_number = p.id  \n" +
             "where d.assembly=TRUE;",nativeQuery = true)
     List<Object[]>  getDocumentViews();
+
+
+    @Query(value="select c.comp_id, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
+            "from documents d JOIN components c\n" +
+            "ON d.article_number = c.id  \n" +
+            "where d.assembly=FALSE AND d.active=true\n" +
+            "UNION\n" +
+            "select p.code, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
+            "from documents d JOIN products p\n" +
+            "ON d.article_number = p.id  \n" +
+            "where d.assembly=TRUE AND d.active=true;",nativeQuery = true)
+    List<Object[]>  getActiveDocumentViews();
+
+
 
 
 }

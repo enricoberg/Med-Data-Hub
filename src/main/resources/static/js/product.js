@@ -29,7 +29,7 @@ function renderproducts(){
 
             <div class=" pl-2 pt-4 ">
                                 <span >Family of the product: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" >
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" id="familyinput">
                                     <option value="AV" selected>A/V SYSTEMS</option>
                                     <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
                                     <option value="EC" >EMPTY CONTAINERS</option>
@@ -45,17 +45,17 @@ function renderproducts(){
                                     <option value="all" selected>See All</option>
                                   </select>
                                   <span class="ml-3">SAP STATUS: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapstatusinput">
-                                    <option value="M1V1" selected>M1/V1</option>
-                                    <option value="M2V1" >M2/V1</option>
-                                    <option value="M2V2" >M2/V2</option>
-                                    <option value="M3V3" >M3/V3</option>
-                                    <option value="M4V4" >M4/V4</option>
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapstatusinput" id="sapstatusinput">
+                                    <option value="M1V1" selected>M1V1 (planning stage)</option>
+                                    <option value="M2V1" >M2V1 (active, planning stage)</option>
+                                    <option value="M2V2" >M2V2 (active, free for sale)</option>
+                                    <option value="M3V3" >M3V3 (discontinued line)</option>
+                                    <option value="M4V4" >M4V4 (end of life, not saleable)</option>
                                     <option value="all" selected >See All</option>
 
                                   </select>
                                   <span class="ml-3">Sterilization Method: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput">
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput">
                                     <option value="S1XETO21" selected>1 x ETO 21</option>
                                     <option value="S2XETO21" >2 x ETO 21</option>
                                     <option value="S1XETO22" >1 x ETO 22</option>
@@ -193,32 +193,33 @@ async function updateProductsTable(totalcolumns){
 
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
-        const check1= obj.intercompany==true ? "&#10003;" : "";
-        const check2= obj.semifinished==true ? "&#10003;" : "";
-        const check3= obj.dhf!=null ? obj.dhf : "";
-        const check4= obj.rmf!=null ? obj.rmf : "";
-        const check5= obj.budi!=null ? obj.budi : "";
-        const check6= obj.sterilizationsite!=null ? obj.sterilizationsite : "";
-        const check7= obj.shelflife!=null ? obj.shelflife : "";
+        const check1= obj.intercompany==true ? "&#10003;" : "&#10007;";
+        const check2= obj.semifinished==true ? "&#10003;" : "&#10007;";
+        const check3= obj.dhf!=null ? obj.dhf : "&#10007;";
+        const check4= obj.rmf!=null ? obj.rmf : "&#10007;";
+        const check5= obj.budi!=null ? obj.budi : "&#10007;";
+        const check6= obj.sterilizationsite!=null ? obj.sterilizationsite : "&#10007;";
+        const check7= obj.shelflife!=null ? obj.shelflife+" months" : "";
+        
             document.querySelector(".grid-container").innerHTML+=
         `
 
-        <div class="grid-item ">${obj.code}</div>
+        <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
         <div class="grid-item ">${obj.description}</div>
-        <div class="grid-item ">${obj.sapstatus}</div>
-        <div class="grid-item ">${obj.family}</div>
+        <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
+        <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
         <div class="grid-item ">${check1}</div>
         <div class="grid-item ">${check2}</div>
         <div class="grid-item ">${check3}</div>
         <div class="grid-item ">${check4}</div>
         <div class="grid-item ">${check5}</div>
-        <div class="grid-item ">${obj.sterilizationcycle}</div>
+        <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
         <div class="grid-item ">${check6}</div>
         <div class="grid-item ">${check7}</div>
         <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
         `;});
 
-
+        listenForDownloads();
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
         //SHOW THE TABLE
@@ -234,4 +235,27 @@ async function updateProductsTable(totalcolumns){
 }
 
 
-
+function getExtendedFamily(family) {
+    let selectElement = document.querySelector("#familyinput")
+    let options = selectElement.options;    
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === family) return options[i].textContent;        
+    }    
+    return "";
+}
+function getExtendedSapStatus(status) {
+    let selectElement = document.querySelector("#sapstatusinput")
+    let options = selectElement.options;    
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === status) return options[i].textContent;        
+    }    
+    return "";
+}
+function getExtendedSteriMethod(method) {
+    let selectElement = document.querySelector("#sterimethodinput")
+    let options = selectElement.options;    
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === method) return options[i].textContent;        
+    }    
+    return "";
+}

@@ -32,7 +32,7 @@ function rendercomponents(){
         </div>
         <div class="form-group ">
         <label for="family" class="control-label">Component Family </label>
-            <select id="family" class="form-select form-select-sm selectcontrol" name="family">
+            <select id="family" class="form-select form-select-sm selectcontrol compfamilyinput" name="family" >
                 <option value="MATERIALS" selected>Raw materials</option>
                 <option value="CAPS">Caps</option>
                 <option value="CONNECTORS" selected>Connectors</option>
@@ -218,16 +218,16 @@ async function updateComponentsTable(totalcolumns){
 
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
-        const check1= obj.intercompany==true ? "&#10003;" : ""
-        const check2= obj.family==null ? "" : obj.family
-        const check3= obj.packagingmaterial==true ? "&#10003;" : ""
-        const check4= obj.contact==true ? "&#10003;" : ""
-        const check5= obj.ca65==true ? "&#10003;" : ""
-        const check6= obj.baimold==true ? "&#10003;" : ""
-        const check7= obj.standard==null ? "" : obj.standard
+        const check1= obj.intercompany==true ? "&#10003;" : "&#10007;"
+        const check2= obj.family==null ? "&#10007;" :getExtendedCompFamily(obj.family)
+        const check3= obj.packagingmaterial==true ? "&#10003;" : "&#10007;"
+        const check4= obj.contact==true ? "&#10003;" : "&#10007;"
+        const check5= obj.ca65==true ? "&#10003;" : "&#10007;"
+        const check6= obj.baimold==true ? "&#10003;" : "&#10007;"
+        const check7= obj.standard==null ? "&#10007;" : obj.standard
             document.querySelector(".grid-container").innerHTML+=
         `
-        <div class="grid-item ">${obj.comp_id}</div>
+        <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.comp_id}">${obj.comp_id}</a></div>
         <div class="grid-item ">${obj.description}</div>
         <div class="grid-item ">${check1}</div>
         <div class="grid-item ">${check2}</div>
@@ -239,7 +239,7 @@ async function updateComponentsTable(totalcolumns){
         <div class="grid-item "><a href="#" onclick="renderconfigurations('${obj.comp_id}')">See configurations</a></div>
         `;
         });
-
+        listenForDownloads();
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
         //SHOW THE TABLE
@@ -256,3 +256,11 @@ async function updateComponentsTable(totalcolumns){
 
 
 
+function getExtendedCompFamily(family) {
+    let selectElement = document.querySelector(".compfamilyinput")
+    let options = selectElement.options;    
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === family) return options[i].textContent;        
+    }    
+    return "";
+}

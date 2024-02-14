@@ -91,7 +91,14 @@ async function rendernewdocuments(){
                                          </form>
                                    </div>
                                </div>`;
-                          
+            document.querySelector("#articleinput").addEventListener("change",getLatestRev);
+            document.querySelector("#activeinput").addEventListener("change",getLatestRev);
+            document.querySelector("#typeinternal").addEventListener("change",getLatestRev);
+            document.querySelector("#typesupplier").addEventListener("change",getLatestRev);
+            document.querySelector("#typewi").addEventListener("change",getLatestRev);
+            document.querySelector("#articleinput").addEventListener("input",()=>{
+             document.querySelector("#articleinput").value=document.querySelector("#articleinput").value.toUpperCase();
+             });
     
     }
 
@@ -173,5 +180,31 @@ async function rendernewdocuments(){
 
       
 
+
+    }
+
+    function getLatestRev(){
+
+    if(!document.querySelector("#activeinput").checked) return;
+    let article=document.querySelector("#articleinput").value;
+                    let docutype="";
+                    if (document.querySelector("#typeinternal").checked) docutype="internal";
+                    else if (document.querySelector("#typesupplier").checked) docutype="supplier";
+                    else if (document.querySelector("#typewi").checked) docutype="wi";
+                    fetch(`/querydocs/getnextrev?article=${article}&type=${docutype}`,{
+                                                method: 'GET',
+                                                headers: {'Authorization': authenticationheader() }})
+                    .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error('Network response was not ok: ' + response.statusText);
+                                                }
+                                                return response.text();
+                                            })
+                    .then(data => {
+                                                document.querySelector("#revinput").value=data;
+                                            })
+                    .catch(error => {
+                                                console.error('Error retrieving latest revision:', error);
+                                            });
 
     }
