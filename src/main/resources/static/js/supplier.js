@@ -16,6 +16,8 @@ function rendersuppliers(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="add_button invisible" onclick="rendernewsuppliers()"><i class="fa-regular fa-square-plus"></i>Create new</div>
+    <div class="csvbutton" onclick="downloadFile()"><img class="btnsmall" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
+    <div class="clipboardbutton" onclick="copyTableToClipboard()"><img class="btnsmall" src="https://i.postimg.cc/RCR57cMS/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
             <input type="text" class="form-control documentcontrol" placeholder="Supplier Name" name="nameinput" >

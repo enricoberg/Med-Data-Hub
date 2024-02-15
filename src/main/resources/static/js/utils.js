@@ -135,8 +135,7 @@ function extractDataFromTable(){
   let totalelements=document.querySelectorAll(".grid-item").length;
   let elements=document.querySelectorAll(".grid-item");
   let csv_content="";
-  let counter=0;
-  console.log(totalelements)
+  let counter=0;  
   for (let i=0;i<totalelements;i++){    
       try{
           csv_content+=elements[i].getElementsByTagName("a")[0].innerHTML; 
@@ -158,12 +157,11 @@ function extractDataFromTable(){
 }
 
 
-async function copyTableToClipboard() {
-  console.log("COPY")
+async function copyTableToClipboard() {  
   let text=extractDataFromTable();
   try {
       await navigator.clipboard.writeText(text);
-      alert("Content Copied!");
+      
   } catch (err) {
       alert("Error copying to clipboard");
   }

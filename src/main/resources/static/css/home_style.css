@@ -127,3 +127,18 @@
 .addheader:hover{
     color:white;
 }
+
+.btnsmall{
+    width:25px;
+    cursor: pointer;
+}
+.csvbutton{
+    position: absolute;
+    bottom: 44px;
+    right:5px;
+}
+.clipboardbutton{
+    position: absolute;
+    bottom: 44px;
+    right:40px;
+}
