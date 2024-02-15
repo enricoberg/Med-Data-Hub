@@ -130,3 +130,53 @@ function sendRefresh(){
                document.cookie = `refresh=${data.refreshToken}`; } )
             .catch(error => { console.log("Error refreshing token");})
 }
+function extractDataFromTable(){
+  let totalcolumns=document.querySelectorAll(".tableheader").length;
+  let totalelements=document.querySelectorAll(".grid-item").length;
+  let elements=document.querySelectorAll(".grid-item");
+  let csv_content="";
+  let counter=0;
+  console.log(totalelements)
+  for (let i=0;i<totalelements;i++){    
+      try{
+          csv_content+=elements[i].getElementsByTagName("a")[0].innerHTML; 
+      }
+      catch{
+          csv_content+=elements[i].innerHTML;
+      }
+      
+      csv_content+=";";
+      counter+=1;
+      if(counter==totalcolumns){
+          csv_content+="\n";
+          counter=0;
+      }
+
+
+  }
+  return csv_content;
+}
+
+
+async function copyTableToClipboard() {
+  console.log("COPY")
+  let text=extractDataFromTable();
+  try {
+      await navigator.clipboard.writeText(text);
+      alert("Content Copied!");
+  } catch (err) {
+      alert("Error copying to clipboard");
+  }
+}
+
+function downloadFile() {
+  let csvData = extractDataFromTable();     
+  let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csvData);
+  let fileName = "export.csv";
+  let aLink = document.createElement('a');
+  aLink.download = fileName;
+  aLink.href = urlData;
+  let event = new MouseEvent('click');
+  aLink.dispatchEvent(event);
+  
+}
