@@ -12,7 +12,10 @@ function renderconfigurations(article){
     document.body.insertBefore(newTitle, referenceElement);
     newTitle.classList.add("bomtitle");
     newTitle.innerHTML=`<div>${article} List of Configurations - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a></div>
-    <div class="mt-3"><a href="#" onclick="rendernewconf('${article}');" class="addheader invisible">ADD NEW CONFIGURATIONS</a></div>`;
+    <div class="mt-3" style="position:relative;"><a href="#" onclick="rendernewconf('${article}');" class="addheader invisible">ADD NEW CONFIGURATIONS</a>
+    <div class="csvbutton" onclick="downloadFile()"><img class="btnsmall" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
+    <div class="clipboardbutton" onclick="copyTableToClipboard()"><img class="btnsmall" src="https://i.postimg.cc/RCR57cMS/copy.png"></img></div>
+    </div>`;
     updateConfigurationsTable(totalcolumns,article);
 
     }
