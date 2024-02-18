@@ -157,17 +157,15 @@ function extractDataFromTable(){
 }
 
 
-async function copyTableToClipboard() {  
-  let text=extractDataFromTable();
-  try {
-      await navigator.clipboard.writeText(text);
-      
-  } catch (err) {
-      alert("Error copying to clipboard");
-  }
-}
 
 function downloadFile() {
+  const b=document.querySelector(".csvbutton");
+  b.classList.add("rotating");
+  b.setAttribute("title","");
+  setTimeout(()=>{
+    b.classList.remove("rotating");
+    b.setAttribute("title","Download CSV File");
+},2000);
   let csvData = extractDataFromTable();     
   let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csvData);
   let fileName = "export.csv";
@@ -177,4 +175,53 @@ function downloadFile() {
   let event = new MouseEvent('click');
   aLink.dispatchEvent(event);
   
+}
+async function copyTableToClipboard() {  
+  try{
+    let text=extractDataFromTable();
+    text=text.replace(/;/g,'\t');
+    copyTextToClipboard(text);
+    const b=document.querySelector(".clipboardbutton");
+    b.classList.add("rotating");
+    b.setAttribute("title","");
+    setTimeout(()=>{b.classList.remove("rotating");
+                    b.setAttribute("title","Copy to clipboard");
+  },2000);
+  }
+  catch(err){
+    console.log(err);
+  }
+
+
+
+
+}
+function fallbackCopyTextToClipboard(text) {
+  let textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    let successful = document.execCommand('copy');
+    let msg = successful ? 'successful' : 'unsuccessful';    
+  } catch (err) {
+    ;
+  }
+
+  document.body.removeChild(textArea);
+}
+function copyTextToClipboard(text) {
+  if (!navigator.clipboard) {
+    fallbackCopyTextToClipboard(text);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(function() {    
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
 }

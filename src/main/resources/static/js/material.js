@@ -16,8 +16,8 @@ function rendermaterials(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="add_button invisible" onclick="rendernewmaterials()"><i class="fa-regular fa-square-plus"></i>Create new</div>
-    <div class="csvbutton" onclick="downloadFile()"><img class="btnsmall" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
-    <div class="clipboardbutton" onclick="copyTableToClipboard()"><img class="btnsmall" src="https://i.postimg.cc/RCR57cMS/copy.png"></img></div>
+    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
+    <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
             <input type="text" class="form-control documentcontrol" placeholder="Brand Name" name="brandinput" >

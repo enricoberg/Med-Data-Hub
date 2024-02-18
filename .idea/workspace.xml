@@ -10,16 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Changed style of user menu">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_doc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/bom.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/material.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/supplier.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/supplier.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

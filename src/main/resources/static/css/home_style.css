@@ -142,3 +142,31 @@
     bottom: 44px;
     right:40px;
 }
+
+.rotating{
+    animation: rotation 1s 2 ease-out;
+  }
+  
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  
+
+.hover-message:hover::after {
+    content: attr(title);
+    position: absolute;
+    background-color: #0d6efd;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
