@@ -5,6 +5,8 @@ public class BomRequest {
     private String um;
     private float qty;
     private Integer compid;
+
+    private boolean assembly;
     private Integer prodid;
 
 
@@ -38,5 +40,13 @@ public class BomRequest {
 
     public void setProdid(Integer prodid) {
         this.prodid = prodid;
+    }
+
+    public boolean isAssembly() {
+        return assembly;
+    }
+
+    public void setAssembly(boolean assembly) {
+        this.assembly = assembly;
     }
 }

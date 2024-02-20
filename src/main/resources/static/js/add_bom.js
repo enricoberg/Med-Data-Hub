@@ -30,9 +30,9 @@ function rendernewbom(product_id){
                             <span class="ml-5">Component article number: </span>
                             
 
-                            
+
                             <input list="articleinput" style="width:200px; height: 36px; display:inline-block;" class="mr-2" id="artinput">
-                            <datalist id="articleinput" class="datalistcomponents">                            
+                            <datalist id="articleinput" class="datalistcomponents">
                             </datalist>
 
 

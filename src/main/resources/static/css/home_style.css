@@ -170,3 +170,12 @@
     transform: translateX(-50%);
     white-space: nowrap;
 }
+.suggestionbox{
+    background-color:blue;
+    color: white;
+    position: absolute;
+    top:25px;
+}
+.inputcont{
+    position:relative;
+}

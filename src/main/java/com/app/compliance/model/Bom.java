@@ -8,6 +8,14 @@ import jakarta.persistence.*;
 public class Bom {
 
 
+    public boolean isAssembly() {
+        return assembly;
+    }
+
+    public void setAssembly(boolean assembly) {
+        this.assembly = assembly;
+    }
+
     public enum UnitMeasure{
         CM,KG,M,M2,PAC,PZ
     }
@@ -22,9 +30,15 @@ public class Bom {
     private Product prodid;
 
 
-    @ManyToOne
-    @JoinColumn(name= "componentid", referencedColumnName = "id", nullable = false)
-    private Component compid;
+//    @ManyToOne
+//    @JoinColumn(name= "componentid", referencedColumnName = "id", nullable = false)
+//    private Component compid;
+
+
+    private boolean assembly;
+
+    @Column(nullable = false, name="componentid")
+    private Integer compid;
 
     @Column(nullable = false)
     private float qty;
@@ -49,13 +63,7 @@ public class Bom {
         this.prodid = prodid;
     }
 
-    public Component getCompid() {
-        return compid;
-    }
 
-    public void setCompid(Component compid) {
-        this.compid = compid;
-    }
 
     public float getQty() {
         return qty;
@@ -74,4 +82,11 @@ public class Bom {
     }
 
 
+    public Integer getCompid() {
+        return compid;
+    }
+
+    public void setCompid(Integer compid) {
+        this.compid = compid;
+    }
 }

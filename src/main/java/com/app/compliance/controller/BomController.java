@@ -42,7 +42,6 @@ public class BomController {
     @GetMapping("/")
     public List<BomView> getAllBomsFiltered(
             @RequestParam(required = false) Integer article
-
     ) {
 
         List<Bom> notPertaining = new ArrayList<>();
@@ -60,8 +59,18 @@ public class BomController {
 
         List<BomView> bomViews = new ArrayList<BomView>();
         for (Bom result : results) {
-            String description = result.getCompid().getDescription();
-            bomViews.add(new BomView(result.getCompid().getComp_id(), description, result.getQty(), result.getUm()));
+            Integer compid=result.getCompid();
+            String description="";
+            String articlename="";
+            if(result.isAssembly()) {
+                description=productRepository.findById(compid).get().getDescription();
+                articlename= productRepository.findById(compid).get().getCode();
+            }
+            else {
+                description=componentRepository.findById(compid).get().getDescription();
+                articlename= componentRepository.findById(compid).get().getComp_id();
+            }
+            bomViews.add(new BomView(articlename, description, result.getQty(), result.getUm()));
         }
         return bomViews;
     }
@@ -75,15 +84,17 @@ public class BomController {
         try {
             for (BomRequest obj : bomObjects) {
                 Optional<Product> opt_product = productRepository.findById(obj.getProdid());
+
+                if(!componentRepository.existsById(obj.getCompid())) throw new Exception("No component retrieved");
+                if(!productRepository.existsById(obj.getCompid())) throw new Exception("No product retrieved");
                 Optional<Component> opt_component = componentRepository.findById(obj.getCompid());
-                if (!opt_product.isPresent()) throw new Exception("No product retrieved");
-                if (!opt_component.isPresent()) throw new Exception("No component retrieved");
                 Product product = opt_product.get();
-                Component component = opt_component.get();
+
                 Bom.UnitMeasure um = Bom.UnitMeasure.valueOf(obj.getUm());
                 float qty = obj.getQty();
                 Bom bomline = new Bom();
-                bomline.setCompid(component);
+                bomline.setCompid(obj.getCompid());
+                bomline.setAssembly(obj.isAssembly());
                 bomline.setProdid(product);
                 bomline.setQty(qty);
                 bomline.setUm(um);
