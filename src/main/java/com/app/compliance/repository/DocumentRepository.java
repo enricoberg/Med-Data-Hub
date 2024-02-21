@@ -11,56 +11,47 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
-    List<Document> findByArticlenumberContaining(String searchString);
-    List<Document> findByRevisionContainingAndArticlenumberContaining(String revision, String articlenumber);
+//    List<Document> findByArticlenumberContaining(String searchString);
+//    List<Document> findByRevisionContainingAndArticlenumberContaining(String revision, String articlenumber);
 
-    Document findByArticlenumberAndActiveAndDocumenttype(Component article, boolean active, Document.DocumentType documenttype);
-
-
-    List<Document> findByRevisionContainingAndArticlenumberContainingAndActive(String revision, String articlenumber, boolean active);
-
-//    @Query(value="SELECT c.comp_id,c.description, d.revision, d.document_type, d.ppc " +
-//            "FROM documents AS d " +
-//            "JOIN components AS c ON d.article_number = c.id;", nativeQuery = true)
-//    List<Object[]>  getDocumentViews();
+    Document findByArticlecodeAndActiveAndDocumenttype(String article, boolean active, Document.DocumentType documenttype);
 
 
-//    @Query("select c.comp_id, c.description, d.revision, d.documenttype, d.ppc, d.active from Document d JOIN d.articlenumber c where d.assembly=false")
-//    List<Object[]>  getDocumentViews();
+
 
 
     @Query(value="select c.comp_id, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
             "from documents d JOIN components c\n" +
-            "ON d.article_number = c.id  \n" +
+            "ON d.articlecode = c.comp_id  \n" +
             "where d.assembly=FALSE\n" +
             "UNION\n" +
             "select p.code, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
             "from documents d JOIN products p\n" +
-            "ON d.article_number = p.id  \n" +
+            "ON d.articlecode = p.code  \n" +
             "where d.assembly=TRUE;",nativeQuery = true)
     List<Object[]>  getDocumentViews();
 
 
     @Query(value="select c.comp_id, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
             "from documents d JOIN components c\n" +
-            "ON d.article_number = c.id  \n" +
+            "ON d.articlecode = c.comp_id  \n" +
             "where d.assembly=FALSE AND d.active=true\n" +
             "UNION\n" +
             "select p.code, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
             "from documents d JOIN products p\n" +
-            "ON d.article_number = p.id  \n" +
+            "ON d.articlecode = p.code  \n" +
             "where d.assembly=TRUE AND d.active=true;",nativeQuery = true)
     List<Object[]>  getActiveDocumentViews();
 
 
     @Query(value="select c.comp_id, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
         "from documents d JOIN components c\n" +
-        "ON d.article_number = c.id  \n" +
+        "ON d.articlecode = c.comp_id  \n" +
         "where d.assembly=FALSE AND d.active=true\n AND d.document_type='InternalSpecification' AND c.comp_id=?1\n" +
         "UNION\n" +
         "select p.code, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
         "from documents d JOIN products p\n" +
-        "ON d.article_number = p.id  \n" +
+        "ON d.articlecode = p.code  \n" +
         "where d.assembly=TRUE AND d.active=true AND d.document_type='InternalSpecification' AND p.code=?1", nativeQuery = true)
     List<Object[]> getActiveSpec(String article);
 

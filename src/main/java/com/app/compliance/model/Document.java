@@ -7,7 +7,13 @@ import jakarta.persistence.*;
 public class Document {
 
 
+    public String getArticlecode() {
+        return articlecode;
+    }
 
+    public void setArticlecode(String articlecode) {
+        this.articlecode = articlecode;
+    }
 
     public enum DocumentType {
         InternalSpecification, SupplierSpecification, WI
@@ -40,11 +46,12 @@ public class Document {
     @Column(length = 10)
     private String ppc;
 
-    @ManyToOne
-    @JoinColumn(name= "article_number", referencedColumnName = "id")
-    private Component articlenumber;
+//    @ManyToOne
+//    @JoinColumn(name= "article_number", referencedColumnName = "id")
+//    private Component articlenumber;
 
-
+    @Column(nullable = false)
+    private String articlecode;
 
 
 
@@ -101,12 +108,12 @@ public class Document {
         this.assembly = assembly;
     }
 
-    public Component getArticlenumber() {
-        return articlenumber;
-    }
-
-    public void setArticlenumber(Component articlenumber) {
-        this.articlenumber = articlenumber;
-    }
+//    public Component getArticlenumber() {
+//        return articlenumber;
+//    }
+//
+//    public void setArticlenumber(Component articlenumber) {
+//        this.articlenumber = articlenumber;
+//    }
 
 }

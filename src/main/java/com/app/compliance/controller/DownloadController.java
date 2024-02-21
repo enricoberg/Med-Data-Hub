@@ -74,7 +74,7 @@ public class DownloadController {
             }
 
         String filename= article + "_" + revision +"_INTERNALSPECIFICATION";
-        System.out.println(filename);
+
         File file = new File(SERVER_LOCATION + File.separator + filename + EXTENSION);
 
         if (!file.exists()) throw new IOException("Document not found");

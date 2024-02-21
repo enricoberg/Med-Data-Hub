@@ -52,7 +52,9 @@ public class DocumentController {
         //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
         List<Object[]> resultobjects = documentRepository.getDocumentViews();
+        System.out.println(resultobjects.size());
         List<DocumentView> alldocs = getDocumentViews((resultobjects));
+        System.out.println(alldocs.size());
         for (DocumentView doc : alldocs) {
             if(active && !doc.isActive()) toRemove.add(doc);
             else if (doc.getDocumentType().equals("WI") && !wi) toRemove.add(doc);
@@ -83,8 +85,8 @@ public class DocumentController {
 
         //THIS CALL IS USED WHEN GENERATING A NEW DOC TO AUTOMATICALLY TO LOAD THE CORRECT REVISION
         try {
-            Component comp= componentRepository.findByCompid(article);
-            Document latestspec = documentRepository.findByArticlenumberAndActiveAndDocumenttype(comp, true, actualtype);
+//            Component comp= componentRepository.findByCompid(article);
+            Document latestspec = documentRepository.findByArticlecodeAndActiveAndDocumenttype(article, true, actualtype);
             String latestrev = latestspec.getRevision();
             int charValue = latestrev.charAt(0);
             String next = String.valueOf((char) (charValue + 1));
@@ -119,9 +121,10 @@ public class DocumentController {
             document.setActive(active);
             document.setAssembly(assembly);
             document.setPpc(ppc);
-            Component component = new Component();
-            component=componentRepository.findByCompid(article);
-            document.setArticlenumber(component);
+//            Component component = new Component();
+//            component=componentRepository.findByCompid(article);
+//            document.setArticlenumber(component);
+            document.setArticlecode(article);
             //Save the file with the correct name and path
             try {
                 documentRepository.save(document);
@@ -149,12 +152,18 @@ public class DocumentController {
 
         List<DocumentView> documentViews = new ArrayList<DocumentView>();
         for (Object[] result : results) {
+
+
+
             String id = getStringValue(result[0]);
             String description = getStringValue(result[1]);
             String revision = getStringValue(result[2]);
             String documentType = getStringValue(result[3]);
             String ppc = getStringValue(result[4]);
             boolean active= (boolean) result[5];
+
+
+
 
             documentViews.add(new DocumentView(id, description, revision, documentType, ppc, active));
         }
