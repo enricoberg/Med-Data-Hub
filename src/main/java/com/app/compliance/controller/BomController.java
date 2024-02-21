@@ -39,6 +39,7 @@ public class BomController {
     private final ProductRepository productRepository;
 
 
+
     @GetMapping("/")
     public List<BomView> getAllBomsFiltered(
             @RequestParam(required = false) Integer article
@@ -81,12 +82,18 @@ public class BomController {
 
     @PostMapping("/new")
     public ResponseEntity<String> createNewBomItem(@RequestBody BomRequest[] bomObjects) {
-        try {
-            for (BomRequest obj : bomObjects) {
-                Optional<Product> opt_product = productRepository.findById(obj.getProdid());
 
+        try {
+
+            for (BomRequest obj : bomObjects) {
+
+                Optional<Product> opt_product = productRepository.findById(obj.getProdid());
+                Optional<Bom> bom = bomRepository.findByProdidAndCompid(opt_product.get(), obj.getCompid());
+
+                if(bom.isPresent()) throw new Exception("Component already present in the bom");
                 if(!componentRepository.existsById(obj.getCompid())) throw new Exception("No component retrieved");
-                if(!productRepository.existsById(obj.getCompid())) throw new Exception("No product retrieved");
+                if(!productRepository.existsById(obj.getProdid())) throw new Exception("No product retrieved");
+
                 Optional<Component> opt_component = componentRepository.findById(obj.getCompid());
                 Product product = opt_product.get();
 
@@ -98,10 +105,13 @@ public class BomController {
                 bomline.setProdid(product);
                 bomline.setQty(qty);
                 bomline.setUm(um);
+
                 bomRepository.save(bomline);
+
             }
 
         } catch (Exception e) {
+
             return ResponseEntity.status(500).body("Failed to save the bom");
         }
         return ResponseEntity.ok("New bom created successfully!");

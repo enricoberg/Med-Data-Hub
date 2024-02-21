@@ -21,19 +21,21 @@ public class Configuration {
     @Column(name = "sup_comp_nr", nullable = false, unique = true)
     private String suppliercompnumber;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "configuration_material",
-            joinColumns = @JoinColumn(name = "configuration_id"),
-            inverseJoinColumns = @JoinColumn(name = "material_id")
-    )
-    @JsonManagedReference
-    private Set<Material> materials;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "configuration_material",
+//            joinColumns = @JoinColumn(name = "configuration_id"),
+//            inverseJoinColumns = @JoinColumn(name = "material_id")
+//    )
+//    private Set<Material> materials;
 
-    @ManyToOne
-    @JoinColumn(name="component_id")
-    @JsonBackReference
-    private Component component;
+//    @ManyToOne
+//    @JoinColumn(name="component_id")
+//    @JsonBackReference
+//    private Component component;
+
+    @Column(name="component_id")
+    private Integer compid;
 
     @ManyToOne
     @JoinColumn(name="supplier_id")
@@ -41,22 +43,18 @@ public class Configuration {
     private Supplier supplier;
 
 
-//    @OneToOne
-//    @JoinColumn(
-//            name = "supplier_id",
-//            referencedColumnName = "id")
-//    private Supplier supplier;
 
 
 
-    public void addMaterialById(MaterialRepository materialRepository, Integer materialId) {
-        Optional<Material> materialOptional = materialRepository.findById(materialId);
-        materialOptional.ifPresent(material -> {
-            this.getMaterials().add(material);
-            material.getConfigurations().add(this);
-            materialRepository.save(material);
-        });
-    }
+
+//    public void addMaterialById(MaterialRepository materialRepository, Integer materialId) {
+//        Optional<Material> materialOptional = materialRepository.findById(materialId);
+//        materialOptional.ifPresent(material -> {
+//            this.getMaterials().add(material);
+//            material.getConfigurations().add(this);
+//            materialRepository.save(material);
+//        });
+//    }
 
 
 
@@ -78,13 +76,7 @@ public class Configuration {
         this.suppliercompnumber = suppliercompnumber;
     }
 
-    public Set<Material> getMaterials() {
-        return materials;
-    }
 
-    public void setMaterials(Set<Material> materials) {
-        this.materials = materials;
-    }
 
 
 
@@ -96,13 +88,21 @@ public class Configuration {
         this.supplier = supplier;
     }
 
-    public Component getComponent() {
-        return component;
+    public Integer getCompid() {
+        return compid;
     }
 
-    public void setComponent(Component component) {
-        this.component = component;
+    public void setCompid(Integer compid) {
+        this.compid = compid;
     }
+
+//    public Component getComponent() {
+//        return component;
+//    }
+//
+//    public void setComponent(Component component) {
+//        this.component = component;
+//    }
 }
 
 

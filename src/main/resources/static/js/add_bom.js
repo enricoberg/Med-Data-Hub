@@ -79,8 +79,28 @@ function rendernewbom(product_id){
         })
         .then(data => {            
             data.forEach(element => {                
-                comp_options.innerHTML+=`<option value="${element.id}">${element.comp_id}</option>`;                   
+                comp_options.innerHTML+=`<option value="${element.id}" assembly="false" code="${element.comp_id}">${element.comp_id}</option>`;
             });
+            fetch('/aux/getsemifinished',{
+                        method: 'GET',
+                        headers: {'Authorization': authenticationheader() }})
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok: ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        data.forEach(element => {
+                            comp_options.innerHTML+=`<option value="${element.id}" assembly="true" code="${element.code}">${element.code}</option>`;
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error during fetch:', error);
+                    });
+
+
+
         })
         .catch(error => {            
             console.error('Error during fetch:', error);
@@ -90,6 +110,7 @@ function rendernewbom(product_id){
 
  function addElementBom(){
     let id=document.querySelector("#artinput").value;
+    let assembly=document.querySelector("#artinput").getAttribute("assembly");
     let qty=document.querySelector("#qtyinput").value;
     let um=document.querySelector("#uminput").value;
     let floatValue = parseFloat(qty);   
@@ -115,7 +136,8 @@ function rendernewbom(product_id){
             qty: qty,     
             id: id,
             description: description ,
-            article: article 
+            article: article,
+            assembly: assembly
           };
         let bom=getBom();
         bom.push(element);
@@ -196,12 +218,14 @@ function sendbomtoserver(product_id){
     bom.forEach(item => {
         //FETCH API TO ADD ROW IN THE BOM TABLE FOR EACH OBJECT IN THE LOCAL STORAGE
         requestObj.push({
-            prodid: product_id,
+            prodid: parseInt(product_id),
             compid: parseInt(item.id),
             qty: parseFloat(item.qty.replace(",", ".")),
-            um: item.um
+            um: item.um,
+            assembly: false
         });
     });
+
     fetch('/queryboms/new', {
       method: 'POST',
       headers: {
@@ -223,3 +247,7 @@ function sendbomtoserver(product_id){
 
 
 }
+
+
+
+

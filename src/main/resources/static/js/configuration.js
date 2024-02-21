@@ -53,7 +53,7 @@ async function updateConfigurationsTable(totalcolumns,article){
       }
     }
     try {
-    console.log(url)
+
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
 
@@ -79,21 +79,20 @@ async function updateConfigurationsTable(totalcolumns,article){
             return ;
         }
 
-        console.log(response.body)
+
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
-            const numberofmaterials=obj.materials.length;
-            for (let i=0;i<numberofmaterials;i++){
+
 
                 document.querySelector(".grid-container").innerHTML+=
                             `
-                            <div class="grid-item ">${obj.supplier.supplier_name}</div>
-                            <div class="grid-item ">${obj.suppliercompnumber}</div>
-                            <div class="grid-item ">${obj.materials[i].brandname}</div>
-                            <div class="grid-item ">${obj.materials[i].family}</div>
-                            <div class="grid-item ">${obj.materials[i].supplier}</div>
+                            <div class="grid-item ">${obj.supplier}</div>
+                            <div class="grid-item ">${obj.suppliercode}</div>
+                            <div class="grid-item ">${obj.brandname}</div>
+                            <div class="grid-item ">${obj.family}</div>
+                            <div class="grid-item ">${obj.materialsupplier}</div>
                             `;
-            }
+
 
             });
 

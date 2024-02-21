@@ -6,6 +6,7 @@ import java.util.Optional;
 
 
 import com.app.compliance.entities.User;
+import com.app.compliance.model.Product;
 import com.app.compliance.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/aux")
 @RequiredArgsConstructor
 public class AuxController {
+
+    @Autowired
+    private final ProductRepository productRepository;
 
     @Autowired
     private final SupplierRepository supplierRepository;
@@ -45,6 +49,11 @@ public class AuxController {
     @GetMapping("/getcomponents")
     public List<Component> getAllComponents() {
         return componentRepository.findAll();
+    }
+
+    @GetMapping("/getsemifinished")
+    public List<Product> getAllProductsSemifinished() {
+        return productRepository.findBySemifinished(true);
     }
 
     @GetMapping("/getmaterials")

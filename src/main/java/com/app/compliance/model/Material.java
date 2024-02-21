@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,13 +15,7 @@ public class Material {
 
 
 
-    public Set<Configuration> getConfigurations() {
-        return configurations;
-    }
 
-    public void setConfigurations(Set<Configuration> configurations) {
-        this.configurations = configurations;
-    }
 
     public enum MaterialFamily{
         ABS,STEEL,ACRYLIC,ADHESIVE,ADHESIVETAPE,ALUMINIUM,CARDBOARD,ADHESIVEPAPER,MEDICALPAPER,COLORANT,TPE,ETPU,FILM,HDPE,COATING,HIPS,INK,MABS,MASTERBATCH,MEMBRANE,PA,PC,LDPE,PES,PET,PETG,PMMA,PP,PPE,PRIMER,PS,PSU,PTFE,PU,PUR,PVC,PVCDEHPFREE,SAN,SEBS,SILICONE,SOLVENT,TYVEK,VARIOUS
@@ -50,10 +45,10 @@ public class Material {
     private String supplier;
 
 
-    @ManyToMany(mappedBy = "materials",
-            fetch = FetchType.EAGER)
-    @JsonBackReference
-    private Set<Configuration> configurations;
+//    @ManyToMany(mappedBy = "materials",
+//            fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    private List<Configuration> configurations;
 
 
     public Integer getId() {

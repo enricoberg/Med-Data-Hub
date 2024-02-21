@@ -16,4 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product>findByCode(String article);
 
     Optional<Product>findById(Integer id);
+
+    List<Product> findBySemifinished(boolean semifinished);
 }
