@@ -10,23 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Changed style of user menu">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/dto/ConfigView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/MaterialConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/MaterialConfigurationRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/AuxController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/BomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/BomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ConfigController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/BomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/BomRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ConfigurationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ConfigurationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/DownloadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/repository/DocumentRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/add_bom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/add_bom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/configuration.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/product.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

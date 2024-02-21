@@ -31,9 +31,8 @@ function rendernewbom(product_id){
                             
 
 
-                            <input list="articleinput" style="width:200px; height: 36px; display:inline-block;" class="mr-2" id="artinput">
-                            <datalist id="articleinput" class="datalistcomponents">
-                            </datalist>
+                            <select  style="width:200px; height: 36px; display:inline-block;" class="mr-2 datalistcomponents" id="artinput"></select>
+                            
 
 
 
@@ -79,7 +78,7 @@ function rendernewbom(product_id){
         })
         .then(data => {            
             data.forEach(element => {                
-                comp_options.innerHTML+=`<option value="${element.id}" assembly="false" code="${element.comp_id}">${element.comp_id}</option>`;
+                comp_options.innerHTML+=`<option value="${element.id}" assembly=false code="${element.comp_id}">${element.comp_id}</option>`;
             });
             fetch('/aux/getsemifinished',{
                         method: 'GET',
@@ -92,7 +91,7 @@ function rendernewbom(product_id){
                     })
                     .then(data => {
                         data.forEach(element => {
-                            comp_options.innerHTML+=`<option value="${element.id}" assembly="true" code="${element.code}">${element.code}</option>`;
+                            comp_options.innerHTML+=`<option value="${element.id}" assembly=true code="${element.code}">${element.code}</option>`;
                         });
                     })
                     .catch(error => {
@@ -110,7 +109,14 @@ function rendernewbom(product_id){
 
  function addElementBom(){
     let id=document.querySelector("#artinput").value;
-    let assembly=document.querySelector("#artinput").getAttribute("assembly");
+
+
+    let selectElement = document.getElementById('artinput');
+    let selectedIndex = selectElement.selectedIndex;
+    let selectedOption = selectElement.options[selectedIndex];
+
+    let assembly=selectedOption.getAttribute("assembly");
+    assembly = (assembly=="true")? true : false;
     let qty=document.querySelector("#qtyinput").value;
     let um=document.querySelector("#uminput").value;
     let floatValue = parseFloat(qty);   
@@ -118,37 +124,71 @@ function rendernewbom(product_id){
     if (isNaN(floatValue) || id=="")   return;
     document.querySelector("#qtyinput").value="";
     document.querySelector("#artinput").value="";
-    fetch(`/querycomp/byid?article=${id}`,{
-        method: 'GET',            
-        headers: {'Authorization': authenticationheader() }
-        })
-    .then(response => {            
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }            
-        return response.json();
-    })
-    .then(data => {            
-        let description=data.description;
-        let article=data.comp_id;   
-        let element = {
-            um: um, 
-            qty: qty,     
-            id: id,
-            description: description ,
-            article: article,
-            assembly: assembly
-          };
-        let bom=getBom();
-        bom.push(element);
-        setBom(bom); 
-        updatebombox();             
-        
-    })
-    .catch(error => {            
-        console.error('Error during fetch:', error);
-    });
 
+    if(!assembly){
+        fetch(`/querycomp/byid?article=${id}`,{
+            method: 'GET',            
+            headers: {'Authorization': authenticationheader() }
+            })
+        .then(response => {            
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }            
+            return response.json();
+        })
+        .then(data => {            
+            let description=data.description;
+            let article=data.comp_id;   
+            let element = {
+                um: um, 
+                qty: qty,     
+                id: id,
+                description: description ,
+                article: article,
+                assembly: false
+              };
+            let bom=getBom();
+            bom.push(element);
+            setBom(bom); 
+            updatebombox();             
+            
+        })
+        .catch(error => {            
+            console.error('Error during fetch:', error);
+        });
+  }
+  else{
+        fetch(`/queryprod/byidint?article=${id}`,{
+          method: 'GET',            
+          headers: {'Authorization': authenticationheader() }
+          })
+      .then(response => {            
+          if (!response.ok) {
+              throw new Error('Network response was not ok: ' + response.statusText);
+          }            
+          return response.json();
+      })
+      .then(data => {            
+          let description=data.description;
+          let article=data.code;   
+          let element = {
+              um: um, 
+              qty: qty,     
+              id: id,
+              description: description ,
+              article: article,
+              assembly: true
+            };
+          let bom=getBom();
+          bom.push(element);
+          setBom(bom); 
+          updatebombox();             
+          
+      })
+      .catch(error => {            
+          console.error('Error during fetch:', error);
+      });
+  }
  }
 
  function removeElementBom(){
@@ -222,7 +262,7 @@ function sendbomtoserver(product_id){
             compid: parseInt(item.id),
             qty: parseFloat(item.qty.replace(",", ".")),
             um: item.um,
-            assembly: false
+            assembly: item.assembly
         });
     });
 

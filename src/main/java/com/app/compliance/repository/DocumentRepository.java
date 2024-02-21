@@ -53,6 +53,16 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     List<Object[]>  getActiveDocumentViews();
 
 
+    @Query(value="select c.comp_id, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
+        "from documents d JOIN components c\n" +
+        "ON d.article_number = c.id  \n" +
+        "where d.assembly=FALSE AND d.active=true\n AND d.document_type='InternalSpecification' AND c.comp_id=?1\n" +
+        "UNION\n" +
+        "select p.code, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
+        "from documents d JOIN products p\n" +
+        "ON d.article_number = p.id  \n" +
+        "where d.assembly=TRUE AND d.active=true AND d.document_type='InternalSpecification' AND p.code=?1", nativeQuery = true)
+    List<Object[]> getActiveSpec(String article);
 
 
 }

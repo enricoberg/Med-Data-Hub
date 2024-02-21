@@ -158,4 +158,10 @@ public class ProductController {
         return Optional.empty();
     }
 
+    
+
+    @GetMapping("/byidint")
+    public Optional<Product> RetrieveProductByInteger(@RequestParam("article") Integer article) {
+        return productRepository.findById(article);
+    }
 }

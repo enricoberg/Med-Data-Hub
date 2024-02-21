@@ -1,6 +1,7 @@
 package com.app.compliance.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,17 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.compliance.model.Document;
+import com.app.compliance.repository.DocumentRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/download")
+@RequiredArgsConstructor
 public class DownloadController {
 
-    
+    @Autowired
+    private final DocumentRepository documentRepository;
 
     private static final String EXTENSION = ".pdf";
 
@@ -58,8 +67,14 @@ public class DownloadController {
     public ResponseEntity<ByteArrayResource> downloadActive(
             @RequestParam("article") String article) throws IOException {
 
+            List<Object[]> activedoc=documentRepository.getActiveSpec(article);
+            String revision="";
+            for (Object[] result : activedoc) {
+                revision = getStringValue(result[2]);
+            }
 
-        String filename="CICCIO PASTICCIO";
+        String filename= article + "_" + revision +"_INTERNALSPECIFICATION";
+        System.out.println(filename);
         File file = new File(SERVER_LOCATION + File.separator + filename + EXTENSION);
 
         if (!file.exists()) throw new IOException("Document not found");
@@ -79,5 +94,10 @@ public class DownloadController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
-    
+
+
+
+    private String getStringValue(Object value) {
+        return (value != null) ? value.toString() : null;
+    }
 }
