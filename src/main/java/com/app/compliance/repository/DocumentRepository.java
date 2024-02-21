@@ -16,7 +16,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
     Document findByArticlecodeAndActiveAndDocumenttype(String article, boolean active, Document.DocumentType documenttype);
 
-
+    List<Document> findByArticlecodeAndDocumenttype(String article, Document.DocumentType documenttype);
 
 
 

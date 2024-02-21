@@ -52,9 +52,9 @@ public class DocumentController {
         //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
         List<Object[]> resultobjects = documentRepository.getDocumentViews();
-        System.out.println(resultobjects.size());
+
         List<DocumentView> alldocs = getDocumentViews((resultobjects));
-        System.out.println(alldocs.size());
+
         for (DocumentView doc : alldocs) {
             if(active && !doc.isActive()) toRemove.add(doc);
             else if (doc.getDocumentType().equals("WI") && !wi) toRemove.add(doc);
@@ -112,21 +112,29 @@ public class DocumentController {
         if (file != null && !file.isEmpty()) {
             // Create the new Document object
             Document document = new Document();
+            Document.DocumentType convertedType = null;
             switch (type) {
-                case "internal" -> document.setDocumenttype(Document.DocumentType.InternalSpecification);
-                case "supplier" -> document.setDocumenttype(Document.DocumentType.SupplierSpecification);
-                case "wi" -> document.setDocumenttype(Document.DocumentType.WI);
+                case "internal" -> convertedType= Document.DocumentType.InternalSpecification;
+                case "supplier" -> convertedType= Document.DocumentType.SupplierSpecification;
+                case "wi" -> convertedType= Document.DocumentType.WI;
             }
-            document.setRevision(revision);
-            document.setActive(active);
-            document.setAssembly(assembly);
-            document.setPpc(ppc);
-//            Component component = new Component();
-//            component=componentRepository.findByCompid(article);
-//            document.setArticlenumber(component);
-            document.setArticlecode(article);
+
             //Save the file with the correct name and path
             try {
+                //PUT Previous revisions of the document to non-active
+                List<Document> olddocuments= documentRepository.findByArticlecodeAndDocumenttype(article, convertedType);
+                for (Document olddoc : olddocuments) {
+                    olddoc.setActive(false);
+                }
+                documentRepository.saveAll(olddocuments);
+                //Save the new document with active state
+                document.setDocumenttype(convertedType);
+                document.setRevision(revision);
+                document.setActive(active);
+                document.setAssembly(assembly);
+                document.setPpc(ppc);
+                document.setArticlecode(article);
+                //-----------------------------------------------------
                 documentRepository.save(document);
                 String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
                 String EXTENSION = ".pdf";
