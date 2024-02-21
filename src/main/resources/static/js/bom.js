@@ -73,15 +73,15 @@ function renderboms(article,id){
             }
             //POPULATE THE TABLE
             jsonResponse.forEach(obj => {
-            document.querySelector(".grid-container").innerHTML+=`
-                         <div class="grid-item ">${obj.comp_id}</div>
+            document.querySelector(".grid-container").innerHTML+=`            
+                         <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.comp_id}">${obj.comp_id}</a></div>
                          <div class="grid-item ">${obj.comp_description}</div>
                          <div class="grid-item ">${obj.qty}</div>
                          <div class="grid-item ">${obj.um}</div>
                          `;
 
             });
-
+            listenForDownloads();
             //SHOW THE TABLE
             activeCellColoring(totalcolumns);
             if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
