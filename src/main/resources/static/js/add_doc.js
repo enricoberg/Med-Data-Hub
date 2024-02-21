@@ -130,16 +130,10 @@ async function rendernewdocuments(){
             }
             //CHECK THE INSERTED ARTICLE NUMBER EXISTS AND THROW AN ERROR IF NOT
 
-            fetch(`/querycomp/byname?id=${article}`,{headers: {'Authorization': authenticationheader() }})
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                return response.text();
-              })
-              .then(data => {
-
-                  if (data=== "") {
+            
+                  const check=codeExists(article);
+                  
+                  if (!check) {
                   if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
                   errormessage.innerHTML="The article number you inserted is not present in the database";
                   return;
@@ -171,10 +165,7 @@ async function rendernewdocuments(){
                     renderspecifications();
                 })
                 .catch(error => { alert("Something went wrong with your request"); });
-                })
-                .catch(error => {
-                  console.error('There was a problem with the fetch operation:', error);
-                });
+                
 
 
 
@@ -206,5 +197,35 @@ async function rendernewdocuments(){
                     .catch(error => {
                                                 console.error('Error retrieving latest revision:', error);
                                             });
+
+    }
+
+    async function codeExists(article){
+
+      fetch(`/querycomp/byname?id=${article}`,{headers: {'Authorization': authenticationheader() }})
+      .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');                
+                return response.text();
+              })
+      .then(data => { 
+        
+        if (data!= "") return true; 
+    
+              else{
+                fetch(`/queryprod/byid?article=${article}`,{headers: {'Authorization': authenticationheader() }})
+                .then(response => {
+                          if (!response.ok) throw new Error('Network response was not ok');                
+                          return response.text();
+                        })
+                .then(data => { 
+                  
+                  if (data!= "") {return true;}
+                    return false; })
+                .catch(error => { console.log("Error searching product");});
+                  }
+    
+    
+    })
+    .catch(error => { console.log("Error searching component");});
 
     }
