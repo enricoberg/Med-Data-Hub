@@ -118,6 +118,12 @@ function rendercomponents(){
             <option value="all" selected >See All</option>             
             </select>
         </div>
+        <div class="form-group ">
+        <label for="supplierinput" class="control-label">Supplied by:</label>
+            <select id="supplierinput" class="form-select form-select-sm selectcontrol" name="supplierinput"> 
+            <option value="all" selected >See All</option>             
+            </select>
+        </div>
         </div>
 
 
@@ -136,6 +142,24 @@ function rendercomponents(){
      .then(data => {            
          data.forEach(element => {                
              mat_options.innerHTML+=`<option value="${element.id}" >${element.brandname}</option>`;                   
+         });
+     })
+     .catch(error => {            
+         console.error('Error during fetch:', error);
+     });
+     sup_options=document.querySelector("#supplierinput");
+     fetch('/aux/getsuppliers',{
+         method: 'GET',            
+         headers: {'Authorization': authenticationheader() }})
+     .then(response => {            
+         if (!response.ok) {
+             throw new Error('Network response was not ok: ' + response.statusText);
+         }            
+         return response.json();
+     })
+     .then(data => {            
+         data.forEach(element => {                
+             sup_options.innerHTML+=`<option value="${element.id}" >${element.supplier_name}</option>`;                   
          });
      })
      .catch(error => {            
@@ -199,11 +223,12 @@ async function updateComponentsTable(totalcolumns){
     let ca65=document.getElementsByName("ca65")[0].value;
     let baimold=document.getElementsByName("baimold")[0].value;
     let contains=document.getElementsByName("materialinput")[0].value;
+    let suppliedby=document.getElementsByName("supplierinput")[0].value;
 
     //SEND REQUEST TO THE REST API
 
     let url = '/querycomp/';
-    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&standard=${standard}&packaging=${packaging}&contact=${contact}&ca65=${ca65}&baimold=${baimold}&contains=${contains}`;
+    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&standard=${standard}&packaging=${packaging}&contact=${contact}&ca65=${ca65}&baimold=${baimold}&contains=${contains}&suppliedby=${suppliedby}`;
 
 
 

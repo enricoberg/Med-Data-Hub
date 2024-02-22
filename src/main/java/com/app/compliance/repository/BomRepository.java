@@ -14,5 +14,9 @@ public interface BomRepository extends JpaRepository<Bom, Integer> {
     List<Bom> findAll();
 
     Optional<Bom> findByProdidAndCompid(Product prodid, Integer compid);
+
+    List<Bom> findByCompid(Integer compid);
+
+
 //    List<Bom> findByProdid(String prodid);
 }

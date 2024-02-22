@@ -45,6 +45,18 @@ function renderdashboard(){
 
 </div>
 
+<div class="dashelement">
+    <img src="https://i.postimg.cc/tgFtLn9n/hierarchical-structure.png" alt="">
+    <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A COMPONENT</a>
+
+</div>
+
+<div class="dashelement">
+    <img src="https://i.postimg.cc/fRMf6jH4/advanced.png alt="">
+    <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A MATERIAL</a>
+
+</div>
+
 
 
 `;
