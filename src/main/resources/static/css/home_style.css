@@ -171,11 +171,84 @@
     white-space: nowrap;
 }
 .suggestionbox{
-    background-color:blue;
+    background-color:#2b2bc1;
     color: white;
     position: absolute;
     top:25px;
 }
 .inputcont{
     position:relative;
+}
+
+form.searchform{
+    margin-top:40px;
+    position: relative;
+    top: 50%;
+    left: 49%;
+    transform: translate(-50%,-50%);
+    transition: all 1s;
+    width: 50px;
+    height: 50px;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+input.searchinput{
+    color: #888888;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 20px 20px;
+    border: 1px solid #EBEDEF;
+}
+
+.fa.searchfa{
+
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42.5px;
+    height: 42.5px;
+    position: absolute;
+    top: 0;
+    right: -20px;
+    border-radius: 50%;
+    color: white;
+    background-color:#F5B041 ;
+    text-align: center;
+    font-size: 1.2em;
+    transition: all 1s;
+}
+
+form.searchform:hover,
+form.searchform:valid{
+    width: 300px;
+    cursor: pointer;
+}
+
+form.searchform:hover input.searchinput,
+form.searchform:valid input.searchinput{
+    display: block;
+}
+
+form.searchform:hover .fa.searchfa,
+form.searchform:valid .fa.searchfa{
+    background: #F5B041 ;
+    color: white;
+}
+.dash.searchable{    
+    margin-top:5px;
+}
+.thin{
+    max-height: 20px;
 }

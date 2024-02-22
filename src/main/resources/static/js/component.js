@@ -127,7 +127,7 @@ function rendercomponents(){
         </div>
 
 
-        <div class="resultbanner">~  Found 0 results  ~</div>
+        <div class="resultbanner mt-4">~  Found 0 results  ~</div>
      </form>`;
      mat_options=document.querySelector("#materialinput");
      fetch('/aux/getmaterials',{

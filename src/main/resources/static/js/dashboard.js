@@ -14,12 +14,28 @@ function renderdashboard(){
     }
     //CREATE A NEW DASHBOARD
         
-    const newDash = document.createElement("div");
+    const searchcontainer=document.createElement("div");
     const referenceElement = document.body.children[1]; 
+    document.body.insertBefore(searchcontainer, referenceElement);
+    searchcontainer.classList.add("container");
+    searchcontainer.classList.add("thin");
+    searchcontainer.innerHTML=`<form action="" class="searchform">
+    <input type="search" required class="searchinput">
+    <i class="fa fa-search searchfa"></i>
+    
+  </form>`;
+
+
+    const newDash = document.createElement("div");
+    const referenceElement2 = document.body.children[2]; 
     document.body.insertBefore(newDash, referenceElement);
     newDash.classList.add("dashboard");
     newDash.classList.add("dash");
-    newDash.innerHTML=`<div class="dashelement">
+    newDash.classList.add("searchable");
+    newDash.innerHTML=`
+    
+
+    <div class="dashelement">
     <img src="https://i.postimg.cc/J0nKNxyD/documents.png" alt="">
     <a href="#" onclick="redirectToTab('#specificationsection')">QUERY ALL RELEASED PRODUCTION DOCUMENTS</a>
 
