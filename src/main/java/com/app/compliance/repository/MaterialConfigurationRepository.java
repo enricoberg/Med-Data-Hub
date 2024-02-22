@@ -8,4 +8,6 @@ import java.util.List;
 public interface MaterialConfigurationRepository extends JpaRepository<MaterialConfiguration,Integer> {
 
     List<MaterialConfiguration> findAll();
+
+    List<MaterialConfiguration> findByMaterialidAndConfid(Integer materialid, Integer configurationid);
 }

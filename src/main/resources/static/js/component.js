@@ -112,12 +112,35 @@ function rendercomponents(){
               <option value="all" selected>See All</option>
             </select>
         </div>
+        <div class="form-group ">
+        <label for="materialinput" class="control-label">Contains Material:</label>
+            <select id="materialinput" class="form-select form-select-sm selectcontrol" name="materialinput"> 
+            <option value="all" selected >See All</option>             
+            </select>
+        </div>
         </div>
 
 
         <div class="resultbanner">~  Found 0 results  ~</div>
      </form>`;
-
+     mat_options=document.querySelector("#materialinput");
+     fetch('/aux/getmaterials',{
+         method: 'GET',            
+         headers: {'Authorization': authenticationheader() }})
+     .then(response => {            
+         if (!response.ok) {
+             throw new Error('Network response was not ok: ' + response.statusText);
+         }            
+         return response.json();
+     })
+     .then(data => {            
+         data.forEach(element => {                
+             mat_options.innerHTML+=`<option value="${element.id}" >${element.brandname}</option>`;                   
+         });
+     })
+     .catch(error => {            
+         console.error('Error during fetch:', error);
+     });
     updateComponentsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
@@ -175,11 +198,12 @@ async function updateComponentsTable(totalcolumns){
     let contact=document.getElementsByName("contact")[0].value;
     let ca65=document.getElementsByName("ca65")[0].value;
     let baimold=document.getElementsByName("baimold")[0].value;
+    let contains=document.getElementsByName("materialinput")[0].value;
 
     //SEND REQUEST TO THE REST API
 
     let url = '/querycomp/';
-    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&standard=${standard}&packaging=${packaging}&contact=${contact}&ca65=${ca65}&baimold=${baimold}`;
+    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&standard=${standard}&packaging=${packaging}&contact=${contact}&ca65=${ca65}&baimold=${baimold}&contains=${contains}`;
 
 
 

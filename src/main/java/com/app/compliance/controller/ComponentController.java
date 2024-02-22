@@ -1,10 +1,11 @@
 package com.app.compliance.controller;
 
 import com.app.compliance.dto.DocumentView;
-import com.app.compliance.model.Component;
-import com.app.compliance.model.Document;
-import com.app.compliance.model.Product;
+import com.app.compliance.model.*;
 import com.app.compliance.repository.ComponentRepository;
+import com.app.compliance.repository.ConfigurationRepository;
+import com.app.compliance.repository.MaterialConfigurationRepository;
+import com.app.compliance.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,15 @@ public class ComponentController {
     @Autowired
     private final ComponentRepository componentRepository;
 
+    @Autowired
+    private final MaterialRepository materialRepository;
+
+    @Autowired
+    private final ConfigurationRepository configurationRepository;
+
+    @Autowired
+    private final MaterialConfigurationRepository materialConfigurationRepository;
+
     @GetMapping("/")
     public List<Component> getAllComponentsFiltered(
             @RequestParam(required = false) String article,
@@ -38,7 +48,8 @@ public class ComponentController {
             @RequestParam(required = false) String packaging,
             @RequestParam(required = false) String contact,
             @RequestParam(required = false) String ca65,
-            @RequestParam(required = false) String baimold
+            @RequestParam(required = false) String baimold,
+            @RequestParam(required = false) String contains
 
     ) {
 
@@ -74,6 +85,30 @@ public class ComponentController {
 
         }
         allcomps.removeAll(toRemove);
+        //PERFORM THE OPTIONAL QUERY ON MATERIAL: LEAVE ONLY THE COMPONENT WITH AT LEAST ONE CONFIGURATION THAT CONTAINS THE MATERIAL
+        if(contains==null) return allcomps;
+        if(contains.equals("all") ) return allcomps;
+        List<Component> materialUnmatching = new ArrayList<>();
+        Optional<Material> opt_materialid = materialRepository.findById(Integer.parseInt(contains));
+        if(!opt_materialid.isPresent()) return allcomps;
+        Integer materialid = opt_materialid.get().getId();
+        for(Component c: allcomps){
+            Integer componentid= c.getId();
+            List<MaterialConfiguration> matchingmaterials = new ArrayList<>();
+            List<Configuration> allconfs= configurationRepository.findByCompid(componentid);
+            for(Configuration conf : allconfs){
+                Integer confid= conf.getId();
+                List<MaterialConfiguration> partialconfigmatching = materialConfigurationRepository.findByMaterialidAndConfid(materialid,confid);
+                for(MaterialConfiguration p : partialconfigmatching){ matchingmaterials.add(p); }
+
+            }
+        Integer foundMatches = matchingmaterials.size();
+        if (foundMatches==0) materialUnmatching.add(c);
+
+        }
+
+        allcomps.removeAll(materialUnmatching);
+
         return allcomps;
     }
 
