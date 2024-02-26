@@ -137,6 +137,18 @@
     bottom: 44px;
     right:5px;
 }
+.prevbutton{
+    position: absolute;
+    bottom: 14px;
+    left:10px;
+}
+.nextbutton{
+    position: absolute;
+    bottom: 14px;
+    left:45px;
+}
+
+
 .clipboardbutton{
     position: absolute;
     bottom: 44px;

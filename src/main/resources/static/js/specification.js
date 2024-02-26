@@ -1,6 +1,6 @@
 let timeouts=[];
 function renderspecifications(){
-    let totalcolumns=5;
+    let totalcolumns=totaldocumentcolumns;
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
@@ -16,6 +16,8 @@ function renderspecifications(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="add_button invisible" onclick="rendernewdocuments()"><a href="#"><i class="fa-regular fa-square-plus"></i>Create new</a></div>
+    <div class="prevbutton hover-message" title="Previous Page" onclick="changePageDocuments(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
+        <div class="nextbutton hover-message" title="Next Page" onclick="changePageDocuments(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
     <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
@@ -123,7 +125,15 @@ async function updateDocumentsTable(totalcolumns){
 
 
         //POPULATE THE TABLE
+        let i=0;
         jsonResponse.forEach(obj => {
+        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
+                let rv=parseInt(getCookie("resultview"));
+                let rp=parseInt(getCookie("resultpage"));
+                let minview=rv*(rp-1);
+                let maxview=rv*rp;
+
+                if(i>=minview && i<maxview){
             document.querySelector(".grid-container").innerHTML+=
         `
         <div class="grid-item "><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
@@ -132,6 +142,9 @@ async function updateDocumentsTable(totalcolumns){
         <div class="grid-item ">${obj.ppc}</div>
         <div class="grid-item ">${obj.description}</div>
         `;
+
+        }
+        i++;
         });
 
         //UPDATE NUMBER OF RESULTS
@@ -164,5 +177,13 @@ function clearTable(totalcolumns){
             }
 
 }
+function changePageDocuments(increment){
+    let rp=parseInt(getCookie("resultpage"));
+    rp=rp+increment;
+    if(rp<1) rp=1;
+    document.cookie = `resultpage=${rp}`;
+    updateDocumentsTable(totaldocumentcolumns);
+}
+
 
 

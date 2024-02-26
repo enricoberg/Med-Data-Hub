@@ -1,6 +1,6 @@
 
 function rendermaterials(){
-    let totalcolumns=5;
+    let totalcolumns=totalmaterialcolumns;
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
@@ -16,6 +16,8 @@ function rendermaterials(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="add_button invisible" onclick="rendernewmaterials()"><i class="fa-regular fa-square-plus"></i>Create new</div>
+    <div class="prevbutton hover-message" title="Previous Page" onclick="changePageMaterials(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
+        <div class="nextbutton hover-message" title="Next Page" onclick="changePageMaterials(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
     <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
@@ -173,7 +175,16 @@ async function updateMaterialsTable(totalcolumns){
 
 
         //POPULATE THE TABLE
+        let i=0;
         jsonResponse.forEach(obj => {
+
+        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
+                let rv=parseInt(getCookie("resultview"));
+                let rp=parseInt(getCookie("resultpage"));
+                let minview=rv*(rp-1);
+                let maxview=rv*rp;
+
+                if(i>=minview && i<maxview){
         let checknull1= obj.family==null ? "&#10007;" : obj.family;
         let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
             document.querySelector(".grid-container").innerHTML+=
@@ -186,6 +197,9 @@ async function updateMaterialsTable(totalcolumns){
         <div class="grid-item "><a class="pdfopener" targetref="/download/?filename=TDS_${obj.id}">TDS</a> ---
         <a class="pdfopener"  targetref="/download/?filename=SDS_${obj.id}">SDS</a></div>
         `;
+
+        }
+        i++;
         });
         listenForDownloads();
 
@@ -201,6 +215,13 @@ async function updateMaterialsTable(totalcolumns){
         return ;
     }
 
+}
+function changePageMaterials(increment){
+    let rp=parseInt(getCookie("resultpage"));
+    rp=rp+increment;
+    if(rp<1) rp=1;
+    document.cookie = `resultpage=${rp}`;
+    updateMaterialsTable(totalmaterialcolumns);
 }
 
 

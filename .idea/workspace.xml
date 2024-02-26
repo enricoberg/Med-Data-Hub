@@ -13,8 +13,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/home_style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/specification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/supplier.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/supplier.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/utils.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +101,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-4caba194b151-107bc6b7" />
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
       </set>
     </attachedChunks>
   </component>

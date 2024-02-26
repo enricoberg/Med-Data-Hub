@@ -1,6 +1,6 @@
 
 function rendercomponents(){
-    let totalcolumns=10;
+    let totalcolumns=totalcomponentcolumns;
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
@@ -16,6 +16,8 @@ function rendercomponents(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="add_button invisible "  onclick="rendernewcomponents()"><i class="fa-regular fa-square-plus"></i>Create new</div>
+    <div class="prevbutton hover-message" title="Previous Page" onclick="changePageComponents(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
+    <div class="nextbutton hover-message" title="Next Page" onclick="changePageComponents(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
     <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
@@ -266,9 +268,18 @@ async function updateComponentsTable(totalcolumns){
             return ;
         }
 
-
+        let i=0;
         //POPULATE THE TABLE
         jsonResponse.forEach(obj => {
+        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
+        let rv=parseInt(getCookie("resultview"));
+        let rp=parseInt(getCookie("resultpage"));
+        let minview=rv*(rp-1);
+        let maxview=rv*rp;
+
+        if(i>=minview && i<maxview && minview<=jsonResponse.length){
+
+
         const check1= obj.intercompany==true ? "&#10003;" : "&#10007;"
         const check2= obj.family==null ? "&#10007;" :getExtendedCompFamily(obj.family)
         const check3= obj.packagingmaterial==true ? "&#10003;" : "&#10007;"
@@ -288,7 +299,8 @@ async function updateComponentsTable(totalcolumns){
         <div class="grid-item ">${check5}</div>
         <div class="grid-item ">${check6}</div>
         <div class="grid-item "><a href="#" onclick="renderconfigurations('${obj.comp_id}')">See configurations</a></div>
-        `;
+        `;}
+        i++;
         });
         listenForDownloads();
         //UPDATE NUMBER OF RESULTS
@@ -314,4 +326,11 @@ function getExtendedCompFamily(family) {
         if (options[i].value === family) return options[i].textContent;        
     }    
     return "";
+}
+function changePageComponents(increment){
+    let rp=parseInt(getCookie("resultpage"));
+    rp=rp+increment;
+    if(rp<1) rp=1;
+    document.cookie = `resultpage=${rp}`;
+    updateComponentsTable(totalcomponentcolumns);
 }

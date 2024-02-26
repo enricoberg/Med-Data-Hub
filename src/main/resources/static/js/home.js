@@ -7,6 +7,8 @@
     const logged = await validateuser();
     if(!logged) window.location.replace("/app/");
     if (document.body.classList.contains("invisible")) document.body.classList.remove("invisible");
+    document.cookie = 'resultpage=1';
+    document.cookie = 'resultview=50';
     switch(section) {
       case "users":
           renderuser();

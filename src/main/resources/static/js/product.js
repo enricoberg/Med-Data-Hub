@@ -1,6 +1,6 @@
 
 function renderproducts(){
-    let totalcolumns=13;
+    let totalcolumns=totalproductcolumns;
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
@@ -16,6 +16,8 @@ function renderproducts(){
         newDash.classList.add("products");
         newDash.innerHTML=`
         <div class="add_button invisible" onclick="rendernewproduct()"><i class="fa-regular fa-square-plus"></i>Create new</div>
+        <div class="prevbutton hover-message" title="Previous Page" onclick="changePageProducts(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
+            <div class="nextbutton hover-message" title="Next Page" onclick="changePageProducts(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
         <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
         <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
         <form action="">
@@ -194,7 +196,15 @@ async function updateProductsTable(totalcolumns){
 
 
         //POPULATE THE TABLE
+        let i=0;
         jsonResponse.forEach(obj => {
+        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
+                let rv=parseInt(getCookie("resultview"));
+                let rp=parseInt(getCookie("resultpage"));
+                let minview=rv*(rp-1);
+                let maxview=rv*rp;
+
+                if(i>=minview && i<maxview){
         const check1= obj.intercompany==true ? "&#10003;" : "&#10007;";
         const check2= obj.semifinished==true ? "&#10003;" : "&#10007;";
         const check3= obj.dhf!=null ? obj.dhf : "&#10007;";
@@ -219,7 +229,11 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item ">${check6}</div>
         <div class="grid-item ">${check7}</div>
         <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
-        `;});
+        `;
+
+        }
+        i++;
+        });
 
         listenForDownloads();
         //UPDATE NUMBER OF RESULTS
@@ -260,4 +274,11 @@ function getExtendedSteriMethod(method) {
         if (options[i].value === method) return options[i].textContent;        
     }    
     return "";
+}
+function changePageProducts(increment){
+    let rp=parseInt(getCookie("resultpage"));
+    rp=rp+increment;
+    if(rp<1) rp=1;
+    document.cookie = `resultpage=${rp}`;
+    updateProductsTable(totalproductcolumns);
 }

@@ -1,3 +1,9 @@
+const totalcomponentcolumns=10;
+const totalproductcolumns=13;
+const totalmaterialcolumns=5;
+const totalsuppliercolumns=3;
+const totaldocumentcolumns=5;
+
 async function validateuser(){
     let jwt=getCookie("jwt");
     const url = '/app/auth/validate';
