@@ -264,3 +264,10 @@ form.searchform:valid .fa.searchfa{
 .thin{
     max-height: 20px;
 }
+.pagelabel{
+    position: absolute;
+    bottom: 42px;
+    color: #F5B041;
+    left:12px;
+    font-size: small;
+}

@@ -15,6 +15,7 @@ function rendercomponents(){
     newDash.classList.add("dashboard");
     newDash.classList.add("documents");
     newDash.innerHTML=`
+    <div class="pagelabel">PAGE 1/7</div>
     <div class="add_button invisible "  onclick="rendernewcomponents()"><i class="fa-regular fa-square-plus"></i>Create new</div>
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageComponents(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
     <div class="nextbutton hover-message" title="Next Page" onclick="changePageComponents(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
@@ -244,6 +245,12 @@ async function updateComponentsTable(totalcolumns){
     try {
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
+        document.cookie = `totalresults=${jsonResponse.length}`;
+        //UPDATE THE NUMBER OF CURRENT PAGE
+        let numberofpages=Math.ceil(getCookie("totalresults")/getCookie("resultview"));
+        let currentpage=getCookie("resultpage");        
+        document.querySelector(".pagelabel").innerHTML=`PAGE ${currentpage}/${numberofpages}`;
+
 
         //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
         fetch(`/aux/getrole?email=${currentuser()}`,{
@@ -304,7 +311,9 @@ async function updateComponentsTable(totalcolumns){
         });
         listenForDownloads();
         //UPDATE NUMBER OF RESULTS
-        document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
+        document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;        
+        
+        
         //SHOW THE TABLE
         activeCellColoring(totalcolumns);
         if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
@@ -329,8 +338,23 @@ function getExtendedCompFamily(family) {
 }
 function changePageComponents(increment){
     let rp=parseInt(getCookie("resultpage"));
+    let totals=parseInt(getCookie("totalresults"));
+
+    let numberofpages=Math.ceil(totals/getCookie("resultview"));
+    if(rp>=numberofpages && increment>0) {
+        document.cookie=`resultpage=${numberofpages}`;
+        return;
+    }        
+    document.querySelector(".pagelabel").innerHTML=`PAGE ${rp}/${numberofpages}`;
+
+
     rp=rp+increment;
-    if(rp<1) rp=1;
+    if(rp<1) {
+        rp=1;
+        document.cookie = `resultpage=${rp}`;
+        return;
+    }
     document.cookie = `resultpage=${rp}`;
+    
     updateComponentsTable(totalcomponentcolumns);
 }
