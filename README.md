@@ -134,7 +134,7 @@ Once you have it installed, you can run the application by clicking START on the
 
   ![XAMPP SCREEN](https://i.postimg.cc/zfDb5csn/xampp.png)
 
-Download this archive from [Google Drive](https://drive.google.com/file/d/1-_9piYaSSk4PLasJgOvdRUPVE6eJ4PhI/view?usp=sharing)
+Download this archive from [Google Drive](https://drive.google.com/file/d/1brzc7B0dRuTeF1YNgA96qJLglm8FNCdJ/view?usp=sharing)
 I have created a sql file in the Setup Folder that you can copy-paste to create and populate the database with some demo data.
 Then you need to set up the right properties of the app.
 Extract the folder MedDataHub and save it inside C:/Program Files/
