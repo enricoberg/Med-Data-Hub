@@ -169,7 +169,7 @@ async function updateDocumentsTable(totalcolumns){
 }
 
 function clearTable(totalcolumns){
-
+    document.cookie= 'refreshcount=0';
     const elementToRemove = document.querySelector('.bomcontainer');
     if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
 

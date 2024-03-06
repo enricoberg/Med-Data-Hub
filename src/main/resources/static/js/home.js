@@ -85,3 +85,15 @@ setInterval(()=>{
     const timeleft=expirationTimeLeft(getCookie("jwt"));
     if(timeleft<70000) sendRefresh();
 }, 10000);
+
+document.cookie= 'refreshcount=0';
+setInterval(()=>{
+    let refreshcount=parseInt(getCookie("refreshcount"));
+    refreshcount+=1;
+    if(refreshcount<8) {
+    test();
+    document.cookie=`refreshcount=${refreshcount}`;
+    }
+
+
+}, 150);
