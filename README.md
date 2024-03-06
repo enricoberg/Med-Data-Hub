@@ -60,15 +60,10 @@ Third release to add advanced functionalities such as query of products containi
 On final release the frontend part of the insert queries will be revisited to be more user-friendly.
 A user interface to modify inserted data will be added as well.
   
-  
-  
+### See how the app works
 
-  
-  
-  
-
-  
-
+I have created a brochure for you to quickly understand how the app works prior to installing the software.
+You can find the document ready for download [HERE.](https://drive.google.com/file/d/1W_bi1wmBbmunO8fYbg2_D6bFy9Slz3Up/view?usp=sharing) 
 
 
   
