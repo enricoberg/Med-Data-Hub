@@ -1,10 +1,13 @@
 package com.app.compliance.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
+import com.app.compliance.dto.DocumentView;
+import com.app.compliance.dto.QuickSearch;
 import com.app.compliance.entities.User;
 import com.app.compliance.model.Product;
 import com.app.compliance.repository.*;
@@ -67,6 +70,54 @@ public class AuxController {
         if (!optuser.isPresent()) return null;
         User user = optuser.get();
         return user.getRole().toString();
+    }
+
+    @GetMapping("/getquicklink")
+    public String getQuickSearch(@RequestParam("search") String search) {
+
+        List<Object[]> allraw = componentRepository.findAllQuickLinks();
+        List<QuickSearch> all = convertToQuickSearch((allraw));
+        QuickSearch found = null;
+
+        for(QuickSearch q : all){
+            if(q.getArticle().toUpperCase().contains(search.toUpperCase())) {
+                found=q;
+                break;
+            }
+
+        }
+
+        if(found==null) return "NONE";
+        if(found.getType().equals("COMPONENT") && found.getField().equals("ARTICLE")) return "COMPART";
+        else if(found.getType().equals("COMPONENT") && found.getField().equals("DESCRIPTION")) return "COMPDESC";
+        else if(found.getType().equals("PRODUCT") && found.getField().equals("ARTICLE")) return "PRODART";
+        else if(found.getType().equals("PRODUCT") && found.getField().equals("DESCRIPTION")) return "PRODDESC";
+        else if(found.getType().equals("MATERIAL" )) return "MATERIAL";
+        else if(found.getType().equals("SUPPLIER" )) return "SUPPLIER";
+        return "NONE";
+    }
+
+    public List<QuickSearch> convertToQuickSearch(List<Object[]> results) {
+
+        List<QuickSearch> views = new ArrayList<QuickSearch>();
+        for (Object[] result : results) {
+
+
+
+            String article = getStringValue(result[0]);
+            String type = getStringValue(result[1]);
+            String field = getStringValue(result[2]);
+
+
+
+
+
+            views.add(new QuickSearch(article,type,field));
+        }
+        return views;
+    }
+    private String getStringValue(Object value) {
+        return (value != null) ? value.toString() : null;
     }
 
 

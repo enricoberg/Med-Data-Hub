@@ -193,7 +193,7 @@
 }
 
 form.searchform{
-    margin-top:40px;
+    margin-top:0px;
     position: relative;
     top: 50%;
     left: 49%;
@@ -204,7 +204,7 @@ form.searchform{
     z-index: 1000;
     box-sizing: border-box;
     border-radius: 25px;
-    border: 4px solid white;
+    border: 0px solid white;
     padding: 5px;
 }
 
@@ -244,7 +244,7 @@ input.searchinput{
 
 form.searchform:hover,
 form.searchform:valid{
-    width: 300px;
+    width: 200px;
     cursor: pointer;
 }
 
@@ -270,4 +270,16 @@ form.searchform:valid .fa.searchfa{
     color: #F5B041;
     left:12px;
     font-size: small;
+}
+.searchbox{
+
+position:absolute;
+left:170px;
+top: 35px;
+width:200px;
+}
+@media (max-width: 1299px) {
+  .searchbox {
+    display: none;
+  }
 }

@@ -19,6 +19,7 @@ function renderdashboard(){
     document.body.insertBefore(searchcontainer, referenceElement);
     searchcontainer.classList.add("container");
     searchcontainer.classList.add("thin");
+    searchcontainer.classList.add("invisible");
     searchcontainer.innerHTML=`<form action="" class="searchform">
     <input type="search" required class="searchinput">
     <i class="fa fa-search searchfa"></i>
