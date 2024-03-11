@@ -231,3 +231,60 @@ function copyTextToClipboard(text) {
     console.error('Async: Could not copy text: ', err);
   });
 }
+
+function quickSearch(searchstring){
+  if(searchstring==null || searchstring.length<=2) return;
+  document.querySelector("#searchstring").value="";
+  // renderpage("components");
+  fetch(`/aux/getquicklink?search=${searchstring}`,{headers: {'Authorization': authenticationheader()}})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text(); 
+  })
+  .then(data => {
+    switch(data){
+      case "COMPART":        
+        document.querySelector("#componentsection").click();
+        setTimeout(()=>{document.querySelector("#componentarticleinput").value=searchstring;
+        updateComponentsTable(totalcomponentcolumns);
+      },400);        
+      break;
+      case "COMPDESC":        
+        document.querySelector("#componentsection").click();
+        setTimeout(()=>{document.querySelector("#componentdescriptioninput").value=searchstring;
+        updateComponentsTable(totalcomponentcolumns);
+      },400);        
+      break;
+      case "PRODART":        
+        document.querySelector("#productsection").click();
+        setTimeout(()=>{document.querySelector("#productarticleinput").value=searchstring;
+        updateProductsTable(totalproductcolumns);
+      },400);        
+      break;
+      case "PRODDESC":        
+        document.querySelector("#productsection").click();
+        setTimeout(()=>{document.querySelector("#productdescriptioninput").value=searchstring;
+        updateProductsTable(totalproductcolumns);
+      },400);        
+      break;
+      case "MATERIAL":        
+        document.querySelector("#materialsection").click();
+        setTimeout(()=>{document.querySelector("#materialnameinput").value=searchstring;
+        updateMaterialsTable(totalmaterialcolumns);
+      },400);        
+      break;
+      case "SUPPLIER":        
+        document.querySelector("#suppliersection").click();
+        setTimeout(()=>{document.querySelector("#suppliernameinput").value=searchstring;
+        updateSuppliersTable(totalsuppliercolumns);
+      },400);        
+      break;
+    }
+
+  })
+  .catch(error => {    console.error('There was a problem with the fetch operation:', error);  });
+
+
+}

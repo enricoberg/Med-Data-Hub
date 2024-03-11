@@ -23,8 +23,8 @@ function rendercomponents(){
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
-            <input type="text" class="form-control documentcontrol" placeholder="Article number" name="codeinput" >
-            <input type="text" class="form-control documentcontrol" placeholder="Description" name="descriptioninput">
+            <input type="text" id="componentarticleinput" class="form-control documentcontrol" placeholder="Article number" name="codeinput" >
+            <input type="text" id="componentdescriptioninput" class="form-control documentcontrol" placeholder="Description" name="descriptioninput">
         </div>
         <div class="selectcontainer" style="display:flex; justify-content:align-center; align-items:center; flex-wrap:wrap;">
         <div class="form-group ">

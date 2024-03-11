@@ -97,3 +97,10 @@ setInterval(()=>{
 
 
 }, 150);
+
+
+document.querySelector("#searchbutton").addEventListener("click", ()=>{
+  quickSearch(document.querySelector("#searchstring").value)
+});
+
+

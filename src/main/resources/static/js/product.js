@@ -23,8 +23,8 @@ function renderproducts(){
         <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
         <form action="">
             <div class="input-group ">
-                <input type="text" class="form-control documentcontrol" placeholder="Article number" name="articleinput">
-                <input type="text" class="form-control documentcontrol" placeholder="Description" name="descriptioninput">
+                <input type="text" class="form-control documentcontrol" placeholder="Article number" name="articleinput" id="productarticleinput">
+                <input type="text" class="form-control documentcontrol" placeholder="Description" name="descriptioninput" id="productdescriptioninput">
                 <input type="text" class="form-control documentcontrol" placeholder="DHF number" name="dhfinput">
                 <input type="text" class="form-control documentcontrol" placeholder="RMF" name="rmfinput" >
                 <input type="text" class="form-control documentcontrol" placeholder="BUDI" name="budiinput" >

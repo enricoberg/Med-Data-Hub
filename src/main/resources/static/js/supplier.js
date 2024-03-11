@@ -23,7 +23,7 @@ function rendersuppliers(){
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
-            <input type="text" class="form-control documentcontrol" placeholder="Supplier Name" name="nameinput" >
+            <input type="text" class="form-control documentcontrol" placeholder="Supplier Name" name="nameinput" id="suppliernameinput">
             <input type="text" class="form-control documentcontrol" placeholder="Supplier's SAP Code" name="sapinput">
             <input type="text" class="form-control documentcontrol" placeholder="Supplier's Contacts" name="contactinput">
         </div>

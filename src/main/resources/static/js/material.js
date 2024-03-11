@@ -23,7 +23,7 @@ function rendermaterials(){
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
-            <input type="text" class="form-control documentcontrol" placeholder="Brand Name" name="brandinput" >
+            <input type="text" class="form-control documentcontrol" placeholder="Brand Name" name="brandinput" id="materialnameinput" >
             <input type="text" class="form-control documentcontrol" placeholder="Manufactured By" name="supplierinput">
             <input type="text" class="form-control documentcontrol" placeholder="Plasticizer" name="plasticizerinput">
         </div>
