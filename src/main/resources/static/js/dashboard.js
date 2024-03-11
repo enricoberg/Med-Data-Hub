@@ -36,39 +36,39 @@ function renderdashboard(){
     newDash.innerHTML=`
     
 
-    <div class="dashelement">
+    <div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/J0nKNxyD/documents.png" alt="">
     <a href="#" onclick="redirectToTab('#specificationsection')">QUERY ALL RELEASED PRODUCTION DOCUMENTS</a>
 
 </div>
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/j5vZnmjY/components.png" alt="">
     <a href="#" onclick="redirectToTab('#componentsection')">QUERY ALL COMPONENTS AND PURCHASED ARTICLES</a>
 
 </div>
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/PxdSxTTM/products.png" alt="">
     <a href="#" onclick="redirectToTab('#productsection')">QUERY ALL FINISHED PRODUCTS AND ASSEMBLIES</a>
 
 </div>
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/4mFpNhf6/compound.png" alt="">
     <a href="#" onclick="redirectToTab('#materialsection')">QUERY ALL RAW MATERIALS AND DATASHEETS</a>
 
 </div>
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/d3x64CdW/suppliers.png" alt="">
     <a href="#" onclick="redirectToTab('#suppliersection')">QUERY ALL QUALIFIED SUPPLIERS AND CONTRACTORS</a>
 
 </div>
 
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/tgFtLn9n/hierarchical-structure.png" alt="">
     <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A COMPONENT</a>
 
 </div>
 
-<div class="dashelement">
+<div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/fRMf6jH4/advanced.png alt="">
     <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A MATERIAL</a>
 
@@ -77,6 +77,7 @@ function renderdashboard(){
 
 
 `;
+document.cookie= 'refreshcount=0';
 
 
 }

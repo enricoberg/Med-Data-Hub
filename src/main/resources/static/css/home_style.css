@@ -2,7 +2,7 @@
 
 .dash{
     width: 100vw;
-    margin-top:25px;
+    margin-top: 25px;
     background-color: white;
     min-height: 80vh;
     display: flex;
@@ -259,7 +259,7 @@ form.searchform:valid .fa.searchfa{
     color: white;
 }
 .dash.searchable{    
-    margin-top:5px;
+    margin-top:40px;
 }
 .thin{
     max-height: 20px;
@@ -282,4 +282,30 @@ width:200px;
   .searchbox {
     display: none;
   }
+}
+
+.btn-hover {
+    
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    
+    
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #2b2bc1, #4481eb, #04befe, #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+.btn-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
