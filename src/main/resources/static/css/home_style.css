@@ -253,11 +253,7 @@ form.searchform:valid input.searchinput{
     display: block;
 }
 
-form.searchform:hover .fa.searchfa,
-form.searchform:valid .fa.searchfa{
-    background: #F5B041 ;
-    color: white;
-}
+
 .dash.searchable{    
     margin-top:40px;
 }
@@ -309,3 +305,51 @@ width:200px;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
 }
+.fabtn-hover {
+    
+    color: #fff;
+    cursor: pointer;      
+    background-size: 300% 100%;
+    
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #FFF295, #ff9a44, #ef9d43, #e75516);
+    box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+}
+.fabtn-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+/* form.searchform:hover .fa.searchfa,
+form.searchform:valid .fa.searchfa{
+    background: #F5B041 ;    
+    color: white;
+} */
+form.searchform:hover .fa.searchfa,
+form.searchform:valid .fa.searchfa{
+    color: #fff;
+    cursor: pointer;      
+    background-size: 300% 100%;
+    
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #FFF295, #ff9a44, #ef9d43, #e75516);
+    box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+}
+form.searchform:hover .fa.searchfa:hover,
+form.searchform:valid .fa.searchfa:hover{
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    color: white;
+}
+
