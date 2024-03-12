@@ -281,6 +281,8 @@ function quickSearch(searchstring){
         updateSuppliersTable(totalsuppliercolumns);
       },400);        
       break;
+      default:
+        alert("Sorry there is no result matching your request");
     }
 
   })
