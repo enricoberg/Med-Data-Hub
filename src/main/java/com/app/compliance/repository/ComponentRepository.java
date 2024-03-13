@@ -17,6 +17,8 @@ public interface ComponentRepository extends JpaRepository<Component,Integer> {
     Component findByCompid(String article);
 
 
+
+
     @Query(value="SELECT comp_id AS 'article', 'COMPONENT' AS type, 'ARTICLE' AS field\n" +
             "FROM components\n" +
             "UNION\n" +

@@ -3,7 +3,7 @@ package com.app.compliance.controller;
 
 import com.app.compliance.dto.BomRequest;
 import com.app.compliance.dto.BomView;
-import com.app.compliance.dto.DocumentView;
+import com.app.compliance.dto.ComponentExplosion;
 import com.app.compliance.model.Bom;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Product;
@@ -117,5 +117,112 @@ public class BomController {
         return ResponseEntity.ok("New bom created successfully!");
     }
 
+
+    @GetMapping("/componentusage")
+    public String whereIsComponentUsed(
+            @RequestParam(required = false) String article
+    ) {
+        List<ComponentExplosion> results =  new ArrayList<>();
+        boolean exit=false;
+        Integer count=0;
+        boolean assembly=!isComponent(article);
+        Integer codetosearch;
+        if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
+        else codetosearch = componentRepository.findByCompid(article).getId();
+        Integer level=1;
+        ComponentExplosion first_element= new ComponentExplosion();
+        first_element.setLevel(level);
+        first_element.setId(codetosearch);
+        first_element.setAssembly(assembly);
+        first_element.setControlled(false);
+        results.add(first_element);
+
+        while(!exit){
+            Integer initial_length= results.size();
+            for(ComponentExplosion c: results) {
+                if(c.isControlled()) continue;
+                codetosearch=c.getId();
+                assembly=c.isAssembly();
+                level=c.getLevel()+1;
+
+
+                List<Bom> bomresults = bomRepository.findByCompid(codetosearch);
+
+                if (!bomresults.isEmpty()) {
+                    for (Bom b : bomresults) {
+
+                        Integer prodid= b.getProdid().getId();
+                        ComponentExplosion newcompexplosion = new ComponentExplosion();
+                        newcompexplosion.setId(prodid);
+                        newcompexplosion.setAssembly(b.isAssembly());
+                        newcompexplosion.setLevel(level);
+                        newcompexplosion.setControlled(false);
+                        try{
+                            results.add(results.indexOf(c)+1,newcompexplosion);
+
+                        }
+                        catch(Exception e){
+                            System.out.println("THIS IS WHERE I FAIL");
+                        }
+
+
+                    }
+                    c.setControlled(true);
+                    break;
+                }
+                else{
+                    c.setControlled(true);
+                    break;
+                }
+
+
+            }
+
+
+
+
+
+
+
+           if(results.size()==initial_length) count+=1;
+           if(count>20) exit=true;
+
+        }
+
+
+        String resultstring="Usage of article code "+article+":";
+        for(ComponentExplosion ce : results){
+            resultstring+="\n";
+            for(Integer i = 0 ; i< ce.getLevel();i++){
+                resultstring+="\t\t";
+            }
+            resultstring+=getArticleOfComponentExplosion(ce);
+
+        }
+        return resultstring;
+
+    }
+
+    public boolean isUsedAnywhere(Integer article, boolean assembly){
+        Optional<List<Bom>> results =bomRepository.findByCompidAndAssembly(article,assembly);
+        return results.isEmpty();
+    }
+    public boolean isComponent(String article){
+        try {
+            Optional<Product> product = productRepository.findByCode(article);
+            if(product.isPresent()) return false;
+        }
+        catch(Exception e){
+            return true;
+
+        }
+        return true;
+    }
+
+    public String getArticleOfComponentExplosion(ComponentExplosion c){
+        if(c.isAssembly()) return productRepository.findById(c.getId()).get().getCode();
+        else return componentRepository.findById(c.getId()).get().getComp_id();
+
+    }
 
 }
