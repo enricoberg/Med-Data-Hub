@@ -89,6 +89,26 @@ async function validateuser(){
     return null;
   }
 
+  function currentRole(){
+    fetch(`/aux/getrole?email=${currentuser()}`,{
+      method: 'GET',
+      headers: {'Authorization': authenticationheader() }})
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+      }
+      return response.text();
+  })
+  .then(data => {
+      
+    document.querySelector("#roleplaceholder").innerHTML=`Role: ${data}`;
+  
+  })
+  .catch(error => {
+      console.error('Error during fetch:', error);
+  });
+  }
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

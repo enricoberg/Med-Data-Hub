@@ -1,4 +1,8 @@
-function renderuser(){
+async function renderuser(){
+  document.querySelector("#mailplaceholder").innerHTML=currentuser();
+  
+  currentRole();
+  
     if (window.innerWidth<992) {
         document.querySelector(".usermenu").style.top="360px";
         document.querySelector(".usermenu").style.left="0px";

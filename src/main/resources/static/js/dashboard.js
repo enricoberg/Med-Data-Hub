@@ -85,7 +85,9 @@ function redirectToTab(id){
     const element=document.querySelector(id);
     element.click();
 }
-
+function stampaNomeUser(){
+    alert(currentuser());
+}
 
 
 
