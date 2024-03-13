@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.http.HttpHeaders;
 
 import java.util.Optional;
@@ -26,6 +25,8 @@ import java.util.Random;
 @RequestMapping("/app/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
+
+    
 
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
@@ -80,7 +81,7 @@ public class AuthenticationController {
     ) {
 
         Optional<User> optuser = userRepository.findById(Integer.parseInt(userid));
-
+        
 
         //VERIFY THAT THE USER EXISTS AND THE ACTIVATION CODE MATCHES THE ONE IN THE DATABASE
         if (optuser.isPresent()) {
@@ -89,7 +90,8 @@ public class AuthenticationController {
                 user.setActiveuser(true);
                 user.setActivationcode(null);
                 userRepository.save(user);
-                return ResponseEntity.ok("Congratulations! Your user has been successfully verified, you can login now.");
+                String loginurl = urlbase +"/app/";
+                return ResponseEntity.ok("<h1>Congratulations!</h1> <p>Your user has been successfully verified.</p><p> You can <a href='"+loginurl+"'>login now</a>.<p>");
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error in your activation tentative");
