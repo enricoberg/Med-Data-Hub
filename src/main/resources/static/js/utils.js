@@ -3,6 +3,7 @@ const totalproductcolumns=13;
 const totalmaterialcolumns=5;
 const totalsuppliercolumns=3;
 const totaldocumentcolumns=5;
+const elementsToRemove = [".bomcontainer", ".queryadv1",".bomtitle"];
 
 async function validateuser(){
     let jwt=getCookie("jwt");

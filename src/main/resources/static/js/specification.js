@@ -170,8 +170,15 @@ async function updateDocumentsTable(totalcolumns){
 
 function clearTable(totalcolumns){
     document.cookie= 'refreshcount=0';
-    const elementToRemove = document.querySelector('.bomcontainer');
-    if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
+    
+
+    
+
+    for (let i = 0; i < elementsToRemove.length; i++) {
+        const elementToRemove = document.querySelector(elementsToRemove[i]);
+        if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
+    }
+    
 
     //CHECK THE TABLE IS HIDDEN
         if(!document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.add("invisible");

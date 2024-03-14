@@ -1,5 +1,8 @@
 function renderdashboard(){
-    
+    for (let i = 0; i < elementsToRemove.length; i++) {
+        const elementToRemove = document.querySelector(elementsToRemove[i]);
+        if(elementToRemove) elementToRemove.remove();
+    }
     //HIDE AND EMPTY THE TABLE
     if(!document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.add("invisible");
     let totalcolumns=5;    
