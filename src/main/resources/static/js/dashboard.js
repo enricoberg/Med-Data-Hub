@@ -64,7 +64,7 @@ function renderdashboard(){
 
 <div class="dashelement btn-hover">
     <img src="https://i.postimg.cc/tgFtLn9n/hierarchical-structure.png" alt="">
-    <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A COMPONENT</a>
+    <a href="#" onclick="renderqueryadv1()">SEARCH ASSEMBLIES CONTAINING A COMPONENT</a>
 
 </div>
 

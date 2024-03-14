@@ -123,8 +123,7 @@ public class BomController {
             @RequestParam(required = false) String article
     ) {
         List<ComponentExplosion> results =  new ArrayList<>();
-        boolean exit=false;
-        Integer count=0;
+        boolean exit=false;        
         boolean assembly=!isComponent(article);
         Integer codetosearch;
         if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
@@ -138,7 +137,7 @@ public class BomController {
         results.add(first_element);
 
         while(!exit){
-            Integer initial_length= results.size();
+            
             for(ComponentExplosion c: results) {
                 if(c.isControlled()) continue;
                 codetosearch=c.getId();
@@ -177,24 +176,28 @@ public class BomController {
 
 
             }
+            exit=true;
+            for(ComponentExplosion c: results){
+                if(!c.isControlled()) {
+                    exit=false;
+                    break;
+                }
+            }
 
 
 
 
 
-
-
-           if(results.size()==initial_length) count+=1;
-           if(count>20) exit=true;
+        
 
         }
 
 
         String resultstring="Usage of article code "+article+":";
         for(ComponentExplosion ce : results){
-            resultstring+="\n";
+            resultstring+="<br>";
             for(Integer i = 0 ; i< ce.getLevel();i++){
-                resultstring+="\t\t";
+                resultstring+="&nbsp;&nbsp;";
             }
             resultstring+=getArticleOfComponentExplosion(ce);
 
@@ -220,8 +223,8 @@ public class BomController {
     }
 
     public String getArticleOfComponentExplosion(ComponentExplosion c){
-        if(c.isAssembly()) return productRepository.findById(c.getId()).get().getCode();
-        else return componentRepository.findById(c.getId()).get().getComp_id();
+        if(c.isAssembly()) return productRepository.findById(c.getId()).get().getCode()+" - "+productRepository.findById(c.getId()).get().getDescription();
+        else return componentRepository.findById(c.getId()).get().getComp_id()+" - "+componentRepository.findById(c.getId()).get().getDescription();
 
     }
 
