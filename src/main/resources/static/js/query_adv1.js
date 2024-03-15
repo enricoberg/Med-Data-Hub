@@ -55,7 +55,7 @@ async function renderqueryadv1(){
                   return;
         }
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
-        if(!confirm(`Are you sure you want to proceed analizing the usage of article nr. ${code} ?`)) return;
+        
         
             fetch(`/queryboms/componentusage?article=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
@@ -68,7 +68,7 @@ async function renderqueryadv1(){
                     
             
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
-                if(confirm("Do you want to save the extraction to a file?")) downloadExtraction(data);
+                if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction(data);
                 
             } )
             .catch(error => { 
