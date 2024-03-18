@@ -161,7 +161,7 @@ public class BomController {
 
                         }
                         catch(Exception e){
-                            System.out.println("THIS IS WHERE I FAIL");
+                            System.out.println("ERROR");
                         }
 
 
@@ -206,6 +206,98 @@ public class BomController {
 
     }
 
+
+    @GetMapping("/multilevelbom")
+    public String explodeBOM(
+            @RequestParam(required = false) String article
+    ) {
+        List<ComponentExplosion> results =  new ArrayList<>();
+        boolean exit=false;    
+        Integer codetosearch;
+        codetosearch=productRepository.findByCode(article).get().getId();
+        
+        Integer level=1;
+        ComponentExplosion first_element= new ComponentExplosion();
+        first_element.setLevel(level);
+        first_element.setId(codetosearch);
+        first_element.setAssembly(true);
+        first_element.setControlled(false);
+        results.add(first_element);
+
+        while(!exit){
+            boolean assembly;
+            for(ComponentExplosion c: results) {
+                if(c.isControlled()) continue;
+                codetosearch=c.getId();
+                assembly=c.isAssembly();
+                level=c.getLevel()+1;
+                if(!assembly) {
+                    c.setControlled(true);
+                    continue;
+                }
+
+                List<Bom> bomresults = bomRepository.findByProdid(productRepository.findById(codetosearch).get());
+
+                if (!bomresults.isEmpty()) {
+                    for (Bom b : bomresults) {
+
+                        Integer compid= b.getCompid();
+
+                        ComponentExplosion newcompexplosion = new ComponentExplosion();
+                        newcompexplosion.setId(compid);
+                        newcompexplosion.setAssembly(b.isAssembly());
+                        newcompexplosion.setLevel(level);
+                        newcompexplosion.setControlled(false);
+                        try{
+                            results.add(results.indexOf(c)+1,newcompexplosion);
+
+                        }
+                        catch(Exception e){
+                            System.out.println("ERROR");
+                        }
+
+
+                    }
+                    c.setControlled(true);
+                    break;
+                }
+                else{
+                    c.setControlled(true);
+                    break;
+                }
+
+
+            }
+            exit=true;
+            for(ComponentExplosion c: results){
+                if(!c.isControlled()) {
+                    exit=false;
+                    break;
+                }
+            }
+
+
+
+
+
+        
+
+        }
+
+
+        String resultstring="Full bill of materials for article code "+article+":";
+        for(ComponentExplosion ce : results){
+            resultstring+="\n";
+            for(Integer i = 0 ; i< ce.getLevel();i++){
+                resultstring+="\t\t";
+            }
+            resultstring+=getArticleOfComponentExplosion(ce);
+
+        }
+        return resultstring;
+
+    }
+
     public boolean isUsedAnywhere(Integer article, boolean assembly){
         Optional<List<Bom>> results =bomRepository.findByCompidAndAssembly(article,assembly);
         return results.isEmpty();
@@ -223,8 +315,8 @@ public class BomController {
     }
 
     public String getArticleOfComponentExplosion(ComponentExplosion c){
-        if(c.isAssembly()) return productRepository.findById(c.getId()).get().getCode()+" - "+productRepository.findById(c.getId()).get().getDescription();
-        else return componentRepository.findById(c.getId()).get().getComp_id()+" - "+componentRepository.findById(c.getId()).get().getDescription();
+        if(c.isAssembly()) return productRepository.findById(c.getId()).get().getCode()+" - "+productRepository.findById(c.getId()).get().getDescription() ;
+        else return componentRepository.findById(c.getId()).get().getComp_id()+" - "+componentRepository.findById(c.getId()).get().getDescription() ;
 
     }
 
