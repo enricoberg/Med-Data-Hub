@@ -1,5 +1,5 @@
 
-async function renderqueryadv1(){
+async function renderqueryadv2(){
     let totalcolumns=9;
     clearbomtitles();
     clearTable(totalcolumns);
@@ -13,7 +13,7 @@ async function renderqueryadv1(){
             document.body.insertBefore(newTitle, referenceElement);
             newTitle.classList.add("bomtitle");
             newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`SEARCH USAGE OF COMPONENT / SEMIFINISHED GOOD- <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
+            newTitle.innerHTML=`MULTILEVEL EXPLOSION OF BOM - <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
     const newDash = document.createElement("div");
     const referenceElement2 = document.body.children[2];
     document.body.insertBefore(newDash, referenceElement2);
@@ -30,7 +30,7 @@ async function renderqueryadv1(){
                                            </div>
                                            <div class="errormessage text-danger invisible  mb-2" id="pwerror">Code not found</div>
                                            <div class="mb-3">
-                                               <button type="button" class="btn btn-primary btn-lg mx-auto"  id="startquery1" >Start Usage Analysis</button>
+                                               <button type="button" class="btn btn-primary btn-lg mx-auto"  id="startquery1" >Explode BOM</button>
                                            </div>
                                          </form>
                                          <div class="mb-3 coloredsection  pl-2 pt-1 pb-1" id="queryresultbox"><br><br><br><br>
@@ -39,7 +39,7 @@ async function renderqueryadv1(){
                                    </div>
                                </div>`;
             
-        document.querySelector("#startquery1").addEventListener("click",()=>{renderresultsadv1(document.querySelector("#articleinput").value)});
+        document.querySelector("#startquery1").addEventListener("click",()=>{renderresultsadv2(document.querySelector("#articleinput").value)});
         document.querySelector("#articleinput").addEventListener("input",()=>{ 
             document.querySelector("#articleinput").value=document.querySelector("#articleinput").value.toUpperCase();
             if(!document.querySelector(".errormessage").classList.contains("invisible")) document.querySelector(".errormessage").classList.add("invisible");
@@ -47,7 +47,7 @@ async function renderqueryadv1(){
     }
 
 
-    function renderresultsadv1(code){
+    function renderresultsadv2(code){
         let errormessage=document.querySelector(".errormessage");
         if(code=="") {
             if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
@@ -57,7 +57,7 @@ async function renderqueryadv1(){
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
         
         
-            fetch(`/queryboms/componentusage?article=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
+            fetch(`/queryboms/multilevelbom?article=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
                 if (response.status === 403) throw new Error('Forbidden: Access denied');
                })
@@ -68,7 +68,7 @@ async function renderqueryadv1(){
                     
             
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
-                if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction1(data);
+                if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction2(data);
                 
             } )
             .catch(error => { 
@@ -80,14 +80,14 @@ async function renderqueryadv1(){
 
     }
 
-    function downloadExtraction1(data){     
+    function downloadExtraction2(data){     
         
         
         data=data.replaceAll('&nbsp;&nbsp;', '\t');
         data=data.replaceAll('<br>', '\n');
         console.log(data)
         let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
-        let fileName = "usage.csv";
+        let fileName = "explosion.csv";
         let aLink = document.createElement('a');
         aLink.download = fileName;
         aLink.href = urlData;

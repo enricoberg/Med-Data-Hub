@@ -287,9 +287,9 @@ public class BomController {
 
         String resultstring="Full bill of materials for article code "+article+":";
         for(ComponentExplosion ce : results){
-            resultstring+="\n";
+            resultstring+="<br>";
             for(Integer i = 0 ; i< ce.getLevel();i++){
-                resultstring+="\t\t";
+                resultstring+="&nbsp;&nbsp;";
             }
             resultstring+=getArticleOfComponentExplosion(ce);
 

@@ -72,8 +72,14 @@ function renderdashboard(){
 </div>
 
 <div class="dashelement btn-hover">
-    <img src="https://i.postimg.cc/fRMf6jH4/advanced.png alt="">
-    <a href="#" onclick="redirectToTab('#dashboardsection')">SEARCH ASSEMBLIES CONTAINING A MATERIAL</a>
+    <img src="https://i.postimg.cc/4NZWLJHM/explosion.png" alt="">
+    <a href="#" onclick="renderqueryadv2()">EXPLODE PARTS AND SUBASSEMBLIES CONTAINED IN A PRODUCT</a>
+
+</div>
+
+<div class="dashelement btn-hover">
+    <img src="https://i.postimg.cc/fRMf6jH4/advanced.png" alt="">
+    <a href="#" onclick="">SEARCH ASSEMBLIES CONTAING A MATERIAL</a>
 
 </div>
 
