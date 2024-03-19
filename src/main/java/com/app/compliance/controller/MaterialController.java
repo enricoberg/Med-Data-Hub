@@ -1,10 +1,19 @@
 package com.app.compliance.controller;
 
 
+import com.app.compliance.dto.ComponentExplosion;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Material;
+import com.app.compliance.model.MaterialConfiguration;
 import com.app.compliance.model.Supplier;
+import com.app.compliance.repository.BomRepository;
+import com.app.compliance.repository.ComponentRepository;
+import com.app.compliance.repository.ConfigurationRepository;
+import com.app.compliance.repository.MaterialConfigurationRepository;
 import com.app.compliance.repository.MaterialRepository;
+import com.app.compliance.repository.ProductRepository;
+import com.app.compliance.services.UsageController;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +34,22 @@ import java.util.Optional;
 public class MaterialController {
 
     @Autowired
+    private final BomRepository bomRepository;
+
+    @Autowired
+    private final ComponentRepository componentRepository;
+
+    @Autowired
     private final MaterialRepository materialRepository;
+
+    @Autowired
+    private final ProductRepository productRepository;
+
+    @Autowired
+    private final MaterialConfigurationRepository matconfRepository;
+
+    @Autowired
+    private final ConfigurationRepository configurationRepository;
 
     @GetMapping("/")
     public List<Material> getAllMaterialsFiltered(
@@ -85,6 +109,47 @@ public class MaterialController {
     @GetMapping("/byid")
     public Optional<Material> RetrieveComponent(@RequestParam("id") Integer id) {
         return materialRepository.findById(id);
+    }
+
+    @GetMapping("/inproduct")
+    public String productsContainingMaterial(@RequestParam("id") Integer id) {
+
+        //FIRST CREATE AN ARRAY WITH A LIST OF MATERIAL-CONFIGURATIONS MATCHING THE SPECIFIED MATERIAL
+        List<MaterialConfiguration> allmatconf = matconfRepository.findByMaterialid(id);
+        List<Integer> allconfids = new ArrayList<>();
+        for(MaterialConfiguration mc : allmatconf){
+            Integer conf_id = mc.getConfid();
+            allconfids.add(conf_id);
+        }
+        // THEN EXTRACT AN ARRAY WITH A LIST OF COMPONENTS MATCHING THE PREVIOUSLY FOUND CONFIGURATIONS
+        List<Integer> allcompids = new ArrayList<>();
+        for(Integer i : allconfids){
+            Integer comp_id = configurationRepository.findById(i).get().getCompid();
+            allcompids.add(comp_id);
+            System.out.println(comp_id);
+        }
+        //LOOP THROUGH ALL THE COMPONENTS AND GET THEIR ARTICLE NUMBERS
+        List<String> allarticles = new ArrayList<>();
+        UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
+        for(Integer i : allcompids){
+            String article = componentRepository.findById(i).get().getComp_id();
+            allarticles.add(article);
+
+        }
+        
+        List<ComponentExplosion> results =  new ArrayList<>();
+        for(String j : allarticles){
+            List<ComponentExplosion> partials = usageController.getUsageofComponent(j);
+            for(ComponentExplosion partial : partials ){results.add(partial);}
+
+        }
+
+        Material search_material = materialRepository.findById(id).get();
+        String brandname = search_material.getBrandname();
+
+        //convert results to string
+        return usageController.stringifyResults(results, brandname, 3);        
+        
     }
 
 

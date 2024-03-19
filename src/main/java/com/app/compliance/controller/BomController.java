@@ -10,6 +10,7 @@ import com.app.compliance.model.Product;
 import com.app.compliance.repository.BomRepository;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.ProductRepository;
+import com.app.compliance.services.UsageController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,8 @@ public class BomController {
     private final ComponentRepository componentRepository;
     @Autowired
     private final ProductRepository productRepository;
+
+    
 
 
 
@@ -120,69 +123,69 @@ public class BomController {
 
     @GetMapping("/componentusage")
     public String whereIsComponentUsed(
-            @RequestParam(required = false) String article
+            @RequestParam(required = true) String article
     ) {
-        List<ComponentExplosion> results =  new ArrayList<>();
-        boolean exit=false;        
-        boolean assembly=!isComponent(article);
-        Integer codetosearch;
-        if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
-        else codetosearch = componentRepository.findByCompid(article).getId();
-        Integer level=1;
-        ComponentExplosion first_element= new ComponentExplosion();
-        first_element.setLevel(level);
-        first_element.setId(codetosearch);
-        first_element.setAssembly(assembly);
-        first_element.setControlled(false);
-        results.add(first_element);
+        // List<ComponentExplosion> results =  new ArrayList<>();
+        // boolean exit=false;        
+        // boolean assembly=!isComponent(article);
+        // Integer codetosearch;
+        // if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
+        // else codetosearch = componentRepository.findByCompid(article).getId();
+        // Integer level=1;
+        // ComponentExplosion first_element= new ComponentExplosion();
+        // first_element.setLevel(level);
+        // first_element.setId(codetosearch);
+        // first_element.setAssembly(assembly);
+        // first_element.setControlled(false);
+        // results.add(first_element);
 
-        while(!exit){
+        // while(!exit){
             
-            for(ComponentExplosion c: results) {
-                if(c.isControlled()) continue;
-                codetosearch=c.getId();
-                assembly=c.isAssembly();
-                level=c.getLevel()+1;
+        //     for(ComponentExplosion c: results) {
+        //         if(c.isControlled()) continue;
+        //         codetosearch=c.getId();
+        //         assembly=c.isAssembly();
+        //         level=c.getLevel()+1;
 
 
-                List<Bom> bomresults = bomRepository.findByCompid(codetosearch);
+        //         List<Bom> bomresults = bomRepository.findByCompid(codetosearch);
 
-                if (!bomresults.isEmpty()) {
-                    for (Bom b : bomresults) {
+        //         if (!bomresults.isEmpty()) {
+        //             for (Bom b : bomresults) {
 
-                        Integer prodid= b.getProdid().getId();
-                        ComponentExplosion newcompexplosion = new ComponentExplosion();
-                        newcompexplosion.setId(prodid);
-                        newcompexplosion.setAssembly(b.isAssembly());
-                        newcompexplosion.setLevel(level);
-                        newcompexplosion.setControlled(false);
-                        try{
-                            results.add(results.indexOf(c)+1,newcompexplosion);
+        //                 Integer prodid= b.getProdid().getId();
+        //                 ComponentExplosion newcompexplosion = new ComponentExplosion();
+        //                 newcompexplosion.setId(prodid);
+        //                 newcompexplosion.setAssembly(b.isAssembly());
+        //                 newcompexplosion.setLevel(level);
+        //                 newcompexplosion.setControlled(false);
+        //                 try{
+        //                     results.add(results.indexOf(c)+1,newcompexplosion);
 
-                        }
-                        catch(Exception e){
-                            System.out.println("ERROR");
-                        }
-
-
-                    }
-                    c.setControlled(true);
-                    break;
-                }
-                else{
-                    c.setControlled(true);
-                    break;
-                }
+        //                 }
+        //                 catch(Exception e){
+        //                     System.out.println("ERROR");
+        //                 }
 
 
-            }
-            exit=true;
-            for(ComponentExplosion c: results){
-                if(!c.isControlled()) {
-                    exit=false;
-                    break;
-                }
-            }
+        //             }
+        //             c.setControlled(true);
+        //             break;
+        //         }
+        //         else{
+        //             c.setControlled(true);
+        //             break;
+        //         }
+
+
+        //     }
+        //     exit=true;
+        //     for(ComponentExplosion c: results){
+        //         if(!c.isControlled()) {
+        //             exit=false;
+        //             break;
+        //         }
+        //     }
 
 
 
@@ -190,19 +193,12 @@ public class BomController {
 
         
 
-        }
+        // }
 
 
-        String resultstring="Usage of article code "+article+":";
-        for(ComponentExplosion ce : results){
-            resultstring+="<br>";
-            for(Integer i = 0 ; i< ce.getLevel();i++){
-                resultstring+="&nbsp;&nbsp;";
-            }
-            resultstring+=getArticleOfComponentExplosion(ce);
-
-        }
-        return resultstring;
+        UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
+        List<ComponentExplosion> results =  usageController.getUsageofComponent(article);        
+        return usageController.stringifyResults(results, article,1);
 
     }
 
@@ -211,90 +207,78 @@ public class BomController {
     public String explodeBOM(
             @RequestParam(required = false) String article
     ) {
-        List<ComponentExplosion> results =  new ArrayList<>();
-        boolean exit=false;    
-        Integer codetosearch;
-        codetosearch=productRepository.findByCode(article).get().getId();
+    //    List<ComponentExplosion> results =  new ArrayList<>();
+    //    boolean exit=false;
+    //    Integer codetosearch;
+    //    codetosearch=productRepository.findByCode(article).get().getId();
+
+    //    Integer level=1;
+    //    ComponentExplosion first_element= new ComponentExplosion();
+    //    first_element.setLevel(level);
+    //    first_element.setId(codetosearch);
+    //    first_element.setAssembly(true);
+    //    first_element.setControlled(false);
+    //    results.add(first_element);
+
+    //    while(!exit){
+    //        boolean assembly;
+    //        for(ComponentExplosion c: results) {
+    //            if(c.isControlled()) continue;
+    //            codetosearch=c.getId();
+    //            assembly=c.isAssembly();
+    //            level=c.getLevel()+1;
+    //            if(!assembly) {
+    //                c.setControlled(true);
+    //                continue;
+    //            }
+
+    //            List<Bom> bomresults = bomRepository.findByProdid(productRepository.findById(codetosearch).get());
+
+    //            if (!bomresults.isEmpty()) {
+    //                for (Bom b : bomresults) {
+
+    //                    Integer compid= b.getCompid();
+
+    //                    ComponentExplosion newcompexplosion = new ComponentExplosion();
+    //                    newcompexplosion.setId(compid);
+    //                    newcompexplosion.setAssembly(b.isAssembly());
+    //                    newcompexplosion.setLevel(level);
+    //                    newcompexplosion.setControlled(false);
+    //                    try{
+    //                        results.add(results.indexOf(c)+1,newcompexplosion);
+
+    //                    }
+    //                    catch(Exception e){
+    //                        System.out.println("ERROR");
+    //                    }
+
+
+    //                }
+    //                c.setControlled(true);
+    //                break;
+    //            }
+    //            else{
+    //                c.setControlled(true);
+    //                break;
+    //            }
+
+
+    //        }
+    //        exit=true;
+    //        for(ComponentExplosion c: results){
+    //            if(!c.isControlled()) {
+    //                exit=false;
+    //                break;
+    //            }
+    //        }
+
+
+    //    }
+
         
-        Integer level=1;
-        ComponentExplosion first_element= new ComponentExplosion();
-        first_element.setLevel(level);
-        first_element.setId(codetosearch);
-        first_element.setAssembly(true);
-        first_element.setControlled(false);
-        results.add(first_element);
-
-        while(!exit){
-            boolean assembly;
-            for(ComponentExplosion c: results) {
-                if(c.isControlled()) continue;
-                codetosearch=c.getId();
-                assembly=c.isAssembly();
-                level=c.getLevel()+1;
-                if(!assembly) {
-                    c.setControlled(true);
-                    continue;
-                }
-
-                List<Bom> bomresults = bomRepository.findByProdid(productRepository.findById(codetosearch).get());
-
-                if (!bomresults.isEmpty()) {
-                    for (Bom b : bomresults) {
-
-                        Integer compid= b.getCompid();
-
-                        ComponentExplosion newcompexplosion = new ComponentExplosion();
-                        newcompexplosion.setId(compid);
-                        newcompexplosion.setAssembly(b.isAssembly());
-                        newcompexplosion.setLevel(level);
-                        newcompexplosion.setControlled(false);
-                        try{
-                            results.add(results.indexOf(c)+1,newcompexplosion);
-
-                        }
-                        catch(Exception e){
-                            System.out.println("ERROR");
-                        }
-
-
-                    }
-                    c.setControlled(true);
-                    break;
-                }
-                else{
-                    c.setControlled(true);
-                    break;
-                }
-
-
-            }
-            exit=true;
-            for(ComponentExplosion c: results){
-                if(!c.isControlled()) {
-                    exit=false;
-                    break;
-                }
-            }
-
-
-
-
-
-        
-
-        }
-
-
-        String resultstring="Full bill of materials for article code "+article+":";
-        for(ComponentExplosion ce : results){
-            resultstring+="<br>";
-            for(Integer i = 0 ; i< ce.getLevel();i++){
-                resultstring+="&nbsp;&nbsp;";
-            }
-            resultstring+=getArticleOfComponentExplosion(ce);
-
-        }
-        return resultstring;
+        UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
+        List<ComponentExplosion> results =  usageController.multilevelBom(article);
+        return usageController.stringifyResults(results, article,2);
 
     }
 

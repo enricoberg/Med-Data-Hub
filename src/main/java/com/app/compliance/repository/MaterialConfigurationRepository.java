@@ -10,4 +10,6 @@ public interface MaterialConfigurationRepository extends JpaRepository<MaterialC
     List<MaterialConfiguration> findAll();
 
     List<MaterialConfiguration> findByMaterialidAndConfid(Integer materialid, Integer configurationid);
+
+    List<MaterialConfiguration> findByMaterialid(Integer materialid);
 }

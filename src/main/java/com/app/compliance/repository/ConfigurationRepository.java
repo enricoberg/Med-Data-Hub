@@ -21,6 +21,8 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
     List<Configuration> findByCompid(Integer comp_id);
 
 
+
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO configuration_material (configuration_id, material_id) VALUES (:value1, :value2)", nativeQuery = true)
