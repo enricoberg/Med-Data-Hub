@@ -1,6 +1,6 @@
 const totalcomponentcolumns=10;
 const totalproductcolumns=13;
-const totalmaterialcolumns=5;
+const totalmaterialcolumns=6;
 const totalsuppliercolumns=3;
 const totaldocumentcolumns=5;
 const elementsToRemove = [".bomcontainer", ".queryadv1",".bomtitle"];

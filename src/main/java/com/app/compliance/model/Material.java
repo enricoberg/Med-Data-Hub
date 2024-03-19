@@ -16,9 +16,8 @@ public class Material {
 
 
 
-
     public enum MaterialFamily{
-        ABS,STEEL,ACRYLIC,ADHESIVE,ADHESIVETAPE,ALUMINIUM,CARDBOARD,ADHESIVEPAPER,MEDICALPAPER,COLORANT,TPE,ETPU,FILM,HDPE,COATING,HIPS,INK,MABS,MASTERBATCH,MEMBRANE,PA,PC,LDPE,PES,PET,PETG,PMMA,PP,PPE,PRIMER,PS,PSU,PTFE,PU,PUR,PVC,PVCDEHPFREE,SAN,SEBS,SILICONE,SOLVENT,TYVEK,VARIOUS
+        ABS,ADDITIVE,ADHESIVEPAPER,ADHESIVETAPE,ADHESIVE,ALUMINUM,BRASS,CARTONBOX,CIIR,COLORANT,CONCENTRATES,COP,EVA,HDPE,HIPS,INK,IR,LDPE,MABS,MEDICALPAPER,MULTIMATERIAL,NA,NITINOL,PA,PAPE,PAPER,PC,PCABS,PE,PEEVA,PES,PET,PETPE,PETPP,PMMA,PO,POM,PP,PPPE,PPC,PPE,PPH,PS,PSU,PTFE,PUR,PVC,PVP,SAN,SBC,SEBS,SI,SOLVENT,SST,SULFATE,TPE,TPU,TUNGSTEN
     }
 
 
@@ -43,6 +42,9 @@ public class Material {
 
     @Column(length = 40)
     private String supplier;
+
+    @Column(length = 40)
+    private String notes;
 
 
 //    @ManyToMany(mappedBy = "materials",
@@ -89,5 +91,13 @@ public class Material {
 
     public void setSupplier(String supplier) {
         this.supplier = supplier;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

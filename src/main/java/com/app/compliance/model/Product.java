@@ -22,7 +22,7 @@ public class Product {
     }
 
     public enum SterilizationSite{
-        BAI,Sterilverona
+        BAI,Sterilverona,Sterilveronanogara,Melsungen,Sterisastkomenda,Sterisastwestport,Sterisastseriate,Synergyhealth
     }
 
 

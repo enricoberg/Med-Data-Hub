@@ -31,49 +31,65 @@ function rendermaterials(){
         <div class="form-group ">
         <label for="family" class="control-label "> Material Type </label>
         <select id="ifamily" class="form-select form-select-sm selectcontrol" name="familyinput">
-                      <option value="ABS">ABS</option>
-                      <option value="ACRYLIC">ACRYLIC</option>
-                      <option value="ADHESIVE">ADHESIVE</option>
-                      <option value="ADHESIVETPAPER">ADHESIVETPAPER</option>
-                      <option value="ADHESIVETAPE">ADHESIVETAPE</option>
-                      <option value="ALUMINIUM">ALUMINIUM</option>
-                      <option value="CARDBOARD">CARDBOARD</option>
-                      <option value="COATING">COATING</option>
-                      <option value="COLORANT">COLORANT</option>
-                      <option value="ETPU">ETPU</option>
-                      <option value="FILM">FILM</option>
-                      <option value="HDPE">HPE</option>
-                      <option value="HIPS">HIPS</option>
-                      <option value="INK">INK</option>
-                      <option value="LDPE">LDPE</option>
-                      <option value="MABS">MABS</option>
-                      <option value="MEDICALPAPER">MEDICALPAPER</option>
-                      <option value="MEMBRANE">MEMBRANE</option>
-                      <option value="PA">PA</option>
-                      <option value="PC">PC</option>
-                      <option value="PES">PES</option>
-                      <option value="PET">PET</option>
-                      <option value="PETG">PETG</option>
-                      <option value="PMMA">PMMA</option>
-                      <option value="PP">PP</option>
-                      <option value="PPE">PPE</option>
-                      <option value="PRIMER">PRIMER</option>
-                      <option value="PS">PS</option>
-                      <option value="PSU">PSU</option>
-                      <option value="PTFE">PTFE</option>
-                      <option value="PU">PU</option>
-                      <option value="PUR">PUR</option>
-                      <option value="PVC">PVC</option>
-                      <option value="PVCDEHPFREE">PVCDEHPFREE</option>
-                      <option value="SAN">SAN</option>
-                      <option value="SEBS">SEBS</option>
-                      <option value="SILICONE">SILICONE</option>
-                      <option value="SOLVENT">SOLVENT</option>
-                      <option value="STEEL">STEEL</option>
-                      <option value="TPE">TPE</option>
-                      <option value="TYVEK">TYVEK</option>
-                      <option value="VARIOUS">VARIOUS</option>
-                      <option value="all" selected>Select All</option>
+                        <option value="ABS">ABS</option>
+                        <option value="ADDITIVE">Additives</option>
+                        <option value="ADHESIVEPAPER">Adhesive Paper</option>
+                        <option value="ADHESIVETAPE">Adhesive Tape</option>
+                        <option value="ADHESIVE">Ashesives</option>
+                        <option value="ALUMINUM">Aluminium</option>
+                        <option value="BRASS">Brass</option>
+                        <option value="CARTONBOX">Cartonbox</option>
+                        <option value="CIIR">CIIR (Chlorobutyl)</option>
+                        <option value="COLORANT">Colorants</option>
+                        <option value="CONCENTRATES">Concentrates</option>
+                        <option value="COP">COP</option>
+                        <option value="EVA">EVA</option>
+                        <option value="HDPE">HDPE</option>
+                        <option value="HIPS">HIPS</option>
+                        <option value="INK">Inks</option>
+                        <option value="IR">IR</option>
+                        <option value="LDPE">LDPE</option>
+                        <option value="MABS">MABS</option>
+                        <option value="MEDICALPAPER">Medical Paper</option>
+                        <option value="MULTIMATERIAL">Multimaterial</option>        
+                        <option value="NITINOL">Nitinol</option>
+                        <option value="PA">PA</option>
+                        <option value="PAPE">PA/PE</option>
+                        <option value="PAPER">Paper</option>
+                        <option value="PC">PC</option>
+                        <option value="PCABS">PC/ABS</option>
+                        <option value="PE">PE</option>
+                        <option value="PEEVA">PE/EVA</option>
+                        <option value="PES">PES</option>
+                        <option value="PET">PET</option>
+                        <option value="PETPE">PET/PE</option>
+                        <option value="PETPP">PET/PP</option>
+                        <option value="PMMA">PMMA</option>
+                        <option value="PO">PO</option>
+                        <option value="POM">POM</option>
+                        <option value="PP">PP</option>
+                        <option value="PPPE">PP/PE</option>
+                        <option value="PPC">PPC</option>
+                        <option value="PPE">PPE</option>
+                        <option value="PPH">PPH</option>
+                        <option value="PS">PS</option>
+                        <option value="PSU">PSU</option>
+                        <option value="PTFE">PTFE</option>
+                        <option value="PUR">PUR</option>
+                        <option value="PVC">PVC</option>
+                        <option value="PVP">PVP</option>
+                        <option value="SAN">SAN</option>
+                        <option value="SBC">SBC</option>
+                        <option value="SEBS">SEBS</option>
+                        <option value="SI">Silicone</option>
+                        <option value="SOLVENT">Solvents</option>
+                        <option value="SST">SST</option>
+                        <option value="SULFATE">Sulfates</option>
+                        <option value="TPE">TPE</option>
+                        <option value="TPU">TPU</option>
+                        <option value="TUNGSTEN>Tungsten</option>
+                        <option value="NA">N/A - Not applicable</option>
+                        <option value="all" selected>Select All</option>
                     </select>
         </div>
 
@@ -122,6 +138,7 @@ async function updateMaterialsTable(totalcolumns){
             <div class="grid-item tableheader">Manufactured By</div>
             <div class="grid-item tableheader">Material Type</div>
             <div class="grid-item tableheader">Plasticizer</div>
+            <div class="grid-item tableheader">Notes</div>
             <div class="grid-item tableheader">Datasheet</div>
 
 
@@ -193,6 +210,7 @@ async function updateMaterialsTable(totalcolumns){
                 if(i>=minview && i<maxview){
         let checknull1= obj.family==null ? "&#10007;" : obj.family;
         let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
+        let checknull3= obj.notes==null ? "" : obj.notes;
             document.querySelector(".grid-container").innerHTML+=
         `
 
@@ -200,6 +218,7 @@ async function updateMaterialsTable(totalcolumns){
         <div class="grid-item ">${obj.supplier}</div>
         <div class="grid-item ">${checknull1}</div>
         <div class="grid-item ">${checknull2}</div>
+        <div class="grid-item ">${checknull3}</div>
         <div class="grid-item "><a class="pdfopener" targetref="/download/?filename=TDS_${obj.id}">TDS</a> ---
         <a class="pdfopener"  targetref="/download/?filename=SDS_${obj.id}">SDS</a> ---
         <a  class="usagelink" onclick="renderqueryadv3(${obj.id})">See Usage</a>

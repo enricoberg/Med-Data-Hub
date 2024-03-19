@@ -28,7 +28,7 @@ function renderproducts(){
                 <input type="text" class="form-control documentcontrol" placeholder="DHF number" name="dhfinput">
                 <input type="text" class="form-control documentcontrol" placeholder="RMF" name="rmfinput" >
                 <input type="text" class="form-control documentcontrol" placeholder="BUDI" name="budiinput" >
-                <input type="text" class="form-control documentcontrol" placeholder="Sterilization Site" name="sterisiteinput" >
+                
                 <input type="text" class="form-control documentcontrol" placeholder="Shelf life (months)" name="shelflifeinput" >
             </div>
 
@@ -86,6 +86,19 @@ function renderproducts(){
                                      <option value="true" >Semifinished good</option>
                                      <option value="false" >Products</option>
                                      <option value="all" selected>See All</option>
+                                   </select>
+                                   <span class="ml-3">Sterilization Site: </span>
+                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput">
+                                    <option value="BAI" >B.Braun Avitum Italy</option>
+                                    <option value="Sterilverona" >Sterilverona</option>
+                                    <option value="Sterilveronanogara" >Sterilverona Nogara</option>
+                                    <option value="Melsungen" >B.Braun Melsungen</option>
+                                    <option value="Sterisastkomenda" >Sterisast Komenda</option>
+                                    <option value="Sterisastwestport" >Sterisast Westport</option>
+                                    <option value="Sterisastseriate" >Sterisast Seriate</option>
+                                    <option value="Synergyhealth" >Synergy Health</option>
+                                    
+                                    <option value="all" selected>See All</option>
                                    </select>
             </div>
 
@@ -153,7 +166,7 @@ async function updateProductsTable(totalcolumns){
     let rmf=document.getElementsByName("rmfinput")[0].value;
     let budi=document.getElementsByName("budiinput")[0].value;
     let sterimethod=document.getElementsByName("sterimethodinput")[0].value;
-    let sterisite=document.getElementsByName("sterisiteinput")[0].value!=""? document.getElementsByName("sterisiteinput")[0].value : "all";
+    let sterisite=document.getElementsByName("sterisiteinput")[0].value;
     let shelflife= document.getElementsByName("shelflifeinput")[0].value;
 
 
