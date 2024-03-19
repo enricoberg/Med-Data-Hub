@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -125,13 +126,15 @@ public class MaterialController {
         List<Integer> allcompids = new ArrayList<>();
         for(Integer i : allconfids){
             Integer comp_id = configurationRepository.findById(i).get().getCompid();
-            allcompids.add(comp_id);
-            System.out.println(comp_id);
+            allcompids.add(comp_id);            
         }
+        //REMOVE DUPLICATES
+        HashSet<Integer> set = new HashSet<>(allcompids);
+        List<Integer> listWithoutDuplicates = new ArrayList<>(set);
         //LOOP THROUGH ALL THE COMPONENTS AND GET THEIR ARTICLE NUMBERS
         List<String> allarticles = new ArrayList<>();
         UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
-        for(Integer i : allcompids){
+        for(Integer i : listWithoutDuplicates){
             String article = componentRepository.findById(i).get().getComp_id();
             allarticles.add(article);
 
@@ -147,8 +150,24 @@ public class MaterialController {
         Material search_material = materialRepository.findById(id).get();
         String brandname = search_material.getBrandname();
 
+        String resultstringified="Products containing material "+brandname+":<br>";
+        HashSet<Integer> product_set = new HashSet<>();
+        for(ComponentExplosion ce: results){
+            if(ce.isAssembly()) product_set.add(ce.getId());
+        }
+        for(Integer i: product_set){
+            
+            String product_code = productRepository.findById(i).get().getCode();
+            String product_description = productRepository.findById(i).get().getDescription();
+            resultstringified+="<br>";
+            resultstringified+=product_code + " - " + product_description;
+            
+        }
+
         //convert results to string
-        return usageController.stringifyResults(results, brandname, 3);        
+        //return usageController.stringifyResults(results, brandname, 3);       
+        System.out.println(resultstringified); 
+        return resultstringified;
         
     }
 

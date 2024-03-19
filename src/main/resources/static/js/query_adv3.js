@@ -14,7 +14,7 @@ async function renderqueryadv3(materialid){
             document.body.insertBefore(newTitle, referenceElement);
             newTitle.classList.add("bomtitle");
             newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`PRODUCTS CONTAINING MATERIAL- <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
+            newTitle.innerHTML=`MATERIAL USAGE ANALYSIS - <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
     const newDash = document.createElement("div");
     const referenceElement2 = document.body.children[2];
     document.body.insertBefore(newDash, referenceElement2);
