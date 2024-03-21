@@ -11,15 +11,18 @@ function colorRowAndColumn(row, col, numColumns) {
     let rowEndIndex = rowStartIndex + numColumns;
     
     for (let i = rowStartIndex; i < rowEndIndex; i++) {
-        gridItems[i].style.backgroundColor ='rgba(43, 43, 193,0.1)';
+        gridItems[i].style.backgroundColor ='rgba(106, 198, 226, 0.2)';
+        // gridItems[i].style.backgroundColor ='rgba(43, 43, 193,0.1)';
     }  
     let columnStartIndex=  col+numColumns
     // for (let i = columnStartIndex; i < gridItems.length; i += numColumns) {
     //     gridItems[i].style.backgroundColor ='rgba(43, 43, 193,0.1)'; gridItems[i].style.backgroundColor ='rgba(43, 43, 193,0.1)';
         
     // }
-    gridItems[col+row*numColumns].style.backgroundColor='rgba(43, 43, 193,0.6)';
+    // gridItems[col+row*numColumns].style.backgroundColor='rgba(43, 43, 193,0.6)';
+    gridItems[col+row*numColumns].style.backgroundColor='rgba(13, 110, 253, 1)';
     gridItems[col+row*numColumns].style.color="white";
+    gridItems[col+row*numColumns].querySelector("a").style.color="white";
 }
 
 
@@ -36,6 +39,9 @@ for(let element of gridItemsWithoutHeader){
     element.addEventListener("mouseout",()=>{
         for(let j of document.querySelectorAll('.grid-item:not(.tableheader)')) j.style.color="#656565";
         for(let j of document.querySelectorAll('.grid-item:not(.tableheader)')) j.style.backgroundColor="";
+        for(let j of document.querySelectorAll('.grid-item:not(.tableheader) a')) j.style.color="#007bff";
+
+        
     });    
 }
 }

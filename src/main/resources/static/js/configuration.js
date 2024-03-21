@@ -58,21 +58,21 @@ async function updateConfigurationsTable(totalcolumns,article){
         const jsonResponse = await response.json();
 
         //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
-                            // fetch(`/aux/getrole?email=${currentuser()}`,{
-                            //             method: 'GET',
-                            //             headers: {'Authorization': authenticationheader() }})
-                            //         .then(response => {
-                            //             if (!response.ok) {
-                            //                 throw new Error('Network response was not ok: ' + response.statusText);
-                            //             }
-                            //             return response.text();
-                            //         })
-                            //         .then(data => {
-                            //             if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".addheader").classList.remove("invisible");
-                            //         })
-                            //         .catch(error => {
-                            //             console.error('Error during fetch:', error);
-                            //         });
+                            fetch(`/aux/getrole?email=${currentuser()}`,{
+                                        method: 'GET',
+                                        headers: {'Authorization': authenticationheader() }})
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok: ' + response.statusText);
+                                        }
+                                        return response.text();
+                                    })
+                                    .then(data => {
+                                        if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".addheader").classList.remove("invisible");
+                                    })
+                                    .catch(error => {
+                                        console.error('Error during fetch:', error);
+                                    });
 
         if (response.status !== 200) {
             console.error('Request failed with status:', response.status);
