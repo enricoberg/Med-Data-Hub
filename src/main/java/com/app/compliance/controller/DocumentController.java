@@ -63,7 +63,7 @@ public class DocumentController {
             else if (description!=null && !doc.getDescription().toUpperCase().contains(description.toUpperCase())) toRemove.add(doc);
             else if (revision!=null && !doc.getRevision().toUpperCase().contains(revision.toUpperCase())) toRemove.add(doc);
             else if (article!=null && !doc.getId().toUpperCase().contains(article.toUpperCase())) toRemove.add(doc);
-            else if (ppc!=null && !doc.getPpc().toUpperCase().contains(ppc.toUpperCase())) toRemove.add(doc);
+            else if (ppc!=null) if(doc.getPpc()==null || !doc.getPpc().toUpperCase().contains(ppc.toUpperCase())) toRemove.add(doc);
 
         }
 
