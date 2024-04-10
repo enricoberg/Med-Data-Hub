@@ -138,14 +138,33 @@ async function updateDocumentsTable(totalcolumns){
                 let rp=parseInt(getCookie("resultpage"));
                 let minview=rv*(rp-1);
                 let maxview=rv*rp;
+                
+                
 
                 if(i>=minview && i<maxview){
+                let ppcnumber = (obj.ppc!=null && obj.ppc!="null" ) ? obj.ppc : "";
+                let docutype="";
+                switch(obj.documentType){
+                    case "InternalSpecification":
+                        docutype="Internal Specification";
+                        break;
+                    case "SupplierSpecification":
+                        docutype="Supplier Specification";
+                        break;
+                    case "WI":
+                        docutype="Work Instruction";
+                        break;
+                    default:                        
+                        docutype="Undefined";
+                        break;
+                }
+                
             document.querySelector(".grid-container").innerHTML+=
         `
         <div class="grid-item "><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
-        <div class="grid-item ">${obj.documentType}</div>
+        <div class="grid-item ">${docutype}</div>
         <div class="grid-item ">${obj.revision}</div>
-        <div class="grid-item ">${obj.ppc}</div>
+        <div class="grid-item ">${ppcnumber}</div>
         <div class="grid-item ">${obj.description}</div>
         `;
 
