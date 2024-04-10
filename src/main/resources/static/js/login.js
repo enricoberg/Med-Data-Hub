@@ -27,8 +27,11 @@ function validate_login(){
 function validate_signup(){  
   errormessage=document.querySelector(`#signuperror`);
   const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+  // const emailRegex = /^([a-zA-Z0-9._%-]+@bbraun.com)$/;
   checkemail=emailRegex.test(document.querySelector("#il3").value);
   checkpassword=document.querySelector("#il4").value==document.querySelector("#il5").value;
+  let currentpassword=document.querySelector("#il4").value;
+  if (currentpassword.length<6) checkpassword=false;
   if(document.querySelector("#il1").value!=="" && document.querySelector("#il2").value!=="" && document.querySelector("#il3").value!=="" && document.querySelector("#il4").value!=="") {
     if(!checkemail){
       errormessage.innerHTML="Error: invalid email";
