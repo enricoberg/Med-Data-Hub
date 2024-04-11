@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-.body{
-    background-color: rgba(43,43,193,0.95   );
 
+body{
+    background-image: url("background.webp");
+    background-size: cover;
 }
-
 
 .dash{
     width: 100vw;
     margin-top: 25px;
-    background-color: white;
+    background-color: rgba(0,0,0,0);
     min-height: 80vh;
     display: flex;
     flex-wrap: wrap;

@@ -90,7 +90,7 @@ document.cookie= 'refreshcount=0';
 setInterval(()=>{
     let refreshcount=parseInt(getCookie("refreshcount"));
     refreshcount+=1;
-    if(refreshcount<8) {
+    if(refreshcount<16) {
     test();
     document.cookie=`refreshcount=${refreshcount}`;
     }

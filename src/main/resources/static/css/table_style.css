@@ -19,6 +19,7 @@
 .grid-item{
 	color: #656565;
 	border: 1px solid #F7F7F7;
+	background-color: rgba(255,255,255,0.90);
 	text-align: center;
 	border-radius: 5px;
 	font-size: 11px;
@@ -37,6 +38,9 @@
 	color: white;
 	position: sticky;
     top: 0;
+	min-height: 30px;
+	
+	font-size:medium;
 	
   }
   .tabledisplay{
