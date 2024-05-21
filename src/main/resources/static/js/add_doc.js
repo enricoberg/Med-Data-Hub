@@ -118,7 +118,7 @@ async function rendernewdocuments(){
             else if(document.querySelector("#typesupplier").checked) type="supplier";
             else if(document.querySelector("#typewi").checked) type="wi";
             //VALIDATE THE INPUT OF THE USER
-            if(article=="" || revision=="" || ppc=="") {
+            if(article=="" || revision=="" ) {
                     if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
                     errormessage.innerHTML="Attention, all fields are mandatory before submitting the request";
                     return;
@@ -148,7 +148,7 @@ async function rendernewdocuments(){
 
                 formData.append('article', article);
                 formData.append('revision', revision);
-                formData.append('ppc', ppc);
+                if(ppc!="") formData.append('ppc', ppc);                
                 formData.append('active', active);
                 formData.append('assembly', assembly);
                 formData.append('type', type);

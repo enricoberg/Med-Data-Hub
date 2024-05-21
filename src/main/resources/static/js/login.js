@@ -128,8 +128,10 @@ fetch('/app/auth/signin', {
   if(response.ok) return response.json();
 })
 .then(data=>{
-  document.cookie = `jwt=${data.token}`;
-  document.cookie = `refresh=${data.refreshToken}`;
+  let expiration_date = new Date();
+  expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+  document.cookie = `jwt=${data.token}; expires=${expiration_date.toUTCString()};`;
+  document.cookie = `refresh=${data.refreshToken}; expires=${expiration_date.toUTCString()};`;
   
 
   window.location.replace("/app/home")

@@ -7,6 +7,9 @@ import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/querydocs")
@@ -42,8 +46,11 @@ public class DocumentController {
                                           @RequestParam(required = false) Boolean wi,
                                           @RequestParam(required = false) Boolean intspec,
                                           @RequestParam(required = false) Boolean supplierspec,
-                                          @RequestParam(required = false) String ppc
+                                          @RequestParam(required = false) String ppc,
+                                          @RequestParam(required = true)  Integer page
+                                          
                                           ) {
+                                 
         if(active==null) active=false;
         if(wi==null) wi=true;
         if(intspec==null) intspec=true;
@@ -51,28 +58,85 @@ public class DocumentController {
 
         //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
+        
+        
+        
         List<Object[]> resultobjects = documentRepository.getDocumentViews();
 
-        List<DocumentView> alldocs = getDocumentViews((resultobjects));
+        List<DocumentView> alldocs = getDocumentViews((resultobjects));     
+        //EXCEUTE ONE FILTER AT A TIME BUT ONLY IF REQUESTED
+        if(active){
+            for(DocumentView doc : alldocs){
+                if(!doc.isActive()) toRemove.add(doc);
+            }
+            alldocs.removeAll(toRemove);
+            toRemove.clear();
+        }
+        for(DocumentView doc : alldocs){
+            if (doc.getDocumentType().equals("WI") && !wi) {toRemove.add(doc); continue;}
+            else if (doc.getDocumentType().equals("InternalSpecification") && !intspec) {toRemove.add(doc); continue;}
+            else if (doc.getDocumentType().equals("SupplierSpecification") && !supplierspec) {toRemove.add(doc); continue;} 
+        }
+        alldocs.removeAll(toRemove);
+        toRemove.clear();
 
-        for (DocumentView doc : alldocs) {
-            if(active && !doc.isActive()) toRemove.add(doc);
-            else if (doc.getDocumentType().equals("WI") && !wi) toRemove.add(doc);
-            else if (doc.getDocumentType().equals("InternalSpecification") && !intspec) toRemove.add(doc);
-            else if (doc.getDocumentType().equals("SupplierSpecification") && !supplierspec) toRemove.add(doc);
-            else if (description!=null && !doc.getDescription().toUpperCase().contains(description.toUpperCase())) toRemove.add(doc);
-            else if (revision!=null && !doc.getRevision().toUpperCase().contains(revision.toUpperCase())) toRemove.add(doc);
-            else if (article!=null && !doc.getId().toUpperCase().contains(article.toUpperCase())) toRemove.add(doc);
-            else if (ppc!=null && ppc!="") if(doc.getPpc()==null || !doc.getPpc().toUpperCase().contains(ppc.toUpperCase())) toRemove.add(doc);
-
+        if(revision!=null){
+            for (DocumentView doc : alldocs){
+                if(!doc.getRevision().toUpperCase().contains(revision.toUpperCase())) toRemove.add(doc);            
+            }
+            alldocs.removeAll(toRemove);
+            toRemove.clear(); 
         }
 
+        if(article!=null){
+            for (DocumentView doc : alldocs){
+                if(!doc.getId().toUpperCase().contains(article.toUpperCase())) toRemove.add(doc);      
+            }
+            alldocs.removeAll(toRemove);
+            toRemove.clear(); 
+        }
+
+        if(ppc!=null && ppc!=""){
+            for (DocumentView doc : alldocs){
+                if(doc.getPpc()==null || !doc.getPpc().toUpperCase().contains(ppc.toUpperCase())) toRemove.add(doc);
+            }
+            alldocs.removeAll(toRemove);
+            toRemove.clear();
+        }
+        if(description!=null && description!=""){
+            for (DocumentView doc : alldocs){
+                if(doc.getDescription()!=null) if(!doc.getDescription().toUpperCase().contains(description.toUpperCase())) toRemove.add(doc);
+            }
+            alldocs.removeAll(toRemove);
+            toRemove.clear();
+        }
+
+                
+        //REMOVE ITEM WITHOUT DESCIPTION IF A SPECIFIC DESCRIPTION QUERY IS INSERTED
+        if(description!=null && description !=""){
+            toRemove.clear();
+            for(DocumentView doc: alldocs){
+                try{
+                    String  typeofdoc = doc.getDescription().getClass().getSimpleName();
+                }
+                catch(Exception e){
+                    toRemove.add(doc);
+                }
+            }   
+            alldocs.removeAll(toRemove);
+        }
+        
 
 
-        alldocs.removeAll(toRemove);
-        return alldocs;
+
+        // return alldocs;
+        return alldocs.stream()
+                .filter(doc -> alldocs.indexOf(doc) >= (page-1)*50 && alldocs.indexOf(doc) <= (page*50)-1)
+                .collect(Collectors.toList());
 
     }
+
+    
 
     @GetMapping("/getnextrev")
     public String getDescriptionDocuments(@RequestParam("article") String article,
@@ -118,6 +182,9 @@ public class DocumentController {
                 case "supplier" -> convertedType= Document.DocumentType.SupplierSpecification;
                 case "wi" -> convertedType= Document.DocumentType.WI;
             }
+
+            Optional<Document> opt_doc=documentRepository.findByArticlecodeAndRevisionAndDocumenttype(article, revision, convertedType);
+            if(opt_doc.isPresent()) return ResponseEntity.status(500).body("Document is already present");
 
             //Save the file with the correct name and path
             try {

@@ -27,8 +27,10 @@ async function validateuser(){
                body: JSON.stringify(refreshObject)})
             .then(response => { if(response.ok) return response.json(); })
             .then(data=>{
-               document.cookie = `jwt=${data.token}`;
-               document.cookie = `refresh=${data.refreshToken}`;
+              let expiration_date = new Date();
+              expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+               document.cookie = `jwt=${data.token}; expires=${expiration_date.toUTCString()};`;
+               document.cookie = `refresh=${data.refreshToken}; expires=${expiration_date.toUTCString()};`;
 
                //RETURN TRUE IF THE RESPONSE FROM THE SERVER IS OK, OTHERWISE LOGIN NOT VALID AND RETURN FALSE
                fetch(url,requestOptions)
@@ -153,8 +155,10 @@ function sendRefresh(){
                body: JSON.stringify(refreshObject)})
             .then(response => { if(response.ok) return response.json(); })
             .then(data=>{
-               document.cookie = `jwt=${data.token}`;
-               document.cookie = `refresh=${data.refreshToken}`; } )
+              let expiration_date = new Date();
+              expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+               document.cookie = `jwt=${data.token}; expires=${expiration_date.toUTCString()};`;
+               document.cookie = `refresh=${data.refreshToken}; expires=${expiration_date.toUTCString()};`; } )
             .catch(error => { console.log("Error refreshing token");})
 }
 function extractDataFromTable(){
@@ -253,10 +257,31 @@ function copyTextToClipboard(text) {
   });
 }
 
-function quickSearch(searchstring){
+async function quickSearch(searchstring){
   if(searchstring==null || searchstring.length<=2) return;
   document.querySelector("#searchstring").value="";
-  // renderpage("components");
+  
+  const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
+    method: 'GET',
+    headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (response.ok) return response.text();
+    })    
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
+    if(curr_role=="USER") searchForSimpleUser(searchstring);
+    else searchForSuperUser(searchstring);
+
+
+
+  
+
+
+}
+
+function searchForSuperUser(searchstring){
+  
   fetch(`/aux/getquicklink?search=${searchstring}`,{headers: {'Authorization': authenticationheader()}})
   .then(response => {
     if (!response.ok) {
@@ -265,7 +290,9 @@ function quickSearch(searchstring){
     return response.text(); 
   })
   .then(data => {
+    
     switch(data){
+      
       case "COMPART":        
         document.querySelector("#componentsection").click();
         setTimeout(()=>{document.querySelector("#componentarticleinput").value=searchstring;
@@ -308,6 +335,48 @@ function quickSearch(searchstring){
 
   })
   .catch(error => {    console.error('There was a problem with the fetch operation:', error);  });
+}
 
 
+function searchForSimpleUser(searchstring){
+  
+  fetch(`/aux/getquicklink?search=${searchstring}`,{headers: {'Authorization': authenticationheader()}})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text(); 
+  })
+  .then(data => {
+    switch(data){
+      case "COMPART":        
+        document.querySelector("#specificationsection").click();
+        setTimeout(()=>{document.querySelector("#speccodeinput").value=searchstring;
+        updateDocumentsTable(totaldocumentcolumns);
+      },400);        
+      break;
+      case "COMPDESC":        
+        document.querySelector("#specificationsection").click();
+        setTimeout(()=>{document.querySelector("#specdescinput").value=searchstring;
+        updateDocumentsTable(totaldocumentcolumns);
+      },400);        
+      break;
+      case "PRODART":        
+        document.querySelector("#specificationsection").click();
+        setTimeout(()=>{document.querySelector("#speccodeinput").value=searchstring;
+        updateDocumentsTable(totaldocumentcolumns);
+      },400);        
+      break;
+      case "PRODDESC":        
+        document.querySelector("#specificationsection").click();
+        setTimeout(()=>{document.querySelector("#specdescinput").value=searchstring;
+        updateDocumentsTable(totaldocumentcolumns);
+      },400);        
+      break;
+      default:
+        alert("Sorry there is no result matching your request");
+    }
+
+  })
+  .catch(error => {    console.error('There was a problem with the fetch operation:', error);  });
 }

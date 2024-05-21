@@ -1,5 +1,18 @@
 
 async function renderqueryadv1(){
+    const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (response.ok) return response.text();
+    })    
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
+    if(curr_role=="USER") {
+        document.querySelector("#dashboardsection").click();
+        return;
+    }
     let totalcolumns=9;
     clearbomtitles();
     clearTable(totalcolumns);

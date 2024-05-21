@@ -1,6 +1,5 @@
 let timeouts=[];
 function renderspecifications(){
-    document.cookie = `resultpage=1`;
     let totalcolumns=totaldocumentcolumns;
     clearbomtitles();
     clearTable(totalcolumns);
@@ -16,7 +15,7 @@ function renderspecifications(){
     newDash.classList.add("dashboard");
     newDash.classList.add("documents");
     newDash.innerHTML=`
-    <div class="pagelabel"></div>
+    <div class="pagelabel">PAGE 1/7</div>
     <div class="add_button invisible" onclick="rendernewdocuments()"><a href="#"><i class="fa-regular fa-square-plus"></i>Create new</a></div>
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageDocuments(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
         <div class="nextbutton hover-message" title="Next Page" onclick="changePageDocuments(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
@@ -41,14 +40,13 @@ function renderspecifications(){
         
         
     </div>   
-    <div class="resultbanner"></div>                
+    <div class="resultbanner">~  Found 0 results  ~</div>                
  </form>`;
 
     updateDocumentsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
         control.addEventListener("input", ()=>{
-            document.cookie = `resultpage=1`;
         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
             timeouts.push(setTimeout(updateDocumentsTable.bind(null, totalcolumns),800));
         });
@@ -66,7 +64,6 @@ function renderspecifications(){
 
 
 async function updateDocumentsTable(totalcolumns){
-    
     clearTable(totalcolumns);
 
     //CREATE HEADERS
@@ -88,10 +85,10 @@ async function updateDocumentsTable(totalcolumns){
     let supspec=document.querySelector("#checksupspec").checked;
     let active=document.querySelector("#checkactive").checked;   
     //SEND REQUEST TO THE REST API
-    
+
     let url = '/querydocs/';
-    url+=`?description=${description}&revision=${revision}&article=${article}&ppc=${ppc}&active=${active}&wi=${wi}&intspec=${intspec}&supplierspec=${supspec}&page=${getCookie("resultpage")}`;
-    
+    url+=`?description=${description}&revision=${revision}&article=${article}&ppc=${ppc}&active=${active}&wi=${wi}&intspec=${intspec}&supplierspec=${supspec}`;
+
 
 
     const requestOptions = {
@@ -105,7 +102,10 @@ async function updateDocumentsTable(totalcolumns){
         const response = await fetch(url, requestOptions);
         const jsonResponse = await response.json();
         document.cookie = `totalresults=${jsonResponse.length}`;
-        
+        //UPDATE THE NUMBER OF CURRENT PAGE
+        let numberofpages=Math.ceil(getCookie("totalresults")/getCookie("resultview"));
+        let currentpage=getCookie("resultpage");        
+        document.querySelector(".pagelabel").innerHTML=`PAGE ${currentpage}/${numberofpages}`;
 
         //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
         fetch(`/aux/getrole?email=${currentuser()}`,{
@@ -132,18 +132,16 @@ async function updateDocumentsTable(totalcolumns){
 
         //POPULATE THE TABLE
         let i=0;
-        let rv=parseInt(getCookie("resultview"));
-        let rp=parseInt(getCookie("resultpage"));
-        let minview=rv*(rp-1);
-        let maxview=rv*rp;
-        
         jsonResponse.forEach(obj => {
         //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
-                
+                let rv=parseInt(getCookie("resultview"));
+                let rp=parseInt(getCookie("resultpage"));
+                let minview=rv*(rp-1);
+                let maxview=rv*rp;
                 
                 
 
-                if(true){
+                if(i>=minview && i<maxview){
                 let ppcnumber = (obj.ppc!=null && obj.ppc!="null" ) ? obj.ppc : "";
                 let docutype="";
                 switch(obj.documentType){
@@ -177,11 +175,7 @@ async function updateDocumentsTable(totalcolumns){
         });
 
         //UPDATE NUMBER OF RESULTS
-        if(getCookie("totalresults")<=0) document.querySelector(".resultbanner").innerHTML=`  No more results `;
-        else if(getCookie("totalresults")<50) document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${minview+parseInt(getCookie("totalresults"))} `;
-        else document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${maxview} `;
-        
-        
+        document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
         //SHOW THE TABLE
         activeCellColoring(totalcolumns);
         if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
@@ -219,10 +213,14 @@ function clearTable(totalcolumns){
 }
 function changePageDocuments(increment){
     let rp=parseInt(getCookie("resultpage"));
-    
+    let totals=parseInt(getCookie("totalresults"));
 
-    
-    
+    let numberofpages=Math.ceil(totals/getCookie("resultview"));
+    if(rp>=numberofpages && increment>0) {
+        document.cookie=`resultpage=${numberofpages}`;
+        return;
+    }        
+    document.querySelector(".pagelabel").innerHTML=`PAGE ${rp}/${numberofpages}`;
 
 
     rp=rp+increment;
