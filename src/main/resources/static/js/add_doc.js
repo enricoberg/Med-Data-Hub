@@ -74,6 +74,12 @@ async function rendernewdocuments(){
                                                      Work instructions
                                                    </label>
                                                  </div>
+                                                 <div class="form-check">
+                                                   <input class="form-check-input" type="radio" name="docutypeinput" id="typeartwork" value="artwork" >
+                                                   <label class="form-check-label" for="typeartwork">
+                                                     Artwork
+                                                   </label>
+                                                 </div>
                                            </div>
                                            <div class="mb-3">
                                                <label for="formFile" class="form-label">Select the file attachment</label>
@@ -96,6 +102,7 @@ async function rendernewdocuments(){
             document.querySelector("#typeinternal").addEventListener("change",getLatestRev);
             document.querySelector("#typesupplier").addEventListener("change",getLatestRev);
             document.querySelector("#typewi").addEventListener("change",getLatestRev);
+            document.querySelector("#typeartwork").addEventListener("change",getLatestRev);
             document.querySelector("#articleinput").addEventListener("input",()=>{
              document.querySelector("#articleinput").value=document.querySelector("#articleinput").value.toUpperCase();
              });
@@ -117,6 +124,7 @@ async function rendernewdocuments(){
             if(document.querySelector("#typeinternal").checked) type="internal";
             else if(document.querySelector("#typesupplier").checked) type="supplier";
             else if(document.querySelector("#typewi").checked) type="wi";
+            else if(document.querySelector("#typeartwork").checked) type="artwork";
             //VALIDATE THE INPUT OF THE USER
             if(article=="" || revision=="" ) {
                     if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
@@ -182,6 +190,7 @@ async function rendernewdocuments(){
                     if (document.querySelector("#typeinternal").checked) docutype="internal";
                     else if (document.querySelector("#typesupplier").checked) docutype="supplier";
                     else if (document.querySelector("#typewi").checked) docutype="wi";
+                    else if (document.querySelector("#typeartwork").checked) docutype="artwork";
                     fetch(`/querydocs/getnextrev?article=${article}&type=${docutype}`,{
                                                 method: 'GET',
                                                 headers: {'Authorization': authenticationheader() }})

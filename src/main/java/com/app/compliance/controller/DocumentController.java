@@ -47,7 +47,12 @@ public class DocumentController {
                                           @RequestParam(required = false) Boolean intspec,
                                           @RequestParam(required = false) Boolean supplierspec,
                                           @RequestParam(required = false) String ppc,
-                                          @RequestParam(required = true)  Integer page
+                                          @RequestParam(required = true)  Integer page,
+                                          @RequestParam(required = false) Boolean artwork,
+                                          @RequestParam(required = false) Boolean tr,
+                                          @RequestParam(required = false) Boolean dd,
+                                          @RequestParam(required = false) Boolean dhr,
+                                          @RequestParam(required = false) Boolean ppcdoc
                                           
                                           ) {
                                  
@@ -55,7 +60,7 @@ public class DocumentController {
         if(wi==null) wi=true;
         if(intspec==null) intspec=true;
         if(supplierspec==null) supplierspec=true;
-
+        if(artwork==null) artwork=true;
         //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
         
@@ -76,6 +81,8 @@ public class DocumentController {
             if (doc.getDocumentType().equals("WI") && !wi) {toRemove.add(doc); continue;}
             else if (doc.getDocumentType().equals("InternalSpecification") && !intspec) {toRemove.add(doc); continue;}
             else if (doc.getDocumentType().equals("SupplierSpecification") && !supplierspec) {toRemove.add(doc); continue;} 
+            else if (doc.getDocumentType().equals("ARTWORK") && !artwork) {toRemove.add(doc); continue;} 
+            
         }
         alldocs.removeAll(toRemove);
         toRemove.clear();
@@ -167,7 +174,7 @@ public class DocumentController {
     public ResponseEntity<String> createNewDocument(
             @RequestParam("article") String article,
             @RequestParam("revision") String revision,
-            @RequestParam("ppc") String ppc,
+            @RequestParam(required = false) String ppc,
             @RequestParam("active") boolean active,
             @RequestParam("assembly") boolean assembly,
             @RequestParam("type") String type,
@@ -181,11 +188,12 @@ public class DocumentController {
                 case "internal" -> convertedType= Document.DocumentType.InternalSpecification;
                 case "supplier" -> convertedType= Document.DocumentType.SupplierSpecification;
                 case "wi" -> convertedType= Document.DocumentType.WI;
+                case "artwork" -> convertedType= Document.DocumentType.ARTWORK;
             }
 
             Optional<Document> opt_doc=documentRepository.findByArticlecodeAndRevisionAndDocumenttype(article, revision, convertedType);
             if(opt_doc.isPresent()) return ResponseEntity.status(500).body("Document is already present");
-
+            System.out.println("CI SONO");
             //Save the file with the correct name and path
             try {
                 //PUT Previous revisions of the document to non-active
@@ -210,6 +218,7 @@ public class DocumentController {
                     case "internal" -> typestring = "INTERNALSPECIFICATION";
                     case "supplier" -> typestring = "SUPPLIERSPECIFICATION";
                     case "wi" -> typestring = "WI";
+                    case "artwork" -> typestring = "ARTWORK";
                 }
                 String fileName = article + "_" + revision + "_" + typestring + EXTENSION;
                 Path destination = new File(SERVER_LOCATION, fileName).toPath();

@@ -16,7 +16,7 @@ public class Document {
     }
 
     public enum DocumentType {
-        InternalSpecification, SupplierSpecification, WI
+        InternalSpecification, SupplierSpecification, WI, ARTWORK, PPC, TR, DD, DHR
     }
 
     @Id

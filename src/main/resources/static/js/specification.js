@@ -38,7 +38,16 @@ function renderspecifications(){
         <input type="checkbox" name="checksupspec" id="checksupspec" class="documentcontrol" style="position: relative; left: 10px;" >
         <div class="labelinput">WI</div>
         <input type="checkbox" name="checkwi" id="checkwi" class="documentcontrol" style="position: relative; left: 10px;" >
-        
+        <div class="labelinput">Artworks</div>
+        <input type="checkbox" name="checkartwork" id="checkartwork" class="documentcontrol" style="position: relative; left: 10px;" >
+        <div class="labelinput invisible">PPC</div>
+        <input type="checkbox" name="checkppc" id="checkppc" class="documentcontrol invisible" style="position: relative; left: 10px;" >
+        <div class="labelinput invisible">Test Reports</div>
+        <input type="checkbox" name="checktr" id="checktr" class="documentcontrol invisible" style="position: relative; left: 10px;" >
+        <div class="labelinput invisible">Design Documents</div>
+        <input type="checkbox" name="checkdd" id="checkdd" class="documentcontrol invisible" style="position: relative; left: 10px;" >
+        <div class="labelinput invisible">DHR</div>
+        <input type="checkbox" name="checkdhr" id="checkdhr" class="documentcontrol invisible" style="position: relative; left: 10px;" >
         
     </div>   
     <div class="resultbanner"></div>                
@@ -86,11 +95,16 @@ async function updateDocumentsTable(totalcolumns){
     let wi=document.querySelector("#checkwi").checked;
     let intspec=document.querySelector("#checkintspec").checked;
     let supspec=document.querySelector("#checksupspec").checked;
+    let artwork=document.querySelector("#checkartwork").checked;
+    let testreport=document.querySelector("#checktr").checked;
+    let designdocument=document.querySelector("#checkdd").checked;
+    let dhr=document.querySelector("#checkdhr").checked;
+    let ppcdoc=document.querySelector("#checkppc").checked;
     let active=document.querySelector("#checkactive").checked;   
     //SEND REQUEST TO THE REST API
     
     let url = '/querydocs/';
-    url+=`?description=${description}&revision=${revision}&article=${article}&ppc=${ppc}&active=${active}&wi=${wi}&intspec=${intspec}&supplierspec=${supspec}&page=${getCookie("resultpage")}`;
+    url+=`?description=${description}&revision=${revision}&article=${article}&ppc=${ppc}&active=${active}&wi=${wi}&intspec=${intspec}&supplierspec=${supspec}&page=${getCookie("resultpage")}&artwork=${artwork}&tr=${testreport}&dd=${designdocument}&dhr=${dhr}&ppcdoc=${ppcdoc}`;
     
 
 
@@ -155,6 +169,21 @@ async function updateDocumentsTable(totalcolumns){
                         break;
                     case "WI":
                         docutype="Work Instruction";
+                        break;
+                    case "ARTWORK":
+                        docutype="Artwork";
+                        break;
+                    case "TR":
+                        docutype="Test Report";
+                        break;
+                    case "DD":
+                        docutype="Design Document";
+                        break;
+                    case "PPC":
+                        docutype="Post Production Change";
+                        break;
+                    case "DHR":
+                        docutype="Device History Record";
                         break;
                     default:                        
                         docutype="Undefined";
