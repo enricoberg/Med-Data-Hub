@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                 "/app/auth/logout",
                 "/app/auth/verify",
                 "/app/",
+                "/app/editcomponents",
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",

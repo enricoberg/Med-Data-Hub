@@ -72,7 +72,7 @@ async function rendercomponents(){
                 <option value="LABELS" selected>Labels</option>
                 <option value="SFTUBES" selected>Semifinished tubes</option>
                 <option value="SFVARIOUS" selected>Various semifinished goods</option>
-                <option value="SFSPECIALBAGS" selected>Special Bags/option>
+                <option value="SFSPECIALBAGS" selected>Special Bags</option>
                 <option value="SFBAGS150" selected>Semifinished bags 150mL</option>
                 <option value="SFBAGS250" selected>Semifinished bags 250mL</option>
                 <option value="SFBAGS500" selected>Semifinished bags 500mL</option>

@@ -196,6 +196,36 @@ public class ComponentController {
         allcomps.removeAll(supplierUnmatching);
         return allcomps;
     }
+
+
+    //RETURNS COMPONENTS BASED ON AN ARRAY OF ARTICLES 
+    @GetMapping("/bylistofcodes")
+    public List<Component> getCompByNames(@RequestParam List<String> articles) {
+        List<Component> allcomponents = new ArrayList<>();
+        for(String article : articles){
+            
+           
+            if (componentRepository.existsByCompid(article)) {
+                Component component = componentRepository.findByCompid(article);
+                allcomponents.add(component);
+            }
+            
+            
+            
+        }
+        return allcomponents;
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        try{
+            componentRepository.deleteById(id);
+        }catch(Exception e ){
+            return ResponseEntity.status(500).body("Failed to delete the user");
+        }
+        return ResponseEntity.ok("User deleted successfully");
+    }
 }
 
 

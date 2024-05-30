@@ -23,6 +23,11 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/editcomponents")
+    public String editComponents() {
+        return "edit_components";
+    }
+
     @GetMapping("/passwordchange")
     public String passwordchange() {
         return "pwc";
