@@ -67,7 +67,7 @@ function visualizeComponents(){
     <div class="col cw200  text-center etheader border ">
         <h3>Family</h3>
     </div>
-    <div class="col cw150 text-center etheader border ">
+    <div class="col cw200 text-center etheader border ">
         <h3>Conical STD</h3>
     </div>
     <div class="col cw150 text-center etheader border ">
@@ -93,21 +93,22 @@ function visualizeComponents(){
       .then(function (response) {        
         for (const obj of response.data) {
             const check_intercompany= obj.intercompany? "checked" : "";
-            const check_cone= obj.standard? "checked" : "";
+            
             const check_packaging= obj.packagingmaterial? "checked" : "";
             const check_contact= obj.contact? "checked" : "";
             const check_california= obj.ca65? "checked" : "";
             target_table.innerHTML+=`
             <div class="row" style="position: relative;">                    
                 <div class="col cw100 py-2 text-center etitem  border  bg-light etinactive boxid ">${obj.id}</div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable boxfirst ">${obj.comp_id}</div>
-                <div class="col cw350 py-2 text-center etitem border  bg-light etinactive editable boxsecond ">${obj.description}</div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable boxemail editcheck"><input class="form-check-input " type="checkbox" ${check_intercompany} id="flexCheckDefault"></div>
-                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable boxpassword editselect "> <select class="form-select selectcompfamily" aria-label="Default select example"><option selected>${obj.family}</option></select></div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable boxbirthdate editcheck" ><input class="form-check-input " type="checkbox" ${check_cone} id="flexCheckDefault"></div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable boxstreet editcheck"><input class="form-check-input " type="checkbox" ${check_packaging} id="flexCheckDefault"></div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable boxnumber editcheck"><input class="form-check-input " type="checkbox" ${check_contact} id="flexCheckDefault"></div>
-                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable boxcity editcheck"><input class="form-check-input " type="checkbox" ${check_california} id="flexCheckDefault"></div>
+                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable boxarticle ">${obj.comp_id}</div>
+                <div class="col cw350 py-2 text-center etitem border  bg-light etinactive editable boxdescription ">${obj.description}</div>
+                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck"><input class="form-check-input boxintercompany " type="checkbox" ${check_intercompany} id="flexCheckDefault"></div>
+                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable  editselect "> <select class="form-select selectcompfamily boxfamily" aria-label="Default select example"><option selected>${obj.family}</option></select></div>
+                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive  editselect "> <select class="form-select selectstandard boxstandard" disabled aria-label="Default select example"><option selected>${obj.standard}</option></select></div>
+                
+                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxpackaging" type="checkbox" ${check_packaging} id="flexCheckDefault"></div>
+                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxcontact" type="checkbox" ${check_contact} id="flexCheckDefault"></div>
+                <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxcalifornia" type="checkbox" ${check_california} id="flexCheckDefault"></div>
                     
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive ">
                     <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteItem(${obj.id})" aria-hidden="true"></i> Delete
@@ -118,8 +119,8 @@ function visualizeComponents(){
         }
                    
          updateView();
-        const allchecks=document.querySelectorAll(".editcheck input");
-        const allselects=document.querySelectorAll(".editselect select");
+        const allchecks=document.querySelectorAll(".editcheck.editable input");
+        const allselects=document.querySelectorAll(".editselect.editable select");
         
         allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
         allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
@@ -139,7 +140,7 @@ function visualizeComponents(){
             <option value="TUBES" selected>Tubes</option>
             <option value="VARIOUS" selected>Various components</option>
             <option value="BAGS" selected>Bags</option>
-            <option value="BOXES" selected>Boxes</option>
+            <option value="CARTONS" selected>Boxes</option>
             <option value="POUCHES" selected>Pouches</option>
             <option value="ADJUVANTS" selected>Adjuvants</option>
             <option value="LABELS" selected>Labels</option>
@@ -155,6 +156,15 @@ function visualizeComponents(){
             <option value="SFBAGS4500" selected>Semifinished bags 4000-4500mL</option>
             <option value="SFBAGS7000" selected>Semifinished bags 7000mL</option>
             <option value="PFG" selected>Purchased Finished Goods</option>
+            `;
+            select.value=current_value;
+        });
+        document.querySelectorAll(".selectstandard").forEach(select=>{
+            let current_value=select.value;
+            select.innerHTML=`
+            <option value="luer">Luer</option>
+              <option value="enfit">ENFIT</option>
+              <option value="tpnlock">TPN Lock</option>
             `;
             select.value=current_value;
         });
@@ -177,7 +187,7 @@ function deleteItem(id){
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
-function saveModifications(){
+function saveComponentsModifications(){
     inputToTableItem();
     const modified_items=document.querySelectorAll(".edited");
     if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
@@ -188,31 +198,27 @@ function saveModifications(){
         const parentRow = button.closest('.row');
         if (parentRow) {
             const id = parentRow.querySelector('.boxid').innerHTML;
-            const first = parentRow.querySelector('.boxfirst').innerHTML;
-            const second = parentRow.querySelector('.boxsecond').innerHTML;
-            const email = parentRow.querySelector('.boxemail').innerHTML;
-            const password = parentRow.querySelector('.boxpassword').innerHTML;
-            const street= parentRow.querySelector('.boxstreet').innerHTML;
-            const number = parentRow.querySelector('.boxnumber').innerHTML;
-            const city = parentRow.querySelector('.boxcity').innerHTML;
-            const province = parentRow.querySelector('.boxprovince').innerHTML;
-            const birthdate = parentRow.querySelector('.boxbirthdate').innerHTML;
+            const article = parentRow.querySelector('.boxarticle').innerHTML;
+            const description = parentRow.querySelector('.boxdescription').innerHTML;
+            const intercompany = parentRow.querySelector('.boxintercompany').checked;
+            const family = parentRow.querySelector('.boxfamily').value;
+            const packaging= parentRow.querySelector('.boxpackaging').checked;
+            const california = parentRow.querySelector('.boxcalifornia').checked;
+            const contact = parentRow.querySelector('.boxcontact').checked;            
 
-            if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
-            const user_correct = { 
-                                    email: email,                                
-                                    password: password,  
-                                    firstname: first,
-                                    secondname: second,  
-                                    addressstreet: street,
-                                    addresscity: city,
-                                    addressnumber: number,
-                                    addressprovince: province,
-                                    birthdate: birthdate    
+            // if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
+            const comp_correct = { 
+                                    article: article,
+                                    description: description,
+                                    intercompany: intercompany,
+                                    packaging: packaging,
+                                    contact: contact,
+                                    ca65: california,
+                                    family: family  
                                 };
-
-            axios.put(`/accounts/updateuser/${id}`, user_correct) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeUsers()},250);         
+            
+            axios.put(`/querycomp/updatecomponent/${id}`, comp_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeComponents()},250);         
             
         }
     });

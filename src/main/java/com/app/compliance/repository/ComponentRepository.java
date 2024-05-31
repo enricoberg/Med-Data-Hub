@@ -16,6 +16,7 @@ public interface ComponentRepository extends JpaRepository<Component,Integer> {
     Optional<Component> findById(Integer article);
     Component findByCompid(String article);
     boolean existsByCompid(String article);
+    boolean existsById(Integer id);
 
 
 

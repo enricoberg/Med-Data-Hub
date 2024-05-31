@@ -1,7 +1,10 @@
 package com.app.compliance.controller;
 
+import com.app.compliance.dto.CompUpdate;
 import com.app.compliance.dto.DocumentView;
+import com.app.compliance.dto.SignUpRequest;
 import com.app.compliance.model.*;
+import com.app.compliance.model.Component.ComponentFamily;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.ConfigurationRepository;
 import com.app.compliance.repository.MaterialConfigurationRepository;
@@ -225,6 +228,27 @@ public class ComponentController {
             return ResponseEntity.status(500).body("Failed to delete the user");
         }
         return ResponseEntity.ok("User deleted successfully");
+    }
+
+    @PutMapping("/updatecomponent/{id}")
+    //THIS CONTROLLER SEARCHES FOR EXISTING COMPONENT WITHS SPECIFIED ID AND OVERWRITES THE PARAMETERS
+    public ResponseEntity<String> updateComponent(@PathVariable Integer id, @RequestBody CompUpdate updateComponentRequest){
+        //VERIFY THE COMPONENT EXISTS
+        
+        Optional<Component> opt_component = componentRepository.findById(id);
+        if(!opt_component.isPresent()) return ResponseEntity.status(500).body("The user you requested to update does not exist");
+        Component component = opt_component.get();       
+        //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
+        component.setComp_id(updateComponentRequest.getArticle());
+        component.setDescription(updateComponentRequest.getDescription());
+        component.setIntercompany(updateComponentRequest.isIntercompany());
+        component.setPackagingmaterial(updateComponentRequest.isPackaging());
+        component.setCa65(updateComponentRequest.isCa65());
+        Component.ComponentFamily compfamily = ComponentFamily.valueOf(updateComponentRequest.getFamily());
+        component.setFamily(compfamily);
+        componentRepository.save(component);
+        
+        return ResponseEntity.ok("Component updated successfully");
     }
 }
 

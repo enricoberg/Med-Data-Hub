@@ -66,7 +66,7 @@ async function rendercomponents(){
                 <option value="TUBES" selected>Tubes</option>
                 <option value="VARIOUS" selected>Various components</option>
                 <option value="BAGS" selected>Bags</option>
-                <option value="BOXES" selected>Boxes</option>
+                <option value="CARTONS" selected>Boxes</option>
                 <option value="POUCHES" selected>Pouches</option>
                 <option value="ADJUVANTS" selected>Adjuvants</option>
                 <option value="LABELS" selected>Labels</option>
