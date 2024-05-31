@@ -50,6 +50,10 @@ function inputToTableItem(){
 
 //FUNCTION THAT LOADS ALL THE USERS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
 function visualizeComponents(){    
+    const storedComponents = JSON.parse(localStorage.getItem("components_to_edit"));
+    let url="/querycomp/bylistofcodes?search";
+    storedComponents.forEach((element)=>{url+=`&articles=${element}`;});
+    console.log(url)
     const target_table=document.querySelector("#targettable");
     target_table.innerHTML=`<div class="row">                    
     <div class="col cw100 text-center etheader border ">
@@ -89,7 +93,7 @@ function visualizeComponents(){
 
 `;    
     
-    axios.get('/querycomp/bylistofcodes?articles=BC010013&articles=BC010014&articles=BC010015',{ headers: { 'Authorization': authenticationheader()}})
+    axios.get(url,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {        
         for (const obj of response.data) {
             const check_intercompany= obj.intercompany? "checked" : "";

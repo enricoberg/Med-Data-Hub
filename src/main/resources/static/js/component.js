@@ -34,6 +34,7 @@ async function rendercomponents(){
     <div class="add_button invisible "  onclick="rendernewcomponents()"><i class="fa-regular fa-square-plus"></i>Create new</div>
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageComponents(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
     <div class="nextbutton hover-message" title="Next Page" onclick="changePageComponents(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
+    <div class="editbutton hover-message" title="Edit Selection" onclick="sendToEditComponents()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
     <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
@@ -292,16 +293,17 @@ async function updateComponentsTable(totalcolumns){
 
         let i=0;
         //POPULATE THE TABLE
+        let componentsToEdit=[];
         jsonResponse.forEach(obj => {
         //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
         let rv=parseInt(getCookie("resultview"));
         let rp=parseInt(getCookie("resultpage"));
         let minview=rv*(rp-1);
         let maxview=rv*rp;
-
+        
         if(i>=minview && i<maxview && minview<=jsonResponse.length){
 
-
+        componentsToEdit.push(obj.comp_id);
         const check1= obj.intercompany==true ? "&#10003;" : "&#10007;"
         const check2= obj.family==null ? "&#10007;" :getExtendedCompFamily(obj.family)
         const check3= obj.packagingmaterial==true ? "&#10003;" : "&#10007;"
@@ -324,6 +326,7 @@ async function updateComponentsTable(totalcolumns){
         `;}
         i++;
         });
+        localStorage.setItem("components_to_edit", JSON.stringify(componentsToEdit));
         listenForDownloads();
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;        
@@ -372,4 +375,10 @@ function changePageComponents(increment){
     document.cookie = `resultpage=${rp}`;
     
     updateComponentsTable(totalcomponentcolumns);
+}
+function sendToEditComponents(){
+
+    window.location.href="/app/editcomponents";
+
+
 }
