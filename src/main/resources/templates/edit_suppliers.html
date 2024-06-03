@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Med Data Hub - Edit mode</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/1XMhJmZg/login.png">
+    
+    <link rel="stylesheet" href="/css/editable.css">
+</head>
+<body>
+    
+    <div class="containertable">
+        <img src="https://i.postimg.cc/rF3s2d4L/3d-house-2.png" alt="" class="homebutton" onclick="window.location.href='/app/'">
+        <img src="https://i.postimg.cc/dVsMMKqW/diskette.png" alt="" class="savebutton" onclick="saveSuppliersModifications()">
+        <div class="row mx-2" >
+            <div style="width: 100%; text-align: center;"><h1>Edit Suppliers</h1></div>
+            
+            <div class=" mx-auto" id="targettable">               
+
+                
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="/js/utils.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://kit.fontawesome.com/0221803f6d.js" crossorigin="anonymous"></script>
+<script src="/js/edit_pages/edit_utils.js"></script>
+<script src="/js/edit_pages/edit_suppliers.js"></script>
+</html>

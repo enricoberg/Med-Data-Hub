@@ -215,6 +215,7 @@ async function updateMaterialsTable(totalcolumns){
 
 
         //POPULATE THE TABLE
+        let materialsToEdit=[];
         let i=0;
         jsonResponse.forEach(obj => {
 
@@ -225,9 +226,10 @@ async function updateMaterialsTable(totalcolumns){
                 let maxview=rv*rp;
 
                 if(i>=minview && i<maxview){
-        let checknull1= obj.family==null ? "&#10007;" : obj.family;
-        let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
-        let checknull3= obj.notes==null ? "" : obj.notes;
+            materialsToEdit.push(obj.id);     
+            let checknull1= obj.family==null ? "&#10007;" : obj.family;
+            let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
+            let checknull3= obj.notes==null ? "" : obj.notes;
             document.querySelector(".grid-container").innerHTML+=
         `
 
@@ -245,6 +247,7 @@ async function updateMaterialsTable(totalcolumns){
         }
         i++;
         });
+        localStorage.setItem("materials_to_edit", JSON.stringify(materialsToEdit));
         listenForDownloads();
 
         //UPDATE NUMBER OF RESULTS

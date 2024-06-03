@@ -33,6 +33,16 @@ public class MainController {
         return "edit_products";
     }
 
+    @GetMapping("/editmaterials")
+    public String editMaterials() {
+        return "edit_materials";
+    }
+
+    @GetMapping("/editsuppliers")
+    public String editSuppliers() {
+        return "edit_suppliers";
+    }
+
     @GetMapping("/passwordchange")
     public String passwordchange() {
         return "pwc";

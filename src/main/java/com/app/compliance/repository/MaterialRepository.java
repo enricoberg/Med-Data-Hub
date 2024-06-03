@@ -13,5 +13,5 @@ public interface MaterialRepository extends JpaRepository<Material, Integer> {
 
     List<Material> findAll();
     Optional<Material> findById(Integer id);
-
+    boolean existsById(Integer id);
 }
