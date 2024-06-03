@@ -1,7 +1,11 @@
 package com.app.compliance.controller;
 
 
+import com.app.compliance.dto.CompUpdate;
+import com.app.compliance.dto.SupUpdate;
 import com.app.compliance.model.Component;
+import com.app.compliance.model.Component.ComponentFamily;
+import com.app.compliance.model.Component.ConicalStandard;
 import com.app.compliance.model.Supplier;
 import com.app.compliance.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +72,50 @@ public class SupplierController {
     @GetMapping("/byid")
     public Optional<Supplier> RetrieveComponent(@RequestParam("id") Integer id) {
         return supplierRepository.findById(id);
+    }
+
+    //RETURNS SUPPLIERS BASED ON AN ARRAY OF IDs 
+    @GetMapping("/bylistofcodes")
+    public List<Supplier> getSupByIds(@RequestParam List<Integer> articles) {
+        List<Supplier> allsuppliers = new ArrayList<>();
+        for(Integer article : articles){                       
+            if (supplierRepository.existsById(article)) {
+                Supplier supplier = supplierRepository.findById(article).get();
+                allsuppliers.add(supplier);
+            }          
+                        
+        }
+        return allsuppliers;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteSupplier(@PathVariable Integer id) {
+        try{
+            supplierRepository.deleteById(id);
+        }catch(Exception e ){
+            return ResponseEntity.status(500).body("Failed to delete the supplier");
+        }
+        return ResponseEntity.ok("Supplier deleted successfully");
+    }
+
+    @PutMapping("/updatesupplier/{id}")
+    //THIS CONTROLLER SEARCHES FOR EXISTING SUPPLIER WITH SPECIFIED ID AND OVERWRITES THE PARAMETERS
+    public ResponseEntity<String> updateSupplier(@PathVariable Integer id, @RequestBody SupUpdate updateSupplierRequest){
+        //VERIFY THE COMPONENT EXISTS
+        
+        Optional<Supplier> opt_supplier = supplierRepository.findById(id);
+        if(!opt_supplier.isPresent()) return ResponseEntity.status(500).body("The supplier you requested to update does not exist");
+        Supplier supplier = opt_supplier.get();       
+        //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
+
+        supplier.setSap_code(updateSupplierRequest.getSapcode());
+        if(updateSupplierRequest.getContact().equals("NULL") || updateSupplierRequest.getContact().equals(" ") || updateSupplierRequest.getContact().equals("")) supplier.setContact(null);
+        else supplier.setContact(updateSupplierRequest.getContact());
+        supplier.setSupplier_name(updateSupplierRequest.getName());
+        supplierRepository.save(supplier);        
+        
+        
+        return ResponseEntity.ok("Supplier updated successfully");
     }
 
 

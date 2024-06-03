@@ -34,7 +34,8 @@ async function rendersuppliers(){
     <div class="add_button invisible" onclick="rendernewsuppliers()"><i class="fa-regular fa-square-plus"></i>Create new</div>
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageSuppliers(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
         <div class="nextbutton hover-message" title="Next Page" onclick="changePageSuppliers(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
-    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
+        <div class="editbutton hover-message" title="Edit Selection" onclick="sendToEditSuppliers()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
+        <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
     <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
@@ -140,6 +141,7 @@ async function updateSuppliersTable(totalcolumns){
 
 
         //POPULATE THE TABLE
+        let suppliersToEdit=[];
         let i=0;
         jsonResponse.forEach(obj => {
         //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
@@ -149,6 +151,7 @@ async function updateSuppliersTable(totalcolumns){
                 let maxview=rv*rp;
 
                 if(i>=minview && i<maxview){
+            suppliersToEdit.push(obj.id);
             const check1= obj.contact==null ? "No contact information" : obj.contact
             document.querySelector(".grid-container").innerHTML+=
         `
@@ -160,7 +163,7 @@ async function updateSuppliersTable(totalcolumns){
         }
         i++;
         });
-
+        localStorage.setItem("suppliers_to_edit", JSON.stringify(suppliersToEdit));
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
         //SHOW THE TABLE
@@ -196,5 +199,10 @@ function changePageSuppliers(increment){
     updateSuppliersTable(totalsuppliercolumns);
 }
 
+function sendToEditSuppliers(){
 
+    window.location.href="/app/editsuppliers";
+
+
+}
 
