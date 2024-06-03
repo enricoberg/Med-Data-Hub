@@ -91,6 +91,7 @@ i.actionbutton{ cursor: pointer;}
     background-color: rgba(0, 0, 0,0.05);    
     border-radius: 2px;
     text-align: center;
+    text-overflow:clip;
     margin-top: 2px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -128,12 +129,23 @@ i.actionbutton{ cursor: pointer;}
 .savebutton{
     position: absolute;
     top: 15px;
-    left: 15px;
+    left: 75px;
     width: 45px;
     height: 45px;
     background-size: contain;
 }
 .savebutton:hover{
-    box-shadow: rgba(0, 123, 255,0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    
+    box-shadow: rgba(0, 123, 255,0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    
+}
+.homebutton{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    background-size: contain;
+    cursor: pointer;
+}
+.homebutton:hover{
+    box-shadow: rgba(0, 123, 255,0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    
 }

@@ -12,6 +12,7 @@ public class CompUpdate {
     private boolean contact;
     private boolean ca65;    
     private String family;
+    private String standard;
 
 }
 

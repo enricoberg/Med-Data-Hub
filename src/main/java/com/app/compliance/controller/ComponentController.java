@@ -5,6 +5,7 @@ import com.app.compliance.dto.DocumentView;
 import com.app.compliance.dto.SignUpRequest;
 import com.app.compliance.model.*;
 import com.app.compliance.model.Component.ComponentFamily;
+import com.app.compliance.model.Component.ConicalStandard;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.ConfigurationRepository;
 import com.app.compliance.repository.MaterialConfigurationRepository;
@@ -244,8 +245,14 @@ public class ComponentController {
         component.setIntercompany(updateComponentRequest.isIntercompany());
         component.setPackagingmaterial(updateComponentRequest.isPackaging());
         component.setCa65(updateComponentRequest.isCa65());
-        Component.ComponentFamily compfamily = ComponentFamily.valueOf(updateComponentRequest.getFamily());
+        Component.ComponentFamily compfamily = ComponentFamily.valueOf(updateComponentRequest.getFamily());      
+        if(updateComponentRequest.getStandard().equals("NULL")) component.setStandard(null);
+        else {
+            Component.ConicalStandard convertedstandard = ConicalStandard.valueOf(updateComponentRequest.getStandard());
+            component.setStandard(convertedstandard);
+        }  
         component.setFamily(compfamily);
+        
         componentRepository.save(component);
         
         return ResponseEntity.ok("Component updated successfully");

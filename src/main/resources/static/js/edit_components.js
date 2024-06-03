@@ -101,6 +101,7 @@ function visualizeComponents(){
             const check_packaging= obj.packagingmaterial? "checked" : "";
             const check_contact= obj.contact? "checked" : "";
             const check_california= obj.ca65? "checked" : "";
+            const standardplaceholder= obj.standard==null ? "NULL" : obj.standard;
             target_table.innerHTML+=`
             <div class="row" style="position: relative;">                    
                 <div class="col cw100 py-2 text-center etitem  border  bg-light etinactive boxid ">${obj.id}</div>
@@ -108,7 +109,7 @@ function visualizeComponents(){
                 <div class="col cw350 py-2 text-center etitem border  bg-light etinactive editable boxdescription ">${obj.description}</div>
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck"><input class="form-check-input boxintercompany " type="checkbox" ${check_intercompany} id="flexCheckDefault"></div>
                 <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable  editselect "> <select class="form-select selectcompfamily boxfamily" aria-label="Default select example"><option selected>${obj.family}</option></select></div>
-                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive  editselect "> <select class="form-select selectstandard boxstandard" disabled aria-label="Default select example"><option selected>${obj.standard}</option></select></div>
+                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable editselect "> <select class="form-select selectstandard boxstandard"  aria-label="Default select example"><option selected>${standardplaceholder}</option></select></div>
                 
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxpackaging" type="checkbox" ${check_packaging} id="flexCheckDefault"></div>
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxcontact" type="checkbox" ${check_contact} id="flexCheckDefault"></div>
@@ -166,9 +167,10 @@ function visualizeComponents(){
         document.querySelectorAll(".selectstandard").forEach(select=>{
             let current_value=select.value;
             select.innerHTML=`
-            <option value="luer">Luer</option>
-              <option value="enfit">ENFIT</option>
-              <option value="tpnlock">TPN Lock</option>
+            <option value="LUERLOCK">Luer</option>
+              <option value="ENFIT">ENFIT</option>
+              <option value="TPNLOCK">TPN Lock</option>
+              <option value="NULL">N/A</option>
             `;
             select.value=current_value;
         });
@@ -208,7 +210,8 @@ function saveComponentsModifications(){
             const family = parentRow.querySelector('.boxfamily').value;
             const packaging= parentRow.querySelector('.boxpackaging').checked;
             const california = parentRow.querySelector('.boxcalifornia').checked;
-            const contact = parentRow.querySelector('.boxcontact').checked;            
+            const contact = parentRow.querySelector('.boxcontact').checked;      
+            const cone = parentRow.querySelector(".boxstandard").value;   
 
             // if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
             const comp_correct = { 
@@ -218,7 +221,8 @@ function saveComponentsModifications(){
                                     packaging: packaging,
                                     contact: contact,
                                     ca65: california,
-                                    family: family  
+                                    family: family  ,
+                                    standard: cone
                                 };
             
             axios.put(`/querycomp/updatecomponent/${id}`, comp_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
