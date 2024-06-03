@@ -28,6 +28,11 @@ public class MainController {
         return "edit_components";
     }
 
+    @GetMapping("/editproducts")
+    public String editProducts() {
+        return "edit_products";
+    }
+
     @GetMapping("/passwordchange")
     public String passwordchange() {
         return "pwc";

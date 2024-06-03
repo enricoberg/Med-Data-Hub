@@ -1,17 +1,28 @@
 package com.app.compliance.controller;
 
+import com.app.compliance.dto.CompUpdate;
+import com.app.compliance.dto.ProdUpdate;
 import com.app.compliance.model.Component;
+import com.app.compliance.model.Component.ComponentFamily;
+import com.app.compliance.model.Component.ConicalStandard;
 import com.app.compliance.model.Product;
 import com.app.compliance.model.Supplier;
 import com.app.compliance.model.Product.ProductFamily;
+import com.app.compliance.model.Product.SapStatus;
+import com.app.compliance.model.Product.SterilizationCycle;
+import com.app.compliance.model.Product.SterilizationSite;
 import com.app.compliance.repository.ProductRepository;
 import com.app.compliance.repository.SupplierRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -163,5 +174,73 @@ public class ProductController {
     @GetMapping("/byidint")
     public Optional<Product> RetrieveProductByInteger(@RequestParam("article") Integer article) {
         return productRepository.findById(article);
+    }
+
+
+    //RETURNS COMPONENTS BASED ON AN ARRAY OF ARTICLES 
+    @GetMapping("/bylistofcodes")
+    public List<Product> getCoProdByNames(@RequestParam List<String> articles) {
+        List<Product> allproducts= new ArrayList<>();
+        for(String article : articles){
+            
+           
+            if (productRepository.existsByCode(article)) {
+                Product product = productRepository.findByCode(article).get();                
+                allproducts.add(product);
+            }
+            
+            
+            
+        }
+        return allproducts;
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUseProduct(@PathVariable Integer id) {
+        try{
+            productRepository.deleteById(id);
+        }catch(Exception e ){
+            return ResponseEntity.status(500).body("Failed to delete product");
+        }
+        return ResponseEntity.ok("Product deleted successfully");
+    }
+
+    @PutMapping("/updatecomponent/{id}")
+    //THIS CONTROLLER SEARCHES FOR EXISTING PRODUCT WITH SPECIFIED ID AND OVERWRITES THE PARAMETERS
+    public ResponseEntity<String> updateProduct(@PathVariable Integer id, @RequestBody ProdUpdate updateProductRequest){
+        //VERIFY THE PRODUCT EXISTS
+        
+        Optional<Product> opt_prod = productRepository.findById(id);
+        if(!opt_prod.isPresent()) return ResponseEntity.status(500).body("The user you requested to update does not exist");
+        Product product = opt_prod.get();       
+        //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
+
+        product.setCode(updateProductRequest.getArticle());
+        product.setDescription(updateProductRequest.getDescription());
+        Product.SapStatus sapstatus = SapStatus.valueOf(updateProductRequest.getSapstatus());
+        product.setSapstatus(sapstatus);
+        Product.ProductFamily family = ProductFamily.valueOf(updateProductRequest.getFamily());
+        product.setFamily(family);
+        product.setIntercompany(updateProductRequest.isIntercompany());
+        product.setSemifinished(updateProductRequest.isSemifinished());
+        if (updateProductRequest.getDhf().equals("NULL") || updateProductRequest.getDhf().equals("") || updateProductRequest.getDhf().equals(" ")) product.setDhf(null);
+        else product.setDhf(updateProductRequest.getDhf());
+        if (updateProductRequest.getRmf().equals("NULL") || updateProductRequest.getRmf().equals("") || updateProductRequest.getRmf().equals(" ")) product.setRmf(null);
+        else product.setRmf(updateProductRequest.getRmf());
+        if (updateProductRequest.getBudi().equals("NULL") || updateProductRequest.getBudi().equals("") || updateProductRequest.getBudi().equals(" ")) product.setBudi(null);
+        else product.setBudi(updateProductRequest.getBudi());
+        if (updateProductRequest.getShelflife().equals("NULL") || updateProductRequest.getShelflife().equals("") || updateProductRequest.getShelflife().equals(" ")) product.setShelflife(null);
+        else product.setShelflife(updateProductRequest.getShelflife());
+        if (updateProductRequest.getSterisite().equals("NULL")) product.setSterilizationsite(null);
+        else {
+            Product.SterilizationSite sterisite = SterilizationSite.valueOf(updateProductRequest.getSterisite());
+            product.setSterilizationsite(sterisite);
+        }
+        Product.SterilizationCycle stericycle = SterilizationCycle.valueOf(updateProductRequest.getStericycle());
+        product.setSterilizationcycle(stericycle);
+        productRepository.save(product);
+        
+        return ResponseEntity.ok("Component updated successfully");
     }
 }

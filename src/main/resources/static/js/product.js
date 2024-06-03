@@ -33,7 +33,8 @@ async function renderproducts(){
         <div class="pagelabel">PAGE 1/7</div>
         <div class="add_button invisible" onclick="rendernewproduct()"><i class="fa-regular fa-square-plus"></i>Create new</div>
         <div class="prevbutton hover-message" title="Previous Page" onclick="changePageProducts(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
-            <div class="nextbutton hover-message" title="Next Page" onclick="changePageProducts(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
+        <div class="nextbutton hover-message" title="Next Page" onclick="changePageProducts(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
+        <div class="editbutton hover-message" title="Edit Selection" onclick="sendToEditProducts()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
         <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
         <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
         <form action="">
@@ -231,6 +232,7 @@ async function updateProductsTable(totalcolumns){
 
         //POPULATE THE TABLE
         let i=0;
+        let productsToEdit=[];
         jsonResponse.forEach(obj => {
         //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
                 let rv=parseInt(getCookie("resultview"));
@@ -239,6 +241,7 @@ async function updateProductsTable(totalcolumns){
                 let maxview=rv*rp;
 
                 if(i>=minview && i<maxview){
+        productsToEdit.push(obj.code);
         const check1= obj.intercompany==true ? "&#10003;" : "&#10007;";
         const check2= obj.semifinished==true ? "&#10003;" : "&#10007;";
         const check3= obj.dhf!=null ? obj.dhf : "&#10007;";
@@ -268,7 +271,7 @@ async function updateProductsTable(totalcolumns){
         }
         i++;
         });
-
+        localStorage.setItem("products_to_edit", JSON.stringify(productsToEdit));
         listenForDownloads();
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
@@ -329,4 +332,11 @@ function changePageProducts(increment){
     }
     document.cookie = `resultpage=${rp}`;
     updateProductsTable(totalproductcolumns);
+}
+
+function sendToEditProducts(){
+
+    window.location.href="/app/editproducts";
+
+
 }

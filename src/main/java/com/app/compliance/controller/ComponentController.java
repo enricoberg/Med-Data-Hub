@@ -222,13 +222,13 @@ public class ComponentController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteComponent(@PathVariable Integer id) {
         try{
             componentRepository.deleteById(id);
         }catch(Exception e ){
-            return ResponseEntity.status(500).body("Failed to delete the user");
+            return ResponseEntity.status(500).body("Failed to delete the component");
         }
-        return ResponseEntity.ok("User deleted successfully");
+        return ResponseEntity.ok("Component deleted successfully");
     }
 
     @PutMapping("/updatecomponent/{id}")
