@@ -52,7 +52,11 @@ public class SecurityConfiguration {
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",
-                "/js/**"
+                "/js/**",
+                "/js/table_pages/**",
+                "/js/insert_pages/**",
+                "/js/edit_pages/**",
+                "/js/custom_queries/**"
         };
 
         //SET URLS TO BE ACCESSIBLE ONLY AFTER AUTHENTICATION BY SPECIFIC ROLES
