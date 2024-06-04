@@ -14,12 +14,14 @@ public class BomView {
     private String comp_description;
     private float qty;
     private Bom.UnitMeasure um;
+    private boolean assembly;
 
-    public BomView(String comp_id, String comp_description, float qty, Bom.UnitMeasure um) {
+    public BomView(String comp_id, String comp_description, float qty, Bom.UnitMeasure um, boolean assembly) {
         this.comp_id = comp_id;
         this.comp_description = comp_description;
         this.qty = qty;
         this.um = um;
+        this.assembly=assembly;
     }
 
 

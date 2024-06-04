@@ -265,9 +265,10 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
         <div class="grid-item ">${check6}</div>
         <div class="grid-item ">${check7}</div>
-        <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
+        <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
         `;
-
+        
+        // <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
         }
         i++;
         });
@@ -339,4 +340,9 @@ function sendToEditProducts(){
     window.location.href="/app/editproducts";
 
 
+}
+
+function renderEditableBoms(id){
+    localStorage.setItem("bom_to_edit", id);
+    window.location.replace("/app/editboms")
 }

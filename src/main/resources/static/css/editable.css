@@ -150,3 +150,30 @@ i.actionbutton{ cursor: pointer;}
 .homebutton:hover{
     box-shadow: rgba(0, 123, 255,0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    
 }
+.addbutton{
+    position: absolute;
+    top: 15px;
+    left: 135px;
+    width: 45px;
+    height: 45px;
+    background-size: contain;
+    cursor: pointer;
+}
+.addbutton:hover{
+    box-shadow: rgba(0, 123, 255,0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    
+}
+.additem{
+    background-color: rgba(114, 233, 177, 0.75);    
+    border-radius: 2px;
+    text-align: center;
+    text-overflow:clip;
+    margin-top: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.additem input{text-align: center;}
+.floppybutton{
+    background-color: #28a745;
+    padding: 3px;
+    border-radius: 4px;
+}

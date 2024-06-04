@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                 "/app/auth/verify",
                 "/app/",
                 "/app/editcomponents",
+                "/app/editboms",
                 "/app/editproducts",
                 "/app/editmaterials",
                 "/app/editsuppliers",
@@ -75,6 +76,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/querymat").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/querysup").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/queryboms").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
+                        .requestMatchers("/queryboms/delete").hasAnyAuthority("ADMIN", "USER", "SUPERUSER")
                         .requestMatchers("/queryboms/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querydocs/new").hasAnyAuthority("ADMIN", "SUPERUSER")
                         .requestMatchers("/querycomp/new").hasAnyAuthority("ADMIN", "SUPERUSER")

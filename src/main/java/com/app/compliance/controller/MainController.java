@@ -43,6 +43,11 @@ public class MainController {
         return "edit_suppliers";
     }
 
+    @GetMapping("/editboms")
+    public String editBoms() {
+        return "edit_boms";
+    }
+
     @GetMapping("/passwordchange")
     public String passwordchange() {
         return "pwc";
