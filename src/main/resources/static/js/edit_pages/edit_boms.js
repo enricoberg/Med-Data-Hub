@@ -219,6 +219,9 @@ else{
 }
 }
 
+function dumpBoms(){
+    if(!window.confirm("This procedure allows you to dump content copied to the clipboard inside the BOM. Have you copied the right table and do you wish to proceed?")) return;
+}
 
 visualizeBoms();
 
