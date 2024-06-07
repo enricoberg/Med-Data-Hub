@@ -1,7 +1,9 @@
 package com.app.compliance.controller;
 
 import com.app.compliance.dto.BomRequest;
+import com.app.compliance.dto.BomUpdate;
 import com.app.compliance.dto.ConfRequest;
+import com.app.compliance.dto.ConfUpdate;
 import com.app.compliance.dto.ConfigView;
 import com.app.compliance.model.*;
 import com.app.compliance.repository.*;
@@ -43,19 +45,17 @@ public class ConfigController {
         if(article.isEmpty()) return new ArrayList<>();
         Component reference_component= componentRepository.findByCompid(article);
         Integer comp_id=reference_component.getId();
+        
         List<Configuration> allconf = configRepository.findByCompid(comp_id);
         List<ConfigView> allviews = new ArrayList<>();
-
+        
         for (Configuration c : allconf) {
             List<MaterialConfiguration> toRemove = new ArrayList<>();
-            List<MaterialConfiguration> allmatconfigs = materialConfigurationRepository.findAll();
-            for (MaterialConfiguration mconf : allmatconfigs){
-
-                if(mconf.getConfid()== c.getId()) {
+            List<MaterialConfiguration> allmatconfigs = materialConfigurationRepository.findByConfid(c.getId());
+            
+            for (MaterialConfiguration mconf : allmatconfigs){              
                     Material mat = materialRepository.findById(mconf.getMaterialid()).get();
-                    allviews.add(new ConfigView(c.getSupplier().getSupplier_name(), c.getSuppliercompnumber(),mat.getBrandname(), mat.getFamily().name(), mat.getSupplier() ));
-                }
-
+                    allviews.add(new ConfigView(c.getId(),c.getSupplier().getSupplier_name(), c.getSuppliercompnumber(),mat.getBrandname(), mat.getFamily().name(), mat.getSupplier() ));
             }
 
 
@@ -92,5 +92,36 @@ public class ConfigController {
         }
         return ResponseEntity.ok("New set of configs created successfully!");
     }
+
+
+    @GetMapping("/deleteconfig")
+    public ResponseEntity<String> deleteConfItem(        
+        @RequestParam(required = true) Integer confid,
+        @RequestParam(required = true) Integer matid
+    ) {
+        
+        try{
+            if(!materialConfigurationRepository.existsByConfidAndMaterialid(confid, matid)) throw new Exception();    
+            List<MaterialConfiguration> confs = materialConfigurationRepository.findByMaterialidAndConfid(matid, confid);    
+            for(MaterialConfiguration conf : confs){
+                materialConfigurationRepository.delete(conf);
+            }               
+            List<MaterialConfiguration> allconfigs = materialConfigurationRepository.findByConfid(confid);
+            if(allconfigs.isEmpty()) {
+                Configuration config_to_delete = configRepository.findById(confid).get();
+                configRepository.delete(config_to_delete);
+            }
+            
+            
+            
+        }catch(Exception e ){
+            return ResponseEntity.status(500).body("Failed to delete the component: "+e);
+        }
+        return ResponseEntity.ok("Component deleted successfully");
+    }
+
+
+
+
 
 }

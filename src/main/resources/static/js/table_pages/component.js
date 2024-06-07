@@ -322,7 +322,7 @@ async function updateComponentsTable(totalcolumns){
         <div class="grid-item ">${check4}</div>
         <div class="grid-item ">${check5}</div>
         <div class="grid-item ">${check6}</div>
-        <div class="grid-item "><a href="#" onclick="renderconfigurations('${obj.comp_id}')">See configurations</a></div>
+        <div class="grid-item "><a href="#" onclick="renderEditableConfigs(${obj.id})">See configurations</a></div>
         `;}
         i++;
         });
@@ -381,4 +381,9 @@ function sendToEditComponents(){
     window.location.href="/app/editcomponents";
 
 
+}
+
+function renderEditableConfigs(id){
+    localStorage.setItem("config_to_edit", id);
+    window.location.replace("/app/editconfigurations")
 }

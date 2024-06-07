@@ -12,4 +12,10 @@ public interface MaterialConfigurationRepository extends JpaRepository<MaterialC
     List<MaterialConfiguration> findByMaterialidAndConfid(Integer materialid, Integer configurationid);
 
     List<MaterialConfiguration> findByMaterialid(Integer materialid);
+
+    List<MaterialConfiguration> findByConfid(Integer confid);
+
+    boolean existsByConfidAndMaterialid(Integer configid, Integer materialid);
+
+    void deleteByConfidAndMaterialid(Integer confid, Integer materialid);
 }

@@ -332,7 +332,7 @@ public class BomController {
         @RequestParam(required = true) Integer prodid,
         @RequestParam(required = true) boolean assembly
     ) {
-        System.out.println("WORKING");
+        
         try{
             if(!productRepository.existsById(prodid)) throw new Exception();
             
