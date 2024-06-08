@@ -81,6 +81,10 @@ function deleteSupplier(id){
 function saveSuppliersModifications(){
     inputToTableItem();
     const modified_items=document.querySelectorAll(".edited");
+    if(modified_items.length===0){
+        alert("The table is already up to date");
+        return;
+    }
     if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
     let processed_items=0;
     

@@ -210,7 +210,7 @@ i.actionbutton{ cursor: pointer;}
     margin-bottom: 20px;
 }
 .logodiv{
-    background-image: url("logo.png");
+    background-image: url("logo_gradient.png");
     background-size: contain;
     display: inline-block;
     margin-right: 5px;
@@ -237,7 +237,7 @@ i.actionbutton{ cursor: pointer;}
 }
 .logoscritta:hover{
     /* color: #9AFAF1; */
-    background: linear-gradient(128deg, rgba(36,188,227,1) 0%, rgba(247,4,254,1) 100%);
+    background: linear-gradient(128deg, rgba(36,188,227,1) 0%, rgba(107,138,188,1) 100%);
     -webkit-background-clip: text;
     color: transparent;            
     cursor: pointer;

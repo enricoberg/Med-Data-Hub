@@ -12,7 +12,7 @@
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <form id="FormSignup">
-            <h1>Create Account</h1>
+            <h1 style="margin-bottom: 10px;">Create Account</h1>
             <span>Please fill in your data for registration</span>
             <input type="text" id="il1" name="firstName" placeholder="First Name"/>
             <input type="text" id="il2" name="lastName" placeholder="Last Name"/>
@@ -20,7 +20,7 @@
             <input type="password" id="il4" name="password" placeholder="Password"/>
             <input type="password" id="il5" placeholder="Repeat Password"/>
             <div class="errormessage invisible" id="signuperror">Error message</div>
-            <button id="signupbutton">Sign Me Up!</button>
+            <button id="signupbutton" style="margin-top: 7px;">Sign Me Up!</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
@@ -37,14 +37,16 @@
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
-                <h1>Med Data Hub</h1>
-                <p>Click here if you are already registered</p>
-                <button class="ghost" id="signIn">Log In</button>
+                <div class="logoimage translateup"></div>
+                <h1 class="h1logo">Med Data Hub</h1>
+                <p class="translateup translateup">Click here if you are already registered</p>
+                <button class="ghost translatedown" id="signIn">Log In</button>
             </div>
             <div class="overlay-panel overlay-right">
-                <h1>Med Data Hub</h1>
-                <p>Click here if you want to create an account</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <div class="logoimage translateup"></div>
+                <h1 class="h1logo translateup">Med Data Hub</h1>
+                <p class="translateup">Click here if you want to create an account</p>
+                <button class="ghost translatedown" id="signUp">Sign Up</button>
             </div>
         </div>
     </div>

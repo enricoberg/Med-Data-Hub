@@ -218,5 +218,20 @@ input {
 	margin-bottom: 7px;
 	font-style: italic;
 }
-
-
+.logoimage{
+	background-image: url("logo_gradient.png");
+	width: 50px;
+	height: 50px;
+	background-size: contain;	
+	margin-right: 10px;
+	margin-bottom: 15px;
+	
+}
+.translateup{
+	position: relative;
+	bottom: 10px;
+}
+.translatedown{
+	position: relative;
+	top: 10px;
+}

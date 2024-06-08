@@ -365,7 +365,7 @@ form.searchform:valid .fa.searchfa:hover{
     color: white;
 }
 .logodiv{
-    background-image: url("logo.png");
+    background-image: url("logo_gradient.png");
     background-size: contain;
     display: inline-block;
     margin-right: 5px;
