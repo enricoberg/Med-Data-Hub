@@ -380,3 +380,40 @@ function searchForSimpleUser(searchstring){
   })
   .catch(error => {    console.error('There was a problem with the fetch operation:', error);  });
 }
+
+function startBuffering(){
+
+  if (!document.querySelector('.blurredcontainer')) {    
+    const bufferingElement = document.createElement('div');    
+    bufferingElement.className = 'blurredcontainer';
+    bufferingElement.innerHTML='<div class="logobuffering"></div>';
+    document.body.appendChild(bufferingElement);
+}
+else{
+  let blurredcontainer=document.querySelector('.blurredcontainer');
+  if(blurredcontainer.classList.contains("invisible")) blurredcontainer.classList.remove("invisible");
+}
+
+}
+function stopBuffering(){
+  document.querySelector(".blurredcontainer").classList.add("invisible");
+}
+
+function bufferedFunction(func){
+  startBuffering();
+  return new Promise((resolve, reject) => {
+    try {        
+        const result = func();        
+        if (result instanceof Promise) {
+            result.then(resolve).catch(reject);
+        } else resolve(result);        
+    } catch (error) {
+        reject(error);
+    }
+}).then(() => {
+    stopBuffering();
+}).catch((error) => {    
+    console.error("An error occurred:", error);
+});
+
+}

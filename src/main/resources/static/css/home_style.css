@@ -282,7 +282,7 @@ form.searchform:valid input.searchinput{
 .searchbox{
 
 position:absolute;
-left:170px;
+left:185px;
 top: 35px;
 width:200px;
 }
@@ -363,5 +363,51 @@ form.searchform:valid .fa.searchfa:hover{
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
     color: white;
+}
+.logodiv{
+    background-image: url("logo.png");
+    background-size: contain;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 10px;
+    position: relative;
+    top: 8px;
+    width:  33px;
+    height: 33px;
+}
+.logoscritta{
+    display: inline-block;
+    line-height: 50px;
+}
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+.logobuffering{
+
+    width: 125px;
+    height: 125px;
+    background-image: url("logo.png");
+    background-size: contain;
+    position: fixed;
+    left: 47.5%;
+    top: 45%;
+    
+    animation: rotate 2s cubic-bezier(0.25, 0.1, 0.25, 0.6) infinite;
+}
+
+.blurredcontainer{
+    width: 50vw;
+    height: 50vh;
+    position: fixed;
+    bottom: 25vh;
+    left: 25vw;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 7%, rgba(255,255,255,0) 30%);
+    
 }
 

@@ -1,5 +1,6 @@
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
-function visualizeConfigurations(){    
+function visualizeConfigurations(){   
+    
     const component= JSON.parse(localStorage.getItem("config_to_edit"));     
     axios.get(`/querycomp/byid?article=${component}`,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {    
@@ -99,6 +100,7 @@ function visualizeConfigurations(){
                         break;
                     }
                 }
+                
                 
             })
             .catch((error) => {

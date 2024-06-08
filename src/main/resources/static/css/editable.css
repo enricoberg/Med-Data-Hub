@@ -1,11 +1,17 @@
-
+*{
+    margin: 0;
+    padding: 0;
+}
 .hidden{
     display: none;
 }
 body{
     font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-weight: 400;
+    font-style: normal;  
+    background-image: url("background.webp");
+    background-size: cover;
+
 }
 
 .actionbutton{
@@ -76,9 +82,11 @@ i.actionbutton{ cursor: pointer;}
     margin: auto;    
     height: 85vh;
     overflow: auto;
+    background-color: rgba(255, 255, 255,0.5);
 }
 .containertable{
     width: 100%;
+    
     
 }
 .etheader{
@@ -129,8 +137,8 @@ i.actionbutton{ cursor: pointer;}
 }
 .savebutton{
     position: absolute;
-    top: 15px;
-    left: 75px;
+    top: 77px;
+    left: 15px;
     width: 45px;
     height: 45px;
     background-size: contain;
@@ -140,7 +148,7 @@ i.actionbutton{ cursor: pointer;}
 }
 .homebutton{
     position: absolute;
-    top: 15px;
+    top: 77px;
     left: 15px;
     width: 45px;
     height: 45px;
@@ -152,8 +160,8 @@ i.actionbutton{ cursor: pointer;}
 }
 .addbutton{
     position: absolute;
-    top: 15px;
-    left: 135px;
+    top: 77px;
+    left: 75px;
     width: 45px;
     height: 45px;
     background-size: contain;
@@ -165,8 +173,8 @@ i.actionbutton{ cursor: pointer;}
 
 .pastebutton{
     position: absolute;
-    top: 15px;
-    left: 195px;
+    top: 77px;
+    left: 135px;
     width: 45px;
     height: 45px;
     background-size: contain;
@@ -191,3 +199,46 @@ i.actionbutton{ cursor: pointer;}
     padding: 3px;
     border-radius: 4px;
 }
+.navbarlite{
+    width: 100vw;
+    background-color: #2b2bc1;
+    height: 62px;
+    
+}
+.titleh1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.logodiv{
+    background-image: url("logo.png");
+    background-size: contain;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 10px;
+    position: relative;
+    top: 8px;
+    width:  33px;
+    height: 33px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+.logoscritta{
+    display: inline-block;
+    line-height: 62px;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    position: absolute;
+    top: 0;
+    
+}
+.logoscritta:hover{
+    /* color: #9AFAF1; */
+    background: linear-gradient(128deg, rgba(36,188,227,1) 0%, rgba(247,4,254,1) 100%);
+    -webkit-background-clip: text;
+    color: transparent;            
+    cursor: pointer;
+    }

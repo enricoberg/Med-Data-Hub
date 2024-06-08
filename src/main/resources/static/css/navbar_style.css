@@ -11,7 +11,8 @@ i {
 }
 /*----------bootstrap-navbar-css------------*/
 .navbar-logo{
-	padding: 15px;
+	padding: 0;
+	line-height: 33px;
 	color: #fff;
 }
 .navbar-mainbg{
@@ -170,6 +171,9 @@ i {
  padding: 0;
 }
 #titlenav:hover{
-color: #9AFAF1;
+/* color: #9AFAF1; */
+background: linear-gradient(128deg, rgba(36,188,227,1) 0%, rgba(247,4,254,1) 100%);
+-webkit-background-clip: text;
+color: transparent;            
 cursor: pointer;
 }

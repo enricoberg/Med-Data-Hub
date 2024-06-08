@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 "/app/auth/signin",
                 "/app/auth/signup",
                 "/app/auth/refresh",
+                "/app/test",
                 "/app/auth/sendverification",
                 "/app/auth/changepassword",
                 "/app/auth/changepasswordlogged",

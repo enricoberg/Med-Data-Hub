@@ -189,6 +189,7 @@ async function rendercomponents(){
     for (let control of controls){
 
             control.addEventListener("input", ()=>{
+                startBuffering();
                     for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
                         timeouts.push(setTimeout(updateComponentsTable.bind(null, totalcolumns),800));
                     });
@@ -198,8 +199,9 @@ async function rendercomponents(){
         for (let control of selectcontrols){
 
                 control.addEventListener("change", ()=>{
+                        startBuffering();
                         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
-                            timeouts.push(setTimeout(updateComponentsTable.bind(null, totalcolumns),800));
+                            timeouts.push(setTimeout(updateComponentsTable.bind(null, totalcolumns),100));
                         });
 
             }
@@ -335,7 +337,7 @@ async function updateComponentsTable(totalcolumns){
         //SHOW THE TABLE
         activeCellColoring(totalcolumns);
         if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
-        
+        stopBuffering();
         return ;        
     } catch (error) {
         console.error('Error during fetch:', error);

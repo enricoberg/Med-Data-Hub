@@ -57,6 +57,7 @@ function renderspecifications(){
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
         control.addEventListener("input", ()=>{
+            startBuffering()
             document.cookie = `resultpage=1`;
         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
             timeouts.push(setTimeout(updateDocumentsTable.bind(null, totalcolumns),800));
@@ -215,7 +216,7 @@ async function updateDocumentsTable(totalcolumns){
         activeCellColoring(totalcolumns);
         if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
         listenForDownloads();
-
+        stopBuffering()
         return ;        
     } catch (error) {
         console.error('Error during fetch:', error);
