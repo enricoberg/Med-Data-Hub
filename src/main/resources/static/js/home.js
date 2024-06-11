@@ -113,3 +113,26 @@ document.querySelector("#searchstring").addEventListener("keypress", (event)=>{
 });
 
 
+const urlParams = new URLSearchParams(window.location.search);
+const sectionToDisplay = urlParams.get('section'); 
+if(sectionToDisplay){
+
+setTimeout(()=>{
+  switch(sectionToDisplay){
+      
+    case "components":        
+      document.querySelector("#componentsection").click();              
+    break;
+    case "products":        
+      document.querySelector("#productsection").click();             
+    break;
+    case "materials":        
+      document.querySelector("#materialsection").click();             
+    break;
+    case "suppliers":        
+      document.querySelector("#suppliersection").click();             
+    break;
+  }
+},150);
+  
+}

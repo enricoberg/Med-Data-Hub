@@ -80,7 +80,7 @@ function rendernewsuppliers(){
                 formData.append('sap', sap);
                 formData.append('contact', contact);
 
-
+                
 
                 fetch(url, {
                     method: 'POST',

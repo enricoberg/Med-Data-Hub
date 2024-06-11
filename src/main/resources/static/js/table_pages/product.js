@@ -34,7 +34,7 @@ async function renderproducts(){
         <div class="add_button invisible" onclick="rendernewproduct()"><i class="fa-regular fa-square-plus"></i>Create new</div>
         <div class="prevbutton hover-message" title="Previous Page" onclick="changePageProducts(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
         <div class="nextbutton hover-message" title="Next Page" onclick="changePageProducts(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
-        <div class="editbutton hover-message" title="Edit Selection" onclick="sendToEditProducts()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
+        <div class="editbutton hover-message invisible" title="Edit Selection" onclick="sendToEditProducts()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
         <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
         <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
         <form action="">
@@ -221,6 +221,7 @@ async function updateProductsTable(totalcolumns){
                         })
                         .then(data => {
                             if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                            if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
                         })
                         .catch(error => {
                             console.error('Error during fetch:', error);

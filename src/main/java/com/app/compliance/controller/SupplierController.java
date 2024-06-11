@@ -39,7 +39,13 @@ public class SupplierController {
         for (Supplier s : allsups) {
             if (name != null && !s.getSupplier_name().toUpperCase().contains(name.toUpperCase())) toRemove.add(s);
             else if (sapcode != null && !s.getSap_code().toUpperCase().contains(sapcode.toUpperCase())) toRemove.add(s);
-            else if (contact != null && !s.getContact().toUpperCase().contains(contact.toUpperCase())) toRemove.add(s);
+            else {
+                if (contact != null && !contact.isBlank())  {
+                    if(s.getContact() == null) toRemove.add(s);
+                    else if(!s.getContact().toUpperCase().contains(contact.toUpperCase())) toRemove.add(s);
+                
+                }
+            }
 
         }
 
@@ -54,16 +60,19 @@ public class SupplierController {
             @RequestParam("sap") String sap,
             @RequestParam("contact") String contact) {
 
-
+        
+        
         try {
             // Create the new Supplier object
             Supplier supplier = new Supplier();
             supplier.setSupplier_name(name);
-            supplier.setSap_code(sap);
-            supplier.setContact(contact);
+            supplier.setSap_code(sap);            
+            if(!contact.isBlank()) supplier.setContact(contact);
+            
             //Save the newly created supplier
             supplierRepository.save(supplier);
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(500).body("Failed to add the new supplier");
         }
         return ResponseEntity.ok("New supplier created successfully!");

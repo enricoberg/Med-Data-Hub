@@ -26,13 +26,12 @@
 	padding-left:2px;
 	padding-right:2px;
   }
-  .grid-item a:hover, a.usagelink:hover{
-	color: white;
+
+
+  .usagelink{
 	cursor: pointer;
   }
-  .usagelink{
-	color: rgb(0, 123, 255);
-  }
+
   .tableheader {
 	background-color: #2b2bc1;
 	color: white;

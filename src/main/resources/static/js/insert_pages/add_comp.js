@@ -54,36 +54,35 @@ function rendernewcomponents(){
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Family of the component: </span>
-                                              <select class="form-select form-select-lg mb-3" aria-label="Large select example" id="familyinput">
-                                                  <option value="MATERIALS" selected>Raw materials</option>
+                                              <select class="form-select form-select-lg mb-3" aria-label="Large select example" id="familyinput">                                                  
                                                   <option value="CAPS">Caps</option>
-                                                  <option value="CONNECTORS" selected>Connectors</option>
-                                                  <option value="CONICALCONNECTORS" selected>Conical Connectors</option>
-                                                  <option value="INJECTIONPOINTS" selected>Injection Points</option>
-                                                  <option value="FILTERS" selected>Filters</option>
-                                                  <option value="CLAMPS" selected>Clamps</option>
-                                                  <option value="SPIKES" selected>Spikes</option>
-                                                  <option value="CHAMBERS" selected>Drip Chambers</option>
-                                                  <option value="COVERS" selected>Covers</option>
-                                                  <option value="TUBES" selected>Tubes</option>
-                                                  <option value="VARIOUS" selected>Various components</option>
-                                                  <option value="BAGS" selected>Bags</option>
-                                                  <option value="CARTONS" selected>Boxes</option>
-                                                  <option value="POUCHES" selected>Pouches</option>
-                                                  <option value="ADJUVANTS" selected>Adjuvants</option>
-                                                  <option value="LABELS" selected>Labels</option>
-                                                  <option value="SFTUBES" selected>Semifinished tubes</option>
-                                                  <option value="SFVARIOUS" selected>Various semifinished goods</option>
-                                                  <option value="SFSPECIALBAGS" selected>Special Bags/option>
-                                                  <option value="SFBAGS150" selected>Semifinished bags 150mL</option>
-                                                  <option value="SFBAGS250" selected>Semifinished bags 250mL</option>
-                                                  <option value="SFBAGS500" selected>Semifinished bags 500mL</option>
-                                                  <option value="SFBAGS1500" selected>Semifinished bags 1000-1500mL</option>
-                                                  <option value="SFBAGS2500" selected>Semifinished bags 2000-2500mL</option>
-                                                  <option value="SFBAGS3500" selected>Semifinished bags 3000-3500mL</option>
-                                                  <option value="SFBAGS4500" selected>Semifinished bags 4000-4500mL</option>
-                                                  <option  value="SFBAGS7000" selected>Semifinished bags 7000mL</option>
-                                                  <option  value="PFG" selected>Purchased Finished Goods</option>
+                                                  <option value="CONNECTORS" >Connectors</option>
+                                                  <option value="CONICALCONNECTORS" >Conical Connectors</option>
+                                                  <option value="INJECTIONPOINTS" >Injection Points</option>
+                                                  <option value="FILTERS" >Filters</option>
+                                                  <option value="CLAMPS" >Clamps</option>
+                                                  <option value="SPIKES" >Spikes</option>
+                                                  <option value="CHAMBERS" >Drip Chambers</option>
+                                                  <option value="COVERS" >Covers</option>
+                                                  <option value="TUBES" >Tubes</option>
+                                                  <option value="VARIOUS" >Various components</option>
+                                                  <option value="BAGS" >Bags</option>
+                                                  <option value="CARTONS" >Boxes</option>
+                                                  <option value="POUCHES" >Pouches</option>
+                                                  <option value="ADJUVANTS" >Adjuvants</option>
+                                                  <option value="LABELS" >Labels</option>
+                                                  <option value="SFTUBES" >Semifinished tubes</option>
+                                                  <option value="SFVARIOUS" >Various semifinished goods</option>
+                                                  <option value="SFSPECIALBAGS" >Special Bags/option>
+                                                  <option value="SFBAGS150" >Semifinished bags 150mL</option>
+                                                  <option value="SFBAGS250" >Semifinished bags 250mL</option>
+                                                  <option value="SFBAGS500" >Semifinished bags 500mL</option>
+                                                  <option value="SFBAGS1500" >Semifinished bags 1000-1500mL</option>
+                                                  <option value="SFBAGS2500" >Semifinished bags 2000-2500mL</option>
+                                                  <option value="SFBAGS3500" >Semifinished bags 3000-3500mL</option>
+                                                  <option value="SFBAGS4500" >Semifinished bags 4000-4500mL</option>
+                                                  <option  value="SFBAGS7000" >Semifinished bags 7000mL</option>
+                                                  <option  value="PFG" >Purchased Finished Goods</option>
                                                 </select>
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-1 pb-1">
@@ -125,6 +124,8 @@ function rendernewcomponents(){
                                         </form>
                                   </div>
                               </div>`;
+                              document.querySelector("#familyinput").selectedIndex=-1;
+                        
 
     }
 
@@ -151,9 +152,9 @@ function rendernewcomponents(){
 
 
 
-      if(article=="" || description=="") {
+      if(article=="" || description=="" || document.querySelector("#familyinput").selectedIndex==-1) {
       if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
-      errormessage.innerHTML="Attention, fields article and description are necessary to submit the request";
+      errormessage.innerHTML="Attention, fields article, description and material family are necessary to submit the request";
       return;
       }
       if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");

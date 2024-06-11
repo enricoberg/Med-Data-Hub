@@ -103,7 +103,8 @@ public class MaterialController {
         Material.MaterialFamily family = Material.MaterialFamily.valueOf(fam);
         material.setBrandname(name);
         material.setSupplier(supplier);
-        material.setPlasticizer(plasticizer);
+        if(plasticizer=="" || plasticizer.isEmpty()) material.setPlasticizer(null);
+        else material.setPlasticizer(plasticizer);
         material.setFamily(family);
 
 

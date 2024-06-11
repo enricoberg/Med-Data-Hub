@@ -22,7 +22,9 @@ function colorRowAndColumn(row, col, numColumns) {
     // gridItems[col+row*numColumns].style.backgroundColor='rgba(43, 43, 193,0.6)';
     gridItems[col+row*numColumns].style.backgroundColor='rgba(13, 110, 253, 1)';
     gridItems[col+row*numColumns].style.color="white";
-    gridItems[col+row*numColumns].querySelector("a").style.color="white";
+    let all_links_in_cell=gridItems[col+row*numColumns].querySelectorAll("a");
+    for(let i=0;i<all_links_in_cell.length;i++){all_links_in_cell[i].style.color="white";}
+    
 }
 
 
