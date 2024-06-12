@@ -11,6 +11,7 @@ import com.app.compliance.repository.ConfigurationRepository;
 import com.app.compliance.repository.MaterialConfigurationRepository;
 import com.app.compliance.repository.MaterialRepository;
 import com.app.compliance.repository.SupplierRepository;
+import com.app.compliance.services.LogService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class ComponentController {
 
     @Autowired
     private final MaterialConfigurationRepository materialConfigurationRepository;
+
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/")
     public List<Component> getAllComponentsFiltered(
@@ -113,7 +117,8 @@ public class ComponentController {
             @RequestParam("ca65") boolean ca65,
             @RequestParam("baimold") boolean baimold,
             @RequestParam("standard") String conicalstandard,
-            @RequestPart("family") String fam) {
+            @RequestPart("family") String fam,
+            @RequestHeader(name = "Authorization") String token) {
         // Create the new Component object
         Component component = new Component();
         Component.ComponentFamily family = Component.ComponentFamily.valueOf(fam);
@@ -132,6 +137,7 @@ public class ComponentController {
         //Save the file with the correct name and path
         try {
             componentRepository.save(component);
+            logService.writeToLog("Added the new component:  "+article+" - "+description,token);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to save the component");
         }
@@ -222,9 +228,10 @@ public class ComponentController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteComponent(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteComponent(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
             componentRepository.deleteById(id);
+            logService.writeToLog("Deleted the component with id  "+id,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the component");
         }
@@ -233,7 +240,7 @@ public class ComponentController {
 
     @PutMapping("/updatecomponent/{id}")
     //THIS CONTROLLER SEARCHES FOR EXISTING COMPONENT WITHS SPECIFIED ID AND OVERWRITES THE PARAMETERS
-    public ResponseEntity<String> updateComponent(@PathVariable Integer id, @RequestBody CompUpdate updateComponentRequest){
+    public ResponseEntity<String> updateComponent(@PathVariable Integer id, @RequestBody CompUpdate updateComponentRequest,@RequestHeader(name = "Authorization") String token){
         //VERIFY THE COMPONENT EXISTS
         
         Optional<Component> opt_component = componentRepository.findById(id);
@@ -254,7 +261,7 @@ public class ComponentController {
         component.setFamily(compfamily);
         
         componentRepository.save(component);
-        
+        logService.writeToLog("Update component "+updateComponentRequest.getArticle()+" - "+updateComponentRequest.getDescription()+", Intercompany: "+updateComponentRequest.isIntercompany()+", Packaging: "+updateComponentRequest.isPackaging()+", CA65: "+updateComponentRequest.isCa65()+", Family: "+updateComponentRequest.getFamily()+", Standard: "+updateComponentRequest.getStandard(),token);
         return ResponseEntity.ok("Component updated successfully");
     }
 }
