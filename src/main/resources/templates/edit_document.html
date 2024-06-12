@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Med Data Hub - Edit mode</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/1XMhJmZg/login.png">
+    
+    <link rel="stylesheet" href="/css/editable.css">
+</head>
+<body>
+    <div class="navbarlite"><div class="logodiv" onclick="window.location.href='/app/home?section=products'"></div><div class="logoscritta" onclick="window.location.href='/app/'">Med Data Hub</div> </div>
+    <div class="containertable">
+        
+        
+        <div class="row mx-2 " >
+            <div style="width: 100%; text-align: center;" class="titleh1"><h1>Replace existing document</h1></div>
+            
+            <div class="mx-auto w-50 mt-5" id="targettable" style="background-color: rgba(255,255,255,0);">               
+                <div class="mb-3 mt-3" >
+                    <label for="formFile" class="form-label mx-auto w-100 text-center mb-3" style="display: block;">Select the correct file, make sure the filename is correct</label>
+                    <input class="form-control mx-auto w-50" type="file" id="formFile" name="docfile">
+                </div>
+                <div class="mb-5 mx-auto w-100 text-center" >
+                    
+                    <button type="button" class="btn btn-primary mx-auto w-25" id="replacebutton">Replace the file</button>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="/js/utils.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://kit.fontawesome.com/0221803f6d.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+<script src="/js/edit_pages/edit_utils.js"></script>
+<script>
+    document.querySelector("#replacebutton").addEventListener("click", function(){
+        let fileInput=document.querySelector("#formFile");
+        if(fileInput.files.length ==0) {                    
+                    alert("Attention, you must select a file to upload first");
+                    return;
+        }
+        if(!window.confirm("Are you sure you want to replace the existing document? Make sure the filename is correct before submitting, the operation is irreversible")) return;
+        const formData = new FormData(); 
+        formData.append('docfile', fileInput.files[0]);       
+
+
+        fetch("/querydocs/replace", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {'Authorization': authenticationheader() }
+                })
+                .then(response => {
+                    if (!response.ok)  throw new Error('Network response was not ok');
+                    alert("New document replaced successfully!");
+                    window.location.replace("/app/home");
+                })
+                .catch(error => { alert("Something went wrong with your request"); });
+
+    });
+</script>
+</html>

@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                 "/app/editproducts",
                 "/app/editmaterials",
                 "/app/editsuppliers",
+                "/app/editdocument",
                 "/app/home/**",
                 "/app/logout/**",
                 "/css/**",

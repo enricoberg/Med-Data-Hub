@@ -69,9 +69,9 @@ public class MainController {
         return true;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/editdocument")
     public String Tests() {
-        return "test";
+        return "edit_document";
     }
 
 

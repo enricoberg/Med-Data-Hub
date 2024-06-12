@@ -256,34 +256,34 @@ public class DocumentController {
         return (value != null) ? value.toString() : null;
     }
 
-    // @PostMapping("/replace")
-    // public ResponseEntity<String> replaceDocument(
-    //         @RequestPart("docfile") MultipartFile file) {
-
-    //     if (file == null || file.isEmpty()) return ResponseEntity.status(500).body("No file found");
+    @PostMapping("/replace")
+    public ResponseEntity<String> replaceDocument(
+            @RequestPart("docfile") MultipartFile file) {
+                
+        if (file == null || file.isEmpty()) return ResponseEntity.status(500).body("No file found");
             
-    //         try {
-    //             String oldFilename = file.getOriginalFilename();
-    //             if(!oldFilename.matches(".*_.*(?:INTERNALSPECIFICATION|WI|ARTWORK|SUPPLIERSPECIFICATION)\\.(?i)(pdf|PDF)$"))  return ResponseEntity.status(500).body("Invalid file name");
-    //             String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
-    //             String EXTENSION = ".pdf";
-    //             String typestring = null;
-    //             switch (type) {
-    //                 case "internal" -> typestring = "INTERNALSPECIFICATION";
-    //                 case "supplier" -> typestring = "SUPPLIERSPECIFICATION";
-    //                 case "wi" -> typestring = "WI";
-    //                 case "artwork" -> typestring = "ARTWORK";
-    //             }
-    //             String fileName = article + "_" + revision + "_" + typestring + EXTENSION;
-    //             Path destination = new File(SERVER_LOCATION, fileName).toPath();
-    //             Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-    //         }
-    //         catch (IOException e) {
-    //             return ResponseEntity.status(500).body("Failed to save the file");
-    //         }
+            try {
+                String oldFilename = file.getOriginalFilename();
+                if(!isFilenameValid(oldFilename))  return ResponseEntity.status(500).body("Invalid file name");
+                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                Path destination = new File(SERVER_LOCATION, oldFilename).toPath();
+                Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+            }
+            catch (IOException e) {
+                System.out.println(e);
+                return ResponseEntity.status(500).body("Failed to save the file");
+            }
         
 
-    //     return ResponseEntity.ok("New doc created successfully!");
-    // }
+        return ResponseEntity.ok("Doc replaced successfully!");
+    }
+
+
+    public static boolean isFilenameValid(String input) {
+        String[] parts = input.split("_");        
+        if (parts.length != 3) return false;    
+        String secondPart = parts[2];
+        return secondPart.equalsIgnoreCase("INTERNALSPECIFICATION.PDF") || secondPart.equalsIgnoreCase("WI.PDF") || secondPart.equalsIgnoreCase("SUPPLIERSPECIFICATION,PDF") || secondPart.equalsIgnoreCase("ARTWORK.PDF");
+    }
 
 }
