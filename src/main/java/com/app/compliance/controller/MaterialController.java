@@ -17,6 +17,7 @@ import com.app.compliance.repository.ConfigurationRepository;
 import com.app.compliance.repository.MaterialConfigurationRepository;
 import com.app.compliance.repository.MaterialRepository;
 import com.app.compliance.repository.ProductRepository;
+import com.app.compliance.services.LogService;
 import com.app.compliance.services.UsageController;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -60,6 +62,9 @@ public class MaterialController {
 
     @Autowired
     private final ConfigurationRepository configurationRepository;
+
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/")
     public List<Material> getAllMaterialsFiltered(
@@ -95,7 +100,8 @@ public class MaterialController {
             @RequestParam("name") String name,
             @RequestParam("supplier") String supplier,
             @RequestParam("plasticizer") String plasticizer,
-            @RequestPart("family") String fam) {
+            @RequestPart("family") String fam,
+            @RequestHeader(name = "Authorization") String token) {
 
 
         // Create the new Material object
@@ -111,6 +117,7 @@ public class MaterialController {
         //Save the Material to the database
         try {
             materialRepository.save(material);
+            logService.writeToLog("Added the new material:  "+name,token);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to save the material");
         }
@@ -200,9 +207,10 @@ public class MaterialController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteMaterial(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteMaterial(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
             materialRepository.deleteById(id);
+            logService.writeToLog("Deleted material with ID "+id,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the material");
         }
@@ -211,7 +219,7 @@ public class MaterialController {
 
     @PutMapping("/updatematerial/{id}")
     //THIS CONTROLLER SEARCHES FOR EXISTING COMPONENT WITHS SPECIFIED ID AND OVERWRITES THE PARAMETERS
-    public ResponseEntity<String> updateMaterial(@PathVariable Integer id, @RequestBody MatUpdate updateMaterialRequest){
+    public ResponseEntity<String> updateMaterial(@PathVariable Integer id, @RequestBody MatUpdate updateMaterialRequest,@RequestHeader(name = "Authorization") String token){
         //VERIFY THE COMPONENT EXISTS        
         Optional<Material> opt_material = materialRepository.findById(id);
         if(!opt_material.isPresent()) return ResponseEntity.status(500).body("The material you requested to update does not exist");
@@ -232,7 +240,7 @@ public class MaterialController {
         
         
         materialRepository.save(material);
-        
+        logService.writeToLog("Updated material with ID "+id+", Brandname: "+material.getBrandname()+", Supplier: "+material.getSupplier()+", Family: "+material.getFamily()+", Plasticizer: "+material.getPlasticizer(),token);
         return ResponseEntity.ok("Component updated successfully");
     }
 
