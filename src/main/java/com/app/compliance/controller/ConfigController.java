@@ -7,6 +7,8 @@ import com.app.compliance.dto.ConfUpdate;
 import com.app.compliance.dto.ConfigView;
 import com.app.compliance.model.*;
 import com.app.compliance.repository.*;
+import com.app.compliance.services.LogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,9 @@ public class ConfigController {
     @Autowired
     private final MaterialConfigurationRepository materialConfigurationRepository;
 
+    @Autowired
+    private LogService logService;
+
 
     @GetMapping("/")
     public List<ConfigView> getAllComponentsFiltered(
@@ -66,7 +71,7 @@ public class ConfigController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> createNewBomItem(@RequestBody ConfRequest[] bomObjects) {
+    public ResponseEntity<String> createNewBomItem(@RequestBody ConfRequest[] bomObjects,@RequestHeader(name = "Authorization") String token) {
         try {
             for (ConfRequest obj : bomObjects) {
                 //SEE IF THERE IS ALREADY A CONFIGURATION WITH SAID SUPPLIER'S COMPONENT NUMBER AND ACT ACCORDINGLY
@@ -86,6 +91,7 @@ public class ConfigController {
                     Configuration existingconfig = configRepository.findBySuppliercompnumber(obj.getSupcompcode()).get();
                     configRepository.insertMaterialConfiguration(existingconfig.getId(), obj.getMatid());
                 }
+                logService.writeToLog("Added new configuration for component ID "+obj.getCompid()+", Supplier ID: "+obj.getSupid()+", Supplier component number: "+obj.getSupcompcode()+", Material ID: "+obj.getMatid()+"",token);
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to save the bom");
@@ -97,7 +103,8 @@ public class ConfigController {
     @GetMapping("/deleteconfig")
     public ResponseEntity<String> deleteConfItem(        
         @RequestParam(required = true) Integer confid,
-        @RequestParam(required = true) Integer matid
+        @RequestParam(required = true) Integer matid,
+        @RequestHeader(name = "Authorization") String token
     ) {
         
         try{
@@ -112,7 +119,7 @@ public class ConfigController {
                 configRepository.delete(config_to_delete);
             }
             
-            
+            logService.writeToLog("Deleted configuration with material ID "+matid+" and configuration ID "+confid,token);
             
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the component: "+e);
