@@ -184,7 +184,8 @@ public class DocumentController {
             @RequestParam("active") boolean active,
             @RequestParam("assembly") boolean assembly,
             @RequestParam("type") String type,
-            @RequestPart("docfile") MultipartFile file) {
+            @RequestPart("docfile") MultipartFile file,
+            @RequestHeader(name = "Authorization") String token) {
 
         if (file != null && !file.isEmpty()) {
             // Create the new Document object
@@ -228,6 +229,7 @@ public class DocumentController {
                 String fileName = article + "_" + revision + "_" + typestring + EXTENSION;
                 Path destination = new File(SERVER_LOCATION, fileName).toPath();
                 Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+                logService.writeToLog("Added the new document:  "+fileName,token);
             }
             catch (IOException e) {
                 return ResponseEntity.status(500).body("Failed to save the file");

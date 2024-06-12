@@ -14,6 +14,7 @@ import com.app.compliance.model.Product;
 import com.app.compliance.repository.BomRepository;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.ProductRepository;
+import com.app.compliance.services.LogService;
 import com.app.compliance.services.UsageController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -46,7 +48,8 @@ public class BomController {
     @Autowired
     private final ProductRepository productRepository;
 
-    
+    @Autowired
+    private LogService logService;
 
 
 
@@ -106,7 +109,7 @@ public class BomController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> createNewBomItem(@RequestBody BomRequest[] bomObjects) {
+    public ResponseEntity<String> createNewBomItem(@RequestBody BomRequest[] bomObjects,@RequestHeader(name = "Authorization") String token) {
 
         try {
 
@@ -130,8 +133,8 @@ public class BomController {
                 bomline.setProdid(product);
                 bomline.setQty(qty);
                 bomline.setUm(um);
-
                 bomRepository.save(bomline);
+                logService.writeToLog("Added BOM element. Component "+obj.getCompid()+"(assembly="+obj.isAssembly()+"), Product: "+product+", qty: "+qty+" "+um,token);
 
             }
 
@@ -330,7 +333,8 @@ public class BomController {
     public ResponseEntity<String> deleteBomItem(
         @RequestParam(required = true) String compid,
         @RequestParam(required = true) Integer prodid,
-        @RequestParam(required = true) boolean assembly
+        @RequestParam(required = true) boolean assembly,
+        @RequestHeader(name = "Authorization") String token
     ) {
         
         try{
@@ -356,6 +360,7 @@ public class BomController {
             Bom bom = bomRepository.findByCompidAndProdidAndAssembly(comp_id, product, assembly).get();
             
             bomRepository.delete(bom);
+            logService.writeToLog("Deleted BOM element. Component "+comp_id+"(assembly="+assembly+"), Product: "+prodid,token);
             
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the component: "+e);
@@ -366,7 +371,7 @@ public class BomController {
 
     @PutMapping("/update/{id}")
     //THIS CONTROLLER SEARCHES FOR EXISTING COMPONENT WITHS SPECIFIED ID AND OVERWRITES THE PARAMETERS
-    public ResponseEntity<String> updateComponent(@PathVariable Integer id, @RequestBody BomUpdate updateBomRequest){
+    public ResponseEntity<String> updateComponent(@PathVariable Integer id, @RequestBody BomUpdate updateBomRequest,@RequestHeader(name = "Authorization") String token){
         try{
         //VERIFY THE COMPONENT EXISTS
         boolean assembly=updateBomRequest.isAssembly();
@@ -389,7 +394,8 @@ public class BomController {
         bom.setQty(updateBomRequest.getQty());
         Bom.UnitMeasure um = Bom.UnitMeasure.valueOf(updateBomRequest.getUm());
         bom.setUm(um);
-        bomRepository.save(bom);       
+        bomRepository.save(bom);    
+        logService.writeToLog("Updated BOM element. Component "+comp_id+"(assembly="+assembly+"), Product: "+id+", qty: "+updateBomRequest.getQty()+" "+um,token);   
     }
     catch(Exception e){
         return ResponseEntity.status(500).body("Failed to delete the component: "+e);
