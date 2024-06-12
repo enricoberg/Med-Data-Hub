@@ -5,6 +5,9 @@ import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.DocumentRepository;
+import com.app.compliance.services.EmailSenderService;
+import com.app.compliance.services.LogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -36,6 +39,9 @@ public class DocumentController {
 
     @Autowired
     private final ComponentRepository componentRepository;
+
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/")
     public List<DocumentView>  getAllDocumentsFiltered(
@@ -258,7 +264,8 @@ public class DocumentController {
 
     @PostMapping("/replace")
     public ResponseEntity<String> replaceDocument(
-            @RequestPart("docfile") MultipartFile file) {
+            @RequestPart("docfile") MultipartFile file,
+            @RequestHeader(name = "Authorization") String token) {
                 
         if (file == null || file.isEmpty()) return ResponseEntity.status(500).body("No file found");
             
@@ -268,6 +275,7 @@ public class DocumentController {
                 String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
                 Path destination = new File(SERVER_LOCATION, oldFilename).toPath();
                 Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+                logService.writeToLog("Replaced the file "+oldFilename,token);
             }
             catch (IOException e) {
                 System.out.println(e);
