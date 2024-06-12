@@ -8,6 +8,8 @@ import com.app.compliance.model.Component.ComponentFamily;
 import com.app.compliance.model.Component.ConicalStandard;
 import com.app.compliance.model.Supplier;
 import com.app.compliance.repository.SupplierRepository;
+import com.app.compliance.services.LogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ public class SupplierController {
 
     @Autowired
     private final SupplierRepository supplierRepository;
+
+    @Autowired
+    private final LogService logService;
 
     @GetMapping("/")
     public List<Supplier> getAllSuppliersFiltered(
@@ -58,7 +63,8 @@ public class SupplierController {
     public ResponseEntity<String> createNewSupplier(
             @RequestParam("name") String name,
             @RequestParam("sap") String sap,
-            @RequestParam("contact") String contact) {
+            @RequestParam("contact") String contact,
+            @RequestHeader(name = "Authorization") String token) {
 
         
         
@@ -71,6 +77,7 @@ public class SupplierController {
             
             //Save the newly created supplier
             supplierRepository.save(supplier);
+            logService.writeToLog("Added the new supplier:  "+name,token);
         } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(500).body("Failed to add the new supplier");
@@ -98,9 +105,10 @@ public class SupplierController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteSupplier(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteSupplier(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
             supplierRepository.deleteById(id);
+            logService.writeToLog("Deleted supplier with ID "+id,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the supplier");
         }
@@ -109,7 +117,7 @@ public class SupplierController {
 
     @PutMapping("/updatesupplier/{id}")
     //THIS CONTROLLER SEARCHES FOR EXISTING SUPPLIER WITH SPECIFIED ID AND OVERWRITES THE PARAMETERS
-    public ResponseEntity<String> updateSupplier(@PathVariable Integer id, @RequestBody SupUpdate updateSupplierRequest){
+    public ResponseEntity<String> updateSupplier(@PathVariable Integer id, @RequestBody SupUpdate updateSupplierRequest,@RequestHeader(name = "Authorization") String token){
         //VERIFY THE COMPONENT EXISTS
         
         Optional<Supplier> opt_supplier = supplierRepository.findById(id);
@@ -122,7 +130,7 @@ public class SupplierController {
         else supplier.setContact(updateSupplierRequest.getContact());
         supplier.setSupplier_name(updateSupplierRequest.getName());
         supplierRepository.save(supplier);        
-        
+        logService.writeToLog("Updated supplier with ID "+id+", Name: "+supplier.getSupplier_name()+", SAP code: "+supplier.getSap_code()+", Contact: "+supplier.getContact(),token);
         
         return ResponseEntity.ok("Supplier updated successfully");
     }
