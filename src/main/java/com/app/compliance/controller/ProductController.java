@@ -13,6 +13,7 @@ import com.app.compliance.model.Product.SterilizationCycle;
 import com.app.compliance.model.Product.SterilizationSite;
 import com.app.compliance.repository.ProductRepository;
 import com.app.compliance.repository.SupplierRepository;
+import com.app.compliance.services.LogService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -44,6 +46,9 @@ public class ProductController {
 
     @Autowired
     private final SupplierRepository supplierRepository;
+
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/")
     public List<Product> getAllProductsFiltered(
@@ -122,7 +127,8 @@ public class ProductController {
             @RequestParam("sterisite") String site,
             @RequestParam("sap") String sap,
             @RequestParam("supplier") String supplier,
-            @RequestPart("family") String fam) {
+            @RequestPart("family") String fam,
+            @RequestHeader(name = "Authorization") String token) {
 
 
         try {
@@ -152,6 +158,7 @@ public class ProductController {
             product.setSupplierid(actualsupp);
             //Save the product to the database
             productRepository.save(product);
+            logService.writeToLog("Added the new product: "+article+" - "+description,token);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to save the product");
         }
@@ -197,9 +204,10 @@ public class ProductController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUseProduct(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteUseProduct(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
             productRepository.deleteById(id);
+            logService.writeToLog("deleted product with id "+id,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete product");
         }
@@ -208,7 +216,7 @@ public class ProductController {
 
     @PutMapping("/updatecomponent/{id}")
     //THIS CONTROLLER SEARCHES FOR EXISTING PRODUCT WITH SPECIFIED ID AND OVERWRITES THE PARAMETERS
-    public ResponseEntity<String> updateProduct(@PathVariable Integer id, @RequestBody ProdUpdate updateProductRequest){
+    public ResponseEntity<String> updateProduct(@PathVariable Integer id, @RequestBody ProdUpdate updateProductRequest, @RequestHeader(name = "Authorization") String token){
         //VERIFY THE PRODUCT EXISTS
         
         Optional<Product> opt_prod = productRepository.findById(id);
@@ -240,7 +248,7 @@ public class ProductController {
         Product.SterilizationCycle stericycle = SterilizationCycle.valueOf(updateProductRequest.getStericycle());
         product.setSterilizationcycle(stericycle);
         productRepository.save(product);
-        
+        logService.writeToLog("Updated product with ID"+id+", Code: "+updateProductRequest.getArticle()+", Description: "+updateProductRequest.getDescription()+", Family: "+updateProductRequest.getFamily()+", SAP Status: "+updateProductRequest.getSapstatus()+", Intercompany: "+updateProductRequest.isIntercompany()+", Semifinished: "+updateProductRequest.isSemifinished()+", DHF: "+updateProductRequest.getDhf()+", RMF: "+updateProductRequest.getRmf()+", BUDI: "+updateProductRequest.getBudi()+", Shelflife: "+updateProductRequest.getShelflife()+", Sterilization Site: "+updateProductRequest.getSterisite()+", Sterilization Cycle: "+updateProductRequest.getStericycle(),token);
         return ResponseEntity.ok("Component updated successfully");
     }
 }
