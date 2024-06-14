@@ -149,6 +149,11 @@ body{
     bottom: 44px;
     right:75px;
 }
+.uploadbutton{
+    position: absolute;
+    bottom: 44px;
+    right:110px;
+}
 .prevbutton{
     position: absolute;
     bottom: 14px;

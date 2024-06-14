@@ -79,7 +79,7 @@ function renderdashboard(){
 
 <div class="dashelement btn-hover" onclick="redirectToTab('#materialsection')">
     <img src="https://i.postimg.cc/fRMf6jH4/advanced.png" alt="">
-    <a href="#" class="colorchanging">SEARCH ASSEMBLIES CONTAING A MATERIAL</a>
+    <a href="#" class="colorchanging">SEARCH ASSEMBLIES CONTAINING A MATERIAL</a>
 
 </div>
 
