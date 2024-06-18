@@ -36,6 +36,10 @@ async function rendernewdocuments(){
                                                <label for="revinput" class="form-label">PPC Number</label>
                                                <input type="text" class="form-control" id="ppcinput" name="ppcinput">
                                            </div>
+                                           <div class="mb-3">
+                                               <label for="descinput" class="form-label">Description (only new component/product)</label>
+                                               <input type="text" class="form-control" id="descinput" name="descinput">
+                                           </div>
                                            <div class="mb-3 form-check ">
                                              <input type="checkbox" class="form-check-input" id="activeinput" name="activeinput" checked>
                                              <label class="form-check-label" for="activeinput">Active Revision</label>
@@ -112,6 +116,7 @@ async function rendernewdocuments(){
     function submitsnewdoc(){
             //RETRIEVE THE DATA FROM THE FORM
             let article=document.querySelector("#articleinput").value;
+            let description=document.querySelector("#descinput").value;
             let errormessage=document.querySelector(".errormessage");
             let form = document.getElementById('newdocform');
             let fileInput=document.querySelector("#formFile");
@@ -156,6 +161,7 @@ async function rendernewdocuments(){
 
                 formData.append('article', article);
                 formData.append('revision', revision);
+                if(description!="") formData.append('description', description);
                 if(ppc!="") formData.append('ppc', ppc);                
                 formData.append('active', active);
                 formData.append('assembly', assembly);
@@ -174,6 +180,12 @@ async function rendernewdocuments(){
                       
                       throw new Error('Network response was not ok: ');
                     } 
+                    else if(!response.ok && response.status==502){
+                      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                      errormessage.innerHTML="No matching part, description is mandatory";
+                      
+                      throw new Error('Network response was not ok: ');
+                    }
                     alert("New document created successfully!");
                     renderspecifications();
                 })

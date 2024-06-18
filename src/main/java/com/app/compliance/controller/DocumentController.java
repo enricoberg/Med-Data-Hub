@@ -3,8 +3,12 @@ package com.app.compliance.controller;
 import com.app.compliance.dto.DocumentView;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
+import com.app.compliance.model.Product;
+import com.app.compliance.model.Component.ComponentFamily;
+import com.app.compliance.model.Product.SterilizationCycle;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.DocumentRepository;
+import com.app.compliance.repository.ProductRepository;
 import com.app.compliance.services.EmailSenderService;
 import com.app.compliance.services.LogService;
 
@@ -41,7 +45,13 @@ public class DocumentController {
     private final ComponentRepository componentRepository;
 
     @Autowired
+    private final ProductRepository productRepository;
+
+    @Autowired
     private LogService logService;
+
+    @Autowired
+    private EmailSenderService senderService;
 
     @GetMapping("/")
     public List<DocumentView>  getAllDocumentsFiltered(
@@ -181,6 +191,7 @@ public class DocumentController {
             @RequestParam("article") String article,
             @RequestParam("revision") String revision,
             @RequestParam(required = false) String ppc,
+            @RequestParam(required = false) String description,
             @RequestParam("active") boolean active,
             @RequestParam("assembly") boolean assembly,
             @RequestParam("type") String type,
@@ -198,9 +209,60 @@ public class DocumentController {
                 case "artwork" -> convertedType= Document.DocumentType.ARTWORK;
             }
 
-            Optional<Document> opt_doc=documentRepository.findByArticlecodeAndRevisionAndDocumenttype(article, revision, convertedType);
             
+            //CHECK THAT THERE IS NO DUPLICATE
+            Optional<Document> opt_doc=documentRepository.findByArticlecodeAndRevisionAndDocumenttype(article, revision, convertedType);
             if(opt_doc.isPresent()) return ResponseEntity.status(501).body("Document is already present");    
+
+            //CHECK IF THE COMPONENT / PRODUCT ALREADY EXISTS OR NEEDS TO BE CREATED
+            boolean toBeCreated=false;
+            if(assembly){
+                Optional<Product> opt_product = productRepository.findByCode(article);
+                if(!opt_product.isPresent()) toBeCreated=true;
+            }
+            else{
+                Component comp = componentRepository.findByCompid(article);
+                if(comp==null) toBeCreated=true;
+            }
+            if(toBeCreated) if(description==null || description=="") return ResponseEntity.status(502).body("No description given");
+            if(toBeCreated && assembly){
+                Product new_prod = new Product();
+                new_prod.setCode(article);
+                new_prod.setDescription(description);
+                new_prod.setIntercompany(false);
+                new_prod.setSemifinished(false);
+                new_prod.setSterilizationcycle(SterilizationCycle.BULK);
+                productRepository.save(new_prod);       
+                try{        
+                // senderService.sendEmail("marcello.mazzuolo@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                // senderService.sendEmail("nella.trinchini_ext@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                // senderService.sendEmail("laura.carbone@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                // senderService.sendEmail("andrea.gallo@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                // senderService.sendEmail("alessandra.castorio_ext@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                } catch (Exception e) {
+                    System.out.println("Error sending email: " + e);
+                }
+            }
+            else if(toBeCreated && !assembly){
+                Component new_comp = new Component();
+                new_comp.setComp_id(article);
+                new_comp.setDescription(description);
+                new_comp.setIntercompany(false);
+                new_comp.setBaimold(false);
+                new_comp.setCa65(false);
+                new_comp.setContact(false);
+                new_comp.setFamily(ComponentFamily.ADJUVANTS);
+                componentRepository.save(new_comp);
+                try{        
+                    // senderService.sendEmail("marcello.mazzuolo@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    // senderService.sendEmail("nella.trinchini_ext@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    // senderService.sendEmail("laura.carbone@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    // senderService.sendEmail("andrea.gallo@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    // senderService.sendEmail("alessandra.castorio_ext@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    } catch (Exception e) {
+                        System.out.println("Error sending email: " + e);
+                    }
+            }
                     
             //Save the file with the correct name and path
             try {
