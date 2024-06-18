@@ -133,7 +133,7 @@ async function updateDocumentsTable(totalcolumns){
                     return response.text();
                 })
                 .then(data => {
-                    if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                    if(data=="DOCUMENTATION" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
                 })
                 .catch(error => {
                     console.error('Error during fetch:', error);

@@ -4,6 +4,6 @@ public enum Role {
 
     USER,
     ADMIN,
-
-    SUPERUSER
+    ENGINEER,
+    DOCUMENTATION
 }

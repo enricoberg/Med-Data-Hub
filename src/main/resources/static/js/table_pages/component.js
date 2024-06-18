@@ -281,8 +281,8 @@ async function updateComponentsTable(totalcolumns){
                             return response.text();
                         })
                         .then(data => {
-                            if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
-                            if(data=="SUPERUSER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
+                            if(data=="ENGINEER" ||  data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                            if(data=="ENGINEER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
                         })
                         .catch(error => {
                             console.error('Error during fetch:', error);

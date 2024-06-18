@@ -199,7 +199,9 @@ public class DocumentController {
             }
 
             Optional<Document> opt_doc=documentRepository.findByArticlecodeAndRevisionAndDocumenttype(article, revision, convertedType);
-            if(opt_doc.isPresent()) return ResponseEntity.status(500).body("Document is already present");            
+            
+            if(opt_doc.isPresent()) return ResponseEntity.status(501).body("Document is already present");    
+                    
             //Save the file with the correct name and path
             try {
                 //PUT Previous revisions of the document to non-active

@@ -168,7 +168,12 @@ async function rendernewdocuments(){
                     headers: {'Authorization': authenticationheader() }
                 })
                 .then(response => {
-                    if (!response.ok)  throw new Error('Network response was not ok');
+                    if (!response.ok && response.status==501) {
+                      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                      errormessage.innerHTML="The document you tried to insert is already present"
+                      
+                      throw new Error('Network response was not ok: ');
+                    } 
                     alert("New document created successfully!");
                     renderspecifications();
                 })
