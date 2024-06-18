@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                 "/app/auth/changepasswordlogged",
                 "/app/auth/logout",
                 "/app/auth/verify",
-                "/app/",
+                "/app/",                
                 "/app/editcomponents",
                 "/app/editboms",
                 "/app/editconfigurations",                
@@ -89,10 +89,28 @@ public class SecurityConfiguration {
                         .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
+                        .requestMatchers("/querycomp/updatecomponent/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querycomp/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/queryprod/updatecomponent/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/queryprod/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querymat/updatematerial/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querymat/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querysup/updatesupplier/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querysup/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/queryboms/update/**").hasAnyAuthority("ADMIN",  "DOCUMENTATION")
+                        .requestMatchers("/queryboms/deletebom/**").hasAnyAuthority("ADMIN",  "DOCUMENTATION")                        
+                        .requestMatchers("/queryconfigs/deleteconfig/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/querydocs/replace").hasAnyAuthority("ADMIN", "DOCUMENTATION")
+
+
+
+
+
+                                               
                         .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
+                        .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .authenticationProvider(authenticationProvider()).addFilterBefore(
+                                jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
                 );
         return http.build();
 
