@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                 "/app/",
                 "/app/editcomponents",
                 "/app/editboms",
-                "/app/editconfigurations",
+                "/app/editconfigurations",                
                 "/app/editproducts",
                 "/app/editmaterials",
                 "/app/editsuppliers",

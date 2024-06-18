@@ -88,7 +88,7 @@ function rendernewmaterials(){
                                           
                                           
                                           <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
-                                          <div class="mb-3">
+                                          <div class="mb-3 w-100 text-center">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewmat" onclick="submitsnewmat()">Submit Material</button>
                                           </div>
 

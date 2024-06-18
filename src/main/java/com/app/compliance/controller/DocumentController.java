@@ -360,4 +360,33 @@ public class DocumentController {
         return secondPart.equalsIgnoreCase("INTERNALSPECIFICATION.PDF") || secondPart.equalsIgnoreCase("WI.PDF") || secondPart.equalsIgnoreCase("SUPPLIERSPECIFICATION,PDF") || secondPart.equalsIgnoreCase("ARTWORK.PDF");
     }
 
+
+
+    @PostMapping("/newcert")
+    public ResponseEntity<String> createNewCertificate(
+            @RequestParam("materialid") Integer materialid,
+            @RequestParam("docutype") String docutype,
+            @RequestPart("docfile") MultipartFile file,
+            @RequestHeader(name = "Authorization") String token) {
+
+        if (file != null && !file.isEmpty()) {                      
+            
+                    
+            //Save the file with the correct name and path
+            try {
+                
+                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                String EXTENSION = ".pdf";                
+                String fileName = docutype + "_" + materialid +  EXTENSION;
+                Path destination = new File(SERVER_LOCATION, fileName).toPath();
+                Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+                logService.writeToLog("Added the new certificate:  "+fileName+ " ( " + docutype + " ) ",token);
+            }
+            catch (IOException e) {
+                return ResponseEntity.status(500).body("Failed to save the file");
+            }
+        }
+
+        return ResponseEntity.ok("New certificate created successfully!");
+    }
 }
