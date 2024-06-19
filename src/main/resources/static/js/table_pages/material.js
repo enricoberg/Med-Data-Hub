@@ -246,6 +246,7 @@ async function updateMaterialsTable(totalcolumns){
         
         <div class="grid-item "><a class="pdfopener" targetref="/download/?filename=TDS_${obj.id}">TDS</a> ---
         <a class="pdfopener"  targetref="/download/?filename=SDS_${obj.id}">SDS</a> ---
+        <a class="pdfopener"  targetref="/download/?filename=COA_${obj.id}">COA</a> ---
         <a  class="usagelink" onclick="renderqueryadv3(${obj.id})">See Usage</a>
         </div>
         `;
