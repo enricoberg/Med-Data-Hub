@@ -16,7 +16,7 @@ public class ProdUpdate {
     private String budi;
     private String sterisite;
     private String stericycle;
-    private Integer shelflife;
+    private String shelflife;
 
 
     

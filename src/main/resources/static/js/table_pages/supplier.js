@@ -28,7 +28,7 @@ async function rendersuppliers(){
     const referenceElement = document.body.children[1];
     document.body.insertBefore(newDash, referenceElement);
     newDash.classList.add("dashboard");
-    newDash.classList.add("documents");
+    newDash.classList.add("suppliers");
     newDash.innerHTML=`
     <div class="pagelabel">PAGE 1/7</div>
     <div class="add_button invisible" onclick="rendernewsuppliers()"><i class="fa-regular fa-square-plus"></i>Create new</div>

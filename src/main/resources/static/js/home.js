@@ -3,6 +3,11 @@
 
   async function renderpage(section){
     
+    //CHANGE THE LOGO BASED ON THE SCREEN WIDTH
+    if (window.innerWidth<1299) {
+      document.querySelector(".logoscritta").innerHTML="MDH";
+      
+    }
     //REDIRECTS TO THE FUNCTIONS THAT HANDLE THE VISUALIZATION OF THE PAGE
     const logged = await validateuser();
     if(!logged) window.location.replace("/app/");

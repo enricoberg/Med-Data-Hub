@@ -30,7 +30,7 @@ async function rendermaterials(){
     const referenceElement = document.body.children[1];
     document.body.insertBefore(newDash, referenceElement);
     newDash.classList.add("dashboard");
-    newDash.classList.add("documents");
+    newDash.classList.add("materials");
     newDash.innerHTML=`
     <div class="pagelabel">PAGE 1/7</div>
     <div class="add_button invisible" onclick="rendernewmaterials()"><i class="fa-regular fa-square-plus"></i>Create new</div>
@@ -50,11 +50,12 @@ async function rendermaterials(){
         <div class="form-group ">
         <label for="family" class="control-label "> Material Type </label>
         <select id="ifamily" class="form-select form-select-sm selectcontrol" name="familyinput">
+        
                         <option value="ABS">ABS</option>
                         <option value="ADDITIVE">Additives</option>
                         <option value="ADHESIVEPAPER">Adhesive Paper</option>
                         <option value="ADHESIVETAPE">Adhesive Tape</option>
-                        <option value="ADHESIVE">Ashesives</option>
+                        <option value="ADHESIVE">Adhesives</option>
                         <option value="ALUMINUM">Aluminium</option>
                         <option value="BRASS">Brass</option>
                         <option value="CARTONBOX">Cartonbox</option>
@@ -109,6 +110,7 @@ async function rendermaterials(){
                         <option value="TUNGSTEN>Tungsten</option>
                         <option value="NA">N/A - Not applicable</option>
                         <option value="all" selected>Select All</option>
+                        
                     </select>
         </div>
 

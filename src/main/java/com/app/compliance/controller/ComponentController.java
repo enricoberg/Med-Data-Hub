@@ -248,6 +248,7 @@ public class ComponentController {
         Component component = opt_component.get();       
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
         component.setComp_id(updateComponentRequest.getArticle());
+        component.setContact(updateComponentRequest.isContact());
         component.setDescription(updateComponentRequest.getDescription());
         component.setIntercompany(updateComponentRequest.isIntercompany());
         component.setPackagingmaterial(updateComponentRequest.isPackaging());

@@ -107,6 +107,7 @@ body{
     position: relative;
 }
 
+
 .bomcontainer{
     width: 50vw;
     
@@ -293,8 +294,13 @@ width:200px;
 }
 @media (max-width: 1299px) {
   .searchbox {
-    display: none;
+    left:55px;
   }
+  .logoscritta{
+    color: rgba(0,0,0,0);
+  }
+  
+  
 }
 
 .btn-hover {

@@ -223,13 +223,17 @@ public class ProductController {
         if(!opt_prod.isPresent()) return ResponseEntity.status(500).body("The user you requested to update does not exist");
         Product product = opt_prod.get();       
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
-
+       
         product.setCode(updateProductRequest.getArticle());
         product.setDescription(updateProductRequest.getDescription());
         Product.SapStatus sapstatus = SapStatus.valueOf(updateProductRequest.getSapstatus());
         product.setSapstatus(sapstatus);
-        Product.ProductFamily family = ProductFamily.valueOf(updateProductRequest.getFamily());
-        product.setFamily(family);
+        
+        if(updateProductRequest.getFamily().equals("") || updateProductRequest.getFamily().isEmpty()) product.setFamily(null);
+        else {
+            Product.ProductFamily family = ProductFamily.valueOf(updateProductRequest.getFamily());
+            product.setFamily(family);
+        }
         product.setIntercompany(updateProductRequest.isIntercompany());
         product.setSemifinished(updateProductRequest.isSemifinished());
         if (updateProductRequest.getDhf().equals("NULL") || updateProductRequest.getDhf().equals("") || updateProductRequest.getDhf().equals(" ")) product.setDhf(null);
@@ -239,7 +243,10 @@ public class ProductController {
         if (updateProductRequest.getBudi().equals("NULL") || updateProductRequest.getBudi().equals("") || updateProductRequest.getBudi().equals(" ")) product.setBudi(null);
         else product.setBudi(updateProductRequest.getBudi());
         if (updateProductRequest.getShelflife().equals("NULL") || updateProductRequest.getShelflife().equals("") || updateProductRequest.getShelflife().equals(" ")) product.setShelflife(null);
-        else product.setShelflife(updateProductRequest.getShelflife());
+        else {
+            Integer converted_shelflife= Integer.valueOf(updateProductRequest.getShelflife());
+            product.setShelflife(converted_shelflife);
+        }
         if (updateProductRequest.getSterisite().equals("NULL")) product.setSterilizationsite(null);
         else {
             Product.SterilizationSite sterisite = SterilizationSite.valueOf(updateProductRequest.getSterisite());

@@ -59,6 +59,7 @@
 	justify-content: space-around;
 	
 	padding: 10px;
+	
 	background-color: rgba(0,0,0,0.7);
 	/* background-color: rgba(43, 43, 193,1); */
 	color: white;
@@ -67,6 +68,12 @@
 	margin:auto;
 	margin-top: 15px;
 
+}
+.dashboard.products{
+	padding-bottom: 40px;
+}
+.dashboard.suppliers{
+	padding-top: 30px;
 }
 .dashboard input{
 	font-size: 12px;
