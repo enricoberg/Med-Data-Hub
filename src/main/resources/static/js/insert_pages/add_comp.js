@@ -112,7 +112,7 @@ function rendernewcomponents(){
                                                 </div>
                                           </div>
 
-                                          <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
+                                          <div class="errormessage text-danger invisible mb-2" id="pwerror"></div>
                                           <div class="mb-3 w-100 text-center">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewcomp" onclick="submitsnewcomp()">Submit Component</button>
                                           </div>
@@ -179,7 +179,12 @@ function rendernewcomponents(){
           headers: {'Authorization': authenticationheader() }
       })
       .then(response => {
+          if(response.status==502){
+            errormessage.innerHTML="Component already exists!";
+            throw new Error('Network response was not ok');
+          }
           if (!response.ok)  throw new Error('Network response was not ok');
+
           alert("New component created successfully!");
           rendercomponents();
 

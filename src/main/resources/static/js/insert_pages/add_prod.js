@@ -123,7 +123,7 @@ function rendernewproduct(){
 
 
                                          
-                                          <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
+                                          <div class="errormessage text-danger invisible mb-2" id="pwerror"></div>
                                           <div class="mb-3 w-100 text-center">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewprod" onclick="submitsnewprod()">Submit Product</button>
                                           </div>
@@ -214,6 +214,10 @@ function rendernewproduct(){
           headers: {'Authorization': authenticationheader() }
       })
       .then(response => {
+          if(response.status==502){
+            errormessage.innerHTML="Error: product already exists";
+            throw new Error('Network response was not ok');
+          }
           if (!response.ok)  throw new Error('Network response was not ok');
           alert("New product created successfully!");
           renderproducts();

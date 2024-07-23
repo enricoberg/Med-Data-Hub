@@ -131,6 +131,10 @@ public class ProductController {
             @RequestHeader(name = "Authorization") String token) {
 
 
+        //Check that product does not already exist
+        if (productRepository.existsByCode(article)) {
+            return ResponseEntity.status(502).body("Product already exists");
+        }        
         try {
             // Create the new Product object
             Product product = new Product();

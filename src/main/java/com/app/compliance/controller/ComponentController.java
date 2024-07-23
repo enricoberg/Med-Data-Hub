@@ -119,6 +119,11 @@ public class ComponentController {
             @RequestParam("standard") String conicalstandard,
             @RequestPart("family") String fam,
             @RequestHeader(name = "Authorization") String token) {
+
+        //Check that the component does not exists already        
+        if (componentRepository.existsByCompid(article)) {
+            return ResponseEntity.status(502).body("Component already exists");
+        }
         // Create the new Component object
         Component component = new Component();
         Component.ComponentFamily family = Component.ComponentFamily.valueOf(fam);
