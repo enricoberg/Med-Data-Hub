@@ -69,6 +69,7 @@ function visualizeConfigurations(){
                 for (const option of options) {
                     if (option.innerHTML === current_value) {
                         option.selected = true;
+                        select.setAttribute('actualvalue', option.innerHTML);
                         break;
                     }
                 }
@@ -97,6 +98,7 @@ function visualizeConfigurations(){
                 for (const option of options) {
                     if (option.innerHTML === current_supplier) {
                         option.selected = true;
+                        select.setAttribute('actualvalue', option.innerHTML);
                         break;
                     }
                 }
@@ -126,8 +128,7 @@ function deleteConfig(button){
     if (!parentRow) return;           
     const matid = parentRow.querySelector('.boxmaterial').value;
     const configid = parentRow.querySelector('.boxid').innerHTML;     
-    console.log(matid)
-    console.log(configid)    
+      
     if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS CONFIGURATION PERMANENTLY?")) return;     
      
     axios.get(`/queryconfigs/deleteconfig?matid=${matid}&confid=${configid}`,{ headers: { 'Authorization': authenticationheader()}})
@@ -188,16 +189,35 @@ function addNewLine(){
         </div>                
     </div>
     `;
-    //POPULATE THE MATERIAL SELECT          
-    document.querySelectorAll(".addboxmaterial").forEach(select=>{        
+    document.querySelectorAll(".boxmaterial").forEach(select=>{
+        const parent=select.parentNode;
+        const actualvalue=select.getAttribute('actualvalue');
+        parent.innerHTML=`<div>${actualvalue}</div>`;
+        
+        
+    });
+    document.querySelectorAll(".boxsupplier").forEach(select=>{
+        const parent=select.parentNode;
+        const actualvalue=select.getAttribute('actualvalue');
+        parent.innerHTML=`<div>${actualvalue}</div>`;
+        
+    });
+    
+    //POPULATE THE MATERIAL SELECT        
+     
+    document.querySelectorAll(".addboxmaterial").forEach(select=>{     
+        
+           
         axios.get('/querymat/',{ headers: { 'Authorization': authenticationheader()}})
         .then((response)=>{ response.data.forEach(function(materialobj){select.innerHTML+=`<option value="${materialobj.id}" >${materialobj.brandname}</option> `;}) 
         select.selectedIndex = -1;
     })
         .catch((error) => { alert("Something went wrong retrieving materials");});                  
     });
-    //POPULATE THE SUPPLIER SELECT        
-    document.querySelectorAll(".addboxsupplier").forEach(select=>{                
+    //POPULATE THE SUPPLIER SELECT 
+        
+    document.querySelectorAll(".addboxsupplier").forEach(select=>{   
+                 
         axios.get('/querysup/',{ headers: { 'Authorization': authenticationheader()}})
         .then((response)=>{response.data.forEach(function(supobj){select.innerHTML+=`<option value="${supobj.id}" >${supobj.supplier_name}</option>`;})
         select.selectedIndex =-1;

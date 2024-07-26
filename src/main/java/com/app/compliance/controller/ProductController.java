@@ -93,9 +93,14 @@ public class ProductController {
             else if (semifinished != null && semifinished.equals("false") && p.isSemifinished()) toRemove.add(p);
             else if (intercompany != null && intercompany.equals("true") && !p.isIntercompany()) toRemove.add(p);
             else if (intercompany != null && intercompany.equals("false") && p.isIntercompany()) toRemove.add(p);
-            else if (family != null && !family.equals("all") && !p.getFamily().name().equals(family)) toRemove.add(p);
-            else if (sapstatus != null && !sapstatus.isEmpty() && !sapstatus.equals("all") && !p.getSapstatus().name().equals(sapstatus))
-                toRemove.add(p);
+            else if (family != null && !family.equals("all") && p.getFamily()==null) toRemove.add(p);
+            else if(family != null && !family.equals("all") && !p.getFamily().name().equals(family)) toRemove.add(p);
+                      
+            else if (sapstatus != null && !sapstatus.isEmpty() && !sapstatus.equals("all") ){
+                if(p.getSapstatus() == null) toRemove.add(p);
+                else if(!p.getSapstatus().name().equals(sapstatus)) toRemove.add(p);
+            }           
+                
             else if (sterimethod != null && !sterimethod.equals("all") && !p.getSterilizationcycle().name().toUpperCase().contains(sterimethod.toUpperCase()))
                 toRemove.add(p);
             else if (sterisite != null && !sterisite.isEmpty() && !sterisite.equals("all") && p.getSterilizationsite() == null)

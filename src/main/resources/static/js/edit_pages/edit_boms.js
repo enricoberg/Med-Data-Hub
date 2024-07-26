@@ -147,7 +147,7 @@ function SaveBomItem(element){
     const parentRow = element.closest('.row');
     const code = parentRow.querySelector(".codeinput").value;
     const assembly = parentRow.querySelector(".checkinput").checked;
-    const qty = parentRow.querySelector(".qtyinput").value;
+    const qty = parentRow.querySelector(".qtyinput").value.replace(/,/g, '.');;    
     const um= parentRow.querySelector(".uminput").value;
     if(code=="" || qty=="" || um=="" ) {alert("Fill mandatory fields first");
         return;
@@ -155,7 +155,7 @@ function SaveBomItem(element){
     if(um!="CM" && um!="KG" && um!="C" && um!="M2" && um!="PAC" && um!="PZ")  {alert("Invalid unit of measure");
         return;
     }
-    if(Number(qty) != qty || qty % 1 !== 0) {
+    if(Number(qty) != qty ) {
         alert("Invalid quantity");
         return;
     }
