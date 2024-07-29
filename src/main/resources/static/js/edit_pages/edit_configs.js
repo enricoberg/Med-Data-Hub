@@ -232,9 +232,10 @@ function SaveConfItem(element){
     const componentid= JSON.parse(localStorage.getItem("config_to_edit"));
     const supplierid = parentRow.querySelector(".addboxsupplier").value;
     const materialid = parentRow.querySelector(".addboxmaterial").value;
-    const supcode = parentRow.querySelector(".addsupcodeinput").value;    
+    let supcode = parentRow.querySelector(".addsupcodeinput").value;   
+    if(supcode=="" || supcode=="/" || supcode==null || supcode==" " || supcode.toUpperCase()=="NA" || supcode.toUpperCase()=="N.A.") supcode="N.A.";
     
-if(document.querySelector(".addboxmaterial").selectedIndex===-1 || document.querySelector(".addboxsupplier").selectedIndex===-1 || supcode=="") {
+if(document.querySelector(".addboxmaterial").selectedIndex===-1 || document.querySelector(".addboxsupplier").selectedIndex===-1 ) {
     alert("Please fill all the fields first");
     return;}
 if(!window.confirm("Are you sure you want to add this item to the bom?")) return;           
