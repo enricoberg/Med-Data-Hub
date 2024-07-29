@@ -118,7 +118,7 @@ public class BomController {
                 Optional<Product> opt_product = productRepository.findById(obj.getProdid());
                 Optional<Bom> bom = bomRepository.findByProdidAndCompid(opt_product.get(), obj.getCompid());
 
-                if(bom.isPresent()) throw new Exception("Component already present in the bom");
+                // if(bom.isPresent()) throw new Exception("Component already present in the bom");
                 if(!componentRepository.existsById(obj.getCompid())) throw new Exception("No component retrieved");
                 if(!productRepository.existsById(obj.getProdid())) throw new Exception("No product retrieved");
 
