@@ -74,6 +74,11 @@ public class MainController {
         return "edit_document";
     }
 
+    @GetMapping("/myprofile")
+    public String UserPage() {
+        return "user";
+    }
+
     
 
     

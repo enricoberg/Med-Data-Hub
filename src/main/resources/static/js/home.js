@@ -16,7 +16,7 @@
     document.cookie = 'resultview=50';
     switch(section) {
       case "users":
-          renderuser();
+          window.location.replace("/app/myprofile");
         break;
       case "suppliers":
           rendersuppliers();

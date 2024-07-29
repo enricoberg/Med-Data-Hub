@@ -242,3 +242,9 @@ i.actionbutton{ cursor: pointer;}
     color: transparent;            
     cursor: pointer;
     }
+
+.userinfo{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}

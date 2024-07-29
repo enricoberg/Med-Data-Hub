@@ -93,9 +93,11 @@ async function validateuser(){
   }
 
   function currentRole(){
+    
+    
     fetch(`/aux/getrole?email=${currentuser()}`,{
       method: 'GET',
-      headers: {'Authorization': authenticationheader() }})
+      headers: {'Authorization': `Bearer ${getCookie("jwt")}` }})
   .then(response => {
       if (!response.ok) {
           throw new Error('Network response was not ok: ' + response.statusText);
@@ -104,7 +106,7 @@ async function validateuser(){
   })
   .then(data => {
       
-    document.querySelector("#roleplaceholder").innerHTML=`Role: ${data}`;
+    document.querySelector("#roleplaceholder").innerHTML=`User Role: ${data}`;
   
   })
   .catch(error => {
@@ -348,29 +350,44 @@ function searchForSimpleUser(searchstring){
     return response.text(); 
   })
   .then(data => {
+    let quicksearchenabled=localStorage.getItem("quicksearchenabled");  
     switch(data){
-      case "COMPART":        
+      
+      case "COMPART":          
+        if(quicksearchenabled=="true")    quickSpeckDownload(searchstring);         
         document.querySelector("#specificationsection").click();
         setTimeout(()=>{document.querySelector("#speccodeinput").value=searchstring;
-        updateDocumentsTable(totaldocumentcolumns);
+          setTimeout(()=>{
+            updateDocumentsTable(totaldocumentcolumns);
+          },50)
+        
       },400);        
       break;
-      case "COMPDESC":        
+      case "COMPDESC":     
+        if(quicksearchenabled)    quickSpeckDownload(searchstring);    
         document.querySelector("#specificationsection").click();
         setTimeout(()=>{document.querySelector("#specdescinput").value=searchstring;
-        updateDocumentsTable(totaldocumentcolumns);
+          setTimeout(()=>{
+            updateDocumentsTable(totaldocumentcolumns);
+          },50)
       },400);        
       break;
-      case "PRODART":        
+      case "PRODART":
+        if(quicksearchenabled)    quickSpeckDownload(searchstring);         
         document.querySelector("#specificationsection").click();
         setTimeout(()=>{document.querySelector("#speccodeinput").value=searchstring;
-        updateDocumentsTable(totaldocumentcolumns);
+          setTimeout(()=>{
+            updateDocumentsTable(totaldocumentcolumns);
+          },50);
       },400);        
       break;
-      case "PRODDESC":        
+      case "PRODDESC":  
+        if(quicksearchenabled)    quickSpeckDownload(searchstring);       
         document.querySelector("#specificationsection").click();
         setTimeout(()=>{document.querySelector("#specdescinput").value=searchstring;
-        updateDocumentsTable(totaldocumentcolumns);
+          setTimeout(()=>{
+            updateDocumentsTable(totaldocumentcolumns);
+          },50)
       },400);        
       break;
       default:
@@ -416,4 +433,19 @@ function bufferedFunction(func){
     console.error("An error occurred:", error);
 });
 
+}
+
+function quickSpeckDownload(article){
+   
+  fetch(`/download/activespec?article=${article}`, {headers: {'Authorization': authenticationheader()}})
+  .then(response => {
+                if (!response.ok) throw new Error('Document not found');
+                return response.blob();
+            })
+  .then(pdfBlob => {
+    var pdfUrl = URL.createObjectURL(pdfBlob);
+    var newTab = window.open();
+    newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
+  })
+  .catch(error =>{console.log("document does not exist")} );
 }
