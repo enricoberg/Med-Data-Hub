@@ -1,5 +1,6 @@
 let timeouts=[];
 function renderspecifications(){
+    
     document.cookie = `resultpage=1`;
     let totalcolumns=totaldocumentcolumns;
     clearbomtitles();
@@ -88,6 +89,12 @@ async function updateDocumentsTable(totalcolumns){
         <div class="grid-item tableheader">Description</div>
         `;
 
+    //DO NOT SEND REQUEST IF NOT NECESSARY    
+    if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
+    if(localStorage.getItem("needupdate")=="false") {
+        localStorage.setItem("needupdate", true);
+        return;
+    }
     //GET THE QUERY PARAMETERS
     let article=document.getElementsByName("codeinput")[0].value;
     let description=document.getElementsByName("descriptioninput")[0].value;
@@ -216,7 +223,8 @@ async function updateDocumentsTable(totalcolumns){
         activeCellColoring(totalcolumns);
         if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
         listenForDownloads();
-        stopBuffering()
+        stopBuffering();
+        
         return ;        
     } catch (error) {
         console.error('Error during fetch:', error);

@@ -172,7 +172,12 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item tableheader">Bill of materials</div>
         `;
 
-
+    //DO NOT SEND REQUEST IF NOT NECESSARY    
+    if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
+    if(localStorage.getItem("needupdate")=="false") {
+        localStorage.setItem("needupdate", true);
+        return;
+    }
     //GET THE QUERY PARAMETERS
     let article=document.getElementsByName("articleinput")[0].value;
     let description=document.getElementsByName("descriptioninput")[0].value;

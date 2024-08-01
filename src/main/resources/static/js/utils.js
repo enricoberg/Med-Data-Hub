@@ -273,7 +273,11 @@ async function quickSearch(searchstring){
         console.error('Error during fetch:', error);
     });
     if(curr_role=="USER") searchForSimpleUser(searchstring);
-    else searchForSuperUser(searchstring);
+    else {
+      let onlydocs=localStorage.getItem("onlydocs");
+      if(onlydocs=="true") searchForSimpleUser(searchstring);
+      else searchForSuperUser(searchstring);
+    }
 
 
 
@@ -292,7 +296,7 @@ function searchForSuperUser(searchstring){
     return response.text(); 
   })
   .then(data => {
-    
+    localStorage.setItem("needupdate", false);
     switch(data){
       
       case "COMPART":        
@@ -351,6 +355,8 @@ function searchForSimpleUser(searchstring){
   })
   .then(data => {
     let quicksearchenabled=localStorage.getItem("quicksearchenabled");  
+    localStorage.setItem("needupdate", false);
+    
     switch(data){
       
       case "COMPART":          
@@ -360,8 +366,8 @@ function searchForSimpleUser(searchstring){
           setTimeout(()=>{
             updateDocumentsTable(totaldocumentcolumns);
           },50)
-        
-      },400);        
+      },250); 
+             
       break;
       case "COMPDESC":     
         if(quicksearchenabled)    quickSpeckDownload(searchstring);    
@@ -370,7 +376,7 @@ function searchForSimpleUser(searchstring){
           setTimeout(()=>{
             updateDocumentsTable(totaldocumentcolumns);
           },50)
-      },400);        
+      },250);        
       break;
       case "PRODART":
         if(quicksearchenabled)    quickSpeckDownload(searchstring);         
@@ -379,7 +385,7 @@ function searchForSimpleUser(searchstring){
           setTimeout(()=>{
             updateDocumentsTable(totaldocumentcolumns);
           },50);
-      },400);        
+      },250);        
       break;
       case "PRODDESC":  
         if(quicksearchenabled)    quickSpeckDownload(searchstring);       
@@ -388,12 +394,12 @@ function searchForSimpleUser(searchstring){
           setTimeout(()=>{
             updateDocumentsTable(totaldocumentcolumns);
           },50)
-      },400);        
+      },250);        
       break;
       default:
         alert("Sorry there is no result matching your request");
     }
-
+    
   })
   .catch(error => {    console.error('There was a problem with the fetch operation:', error);  });
 }

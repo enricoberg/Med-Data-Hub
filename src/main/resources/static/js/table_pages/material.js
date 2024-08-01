@@ -167,7 +167,12 @@ async function updateMaterialsTable(totalcolumns){
 
             `;
 
-
+    //DO NOT SEND REQUEST IF NOT NECESSARY    
+    if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
+    if(localStorage.getItem("needupdate")=="false") {
+        localStorage.setItem("needupdate", true);
+        return;
+    }
     //GET THE QUERY PARAMETERS
 
     let family=document.getElementsByName("familyinput")[0].value;

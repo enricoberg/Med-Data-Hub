@@ -90,7 +90,12 @@ async function updateSuppliersTable(totalcolumns){
             <div class="grid-item tableheader">Contact information</div>
             `;
 
-
+    //DO NOT SEND REQUEST IF NOT NECESSARY    
+    if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
+    if(localStorage.getItem("needupdate")=="false") {
+        localStorage.setItem("needupdate", true);
+        return;
+    }
     //GET THE QUERY PARAMETERS
     let name=document.getElementsByName("nameinput")[0].value;
     let sapcode=document.getElementsByName("sapinput")[0].value;

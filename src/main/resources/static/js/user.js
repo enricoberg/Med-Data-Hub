@@ -4,15 +4,25 @@ async function renderuser(){
   document.querySelector("#mailplaceholder").innerHTML="User Email:  "+currentuser();
   
   currentRole();
-  let quicksearchenabled=localStorage.getItem("quicksearchenabled");
-  
-  
-  if(quicksearchenabled==null) localStorage.setItem("quicksearchenabled", true);;
+  //UPDATE CHE CHECKBOXES OF THE USER PREFERENCES
+  let quicksearchenabled=localStorage.getItem("quicksearchenabled"); 
+  if(quicksearchenabled==null) localStorage.setItem("quicksearchenabled", false);;
   if(quicksearchenabled=="false") {
     
     document.querySelector("#quicksearch").checked=false;
   }
   else document.querySelector("#quicksearch").checked=true;
+
+  let searchonlydocuments=localStorage.getItem("onlydocs"); 
+  if(searchonlydocuments==null) localStorage.setItem("onlydocs", false);;
+  if(searchonlydocuments=="false") {
+    
+    document.querySelector("#searchmode").checked=false;
+  }
+  else document.querySelector("#searchmode").checked=true;
+
+
+
     // if (window.innerWidth<992) {
     //     document.querySelector(".usermenu").style.top="360px";
     //     document.querySelector(".usermenu").style.left="0px";
@@ -50,11 +60,19 @@ function logoutuser(){
 
 }
 renderuser();
+//ADD EVENT LISTENERS FOR CHECKBOXES VALUE CHANGE
 document.querySelector("#quicksearch").addEventListener('change',()=>{
   
   let quicksearchenabled= document.querySelector("#quicksearch").checked;
   
   localStorage.setItem("quicksearchenabled", quicksearchenabled);
+  
+});
+document.querySelector("#searchmode").addEventListener('change',()=>{
+  
+  let searchonlydocuments= document.querySelector("#searchmode").checked;
+  
+  localStorage.setItem("onlydocs", searchonlydocuments);
   
 });
 // document.querySelector("#manualdownload").addEventListener('click',()=>{

@@ -232,7 +232,12 @@ async function updateComponentsTable(totalcolumns){
             <div class="grid-item tableheader">Configurations</div>
             `;
 
-
+    //DO NOT SEND REQUEST IF NOT NECESSARY    
+    if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
+    if(localStorage.getItem("needupdate")=="false") {
+        localStorage.setItem("needupdate", true);
+        return;
+    }
     //GET THE QUERY PARAMETERS
     let article=document.getElementsByName("codeinput")[0].value;
     let description=document.getElementsByName("descriptioninput")[0].value;
