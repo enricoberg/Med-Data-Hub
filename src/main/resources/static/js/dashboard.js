@@ -39,45 +39,45 @@ function renderdashboard(){
     newDash.innerHTML=`
     
 
-    <div class="dashelement btn-hover" onclick="redirectToTab('#specificationsection')">
+    <div class="dashelement btn-hover " onclick="redirectToTab('#specificationsection')">
     <img src="https://i.postimg.cc/J0nKNxyD/documents.png" alt="">
     <a href="#" class="colorchanging">QUERY ALL RELEASED PRODUCTION DOCUMENTS</a>
 
 </div>
-<div class="dashelement btn-hover" onclick="redirectToTab('#componentsection')">
+<div class="dashelement btn-hover " onclick="redirectToTab('#componentsection')">
     <img src="https://i.postimg.cc/j5vZnmjY/components.png" alt="" >
     <a href="#" class="colorchanging">QUERY ALL COMPONENTS AND PURCHASED ARTICLES</a>
 
 </div>
-<div class="dashelement btn-hover" onclick="redirectToTab('#productsection')">
+<div class="dashelement btn-hover " onclick="redirectToTab('#productsection')">
     <img src="https://i.postimg.cc/PxdSxTTM/products.png" alt="" >
     <a href="#" class="colorchanging">QUERY ALL FINISHED PRODUCTS AND ASSEMBLIES</a>
 
 </div>
-<div class="dashelement btn-hover" onclick="redirectToTab('#materialsection')">
+<div class="dashelement btn-hover " onclick="redirectToTab('#materialsection')">
     <img src="https://i.postimg.cc/4mFpNhf6/compound.png" alt="">
     <a href="#" class="colorchanging">QUERY ALL RAW MATERIALS AND DATASHEETS</a>
 
 </div>
-<div class="dashelement btn-hover" onclick="redirectToTab('#suppliersection')">
+<div class="dashelement btn-hover " onclick="redirectToTab('#suppliersection')">
     <img src="https://i.postimg.cc/d3x64CdW/suppliers.png" alt="">
     <a href="#" class="colorchanging">QUERY ALL QUALIFIED SUPPLIERS AND CONTRACTORS</a>
 
 </div>
 
-<div class="dashelement btn-hover" onclick="renderqueryadv1()">
+<div class="dashelement btn-hover " onclick="renderqueryadv1()">
     <img src="https://i.postimg.cc/tgFtLn9n/hierarchical-structure.png" alt="">
     <a href="#" class="colorchanging">SEARCH ASSEMBLIES CONTAINING A COMPONENT</a>
 
 </div>
 
-<div class="dashelement btn-hover" onclick="renderqueryadv2()">
+<div class="dashelement btn-hover " onclick="renderqueryadv2()">
     <img src="https://i.postimg.cc/4NZWLJHM/explosion.png" alt="">
     <a href="#" class="colorchanging">EXPLODE PARTS AND SUBASSEMBLIES CONTAINED IN A PRODUCT</a>
 
 </div>
 
-<div class="dashelement btn-hover" onclick="redirectToTab('#materialsection')">
+<div class="dashelement btn-hover " onclick="redirectToTab('#materialsection')">
     <img src="https://i.postimg.cc/fRMf6jH4/advanced.png" alt="">
     <a href="#" class="colorchanging">SEARCH ASSEMBLIES CONTAINING A MATERIAL</a>
 
@@ -89,6 +89,29 @@ function renderdashboard(){
 document.cookie= 'refreshcount=0';
 
 
+const alltiles=document.querySelectorAll(".btn-hover");
+for(let i=0;i<alltiles.length;i++){
+    alltiles[i].addEventListener("mouseenter",function(){
+
+            
+            if(!alltiles[i].classList.contains("spinningborder")) {
+                setTimeout(()=>{alltiles[i].classList.add("spinningborder");},200);
+                
+            }
+        
+
+
+        
+    })
+    alltiles[i].addEventListener("mouseleave",function(){
+        
+        setTimeout(()=>{
+            if(alltiles[i].classList.contains("spinningborder")) alltiles[i].classList.remove("spinningborder");
+        },200);
+        
+    })
+
+}
 }
 function redirectToTab(id){
     const element=document.querySelector(id);
