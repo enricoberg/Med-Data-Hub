@@ -114,32 +114,48 @@ public class BomController {
         try {
 
             for (BomRequest obj : bomObjects) {
+                
+                // Optional<Product> opt_product = productRepository.findById(obj.getProdid());    
+                // System.out.println(opt_product.get().getId());
+                // System.out.println(obj.getCompid());            
+                // Optional<Bom> bom = bomRepository.findByProdidAndCompid(opt_product.get(), obj.getCompid());
 
-                Optional<Product> opt_product = productRepository.findById(obj.getProdid());
-                Optional<Bom> bom = bomRepository.findByProdidAndCompid(opt_product.get(), obj.getCompid());
 
-                // if(bom.isPresent()) throw new Exception("Component already present in the bom");
-                if(!componentRepository.existsById(obj.getCompid())) throw new Exception("No component retrieved");
+
+                
+                // if(bom.isPresent()) throw new Exception("Component already present in the bom");                
                 if(!productRepository.existsById(obj.getProdid())) throw new Exception("No product retrieved");
-
-                Optional<Component> opt_component = componentRepository.findById(obj.getCompid());
-                Product product = opt_product.get();
-
+                String component_code;   
+                            
+                if(obj.isAssembly()){
+                    if(!productRepository.findById(obj.getCompid()).isPresent()) throw new Exception("No product retrieved");
+                    Product product = productRepository.findById(obj.getCompid()).get();
+                    component_code=product.getCode();
+                }
+                else{
+                    if(!componentRepository.existsById(obj.getCompid())) throw new Exception("No component retrieved");
+                    Component component = componentRepository.findById(obj.getCompid()).get();
+                    component_code=component.getComp_id();
+                }
+                Product product = productRepository.findById(obj.getProdid()).get();
+                
                 Bom.UnitMeasure um = Bom.UnitMeasure.valueOf(obj.getUm());
                 float qty = obj.getQty();
                 Bom bomline = new Bom();
+                
                 bomline.setCompid(obj.getCompid());
                 bomline.setAssembly(obj.isAssembly());
                 bomline.setProdid(product);
                 bomline.setQty(qty);
                 bomline.setUm(um);
                 bomRepository.save(bomline);
-                logService.writeToLog("Added BOM element. Component "+obj.getCompid()+"(assembly="+obj.isAssembly()+"), Product: "+product+", qty: "+qty+" "+um,token);
+                
+                logService.writeToLog("Added BOM element. Component "+component_code+"(assembly="+obj.isAssembly()+"), Product: "+product.getCode()+", qty: "+qty+" "+um,token);
 
             }
 
         } catch (Exception e) {
-
+            System.out.println(e.getMessage());
             return ResponseEntity.status(500).body("Failed to save the bom");
         }
         return ResponseEntity.ok("New bom created successfully!");
@@ -376,12 +392,19 @@ public class BomController {
         //VERIFY THE COMPONENT EXISTS
         boolean assembly=updateBomRequest.isAssembly();
         Integer comp_id;
+        String comp_article;
         if(assembly){
-            if(productRepository.existsByCode(updateBomRequest.getArticle())) comp_id=productRepository.findByCode(updateBomRequest.getArticle()).get().getId();
+            if(productRepository.existsByCode(updateBomRequest.getArticle())){
+                comp_id=productRepository.findByCode(updateBomRequest.getArticle()).get().getId();
+                comp_article=productRepository.findByCode(updateBomRequest.getArticle()).get().getCode();
+            } 
             else throw new Exception();
         }
         else{
-            if(componentRepository.existsByCompid(updateBomRequest.getArticle())) comp_id=componentRepository.findByCompid(updateBomRequest.getArticle()).getId();
+            if(componentRepository.existsByCompid(updateBomRequest.getArticle())) {
+                comp_id=componentRepository.findByCompid(updateBomRequest.getArticle()).getId();
+                comp_article=componentRepository.findByCompid(updateBomRequest.getArticle()).getComp_id();
+            }
             else throw new Exception();
         }
         if(!productRepository.existsById(id)) throw new Exception();
@@ -395,7 +418,7 @@ public class BomController {
         Bom.UnitMeasure um = Bom.UnitMeasure.valueOf(updateBomRequest.getUm());
         bom.setUm(um);
         bomRepository.save(bom);    
-        logService.writeToLog("Updated BOM element. Component "+comp_id+"(assembly="+assembly+"), Product: "+id+", qty: "+updateBomRequest.getQty()+" "+um,token);   
+        logService.writeToLog("Updated BOM element. Component "+comp_article+"(assembly="+assembly+"), Product: "+product.getCode()+", qty: "+updateBomRequest.getQty()+" "+um,token);   
     }
     catch(Exception e){
         return ResponseEntity.status(500).body("Failed to delete the component: "+e);

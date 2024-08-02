@@ -87,7 +87,7 @@ async function rendernewdocuments(){
                                            </div>
                                            <div class="mb-3">
                                                <label for="formFile" class="form-label">Select the file attachment</label>
-                                               <input class="form-control" type="file" id="formFile" name="docfile">
+                                               <input class="form-control" type="file" id="formFile" name="docfile" >
                                              </div>
                                             <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
                                            <div class="mb-3 w-100 text-center">
@@ -110,6 +110,24 @@ async function rendernewdocuments(){
             document.querySelector("#articleinput").addEventListener("input",()=>{
              document.querySelector("#articleinput").value=document.querySelector("#articleinput").value.toUpperCase();
              });
+
+             
+          //CONTROL THAT THE INSERTED FILE IS SMALLER THAN 1MB
+          document.getElementById('formFile').addEventListener('change',
+              () => {
+                let fileinput=document.querySelector("#formFile");                
+                const file = fileinput.files[0];
+                let errormessage=document.querySelector(".errormessage");
+                if (file.size/1024 > 1024) {
+                  
+                  if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                  errormessage.innerHTML="The file you selected is too large. The maximum file size is 1 MB.";
+                  fileinput.value="";
+                } 
+                else{
+                  if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
+                }
+              });
     
     }
 

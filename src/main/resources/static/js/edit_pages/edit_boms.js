@@ -45,8 +45,8 @@ function visualizeBoms(){
                 <div class="col cw350 py-2 text-center etitem  border  bg-light etinactive  boxarticle">${obj.comp_id}</div>
                 <div class="col cw500 py-2 text-center etitem border  bg-light etinactive   boxdescription">${obj.comp_description}</div>
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck" ><input disabled class="form-check-input boxassembly " type="checkbox" ${check_assembly} id="flexCheckDefault"></div>
-                <div class="col cw250 py-2 text-center etitem border  bg-light etinactive editable boxqty ">${obj.qty}</div>
-                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable  boxum">${obj.um}</div>
+                <div class="col cw250 py-2 text-center etitem border  bg-light etinactive  boxqty ">${obj.qty}</div>
+                <div class="col cw200 py-2 text-center etitem border  bg-light etinactive   boxum">${obj.um}</div>
                 
                 <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
                     <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteBom('${obj.comp_id}',${product},${obj.assembly})" aria-hidden="true"></i> Delete
@@ -101,9 +101,9 @@ function saveBomsModifications(){
             const article = parentRow.querySelector('.boxarticle').innerHTML;
             const description = parentRow.querySelector('.boxdescription').innerHTML;
             const assembly = parentRow.querySelector('.boxassembly').checked;
-            const qty=parentRow.querySelector('.boxqty').innerHTML;
+            let qty=parentRow.querySelector('.boxqty').innerHTML;
             const um = parentRow.querySelector('.boxum').innerHTML;
-
+            qty=qty.replace(/,/g, '.');   
             
             const bom_correct = { 
                                     article: article,
@@ -133,8 +133,8 @@ function addNewLine(){
         <div class="col cw250  additem editable boxqty "><input class="qtyinput"type="text" class="w-100 text-start" value=""></div>
         <div class="col cw200  additem editable  boxum"><input class="uminput" type="text" class="w-100 text-start" value=""></div>
         
-        <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
-            <i class="fa fa-floppy-o  actionbutton floppybutton"  onclick="SaveBomItem(this)" aria-hidden="true"></i> Save
+        <div class="col cw250 py-2 text-center etitem border  bg-light etinactive" >
+            <i class="fa fa-floppy-o  actionbutton floppybutton "  onclick="SaveBomItem(this)" aria-hidden="true"></i> Save
             
         </div>                
     </div>
@@ -147,7 +147,7 @@ function SaveBomItem(element){
     const parentRow = element.closest('.row');
     const code = parentRow.querySelector(".codeinput").value;
     const assembly = parentRow.querySelector(".checkinput").checked;
-    const qty = parentRow.querySelector(".qtyinput").value.replace(/,/g, '.');;    
+    const qty = parentRow.querySelector(".qtyinput").value.replace(/,/g, '.');   
     const um= parentRow.querySelector(".uminput").value;
     if(code=="" || qty=="" || um=="" ) {alert("Fill mandatory fields first");
         return;
@@ -208,7 +208,7 @@ else{
             qty: qty,
             um: um
         }]
-
+        
         axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
         .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
         .catch((error) => {alert("Something went wrong trying to add item"); }); 
