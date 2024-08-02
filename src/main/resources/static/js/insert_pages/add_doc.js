@@ -204,8 +204,20 @@ async function rendernewdocuments(){
                       
                       throw new Error('Network response was not ok: ');
                     }
-                    alert("New document created successfully!");
+                    // alert("New document created successfully!");
+                    localStorage.setItem("needupdate", false);
                     renderspecifications();
+                    
+                    
+                      
+                      setTimeout(()=>{document.querySelector("#speccodeinput").value=article;
+                        setTimeout(()=>{
+                          updateDocumentsTable(totaldocumentcolumns);
+                        },50)
+                    },350); 
+                          
+                    
+                    
                 })
                 .catch(error => { alert("Something went wrong with your request"); });
                 
