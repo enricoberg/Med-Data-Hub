@@ -99,7 +99,7 @@ public class BomController {
                 description=componentRepository.findById(compid).get().getDescription();
                 articlename= componentRepository.findById(compid).get().getComp_id();
             }
-            bomViews.add(new BomView(articlename, description, result.getQty(), result.getUm(),result.isAssembly()));
+            bomViews.add(new BomView(articlename, description, result.getQty(), result.getUm(),result.isAssembly(),result.getId()));
         }
         return bomViews;
     }
@@ -350,6 +350,7 @@ public class BomController {
         @RequestParam(required = true) String compid,
         @RequestParam(required = true) Integer prodid,
         @RequestParam(required = true) boolean assembly,
+        @RequestParam(required = true) Integer id,
         @RequestHeader(name = "Authorization") String token
     ) {
         
@@ -373,8 +374,8 @@ public class BomController {
                 comp_id=component.getId();
             }
             
-            Bom bom = bomRepository.findByCompidAndProdidAndAssembly(comp_id, product, assembly).get();
-            
+            // Bom bom = bomRepository.findByCompidAndProdidAndAssembly(comp_id, product, assembly).get();
+            Bom bom = bomRepository.findById(id).get();
             bomRepository.delete(bom);
             logService.writeToLog("Deleted BOM element. Component "+comp_id+"(assembly="+assembly+"), Product: "+prodid,token);
             

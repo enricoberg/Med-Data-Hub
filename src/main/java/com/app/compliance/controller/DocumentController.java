@@ -266,13 +266,16 @@ public class DocumentController {
                     
             //Save the file with the correct name and path
             try {
-                //PUT Previous revisions of the document to non-active
-                List<Document> olddocuments= documentRepository.findByArticlecodeAndDocumenttype(article, convertedType);
-                for (Document olddoc : olddocuments) {
-                    olddoc.setActive(false);
+                //PUT Previous revisions of the document to non-active, only if the current doc must be the active one
+                if(active){
+                    List<Document> olddocuments= documentRepository.findByArticlecodeAndDocumenttype(article, convertedType);
+                    for (Document olddoc : olddocuments) {
+                        olddoc.setActive(false);
+                    }
+                    documentRepository.saveAll(olddocuments);
                 }
-                documentRepository.saveAll(olddocuments);
-                //Save the new document with active state
+                
+                //Save the new document
                 document.setDocumenttype(convertedType);
                 document.setRevision(revision);
                 document.setActive(active);

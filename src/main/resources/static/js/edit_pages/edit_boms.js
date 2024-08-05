@@ -39,17 +39,18 @@ function visualizeBoms(){
     axios.get(url,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {        
         for (const obj of response.data) {
+            console.log(obj)
             const check_assembly= obj.assembly? "checked" : "";
             target_table.innerHTML+=`
             <div class="row" style="position: relative;">                    
-                <div class="col cw350 py-2 text-center etitem  border  bg-light etinactive  boxarticle">${obj.comp_id}</div>
+                <div class="col cw350 py-2 text-center etitem  border  bg-light etinactive bomid="${obj.id}"  boxarticle">${obj.comp_id}</div>
                 <div class="col cw500 py-2 text-center etitem border  bg-light etinactive   boxdescription">${obj.comp_description}</div>
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck" ><input disabled class="form-check-input boxassembly " type="checkbox" ${check_assembly} id="flexCheckDefault"></div>
                 <div class="col cw250 py-2 text-center etitem border  bg-light etinactive  boxqty ">${obj.qty}</div>
                 <div class="col cw200 py-2 text-center etitem border  bg-light etinactive   boxum">${obj.um}</div>
                 
                 <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
-                    <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteBom('${obj.comp_id}',${product},${obj.assembly})" aria-hidden="true"></i> Delete
+                    <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteBom('${obj.comp_id}',${product},${obj.assembly},${obj.id})" aria-hidden="true"></i> Delete
                     
                 </div>                
             </div>
@@ -69,10 +70,10 @@ function visualizeBoms(){
 }
 
 //FUNCTION TO DELETE ONE USER
-function deleteBom(comp_id,prod_id, assembly){
+function deleteBom(comp_id,prod_id, assembly,id){
     if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER PERMANENTLY?")) return;     
      
-    axios.get(`/queryboms/deletebom?compid=${comp_id}&prodid=${prod_id}&assembly=${assembly}`,{ headers: { 'Authorization': authenticationheader()}})
+    axios.get(`/queryboms/deletebom?compid=${comp_id}&prodid=${prod_id}&assembly=${assembly}&id=${id}`,{ headers: { 'Authorization': authenticationheader()}})
     .then((response) => {
         visualizeBoms();
     })
