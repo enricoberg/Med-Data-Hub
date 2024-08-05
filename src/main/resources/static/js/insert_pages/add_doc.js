@@ -159,6 +159,11 @@ async function rendernewdocuments(){
                     errormessage.innerHTML="Attention, you must select a file to upload first";
                     return;
             }
+            if(description.length>60){
+              if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                    errormessage.innerHTML="The description is too long. You are allowed 60 characters max";
+                    return;
+            }
             //CHECK THE INSERTED ARTICLE NUMBER EXISTS AND THROW AN ERROR IF NOT
 
             
