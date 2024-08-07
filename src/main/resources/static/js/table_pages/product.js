@@ -169,6 +169,7 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item tableheader">Sterilization Method</div>
         <div class="grid-item tableheader">Sterilization Site</div>
         <div class="grid-item tableheader">Shelf Life</div>
+        <div class="grid-item tableheader">Supplier</div>
         <div class="grid-item tableheader">Bill of materials</div>
         `;
 
@@ -258,6 +259,8 @@ async function updateProductsTable(totalcolumns){
         const check6= obj.sterilizationsite!=null ? obj.sterilizationsite : "&#10007;";
         const check7= obj.shelflife!=null ? obj.shelflife+" months" : "";
         
+        const check8=obj.supplierid==null ? "&#10007;" : obj.supplierid;
+        
             document.querySelector(".grid-container").innerHTML+=
         `
 
@@ -273,6 +276,7 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
         <div class="grid-item ">${check6}</div>
         <div class="grid-item ">${check7}</div>
+        <div class="grid-item ">${check8}</div>
         <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
         `;
         

@@ -1,5 +1,5 @@
 const totalcomponentcolumns=10;
-const totalproductcolumns=13;
+const totalproductcolumns=14;
 const totalmaterialcolumns=5;
 const totalsuppliercolumns=3;
 const totaldocumentcolumns=5;

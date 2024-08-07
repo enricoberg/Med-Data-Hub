@@ -132,9 +132,9 @@ function rendernewmaterials(){
       let family=document.querySelector("#familyinput").value;           
 
 
-      if(name=="" || supplier=="") {
+      if(name=="") {
         if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
-        errormessage.innerHTML="Attention, brandname and supplier are mandatory fields";
+        errormessage.innerHTML="Attention, brandname is a mandatory field";
         return;
       }
       if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
