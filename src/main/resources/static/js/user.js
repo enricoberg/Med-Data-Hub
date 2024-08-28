@@ -42,10 +42,10 @@ async function renderuser(){
 
 }
 function logoutuser(){
-
-    if(!confirm("Are you sure you want to sign out of this session?")) return;
-
-    fetch('/app/auth/logout', {
+    
+    createCustomAlert('Log Out','Are you sure you want to sign out of this session?', 'yesno').then((result) => {     
+      if(result) {
+        fetch('/app/auth/logout', {
           method: 'GET'
         })
         .then(response => {
@@ -54,8 +54,13 @@ function logoutuser(){
           }
         })
         .catch(error => {
-          alert("ERROR SIGNING OUT");
+          createCustomAlert('Error','Something went wrong signing out', 'ok');          
         });
+      }
+      else return;      
+    });
+
+    
 
 
 }

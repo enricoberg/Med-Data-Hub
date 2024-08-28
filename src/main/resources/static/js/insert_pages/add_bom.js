@@ -233,23 +233,32 @@ function rendernewbom(product_id){
   }
 
 function getIntegerofProductBom(product_id){
-      if(!confirm("Do you confirm you want to insert this BOM?")) return;
-      fetch(`/queryprod/byid?article=${product_id}`,{
-           method: 'GET',
-           headers: {'Authorization': authenticationheader() }
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        sendbomtoserver(data)
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
+      
+
+      createCustomAlert('Attention:','Do you confirm you want to insert this BOM?', 'yesno')
+      .then((result) => {     if(result){
+        fetch(`/queryprod/byid?article=${product_id}`,{
+              method: 'GET',
+              headers: {'Authorization': authenticationheader() }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          sendbomtoserver(data)
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+      } 
+      else return;});
+
+
+
+      
 }
 
 function sendbomtoserver(product_id){
@@ -277,11 +286,12 @@ function sendbomtoserver(product_id){
     .then(response => {
       if (!response.ok)  throw new Error('Network response was not ok');
 
-      alert("BOM Inserted Successfully!");
+      
+      createCustomAlert('Great!','BOM Inserted Successfully!', 'ok');
       renderproducts();
     })
     .catch(error => {
-      alert("Your request is invalid or you do not have permission to perform it");
+      createCustomAlert('Oops!','Your request is invalid or you do not have permission to perform it.', 'ok');      
     });
 
 

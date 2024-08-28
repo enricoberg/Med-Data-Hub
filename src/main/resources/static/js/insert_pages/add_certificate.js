@@ -86,8 +86,8 @@ async function rendernewcertificate(){
                 
             })
             .catch((error) => {
-                console.error("Error deleting user:", error);
-                alert("Something went wrong retrieving materials");
+                console.error("Error deleting user:", error);                
+                createCustomAlert('Oops','Something went wrong retrieving materials', 'ok');
             });  
         });
 
@@ -123,30 +123,34 @@ async function rendernewcertificate(){
             if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
             
 
-            //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
-            if(!confirm("Are you sure you want to insert this document?")) return;
-
-                formData.append('materialid', materialid);
-                formData.append('docutype', docutype);
-                
-
-
-                fetch("/querydocs/newcert", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Authorization': authenticationheader() }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
-                      errormessage.innerHTML="The document you tried to insert is already present";                      
-                      throw new Error('Network response was not ok: ');
-                    } 
+            //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING           
+            createCustomAlert('Attention:','Are you sure you want to insert this document?', 'yesno')
+            .then((result) => {     if(!result) return;
+                else{
+                    formData.append('materialid', materialid);
+                    formData.append('docutype', docutype);
                     
-                    alert("New certificated uploaded successfully!");
-                    rendernewcertificate();
-                })
-                .catch(error => { alert("Something went wrong with your request"); });               
+    
+    
+                    fetch("/querydocs/newcert", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {'Authorization': authenticationheader() }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                          if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                          errormessage.innerHTML="The document you tried to insert is already present";                      
+                          throw new Error('Network response was not ok: ');
+                        } 
+                        createCustomAlert('Great!','New certificated uploaded successfully!', 'ok');                    
+                        rendernewcertificate();
+                    })
+                    .catch(error => { createCustomAlert('Oops','Something went wrong with your request', 'ok'); });   
+                }
+              });
+
+                            
 
 
 

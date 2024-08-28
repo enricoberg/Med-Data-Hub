@@ -159,37 +159,44 @@ function rendernewcomponents(){
       }
       if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
 
-      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
-      if(!confirm("Are you sure you want to insert this component?")) return;
-      const url="/querycomp/new"
-      formData.append('article', article);
-      formData.append('description', description);
-      formData.append('intercompany', intercompany);
-      formData.append('packaging', packaging);
-      formData.append('contact', contact);
-      formData.append('ca65', ca65); 
-      formData.append('baimold', baimold);  
-      formData.append('standard', type);  
-      formData.append('family', family);                  
+      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING      
 
+      createCustomAlert('Attention:','Are you sure you want to insert this component?', 'yesno')
+      .then((result) => { if(!result) return;
+        else{
+          const url="/querycomp/new"
+          formData.append('article', article);
+          formData.append('description', description);
+          formData.append('intercompany', intercompany);
+          formData.append('packaging', packaging);
+          formData.append('contact', contact);
+          formData.append('ca65', ca65); 
+          formData.append('baimold', baimold);  
+          formData.append('standard', type);  
+          formData.append('family', family);                  
+    
+    
+          fetch(url, {
+              method: 'POST',
+              body: formData,
+              headers: {'Authorization': authenticationheader() }
+          })
+          .then(response => {
+              if(response.status==502){
+                errormessage.innerHTML="Component already exists!";
+                throw new Error('Network response was not ok');
+              }
+              if (!response.ok)  throw new Error('Network response was not ok');
+              createCustomAlert('Great!','New component created successfully!', 'ok');
+              
+              rendercomponents();
+    
+    
+          })
+          .catch(error => { createCustomAlert('Oops!','Your request is invalid or you do not have permission to perform it.', 'ok'); });
+        }  
+        });
 
-      fetch(url, {
-          method: 'POST',
-          body: formData,
-          headers: {'Authorization': authenticationheader() }
-      })
-      .then(response => {
-          if(response.status==502){
-            errormessage.innerHTML="Component already exists!";
-            throw new Error('Network response was not ok');
-          }
-          if (!response.ok)  throw new Error('Network response was not ok');
-
-          alert("New component created successfully!");
-          rendercomponents();
-
-
-      })
-      .catch(error => { alert("Your request is invalid or you do not have permission to perform it"); });
+      
 
 }

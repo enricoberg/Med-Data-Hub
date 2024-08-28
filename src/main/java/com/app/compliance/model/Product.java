@@ -48,9 +48,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductFamily family;
 
-    @ManyToOne
-    @JoinColumn(name= "supplierid", referencedColumnName = "id")
-    private Supplier supplierid;
+    // @ManyToOne
+    // @JoinColumn(name= "supplierid", referencedColumnName = "id")
+    private Integer supplierid;
 
     @Column(nullable = false)
     private boolean intercompany;
@@ -120,11 +120,11 @@ public class Product {
         this.family = family;
     }
 
-    public Supplier getSupplierid() {
+    public Integer getSupplierid() {
         return supplierid;
     }
 
-    public void setSupplierid(Supplier supplierid) {
+    public void setSupplierid(Integer supplierid) {
         this.supplierid = supplierid;
     }
 

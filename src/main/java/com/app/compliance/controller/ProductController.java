@@ -161,10 +161,12 @@ public class ProductController {
             product.setSterilizationsite(sterisite);
             product.setSapstatus(sapstatus);
             product.setFamily(family);
-            Optional<Supplier> supp = supplierRepository.findById(Integer.valueOf(supplier));
-            if (!supp.isPresent()) throw new NoSuchElementException("Supplier not found");
-            Supplier actualsupp = supp.get();
-            product.setSupplierid(actualsupp);
+            // Optional<Supplier> supp = supplierRepository.findById(Integer.valueOf(supplier));
+            // if (!supp.isPresent()) throw new NoSuchElementException("Supplier not found");
+            // Supplier actualsupp = supp.get();
+            // product.setSupplierid(actualsupp);
+
+            product.setSupplierid(Integer.valueOf(supplier));
             //Save the product to the database
             productRepository.save(product);
             logService.writeToLog("Added the new product: "+article+" - "+description,token);

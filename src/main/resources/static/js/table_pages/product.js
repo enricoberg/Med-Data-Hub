@@ -259,8 +259,12 @@ async function updateProductsTable(totalcolumns){
         const check6= obj.sterilizationsite!=null ? obj.sterilizationsite : "&#10007;";
         const check7= obj.shelflife!=null ? obj.shelflife+" months" : "";
         
-        const check8=obj.supplierid==null ? "&#10007;" : obj.supplierid;
-        
+        let check8=obj.supplierid==null ? "&#10007;" : obj.supplierid;
+        let suppliername="&#10007;";
+        if(check8!="&#10007;") {
+            axios.get(`/querysup/byid?id=${check8}`,{ headers: { 'Authorization': authenticationheader()}})
+        .then(function (response) {
+            suppliername=response.data.supplier_name;
             document.querySelector(".grid-container").innerHTML+=
         `
 
@@ -276,9 +280,36 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
         <div class="grid-item ">${check6}</div>
         <div class="grid-item ">${check7}</div>
-        <div class="grid-item ">${check8}</div>
+        <div class="grid-item supplierbox">${suppliername}</div>
         <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
         `;
+         })
+        }
+        else{
+            document.querySelector(".grid-container").innerHTML+=
+            `
+    
+            <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
+            <div class="grid-item ">${obj.description}</div>
+            <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
+            <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
+            <div class="grid-item ">${check1}</div>
+            <div class="grid-item ">${check2}</div>
+            <div class="grid-item ">${check3}</div>
+            <div class="grid-item ">${check4}</div>
+            <div class="grid-item ">${check5}</div>
+            <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
+            <div class="grid-item ">${check6}</div>
+            <div class="grid-item ">${check7}</div>
+            <div class="grid-item supplierbox">&#10007;</div>
+            <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
+            `; 
+        }
+        
+        
+
+
+            
         
         // <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
         }

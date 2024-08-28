@@ -210,22 +210,31 @@ function rendernewconf(product_id){
 
 function getIntegerofComponent(product_id){
       if(!confirm("Do you confirm you want to insert this set of configurations?")) return;
-      fetch(`/querycomp/byname?id=${product_id}`,{
-           method: 'GET',
-           headers: {'Authorization': authenticationheader() }
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+
+      createCustomAlert('Attention:','Do you confirm you want to insert this set of configurations?', 'yesno')
+      .then((result) => {     
+        if(!result) return;
+        else{
+            fetch(`/querycomp/byname?id=${product_id}`,{
+                method: 'GET',
+                headers: {'Authorization': authenticationheader() }
+           })
+           .then(response => {
+             if (!response.ok) {
+               throw new Error('Network response was not ok');
+             }
+             return response.json();
+           })
+           .then(data => {
+             sendconftoserver(data.id)
+           })
+           .catch(error => {
+             console.error('There was a problem with the fetch operation:', error);
+           });
         }
-        return response.json();
-      })
-      .then(data => {
-        sendconftoserver(data.id)
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
+       });
+
+      
 }
 
 function sendconftoserver(product_id){
@@ -250,12 +259,12 @@ function sendconftoserver(product_id){
       body: JSON.stringify(requestObj)
     })
     .then(response => {
-      if (!response.ok)  throw new Error('Network response was not ok');
-      alert("Configurations Inserted Successfully!");
+      if (!response.ok)  throw new Error('Network response was not ok');      
+      createCustomAlert('Great!','Configurations Inserted Successfully!', 'ok');
       rendercomponents();
     })
     .catch(error => {
-      alert("Your request is invalid or you do not have permission to perform it");
+      createCustomAlert('Oops!','Your request is invalid or you do not have permission to perform it.', 'ok');      
     });
 
 

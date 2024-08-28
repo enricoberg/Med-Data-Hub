@@ -179,52 +179,63 @@ async function rendernewdocuments(){
                 if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
                 const url="/querydocs/new";
 
-                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
-                if(!confirm("Are you sure you want to insert this document?")) return;
-
-                formData.append('article', article);
-                formData.append('revision', revision);
-                if(description!="") formData.append('description', description);
-                if(ppc!="") formData.append('ppc', ppc);                
-                formData.append('active', active);
-                formData.append('assembly', assembly);
-                formData.append('type', type);
+                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING               
 
 
-                fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Authorization': authenticationheader() }
-                })
-                .then(response => {
-                    if (!response.ok && response.status==501) {
-                      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
-                      errormessage.innerHTML="The document you tried to insert is already present"
-                      
-                      throw new Error('Network response was not ok: ');
-                    } 
-                    else if(!response.ok && response.status==502){
-                      if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
-                      errormessage.innerHTML="No matching part, description is mandatory";
-                      
-                      throw new Error('Network response was not ok: ');
-                    }
-                    // alert("New document created successfully!");
-                    localStorage.setItem("needupdate", false);
-                    renderspecifications();
-                    
-                    
-                      
-                      setTimeout(()=>{document.querySelector("#speccodeinput").value=article;
-                        setTimeout(()=>{
-                          updateDocumentsTable(totaldocumentcolumns);
-                        },50)
-                    },350); 
+                createCustomAlert('Attention:','Are you sure you want to insert this document?', 'yesno')
+                .then((result) => {   
+                  if(!result) return;
+                  else{
+                    formData.append('article', article);
+                    formData.append('revision', revision);
+                    if(description!="") formData.append('description', description);
+                    if(ppc!="") formData.append('ppc', ppc);                
+                    formData.append('active', active);
+                    formData.append('assembly', assembly);
+                    formData.append('type', type);
+    
+    
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {'Authorization': authenticationheader() }
+                    })
+                    .then(response => {
+                        if (!response.ok && response.status==501) {
+                          if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                          errormessage.innerHTML="The document you tried to insert is already present"
                           
-                    
-                    
-                })
-                .catch(error => { alert("Something went wrong with your request"); });
+                          throw new Error('Network response was not ok: ');
+                        } 
+                        else if(!response.ok && response.status==502){
+                          if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+                          errormessage.innerHTML="No matching part, description is mandatory";
+                          
+                          throw new Error('Network response was not ok: ');
+                        }
+                        
+                        localStorage.setItem("needupdate", false);
+                        renderspecifications();
+                        
+                        
+                          
+                          setTimeout(()=>{document.querySelector("#speccodeinput").value=article;
+                            setTimeout(()=>{
+                              updateDocumentsTable(totaldocumentcolumns);
+                            },50)
+                        },350); 
+                              
+                        
+                        
+                    })
+                    .catch(error => { createCustomAlert('Oops!','Something went wrong with your request.', 'ok'); });
+                  }
+                 });
+
+
+
+
+                
                 
 
 

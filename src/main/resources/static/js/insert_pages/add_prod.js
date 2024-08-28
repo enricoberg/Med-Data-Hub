@@ -189,39 +189,47 @@ function rendernewproduct(){
 
       if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
 
-      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
-      if(!confirm("Are you sure you want to insert this product?")) return;
+      //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING      
 
-      const url="/queryprod/new"
-      formData.append('article', article);
-      formData.append('description', description);
-      formData.append('dhf', dhf);
-      formData.append('rmf', rmf);
-      formData.append('budi', budi);
-      formData.append('shelf', shelflife);
-      formData.append('semifinished', semifinished);
-      formData.append('sterimethod', sterimethod);
-      formData.append('sterisite', sterisite);
-      formData.append('sap', sap);
-      formData.append('intercompany', intercompany);       
-      formData.append('family', family);     
-      formData.append('supplier', supplier);                 
+      createCustomAlert('Attention:','Are you sure you want to insert this product?', 'yesno')
+      .then((result) => { 
+        if(!result) return;
+        else{
+            const url="/queryprod/new"
+            formData.append('article', article);
+            formData.append('description', description);
+            formData.append('dhf', dhf);
+            formData.append('rmf', rmf);
+            formData.append('budi', budi);
+            formData.append('shelf', shelflife);
+            formData.append('semifinished', semifinished);
+            formData.append('sterimethod', sterimethod);
+            formData.append('sterisite', sterisite);
+            formData.append('sap', sap);
+            formData.append('intercompany', intercompany);       
+            formData.append('family', family);     
+            formData.append('supplier', supplier);                 
+      
+      
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {'Authorization': authenticationheader() }
+            })
+            .then(response => {
+                if(response.status==502){
+                  errormessage.innerHTML="Error: product already exists";
+                  throw new Error('Network response was not ok');
+                }
+                if (!response.ok)  throw new Error('Network response was not ok');          
+                createCustomAlert('Great!','New product created successfully!', 'ok');
+                renderproducts();
+            })
+            .catch(error => { createCustomAlert('Oops!','Your request is invalid or you do not have permission to perform it.', 'ok'); });
+        }
+       });
 
 
-      fetch(url, {
-          method: 'POST',
-          body: formData,
-          headers: {'Authorization': authenticationheader() }
-      })
-      .then(response => {
-          if(response.status==502){
-            errormessage.innerHTML="Error: product already exists";
-            throw new Error('Network response was not ok');
-          }
-          if (!response.ok)  throw new Error('Network response was not ok');
-          alert("New product created successfully!");
-          renderproducts();
-      })
-      .catch(error => { alert("Your request is invalid or you do not have permission to perform it"); });
+      
 
 }

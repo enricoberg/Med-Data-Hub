@@ -94,7 +94,8 @@ document.querySelector("#signupbutton").addEventListener('click',()=>{
     })
     .then(response => {
       if(response.ok) {
-        alert("SIGNED UP SUCCESSFULLY, PLEASE CHECK YOUR EMAIL TO ACTIVATE THE ACCOUNT!");
+        createCustomAlert('Done!','Signed up successfully, please check your email to activate the account', 'ok');
+        
         location.reload();
       }
     })
@@ -152,7 +153,7 @@ document.querySelector("#forgot").addEventListener('click',()=>{
     let useremail=document.querySelector("#is1").value;
         fetch(`/app/auth/sendverification?user=${useremail}`, {method: 'GET'})
         .then(response => { if(response.ok) window.location.replace(`/app/passwordchange?i=${useremail}`);} )
-        .catch(error => { alert("Something went wrong sending confermation email"); });
+        .catch(error => { createCustomAlert('Oops!','Something went wrong sending confermation email', 'ok'); });
 
 
 

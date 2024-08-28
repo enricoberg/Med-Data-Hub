@@ -49,7 +49,7 @@
 
 
 
-
+<script src="/js/modals.js"></script>
 <script>
     function validateform(){
         const code=document.querySelector("#securityinput").value;
@@ -85,13 +85,13 @@
         })
         .then(response => {
           if(!response.ok) throw new Error("Server refused to change password");
-          alert("PASSWORD CHANGED SUCCESSFULLY");
+          createCustomAlert('Great!','Password changed successfully', 'ok');          
           window.location.replace("/app/home");
 
 
         })
         .catch(error => {
-          alert("UNABLE TO CHANGE PASSWORD");
+          createCustomAlert('Oops',"Something went wrong, I'm unable to change password", 'ok');         
         });
 
     }

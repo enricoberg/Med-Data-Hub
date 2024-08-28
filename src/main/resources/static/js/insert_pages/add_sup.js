@@ -73,25 +73,32 @@ function rendernewsuppliers(){
                 }
 
                 if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
-                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING
-                if(!confirm("Are you sure you want to insert this document?")) return;
-                const url="/querysup/new"
-                formData.append('name', name);
-                formData.append('sap', sap);
-                formData.append('contact', contact);
+                //SEND CONFIRMATION MESSAGE BEFORE SUBMITTING               
+                createCustomAlert('Attention:','Are you sure you want to insert this document?', 'yesno')
+                .then((result) => {    
+                    if(!result) return;
+                    else{
+                        const url="/querysup/new"
+                        formData.append('name', name);
+                        formData.append('sap', sap);
+                        formData.append('contact', contact);
+        
+                        
+        
+                        fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {'Authorization': authenticationheader() }
+                        })
+                        .then(response => {
+                            if (!response.ok)  throw new Error('Network response was not ok');                    
+                            createCustomAlert('Great!','New Supplier added successfully!', 'ok');
+                            rendersuppliers();
+                        })
+                        .catch(error => { createCustomAlert('Oops!','Your request is invalid or you do not have permission to perform it.', 'ok'); });
+                    } 
+                });
 
-                
-
-                fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Authorization': authenticationheader() }
-                })
-                .then(response => {
-                    if (!response.ok)  throw new Error('Network response was not ok');
-                    alert("New Supplier added successfully!");
-                    rendersuppliers();
-                })
-                .catch(error => { alert("Your request is invalid or you do not have permission to perform it"); });
+               
 
         }

@@ -142,7 +142,7 @@ function listenForDownloads(){
                                   var newTab = window.open();
                                   newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
                                 })
-                                .catch(error => alert("The Document you are looking for does not exists"));
+                                .catch(error => createCustomAlert('Error','The Document you are looking for does not exists', 'ok'))
                             });
 
 
@@ -336,7 +336,8 @@ function searchForSuperUser(searchstring){
       },400);        
       break;
       default:
-        alert("Sorry there is no result matching your request");
+        createCustomAlert('No correspondence','Sorry there is no result matching your request', 'ok');
+        
     }
 
   })
@@ -397,7 +398,7 @@ function searchForSimpleUser(searchstring){
       },250);        
       break;
       default:
-        alert("Sorry there is no result matching your request");
+        createCustomAlert('No correspondence','Sorry there is no result matching your request', 'ok');
     }
     
   })

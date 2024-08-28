@@ -86,7 +86,7 @@ public class SupplierController {
     }
 
     @GetMapping("/byid")
-    public Optional<Supplier> RetrieveComponent(@RequestParam("id") Integer id) {
+    public Optional<Supplier> RetrieveSupplier(@RequestParam("id") Integer id) {
         return supplierRepository.findById(id);
     }
 

@@ -10,8 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="999aca33-c44c-454a-8922-032b8df53025" name="Changes" comment="Changed style of user menu">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/editable.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/editable.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/controller/SupplierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/compliance/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/table_pages/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/table_pages/product.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

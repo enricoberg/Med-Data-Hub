@@ -81,8 +81,10 @@ async function renderqueryadv1(){
                     
             
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
-                if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction1(data);
                 
+                createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser', 'yesno').then((result) => {     
+                    if(result) downloadExtraction1(data);
+                  });
             } )
             .catch(error => { 
                 if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");

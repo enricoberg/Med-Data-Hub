@@ -1,0 +1,79 @@
+@keyframes apparizione {
+    0% {
+      opacity: 0;
+      transform: scale(0.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+.modalbackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 98vh;
+    margin: 0;
+    background-color: rgba(0,0,0,0.7);
+    
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: apparizione 0.5s ease-in-out;
+    
+}
+.modalwindow{
+    background-color: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 850px;
+    height: 350px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    box-shadow: 0px 0px 40px 20px #ADC9F3;
+}
+.modalcontainer{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 400px;
+    max-width: 580px;
+    height: 100%;
+    
+}
+.buttoncontainer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.modalwindow .img{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 100%;
+}
+.modalwindow .img img{
+    width: 100%;
+}
+.modalcontainer button{
+    width: 170px;
+    height: 35px;
+    background-color: #C1D5F3 ;
+    border-radius: 5px;
+    
+}
+.modalcontainer button:hover{    
+    background-color: #ADC9F3 ;       
+}
+.modalcontainer h1{
+    color:#ADC9F3 ;
+    margin-bottom: 0;    
+}
