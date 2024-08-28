@@ -111,6 +111,8 @@ function visualizeComponents(){
             <option value="SFBAGS4500" selected>Semifinished bags 4000-4500mL</option>
             <option value="SFBAGS7000" selected>Semifinished bags 7000mL</option>
             <option value="PFG" selected>Purchased Finished Goods</option>
+            <option value="ELECTRODES" selected>Electrodes & Accessories</option>
+            <option value="HOTSTAMPING" selected>Hot stamping</option>
             `;
             select.value=current_value;
         });

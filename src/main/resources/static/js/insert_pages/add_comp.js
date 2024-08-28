@@ -83,6 +83,8 @@ function rendernewcomponents(){
                                                   <option value="SFBAGS4500" >Semifinished bags 4000-4500mL</option>
                                                   <option  value="SFBAGS7000" >Semifinished bags 7000mL</option>
                                                   <option  value="PFG" >Purchased Finished Goods</option>
+                                                  <option value="ELECTRODES" selected>Electrodes & Accessories</option>
+                                                  <option value="HOTSTAMPING" selected>Hot stamping</option>
                                                 </select>
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-1 pb-1">
