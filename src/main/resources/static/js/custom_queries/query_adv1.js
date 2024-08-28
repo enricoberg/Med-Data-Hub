@@ -53,6 +53,14 @@ async function renderqueryadv1(){
                                </div>`;
             
         document.querySelector("#startquery1").addEventListener("click",()=>{renderresultsadv1(document.querySelector("#articleinput").value)});
+        document.querySelector("#articleinput").addEventListener("keypress",function(event) {
+            if(event.keyCode === 13) {
+                renderresultsadv1(document.querySelector("#articleinput").value);
+               event.preventDefault();
+            }
+           });
+
+
         document.querySelector("#articleinput").addEventListener("input",()=>{ 
             document.querySelector("#articleinput").value=document.querySelector("#articleinput").value.toUpperCase();
             if(!document.querySelector(".errormessage").classList.contains("invisible")) document.querySelector(".errormessage").classList.add("invisible");
