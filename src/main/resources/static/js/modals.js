@@ -1,4 +1,4 @@
-function createCustomAlert(title,message, type) {
+function createCustomAlert(title,message, type, callback_function) {
     const modalElements = document.querySelectorAll('.modalbackground');
     modalElements.forEach(modal => {
     modal.remove();
@@ -41,7 +41,10 @@ function createCustomAlert(title,message, type) {
                                 
                             </div>
                         </div>`;
-        document.querySelector('.ok-button').addEventListener('click', () => {modal.style.display = 'none';});
+        document.querySelector('.ok-button').addEventListener('click', () => {modal.style.display = 'none'; 
+            if(callback_function) callback_function();
+        });
+        
     }
   }
   

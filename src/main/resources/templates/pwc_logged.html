@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/home_style.css">
     <link rel="stylesheet" href="/css/login_style.css">
+    <link rel="stylesheet" href="/css/modal_style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Change Password</title>
     <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
@@ -50,7 +51,7 @@
     </div>
 </div>
 
-
+<script src="/js/modals.js"></script>
 <script src="/js/utils.js"></script>
 <script>
     function validateform(){
@@ -86,14 +87,15 @@
           body: JSON.stringify(data)
         })
         .then(response => {
-          if(!response.ok) throw new Error("Server refused to change password");
-          alert("PASSWORD CHANGED SUCCESSFULLY");
-          window.location.replace("/app/home");
+          if(!response.ok) throw new Error("Server refused to change password");          
+          createCustomAlert('Great!','Password changed succesfully.', 'ok',()=>{window.location.replace("/app/home")});
+
+        //   window.location.replace("/app/home");
 
 
         })
         .catch(error => {
-          alert("UNABLE TO CHANGE PASSWORD");
+          createCustomAlert('Oops','Unable to change password, please check again your current password', 'ok');          
         });
 
     }
