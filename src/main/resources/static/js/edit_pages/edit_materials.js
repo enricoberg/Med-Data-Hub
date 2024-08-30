@@ -146,7 +146,8 @@ function deleteMaterial(id){
     })
     .catch((error) => {
         console.error("Error deleting user:", error);
-        alert("Something went wrong trying to delete this user");
+        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+        
     });       
 }
 
@@ -155,7 +156,8 @@ function saveMaterialsModifications(){
     inputToTableItem();
     const modified_items=document.querySelectorAll(".edited");
     if(modified_items.length===0){
-        alert("The table is already up to date");
+        createCustomAlert('Error','The table is already up to date', 'ok');
+       
         return;
     }
     if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  

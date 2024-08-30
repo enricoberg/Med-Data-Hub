@@ -170,7 +170,8 @@ function deleteProduct(id){
     })
     .catch((error) => {
         console.error("Error deleting user:", error);
-        alert("Something went wrong trying to delete this user");
+        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+        
     });       
 }
 
@@ -179,7 +180,8 @@ function saveProductsModifications(){
     inputToTableItem();
     const modified_items=document.querySelectorAll(".edited");
     if(modified_items.length===0){
-        alert("The table is already up to date");
+        createCustomAlert('Error','The table is already up to date', 'ok');
+        
         return;
     }
     

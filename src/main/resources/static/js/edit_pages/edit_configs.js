@@ -77,7 +77,7 @@ function visualizeConfigurations(){
             })
             .catch((error) => {
                 console.error("Error deleting user:", error);
-                alert("Something went wrong retrieving materials");
+                createCustomAlert('Error','Something went wrong retrieving materials', 'ok');
             });  
             
             
@@ -107,7 +107,7 @@ function visualizeConfigurations(){
             })
             .catch((error) => {
                 console.error("Error deleting user:", error);
-                alert("Something went wrong retrieving suppliers");
+                createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');
             });  
             
             
@@ -137,7 +137,7 @@ function deleteConfig(button){
     })
     .catch((error) => {
         console.error("Error deleting user:", error);
-        alert("Something went wrong trying to delete this configuration");
+        createCustomAlert('Error','Something went wrong trying to delete this configuration', 'ok');
     });       
 }
 
@@ -212,7 +212,7 @@ function addNewLine(){
         .then((response)=>{ response.data.forEach(function(materialobj){select.innerHTML+=`<option value="${materialobj.id}" >${materialobj.brandname}</option> `;}) 
         select.selectedIndex = -1;
     })
-        .catch((error) => { alert("Something went wrong retrieving materials");});                  
+        .catch((error) => { createCustomAlert('Error','Something went wrong retrieving materials', 'ok');});                  
     });
     //POPULATE THE SUPPLIER SELECT 
         
@@ -222,7 +222,7 @@ function addNewLine(){
         .then((response)=>{response.data.forEach(function(supobj){select.innerHTML+=`<option value="${supobj.id}" >${supobj.supplier_name}</option>`;})
         select.selectedIndex =-1;
     })
-        .catch((error) => {alert("Something went wrong retrieving suppliers");});         
+        .catch((error) => {createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');});         
     });
 }
 
@@ -236,7 +236,7 @@ function SaveConfItem(element){
     if(supcode=="" || supcode=="/" || supcode==null || supcode==" " || supcode.toUpperCase()=="NA" || supcode.toUpperCase()=="N.A.") supcode="N.A.";
     
 if(document.querySelector(".addboxmaterial").selectedIndex===-1 || document.querySelector(".addboxsupplier").selectedIndex===-1 ) {
-    alert("Please fill all the fields first");
+    createCustomAlert('Error','Please fill all the fields first', 'ok');
     return;}
 if(!window.confirm("Are you sure you want to add this item to the bom?")) return;           
         
@@ -250,7 +250,7 @@ const conf_data=[{
 
 axios.post(`/queryconfigs/new`, conf_data, { headers: { 'Authorization': authenticationheader()}})
 .then((response) => { setTimeout(()=>{window.location.reload()},150);})
-.catch((error) => {alert("Something went wrong trying to add item"); }); 
+.catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok');}); 
 
 
 
