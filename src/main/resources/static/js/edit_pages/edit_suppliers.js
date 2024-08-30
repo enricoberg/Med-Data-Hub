@@ -64,18 +64,29 @@ function visualizeSuppliers(){
  
 }
 
-//FUNCTION TO DELETE ONE USER
-function deleteSupplier(id){
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS SUPPLIER PERMANENTLY?")) return;          
-    axios.delete(`/querysup/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeSuppliers();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this supplier', 'ok');
-        
-    });       
+//FUNCTION TO DELETE ONE SUPPLIER
+function deleteSupplier(id){    
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS SUPPLIER PERMANENTLY?', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/querysup/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeSuppliers();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this supplier', 'ok');
+                    
+                });    
+             }
+            });
+    
+
+
+
+
+   
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
@@ -86,33 +97,39 @@ function saveSuppliersModifications(){
         createCustomAlert('Error','The table is already up to date', 'ok');        
         return;
     }
-    if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-    let processed_items=0;
     
-    modified_items.forEach(function(button){
-        processed_items++;
-        const parentRow = button.closest('.row');
-        if (parentRow) {
-            const id = parentRow.querySelector('.boxid').innerHTML;
-            const name = parentRow.querySelector('.boxname').innerHTML;
-            const sap= parentRow.querySelector('.boxsap').innerHTML; 
-            const contact= parentRow.querySelector('.boxcontacts').innerHTML;             
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                let processed_items=0;
+    
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        const id = parentRow.querySelector('.boxid').innerHTML;
+                        const name = parentRow.querySelector('.boxname').innerHTML;
+                        const sap= parentRow.querySelector('.boxsap').innerHTML; 
+                        const contact= parentRow.querySelector('.boxcontacts').innerHTML;             
+                        
+                        
             
-            
+                        
+                        const sup_correct = { 
+                                                sapcode: sap,
+                                                name: name,
+                                                contact: contact
+                                            };
+                        
+                        axios.put(`/querysup/updatesupplier/${id}`, sup_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{visualizeSuppliers()},250);         
+                        
+                    }
+                });
+             }
+            });
 
-            
-            const sup_correct = { 
-                                    sapcode: sap,
-                                    name: name,
-                                    contact: contact
-                                };
-            
-            axios.put(`/querysup/updatesupplier/${id}`, sup_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeSuppliers()},250);         
-            
-        }
-    });
-    
 }
 
 visualizeSuppliers();

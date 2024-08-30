@@ -133,16 +133,25 @@ function visualizeComponents(){
 
 //FUNCTION TO DELETE ONE USER
 function deleteItem(id){
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER PERMANENTLY?")) return;          
-    axios.delete(`/querycomp/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeComponents();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
-        
-    });       
+     
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS COMPONENT PERMANENTLY?', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/querycomp/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeComponents();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+                    
+                });
+             } 
+            });
+    
+
+       
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
@@ -154,40 +163,50 @@ function saveComponentsModifications(){
         
         return;
     }
-    if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-    let processed_items=0;
+      
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                let processed_items=0;
     
-    modified_items.forEach(function(button){
-        processed_items++;
-        const parentRow = button.closest('.row');
-        if (parentRow) {
-            const id = parentRow.querySelector('.boxid').innerHTML;
-            const article = parentRow.querySelector('.boxarticle').innerHTML;
-            const description = parentRow.querySelector('.boxdescription').innerHTML;
-            const intercompany = parentRow.querySelector('.boxintercompany').checked;
-            const family = parentRow.querySelector('.boxfamily').value;
-            const packaging= parentRow.querySelector('.boxpackaging').checked;
-            const california = parentRow.querySelector('.boxcalifornia').checked;
-            const contact = parentRow.querySelector('.boxcontact').checked;      
-            const cone = parentRow.querySelector(".boxstandard").value;   
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        const id = parentRow.querySelector('.boxid').innerHTML;
+                        const article = parentRow.querySelector('.boxarticle').innerHTML;
+                        const description = parentRow.querySelector('.boxdescription').innerHTML;
+                        const intercompany = parentRow.querySelector('.boxintercompany').checked;
+                        const family = parentRow.querySelector('.boxfamily').value;
+                        const packaging= parentRow.querySelector('.boxpackaging').checked;
+                        const california = parentRow.querySelector('.boxcalifornia').checked;
+                        const contact = parentRow.querySelector('.boxcontact').checked;      
+                        const cone = parentRow.querySelector(".boxstandard").value;   
+            
+                        // if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
+                        const comp_correct = { 
+                                                article: article,
+                                                description: description,
+                                                intercompany: intercompany,
+                                                packaging: packaging,
+                                                contact: contact,
+                                                ca65: california,
+                                                family: family  ,
+                                                standard: cone
+                                            };
+                        
+                        axios.put(`/querycomp/updatecomponent/${id}`, comp_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{visualizeComponents()},250);         
+                        
+                    }
+                });               
+             }  
+            });
 
-            // if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
-            const comp_correct = { 
-                                    article: article,
-                                    description: description,
-                                    intercompany: intercompany,
-                                    packaging: packaging,
-                                    contact: contact,
-                                    ca65: california,
-                                    family: family  ,
-                                    standard: cone
-                                };
-            
-            axios.put(`/querycomp/updatecomponent/${id}`, comp_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeComponents()},250);         
-            
-        }
-    });
+
+
+
     
 }
 

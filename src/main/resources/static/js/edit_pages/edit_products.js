@@ -161,18 +161,25 @@ function visualizeProducts(){
  
 }
 
-//FUNCTION TO DELETE ONE USER
+//FUNCTION TO DELETE ONE PRODUCT
 function deleteProduct(id){
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER PERMANENTLY?")) return;          
-    axios.delete(`/queryprod/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeProducts();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
-        
-    });       
+    
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS PRODUCT PERMANENTLY?', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/queryprod/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeProducts();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+                    
+                });    
+             } 
+            });
+
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
@@ -185,48 +192,60 @@ function saveProductsModifications(){
         return;
     }
     
-    if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-    let processed_items=0;
+     
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                let processed_items=0;
     
-    modified_items.forEach(function(button){
-        processed_items++;
-        const parentRow = button.closest('.row');
-        if (parentRow) {
-            const id = parentRow.querySelector('.boxid').innerHTML;
-            const article = parentRow.querySelector('.boxarticle').innerHTML;
-            const description = parentRow.querySelector('.boxdescription').innerHTML;
-            const intercompany = parentRow.querySelector('.boxintercompany').checked;
-            const semifinished = parentRow.querySelector('.boxsemifinished').checked;
-            const family = parentRow.querySelector('.boxfamily').value;
-            const sapstatus = parentRow.querySelector(".boxsap").value;
-            const dhf = parentRow.querySelector('.boxdhf').innerHTML;
-            const rmf = parentRow.querySelector('.boxrmf').innerHTML;
-            const budi = parentRow.querySelector('.boxbudi').innerHTML;
-            const shelflife = parentRow.querySelector('.boxshelflife').innerHTML;
-            const stericycle = parentRow.querySelector(".boxstericycle").value;
-            const sterisite = parentRow.querySelector(".boxsterisite").value;
-              
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        const id = parentRow.querySelector('.boxid').innerHTML;
+                        const article = parentRow.querySelector('.boxarticle').innerHTML;
+                        const description = parentRow.querySelector('.boxdescription').innerHTML;
+                        const intercompany = parentRow.querySelector('.boxintercompany').checked;
+                        const semifinished = parentRow.querySelector('.boxsemifinished').checked;
+                        const family = parentRow.querySelector('.boxfamily').value;
+                        const sapstatus = parentRow.querySelector(".boxsap").value;
+                        const dhf = parentRow.querySelector('.boxdhf').innerHTML;
+                        const rmf = parentRow.querySelector('.boxrmf').innerHTML;
+                        const budi = parentRow.querySelector('.boxbudi').innerHTML;
+                        const shelflife = parentRow.querySelector('.boxshelflife').innerHTML;
+                        const stericycle = parentRow.querySelector(".boxstericycle").value;
+                        const sterisite = parentRow.querySelector(".boxsterisite").value;
+                          
+            
+                        const prod_correct = { 
+                                                article: article,
+                                                description: description,
+                                                sapstatus: sapstatus,
+                                                intercompany: intercompany,
+                                                semifinished: semifinished,
+                                                family: family  ,
+                                                dhf: dhf,
+                                                rmf: rmf,
+                                                budi: budi,
+                                                sterisite: sterisite,
+                                                stericycle: stericycle,
+                                                shelflife: shelflife
+                                            };
+                        
+                        axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{visualizeProducts()},250);         
+                        
+                    }
+                });
+             }
+     
+            });
 
-            const prod_correct = { 
-                                    article: article,
-                                    description: description,
-                                    sapstatus: sapstatus,
-                                    intercompany: intercompany,
-                                    semifinished: semifinished,
-                                    family: family  ,
-                                    dhf: dhf,
-                                    rmf: rmf,
-                                    budi: budi,
-                                    sterisite: sterisite,
-                                    stericycle: stericycle,
-                                    shelflife: shelflife
-                                };
-            
-            axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeProducts()},250);         
-            
-        }
-    });
+
+
+
+
     
 }
 

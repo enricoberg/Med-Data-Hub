@@ -129,49 +129,29 @@ function deleteConfig(button){
     const matid = parentRow.querySelector('.boxmaterial').value;
     const configid = parentRow.querySelector('.boxid').innerHTML;     
       
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS CONFIGURATION PERMANENTLY?")) return;     
+       
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS CONFIGURATION PERMANENTLY?', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.get(`/queryconfigs/deleteconfig?matid=${matid}&confid=${configid}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeConfigurations();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this configuration', 'ok');
+                });  
+             }
+            });
+
+
+
+
      
-    axios.get(`/queryconfigs/deleteconfig?matid=${matid}&confid=${configid}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeConfigurations();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this configuration', 'ok');
-    });       
+     
 }
 
-//FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
-// function saveConfModifications(){
-//     inputToTableItem();
-//     const modified_items=document.querySelectorAll(".edited");
-//     if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-//     let processed_items=0;    
-//     modified_items.forEach(function(button){
-//         processed_items++;
-//         const parentRow = button.closest('.row');
-//         if (parentRow) {
-            
-//             const id = parentRow.querySelector('.boxid').innerHTML;
-//             const supplier = parentRow.querySelector('.boxsupplier').value;
-//             const material = parentRow.querySelector('.boxmaterial').value;
-//             const supcode=parentRow.querySelector('.boxsupcode').innerHTML;            c
-
-            
-//             const bconf_correct = { 
-//                                     confid: id,
-//                                     matid: material,
-//                                     supid: supplier,
-//                                     supcode: supcode                                    
-//                                 };
-            
-//             axios.put(`/queryconfigs/update/${id}`, conf_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-//             if (processed_items==modified_items.length)  setTimeout(()=>{window.location.reload()},350);         
-            
-//         }
-//     });
-    
-// }
 
 function addNewLine(){
     const target_table=document.querySelector("#targettable");
@@ -238,26 +218,24 @@ function SaveConfItem(element){
 if(document.querySelector(".addboxmaterial").selectedIndex===-1 || document.querySelector(".addboxsupplier").selectedIndex===-1 ) {
     createCustomAlert('Error','Please fill all the fields first', 'ok');
     return;}
-if(!window.confirm("Are you sure you want to add this item to the bom?")) return;           
-        
-
-const conf_data=[{
-    supcompcode: supcode,
-    compid: componentid,
-    matid: materialid,
-    supid: supplierid
-}]
-
-axios.post(`/queryconfigs/new`, conf_data, { headers: { 'Authorization': authenticationheader()}})
-.then((response) => { setTimeout(()=>{window.location.reload()},150);})
-.catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok');}); 
 
 
-
-
-
-    
-
+createCustomAlert('Attention','Are you sure you want to add this item to the bom?', 'yesno')
+.then((result) => { 
+        if(!result) return;
+        else{
+            const conf_data=[{
+                supcompcode: supcode,
+                compid: componentid,
+                matid: materialid,
+                supid: supplierid
+            }]
+            
+            axios.post(`/queryconfigs/new`, conf_data, { headers: { 'Authorization': authenticationheader()}})
+            .then((response) => { setTimeout(()=>{window.location.reload()},150);})
+            .catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok');}); 
+        }
+    });
 }
 
 

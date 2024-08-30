@@ -139,16 +139,28 @@ function visualizeMaterials(){
 
 //FUNCTION TO DELETE ONE USER
 function deleteMaterial(id){
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER PERMANENTLY?")) return;          
-    axios.delete(`/querymat/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeMaterials();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
         
-    });       
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS MATERIAL PERMANENTLY?', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/querymat/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeMaterials();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+                    
+                });  
+             }
+            });
+    
+
+
+
+
+     
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
@@ -160,35 +172,46 @@ function saveMaterialsModifications(){
        
         return;
     }
-    if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-    let processed_items=0;
     
-    modified_items.forEach(function(button){
-        processed_items++;
-        const parentRow = button.closest('.row');
-        if (parentRow) {
-            const id = parentRow.querySelector('.boxid').innerHTML;
-            const brandname = parentRow.querySelector('.boxarticle').innerHTML;
-            const plasticizer= parentRow.querySelector('.boxplasticizer').innerHTML;            
-            const family = parentRow.querySelector('.boxfamily').value;
-            const supplier= parentRow.querySelector('.boxsupplier').innerHTML;
-            const notes = parentRow.querySelector('.boxnotes').innerHTML;
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                let processed_items=0;
+    
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        const id = parentRow.querySelector('.boxid').innerHTML;
+                        const brandname = parentRow.querySelector('.boxarticle').innerHTML;
+                        const plasticizer= parentRow.querySelector('.boxplasticizer').innerHTML;            
+                        const family = parentRow.querySelector('.boxfamily').value;
+                        const supplier= parentRow.querySelector('.boxsupplier').innerHTML;
+                        const notes = parentRow.querySelector('.boxnotes').innerHTML;
+                        
             
+                        
+                        const mat_correct = { 
+                                                plasticizer: plasticizer,
+                                                brandname: brandname,
+                                                family: family  ,
+                                                supplier: supplier,
+                                                notes: notes
+                                            };
+                        
+                        axios.put(`/querymat/updatematerial/${id}`, mat_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{visualizeMaterials()},250);         
+                        
+                    }
+                });
+             }
+            });
 
-            
-            const mat_correct = { 
-                                    plasticizer: plasticizer,
-                                    brandname: brandname,
-                                    family: family  ,
-                                    supplier: supplier,
-                                    notes: notes
-                                };
-            
-            axios.put(`/querymat/updatematerial/${id}`, mat_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{visualizeMaterials()},250);         
-            
-        }
-    });
+
+
+
+
     
 }
 

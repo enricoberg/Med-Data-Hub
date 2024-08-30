@@ -71,17 +71,24 @@ function visualizeBoms(){
 
 //FUNCTION TO DELETE ONE USER
 function deleteBom(comp_id,prod_id, assembly,id){
-    if(!window.confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER PERMANENTLY?")) return;     
+    createCustomAlert('Attention','Are you sure you want to delete this record permanently?', 'yesno')
+    .then((result) => { 
+            if(!result) return;
+            else{
+                axios.get(`/queryboms/deletebom?compid=${comp_id}&prodid=${prod_id}&assembly=${assembly}&id=${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    visualizeBoms();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+                    
+                }); 
+            }
+        });
+    
      
-    axios.get(`/queryboms/deletebom?compid=${comp_id}&prodid=${prod_id}&assembly=${assembly}&id=${id}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        visualizeBoms();
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);
-        createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
-        
-    });       
+          
 }
 
 //FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
@@ -93,34 +100,46 @@ function saveBomsModifications(){
         createCustomAlert('Error','The table is already up to date', 'ok');
         return;
     }
-    if(!window.confirm("ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?")) return;  
-    let processed_items=0;
-    const id= JSON.parse(localStorage.getItem("bom_to_edit"));
-    modified_items.forEach(function(button){
-        processed_items++;
-        const parentRow = button.closest('.row');
-        if (parentRow) {
-            
-            const article = parentRow.querySelector('.boxarticle').innerHTML;
-            const description = parentRow.querySelector('.boxdescription').innerHTML;
-            const assembly = parentRow.querySelector('.boxassembly').checked;
-            let qty=parentRow.querySelector('.boxqty').innerHTML;
-            const um = parentRow.querySelector('.boxum').innerHTML;
-            qty=qty.replace(/,/g, '.');   
-            
-            const bom_correct = { 
-                                    article: article,
-                                    description: description,
-                                    assembly: assembly,
-                                    qty: qty,
-                                    um: um
-                                };
-            
-            axios.put(`/queryboms/update/${id}`, bom_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-            if (processed_items==modified_items.length)  setTimeout(()=>{window.location.reload()},350);         
-            
-        }
-    });
+     
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => { 
+            if(!result) return;
+            else{
+                let processed_items=0;
+                const id= JSON.parse(localStorage.getItem("bom_to_edit"));
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        
+                        const article = parentRow.querySelector('.boxarticle').innerHTML;
+                        const description = parentRow.querySelector('.boxdescription').innerHTML;
+                        const assembly = parentRow.querySelector('.boxassembly').checked;
+                        let qty=parentRow.querySelector('.boxqty').innerHTML;
+                        const um = parentRow.querySelector('.boxum').innerHTML;
+                        qty=qty.replace(/,/g, '.');   
+                        
+                        const bom_correct = { 
+                                                article: article,
+                                                description: description,
+                                                assembly: assembly,
+                                                qty: qty,
+                                                um: um
+                                            };
+                        
+                        axios.put(`/queryboms/update/${id}`, bom_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{window.location.reload()},350);         
+                        
+                    }
+                });
+            }  
+        });
+
+
+
+
+
+
     
 }
 
@@ -162,72 +181,85 @@ function SaveBomItem(element){
         alert("Invalid quantity");
         return;
     }
-if(!window.confirm("Are you sure you want to add this item to the bom?")) return;
+
+createCustomAlert('Attention','Are you sure you want to add this item to the bom?', 'yesno')
+.then((result) => { 
+        if(!result) return;
+        else{
+            if(!assembly){
+                axios.get(`/querycomp/byname?id=${code}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    
+                    if(response.data.length==0) {            
+                        alert("Warning: the component does not exist and must be created first");
+                        return;
+                    }
+                    const compid=response.data.id;
+                    const bom_data=[{
+                        compid: compid,
+                        prodid: productid,
+                        assembly: assembly,
+                        qty: qty,
+                        um: um
+                    }]
+            
+                    axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
+                    .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
+                    .catch((error) => {alert("Something went wrong trying to add item"); }); 
+            
+            
+            
+            
+            
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);        
+                }); 
+            }
+            else{
+                axios.get(`/queryprod/byid?article=${code}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    
+                    if(response.data==null) {
+                        alert("Warning: the component does not exist and must be created first");
+                        return;
+                    }
+                    const compid=response.data;
+                    const bom_data=[{
+                        compid: compid,
+                        prodid: productid,
+                        assembly: assembly,
+                        qty: qty,
+                        um: um
+                    }]
+                    
+                    axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
+                    .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
+                    .catch((error) => {alert("Something went wrong trying to add item"); }); 
+            
+            
+            
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);        
+                }); 
+            
+            }
+        } 
+    });
 
 
-if(!assembly){
-    axios.get(`/querycomp/byname?id=${code}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        
-        if(response.data.length==0) {            
-            alert("Warning: the component does not exist and must be created first");
-            return;
-        }
-        const compid=response.data.id;
-        const bom_data=[{
-            compid: compid,
-            prodid: productid,
-            assembly: assembly,
-            qty: qty,
-            um: um
-        }]
-
-        axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
-        .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
-        .catch((error) => {alert("Something went wrong trying to add item"); }); 
-
-
-
-
-
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);        
-    }); 
-}
-else{
-    axios.get(`/queryprod/byid?article=${code}`,{ headers: { 'Authorization': authenticationheader()}})
-    .then((response) => {
-        
-        if(response.data==null) {
-            alert("Warning: the component does not exist and must be created first");
-            return;
-        }
-        const compid=response.data;
-        const bom_data=[{
-            compid: compid,
-            prodid: productid,
-            assembly: assembly,
-            qty: qty,
-            um: um
-        }]
-        
-        axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
-        .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
-        .catch((error) => {alert("Something went wrong trying to add item"); }); 
-
-
-
-    })
-    .catch((error) => {
-        console.error("Error deleting user:", error);        
-    }); 
-
-}
 }
 
 function dumpBoms(){
-    if(!window.confirm("This procedure allows you to dump content copied to the clipboard inside the BOM. Have you copied the right table and do you wish to proceed?")) return;
+    createCustomAlert('Attention','This procedure allows you to dump content copied to the clipboard inside the BOM. Have you copied the right table and do you wish to proceed?', 'yesno')
+    .then((result) => { 
+            if(!result) return;
+            else{
+                
+            }
+        });
+    
 }
 
 visualizeBoms();
