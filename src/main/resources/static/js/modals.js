@@ -41,11 +41,21 @@ function createCustomAlert(title,message, type, callback_function) {
                                 
                             </div>
                         </div>`;
+                        document.addEventListener("keypress",function(event) {
+                            if(event.keyCode === 13) {
+                                modal.style.display = 'none'; 
+                                if(callback_function) callback_function();
+                            }
+                           });                        
         document.querySelector('.ok-button').addEventListener('click', () => {modal.style.display = 'none'; 
             if(callback_function) callback_function();
         });
         
     }
+    // const modalElements2 = document.querySelectorAll('.modalbackground');
+    // modalElements2.forEach(modal => {
+    // modal.remove();
+    // });
   }
   
   // Example usage:
