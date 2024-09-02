@@ -63,7 +63,8 @@ public class ProductController {
             @RequestParam(required = false) String budi,
             @RequestParam(required = false) String sterimethod,
             @RequestParam(required = false) String sterisite,
-            @RequestParam(required = false) String shelflife
+            @RequestParam(required = false) String shelflife,
+            @RequestParam(required = false) Integer supplierid
 
 
     ) {
@@ -107,6 +108,7 @@ public class ProductController {
                 toRemove.add(p);
             else if (sterisite != null && !sterisite.equals("all") && !p.getSterilizationsite().name().toUpperCase().contains(sterisite.toUpperCase()))
                 toRemove.add(p);
+            else if(supplierid != null) if(p.getSupplierid() != supplierid) toRemove.add(p);
 
 
         }

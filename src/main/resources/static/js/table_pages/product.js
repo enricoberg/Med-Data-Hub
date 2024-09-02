@@ -87,7 +87,7 @@ async function renderproducts(){
                                     <option value="all" selected >See All</option>
 
                                   </select>
-
+                                  
 
             </div>
             <div class=" pl-2">
@@ -116,11 +116,34 @@ async function renderproducts(){
                                     
                                     <option value="all" selected>See All</option>
                                    </select>
+                                   <span class="ml-3">Manufacturer: </span>
+                                  <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="supplierinput" id="supplierinput">
+                                    
+                                    <option value="all" selected >See All</option>
+
+                                  </select>
             </div>
 
             <div class="resultbanner">~  Found 0 results  ~</div>
          </form>`;
-
+         sup_options=document.querySelector("#supplierinput");
+         fetch('/aux/getsuppliers',{
+             method: 'GET',            
+             headers: {'Authorization': authenticationheader() }})
+         .then(response => {            
+             if (!response.ok) {
+                 throw new Error('Network response was not ok: ' + response.statusText);
+             }            
+             return response.json();
+         })
+         .then(data => {            
+             data.forEach(element => {                
+                 sup_options.innerHTML+=`<option value="${element.id}" >${element.supplier_name}</option>`;                   
+             });
+         })
+         .catch(error => {            
+             console.error('Error during fetch:', error);
+         });
     updateProductsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
@@ -192,13 +215,14 @@ async function updateProductsTable(totalcolumns){
     let sterimethod=document.getElementsByName("sterimethodinput")[0].value;
     let sterisite=document.getElementsByName("sterisiteinput")[0].value;
     let shelflife= document.getElementsByName("shelflifeinput")[0].value;
+    let supplierid=document.getElementsByName("supplierinput")[0].value;
 
 
     //SEND REQUEST TO THE REST API
 
     let url = '/queryprod/';
     url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&sapstatus=${sapstatus}&semifinished=${semifinished}&dhf=${dhf}&rmf=${rmf}&budi=${budi}&sterimethod=${sterimethod}&sterisite=${sterisite}&shelflife=${shelflife}`;
-
+    if(supplierid!="all") url+=`&supplierid=${supplierid}`
     const requestOptions = {
       method: 'GET',
       headers: {
