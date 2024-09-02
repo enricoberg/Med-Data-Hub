@@ -17,6 +17,7 @@ public class ProdUpdate {
     private String sterisite;
     private String stericycle;
     private String shelflife;
+    private String supplierid;
 
 
     

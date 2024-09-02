@@ -44,7 +44,10 @@ function visualizeProducts(){
     </div> 
     <div class="col cw150 text-center etheader border ">
         <h3>Shelf life</h3>
-    </div>   
+    </div> 
+    <div class="col cw150 text-center etheader border ">
+        <h3>Supplier</h3>
+    </div>     
     <div class="col cw150 text-center etheader border  ">
         <h3>Action</h3>
     </div>  
@@ -70,6 +73,7 @@ function visualizeProducts(){
             const rmf=  obj.rmf==null ? "NULL" : obj.rmf;
             const budi=  obj.budi==null ? "NULL" : obj.budi;
             const shelflife=  obj.shelflife==null ? "NULL" : obj.shelflife;
+            const supplierplaceholder= obj.supplierid==null? "NULL" : obj.supplierid;
             target_table.innerHTML+=`
             <div class="row" style="position: relative;">                    
                 <div class="col cw100 text-center etitem border etinactive editable boxid">${obj.id}</div> 
@@ -85,6 +89,7 @@ function visualizeProducts(){
                 <div class="col cw150  text-center etitem border etinactive editable editselect"><select class="form-select  boxstericycle" aria-label="Default select example"><option selected>${stericycleplaceholder}</option></select></div>
                 <div class="col cw150 text-center etitem border etinactive editable editselect"><select class="form-select  boxsterisite" aria-label="Default select example"><option selected>${sterisiteplaceholder}</option></select></div> 
                 <div class="col cw150 text-center etitem border etinactive editable boxshelflife">${shelflife}</div>   
+                <div class="col cw150 text-center etitem border etinactive editable editselect"><select class="form-select  boxsupplier" aria-label="Default select example"><option value="${supplierplaceholder}" selected></option></select></div>   
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive ">
                     <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteProduct(${obj.id})" aria-hidden="true"></i> Delete
                     
@@ -117,6 +122,36 @@ function visualizeProducts(){
             `;
             select.value=current_value;
         });
+        // INSERT SUPPLIER SELECT OPTIONS HERE
+        fetch('/aux/getsuppliers',{
+            method: 'GET',            
+            headers: {'Authorization': authenticationheader() }})
+        .then(response => {            
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }            
+            return response.json();
+        })
+        .then(data => {    
+            sup_options="";        
+            data.forEach(element => {                
+                sup_options+=`<option value="${element.id}" >${element.supplier_name}</option>`;                   
+            });
+            document.querySelectorAll(".boxsupplier").forEach(select=>{
+                let current_value=select.value;
+                if (current_value==undefined) current_value="NULL"
+                select.innerHTML=sup_options;
+                select.innerHTML+=`<option value="NULL">NULL</option>`;
+                select.value=current_value;
+                
+            });
+
+
+        })
+        .catch(error => {            
+            console.error('Error during fetch:', error);
+        });
+        
         document.querySelectorAll(".boxsap").forEach(select=>{
             let current_value=select.value;
             select.innerHTML=`            
@@ -216,6 +251,7 @@ function saveProductsModifications(){
                         const shelflife = parentRow.querySelector('.boxshelflife').innerHTML;
                         const stericycle = parentRow.querySelector(".boxstericycle").value;
                         const sterisite = parentRow.querySelector(".boxsterisite").value;
+                        const supplierid = parentRow.querySelector(".boxsupplier").value;
                           
             
                         const prod_correct = { 
@@ -230,7 +266,8 @@ function saveProductsModifications(){
                                                 budi: budi,
                                                 sterisite: sterisite,
                                                 stericycle: stericycle,
-                                                shelflife: shelflife
+                                                shelflife: shelflife,
+                                                supplierid: supplierid
                                             };
                         
                         axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}}) ;

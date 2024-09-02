@@ -265,6 +265,12 @@ public class ProductController {
             Product.SterilizationSite sterisite = SterilizationSite.valueOf(updateProductRequest.getSterisite());
             product.setSterilizationsite(sterisite);
         }
+        if(updateProductRequest.getSupplierid().equals("NULL") || updateProductRequest.getSupplierid().equals("") || updateProductRequest.getSupplierid().equals(" ")) product.setSupplierid(null);
+        else {
+            Integer converted_supplierid=Integer.valueOf(updateProductRequest.getSupplierid());
+            product.setSupplierid(converted_supplierid);
+        }
+        
         Product.SterilizationCycle stericycle = SterilizationCycle.valueOf(updateProductRequest.getStericycle());
         product.setSterilizationcycle(stericycle);
         productRepository.save(product);
