@@ -17,7 +17,7 @@ public class Bom {
     }
 
     public enum UnitMeasure{
-        CM,KG,M,M2,PAC,PZ
+        CM,KG,M,M2,PAC,PZ,L
     }
 
     @Id

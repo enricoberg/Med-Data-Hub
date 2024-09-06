@@ -57,12 +57,11 @@ async function renderproducts(){
                                     <option value="AA" >ACUTE & APHERESIS</option>
                                     <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
                                     <option value="OEM" >OEM</option>
-                                    <option value="IU" >IRRIGATION / UROLOGY</option>
-                                    <option value="ACCD" >ACID CONCENTRATE FOR CHRONIC DIALYSIS</option>
-                                    <option value="HW" >HARDWARE</option>
-                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>
-                                    <option value="COMP" >COMPONENTS - VARIOUS</option>
-                                    <option value="PFG" >PURCHASED FINISHED GOODS</option>
+                                    <option value="IU" >IRRIGATION / UROLOGY</option>                                  
+                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>                                  
+                                    <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                    <option value="CONC" >CONCENTRATES</option>
+                                    <option value="ASS" >ASSEMBLIES</option>
                                     <option value="all" selected>See All</option>
                                   </select>
                                   <span class="ml-3">SAP STATUS: </span>
@@ -70,6 +69,7 @@ async function renderproducts(){
                                     <option value="M1V1" selected>M1V1 (planning stage)</option>
                                     <option value="M2V1" >M2V1 (active, planning stage)</option>
                                     <option value="M2V2" >M2V2 (active, free for sale)</option>
+                                    <option value="M2V4" >M2V4 (active, not saleable)</option>
                                     <option value="M3V3" >M3V3 (discontinued line)</option>
                                     <option value="M4V4" >M4V4 (end of life, not saleable)</option>
                                     <option value="all" selected >See All</option>
@@ -77,13 +77,12 @@ async function renderproducts(){
                                   </select>
                                   <span class="ml-3">Sterilization Method: </span>
                                 <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput">
-                                    <option value="S1XETO21" selected>1 x ETO 21</option>
-                                    <option value="S2XETO21" >2 x ETO 21</option>
-                                    <option value="S1XETO22" >1 x ETO 22</option>
-                                    <option value="S2XETO22" >2 x ETO 22</option>
+                                    <option value="ETO21" selected>ETO - cycle 21</option>                                    
+                                    <option value="ETO22" >ETO - cycle 22</option>                                    
                                     <option value="GAMMA" >Raggi Gamma</option>
                                     <option value="BETA" >Raggi Beta</option>
                                     <option value="BULK" >Bulk / Non sterile</option>
+                                    <option value="NA" >Not applicable</option>
                                     <option value="all" selected >See All</option>
 
                                   </select>
@@ -180,8 +179,8 @@ async function updateProductsTable(totalcolumns){
 
     //CREATE HEADERS
     document.querySelector(".grid-container").innerHTML+=
-        `<div class="grid-item tableheader">Article Number</div>
-        <div class="grid-item tableheader">Description</div>
+        `<div class="grid-item tableheader cw150">Article Number</div>
+        <div class="grid-item tableheader cw350">Description</div>
         <div class="grid-item tableheader">SAP Status</div>
         <div class="grid-item tableheader">Product Family</div>
         <div class="grid-item tableheader">Intercompany</div>
@@ -292,8 +291,8 @@ async function updateProductsTable(totalcolumns){
             document.querySelector(".grid-container").innerHTML+=
         `
 
-        <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
-        <div class="grid-item ">${obj.description}</div>
+        <div class="grid-item cw150"><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
+        <div class="grid-item cw350">${obj.description}</div>
         <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
         <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
         <div class="grid-item ">${check1}</div>

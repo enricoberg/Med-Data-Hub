@@ -10,15 +10,15 @@ public class Product {
 
 
     public enum SapStatus{
-        M1V1,M2V1,M2V2,M3V3,M4V4,NOIT21
+        M1V1,M2V1,M2V2,M2V4,M3V3,M4V4,NOIT21
     }
 
     public enum ProductFamily{
-        AV,BAGS,EC,AA,ENT,OEM,IU,ACCD,HW,CATH,COMP,PFG,CAL
+        AV,BAGS,EC,AA,ENT,OEM,IU,CATH,WM,CONCS,ASS
     }
 
     public enum SterilizationCycle{
-        S1XETO21, S2XETO21, S1XETO22, S2XETO22, GAMMA, BETA, BULK
+        ETO21,ETO22,GAMMA,BETA,BULK,NA
     }
 
     public enum SterilizationSite{

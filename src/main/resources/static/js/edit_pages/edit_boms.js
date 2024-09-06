@@ -174,7 +174,7 @@ function SaveBomItem(element){
     if(code=="" || qty=="" || um=="" ) {alert("Fill mandatory fields first");
         return;
     }
-    if(um!="CM" && um!="KG" && um!="C" && um!="M2" && um!="PAC" && um!="PZ")  {alert("Invalid unit of measure");
+    if(um!="CM" && um!="KG" && um!="C" && um!="M2" && um!="PAC" && um!="PZ" && um!="L")  {alert("Invalid unit of measure");
         return;
     }
     if(Number(qty) != qty ) {

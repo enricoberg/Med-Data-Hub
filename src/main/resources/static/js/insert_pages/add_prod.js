@@ -75,25 +75,23 @@ function rendernewproduct(){
                                                 <option value="AA" >ACUTE & APHERESIS</option>
                                                 <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
                                                 <option value="OEM" >OEM</option>
-                                                <option value="IU" >IRRIGATION / UROLOGY</option>
-                                                <option value="ACCD" >ACID CONCENTRATE FOR CHRONIC DIALYSIS</option>
-                                                <option value="HW" >HARDWARE</option>
-                                                <option value="CATH" >CATHETERS & ACCESSORIES</option>
-                                                <option value="COMP" >COMPONENTS - VARIOUS</option>
-                                                <option value="PFG" >PURCHASED FINISHED GOODS</option>                                                
+                                                <option value="IU" >IRRIGATION / UROLOGY</option>                                  
+                                                <option value="CATH" >CATHETERS & ACCESSORIES</option>                                  
+                                                <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                                <option value="CONC" >CONCENTRATES</option>
+                                                <option value="ASS" >ASSEMBLIES</option>                                                                                           
                                             </select>
                                           </div>
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Sterilization Method: </span>
                                               <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput" >
-                                                    <option value="S1XETO21" selected>1 x ETO 21</option>
-                                                    <option value="S2XETO21" >2 x ETO 21</option>
-                                                    <option value="S1XETO22" >1 x ETO 22</option>
-                                                    <option value="S2XETO22" >2 x ETO 22</option>
+                                                    <option value="ETO21" selected>ETO - cycle 21</option>                                    
+                                                    <option value="ETO22" >ETO - cycle 22</option>                                    
                                                     <option value="GAMMA" >Raggi Gamma</option>
                                                     <option value="BETA" >Raggi Beta</option>
-                                                    <option value="BULK" >Bulk / Non sterile</option>                                               
+                                                    <option value="BULK" >Bulk / Non sterile</option>
+                                                    <option value="NA" >Not applicable</option>                                             
                                             </select>
                                           </div>
 
@@ -114,6 +112,7 @@ function rendernewproduct(){
                                                     <option value="M1V1" >M1/V1</option>
                                                     <option value="M2V1" >M2/V1</option>
                                                     <option value="M2V2" selected>M2/V2</option>
+                                                    <option value="M2V4" >M2/V4</option>
                                                     <option value="M3V3" >M3/V3</option>
                                                     <option value="M4V4" >M4/V4</option>                                              
                                             </select>

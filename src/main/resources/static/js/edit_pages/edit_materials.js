@@ -71,17 +71,17 @@ function visualizeMaterials(){
         document.querySelectorAll(".boxfamily").forEach(select=>{
             let current_value=select.value;
             select.innerHTML=`
-            <option value="ABS">ABS</option>
+                        
+                        <option value="ABS">ABS</option>
                         <option value="ADDITIVE">Additives</option>
                         <option value="ADHESIVEPAPER">Adhesive Paper</option>
                         <option value="ADHESIVETAPE">Adhesive Tape</option>
-                        <option value="ADHESIVE">Ashesives</option>
+                        <option value="ADHESIVE">Adhesives</option>
                         <option value="ALUMINUM">Aluminium</option>
                         <option value="BRASS">Brass</option>
                         <option value="CARTONBOX">Cartonbox</option>
                         <option value="CIIR">CIIR (Chlorobutyl)</option>
-                        <option value="COLORANT">Colorants</option>
-                        <option value="CONCENTRATES">Concentrates</option>
+                        <option value="COLORANT">Colorants</option>                        
                         <option value="COP">COP</option>
                         <option value="EVA">EVA</option>
                         <option value="HDPE">HDPE</option>
@@ -124,6 +124,7 @@ function visualizeMaterials(){
                         <option value="SI">Silicone</option>
                         <option value="SOLVENT">Solvents</option>
                         <option value="SST">SST</option>
+                        <option value="SUBSTANCES">Substances</option>
                         <option value="SULFATE">Sulfates</option>
                         <option value="TPE">TPE</option>
                         <option value="TPU">TPU</option>

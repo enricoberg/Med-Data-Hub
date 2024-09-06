@@ -49,8 +49,7 @@ function rendernewmaterials(){
                                                     <option value="BRASS">Brass</option>
                                                     <option value="CARTONBOX">Cartonbox</option>
                                                     <option value="CIIR">CIIR (Chlorobutyl)</option>
-                                                    <option value="COLORANT">Colorants</option>
-                                                    <option value="CONCENTRATES">Concentrates</option>
+                                                    <option value="COLORANT">Colorants</option>                        
                                                     <option value="COP">COP</option>
                                                     <option value="EVA">EVA</option>
                                                     <option value="HDPE">HDPE</option>
@@ -93,6 +92,7 @@ function rendernewmaterials(){
                                                     <option value="SI">Silicone</option>
                                                     <option value="SOLVENT">Solvents</option>
                                                     <option value="SST">SST</option>
+                                                    <option value="SUBSTANCES">Substances</option>
                                                     <option value="SULFATE">Sulfates</option>
                                                     <option value="TPE">TPE</option>
                                                     <option value="TPU">TPU</option>

@@ -82,11 +82,14 @@ async function updateDocumentsTable(totalcolumns){
 
     //CREATE HEADERS
     document.querySelector(".grid-container").innerHTML+=
-        `<div class="grid-item tableheader">Article Number</div>
-        <div class="grid-item tableheader">Type of document</div>
-        <div class="grid-item tableheader">Revision</div>
-        <div class="grid-item tableheader">PPC</div>
-        <div class="grid-item tableheader">Description</div>
+        `
+        <div class="grid-item cw250 tableheader">Article Number</div>
+        <div class="grid-item  tableheader ">Type of document</div>
+        <div class="grid-item cw250 tableheader">Revision</div>
+        <div class="grid-item cw500 tableheader">PPC</div>
+        <div class="grid-item cw500 tableheader">Description</div>
+        
+        
         `;
 
     //DO NOT SEND REQUEST IF NOT NECESSARY    
@@ -202,11 +205,15 @@ async function updateDocumentsTable(totalcolumns){
             if(obj.active) classcolor="text-primary";    
             document.querySelector(".grid-container").innerHTML+=
         `
-        <div class="grid-item "><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
+        <div class="grid-item cw250"><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
         <div class="grid-item ">${docutype}</div>
-        <div class="grid-item ${classcolor}">${obj.revision}</div>
-        <div class="grid-item ">${ppcnumber}</div>
-        <div class="grid-item ">${obj.description}</div>
+        
+        
+        <div class="grid-item cw250 ${classcolor}">${obj.revision}</div>
+        <div class="grid-item cw500">${ppcnumber}</div>
+        <div class="grid-item cw500">${obj.description}</div>
+        
+        
         `;
 
         }

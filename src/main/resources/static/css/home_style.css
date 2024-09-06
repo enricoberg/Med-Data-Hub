@@ -3,6 +3,7 @@
 body{
     background-image: url("background.webp");
     background-size: cover;
+    min-height: 100vh;
 }
 
 .dash{

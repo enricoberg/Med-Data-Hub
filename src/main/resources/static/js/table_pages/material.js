@@ -60,8 +60,7 @@ async function rendermaterials(){
                         <option value="BRASS">Brass</option>
                         <option value="CARTONBOX">Cartonbox</option>
                         <option value="CIIR">CIIR (Chlorobutyl)</option>
-                        <option value="COLORANT">Colorants</option>
-                        <option value="CONCENTRATES">Concentrates</option>
+                        <option value="COLORANT">Colorants</option>                        
                         <option value="COP">COP</option>
                         <option value="EVA">EVA</option>
                         <option value="HDPE">HDPE</option>
@@ -104,11 +103,13 @@ async function rendermaterials(){
                         <option value="SI">Silicone</option>
                         <option value="SOLVENT">Solvents</option>
                         <option value="SST">SST</option>
+                        <option value="SUBSTANCES">Substances</option>
                         <option value="SULFATE">Sulfates</option>
                         <option value="TPE">TPE</option>
                         <option value="TPU">TPU</option>
                         <option value="TUNGSTEN>Tungsten</option>
                         <option value="NA">N/A - Not applicable</option>
+                        
                         <option value="all" selected>Select All</option>
                         
                     </select>

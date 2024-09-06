@@ -108,17 +108,17 @@ function visualizeProducts(){
             let current_value=select.value;
             select.innerHTML=`
             <option value="AV" selected>A/V SYSTEMS</option>
+                                    <option value="AV" selected>A/V SYSTEMS</option>
                                     <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
                                     <option value="EC" >EMPTY CONTAINERS</option>
                                     <option value="AA" >ACUTE & APHERESIS</option>
                                     <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
                                     <option value="OEM" >OEM</option>
-                                    <option value="IU" >IRRIGATION / UROLOGY</option>
-                                    <option value="ACCD" >ACID CONCENTRATE FOR CHRONIC DIALYSIS</option>
-                                    <option value="HW" >HARDWARE</option>
-                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>
-                                    <option value="COMP" >COMPONENTS - VARIOUS</option>
-                                    <option value="PFG" >PURCHASED FINISHED GOODS</option>                                    
+                                    <option value="IU" >IRRIGATION / UROLOGY</option>                                  
+                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>                                  
+                                    <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                    <option value="CONC" >CONCENTRATES</option>
+                                    <option value="ASS" >ASSEMBLIES</option>                                                                     
             `;
             select.value=current_value;
         });
@@ -158,6 +158,7 @@ function visualizeProducts(){
             <option value="M1V1" >M1/V1</option>
             <option value="M2V1" >M2/V1</option>
             <option value="M2V2" >M2/V2</option>
+            <option value="M2V4" >M2/V4</option>
             <option value="M3V3" >M3/V3</option>
             <option value="M4V4" >M4/V4</option>                                   
             `;
@@ -181,13 +182,12 @@ function visualizeProducts(){
         document.querySelectorAll(".boxstericycle").forEach(select=>{
             let current_value=select.value;
             select.innerHTML=`
-            <option value="S1XETO21" selected>1 x ETO 21</option>
-            <option value="S2XETO21" >2 x ETO 21</option>
-            <option value="S1XETO22" >1 x ETO 22</option>
-            <option value="S2XETO22" >2 x ETO 22</option>
+            <option value="ETO21" selected>ETO - cycle 21</option>                                    
+            <option value="ETO22" >ETO - cycle 22</option>                                    
             <option value="GAMMA" >Raggi Gamma</option>
             <option value="BETA" >Raggi Beta</option>
             <option value="BULK" >Bulk / Non sterile</option>
+            <option value="NA" >Not applicable</option>
             `;
             select.value=current_value;
         });
