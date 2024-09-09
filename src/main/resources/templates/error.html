@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDH | Work in progress</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+        margin: 0;
+        font-family: "Roboto", system-ui;
+    }
+    .container{
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+    }
+    .containerleft{
+        width: 50%;
+        margin: 30px;
+        padding: 30px;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .containerright{
+        margin: 30px;
+        padding: 30px;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .containerright p{
+        font-size: larger;
+        margin-bottom: 40px;
+        color: #696969;
+    }
+    .rainbowtext{
+        background: linear-gradient(270deg, rgba(43,43,193,1) 0%, rgba(0,212,255,1) 44%, #fe7aff 100%);      
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .containerright h1{
+        font-size: 50px;      
+    }
+    .containerright a{
+        text-decoration: none;
+        font-size: 20px;   
+        background: linear-gradient(270deg, rgba(43,43,193,1) 0%, rgba(0,212,255,1) 44%, #fe7aff 100%);  
+        color: white;  
+        padding: 11px 35px 11px 35px;
+        border-radius: 21px;
+        cursor: pointer;
+    }
+    .containerright a:hover{          
+        background: white;
+        padding: 10px 34px 10px 34px;
+        color: #fe7aff;  
+        border: 1px solid #fe7aff ;
+        
+        
+    }
+    .header{
+        width: 100%;
+        height: 100px;
+        background: rgb(43,43,193);
+        background: linear-gradient(270deg, rgba(43,43,193,1) 0%, rgba(0,212,255,1) 44%, #fe7aff 100%);
+        position: absolute;
+        top: 0;  
+    }
+    .footer{
+        width: 100%;
+        height: 100px;
+        background: rgb(43,43,193);
+        background: linear-gradient(270deg, #fe7aff 0%, rgba(0,212,255,1) 44%, rgba(43,43,193,1) 100%);
+        position: absolute;
+        bottom: 0;
+    }
+</style>
+<style>
+      .spinningborder{
+    position: relative;
+    border-radius: 50px;
+    height: 350px;
+    width: 350px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+
+  .spinningborder img, .spinningborder a{
+    z-index: 1000;
+  }
+
+  .spinningborder::before{
+    content: "";
+    position: absolute;
+      width: 350px;
+    height: 350px;
+    background: conic-gradient(
+    #ffc107,
+    #ffc107
+    );
+    animation: spin 1.5s infinite linear;
+  }
+  @keyframes spin{
+    100%{
+      transform: rotate(-360deg);
+    }
+  }
+
+  
+  .spinningborder::before{
+     content: "";
+    position: absolute;
+      width: 350px;
+    height: 350px;
+    background: conic-gradient(
+        #ffc107,
+      transparent, transparent);
+      animation: spin 1.5s infinite linear;
+  }
+  .spinningborder::after{
+    content: " ";    
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #2b2bc1, #4481eb, #04befe, #3f86ed);
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+      border-radius: 50px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+      width: 340px;
+    height: 340px;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .logobuffering{
+
+width: 125px;
+height: 125px;
+background-image: url("https://i.postimg.cc/4yzVDXtY/logo.png");
+background-size: contain;
+
+
+animation: rotate 2s cubic-bezier(0.25, 0.1, 0.25, 0.6) infinite;
+}
+</style>
+<body>
+    <div class="header"></div>
+    <div class="container">
+        <div class="containerleft">
+            <img src="https://i.postimg.cc/RV9sG6Jd/robomodal.webp" alt="">
+        </div>
+        <div class="containerright">
+            <h1 class="rainbowtext" th:text="${title}"></h1>
+            <p th:text="${paragraph}"> </p>
+            <a href="/app/home" >Return home</a>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+
+</div>
+</body>
+</html>

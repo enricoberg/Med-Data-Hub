@@ -63,7 +63,9 @@ public class SecurityConfiguration {
                 "/js/table_pages/**",
                 "/js/insert_pages/**",
                 "/js/edit_pages/**",
-                "/js/custom_queries/**"
+                "/js/custom_queries/**",
+                "/error/**",
+                "/error",
         };
 
         //SET URLS TO BE ACCESSIBLE ONLY AFTER AUTHENTICATION BY SPECIFIC ROLES

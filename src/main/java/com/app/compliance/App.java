@@ -5,12 +5,18 @@ import com.app.compliance.entities.User;
 import com.app.compliance.model.Document;
 import com.app.compliance.model.Material;
 import com.app.compliance.repository.UserRepository;
+
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
+import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 
 @SpringBootApplication
@@ -39,5 +45,8 @@ public class App implements CommandLineRunner {
 
 
         System.out.println("SERVER RUNNING.....");
+ 
     }
+
+ 
 }
