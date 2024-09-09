@@ -97,7 +97,7 @@ function rendernewmaterials(){
                                                     <option value="TPE">TPE</option>
                                                     <option value="TPU">TPU</option>
                                                     <option value="TUNGSTEN>Tungsten</option>
-                                                    <option value="NA">N/A - Not applicable</option>
+                                                    <option value="UNKNOWN">N/A - Not applicable</option>
                                                   
                                                 </select>
                                           </div>

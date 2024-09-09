@@ -91,7 +91,7 @@ function rendernewproduct(){
                                                     <option value="GAMMA" >Raggi Gamma</option>
                                                     <option value="BETA" >Raggi Beta</option>
                                                     <option value="BULK" >Bulk / Non sterile</option>
-                                                    <option value="NA" >Not applicable</option>                                             
+                                                    <option value="UNKNOWN" >Not applicable</option>                                             
                                             </select>
                                           </div>
 
