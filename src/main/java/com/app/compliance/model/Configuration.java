@@ -18,7 +18,7 @@ public class Configuration {
     private Integer id;
 
 
-    @Column(name = "sup_comp_nr", nullable = false, unique = true)
+    @Column(name = "sup_comp_nr", nullable = false, unique = false)
     private String suppliercompnumber;
 
 //    @ManyToMany(fetch = FetchType.EAGER)

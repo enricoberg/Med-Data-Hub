@@ -2,6 +2,8 @@ package com.app.compliance.repository;
 
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Configuration;
+import com.app.compliance.model.Supplier;
+
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,7 +19,7 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
     List<Configuration> findAll();
 
     Optional<Configuration> findBySuppliercompnumber(String code);
-
+    Optional<Configuration> findBySuppliercompnumberAndSupplier(String code, Supplier supplier);
     List<Configuration> findByCompid(Integer comp_id);
 
 

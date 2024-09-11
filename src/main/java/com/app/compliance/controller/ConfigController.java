@@ -75,20 +75,23 @@ public class ConfigController {
         try {
             for (ConfRequest obj : bomObjects) {
                 //SEE IF THERE IS ALREADY A CONFIGURATION WITH SAID SUPPLIER'S COMPONENT NUMBER AND ACT ACCORDINGLY
-                Optional<Configuration> opt_config = configRepository.findBySuppliercompnumber(obj.getSupcompcode());
+                
+                Supplier supplier = supplierRepository.findById(obj.getSupid()).get();               
+                
+                Optional<Configuration> opt_config = configRepository.findBySuppliercompnumberAndSupplier(obj.getSupcompcode(),supplier);
+                
                 //CASE 1: THERE IS NO MATCHING SUPPLIER'S CODE
-                if (!opt_config.isPresent()) {
-
-                    Configuration newconfig = new Configuration();
-                    newconfig.setCompid(obj.getCompid());
-                    newconfig.setSupplier(supplierRepository.findById(obj.getSupid()).get());
-                    newconfig.setSuppliercompnumber(obj.getSupcompcode());
-                    configRepository.save(newconfig);
+                if (!opt_config.isPresent()) {                    
+                    Configuration newconfig = new Configuration();                    
+                    newconfig.setCompid(obj.getCompid());                    
+                    newconfig.setSupplier(supplierRepository.findById(obj.getSupid()).get());                    
+                    newconfig.setSuppliercompnumber(obj.getSupcompcode());                    
+                    configRepository.save(newconfig);                    
                     configRepository.insertMaterialConfiguration(newconfig.getId(), obj.getMatid());
                 }
                 //CASE 2: THE CODE ALREADY EXISTS
-                else {
-                    Configuration existingconfig = configRepository.findBySuppliercompnumber(obj.getSupcompcode()).get();
+                else {                                      
+                    Configuration existingconfig = configRepository.findBySuppliercompnumberAndSupplier(obj.getSupcompcode(),supplier).get();                    
                     configRepository.insertMaterialConfiguration(existingconfig.getId(), obj.getMatid());
                 }
                 logService.writeToLog("Added new configuration for component ID "+obj.getCompid()+", Supplier ID: "+obj.getSupid()+", Supplier component number: "+obj.getSupcompcode()+", Material ID: "+obj.getMatid()+"",token);
