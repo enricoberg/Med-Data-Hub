@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                 "/js/custom_queries/**",
                 "/error/**",
                 "/error",
+                "/actuator/shutdown",
         };
 
         //SET URLS TO BE ACCESSIBLE ONLY AFTER AUTHENTICATION BY SPECIFIC ROLES
