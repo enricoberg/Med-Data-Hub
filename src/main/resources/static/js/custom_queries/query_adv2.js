@@ -90,7 +90,7 @@ async function renderqueryadv2(){
                 bufferTimeoutStop();
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
-                createCustomAlert('Download Output','Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser', 'yesno').then((result) => {     if(result) downloadExtraction2(data);  });
+                createCustomAlert('Download Output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     if(result) downloadExtraction2(data);  });
                 
             } )
             .catch(error => { 

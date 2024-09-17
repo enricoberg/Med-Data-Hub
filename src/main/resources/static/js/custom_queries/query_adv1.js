@@ -92,7 +92,7 @@ async function renderqueryadv1(){
                 bufferTimeoutStop();
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
-                createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser', 'yesno').then((result) => {     
+                createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     
                     if(result) {
                         
                         downloadExtraction1(data);
