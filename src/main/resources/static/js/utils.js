@@ -406,7 +406,7 @@ function searchForSimpleUser(searchstring){
 }
 
 function startBuffering(){
-
+  
   if (!document.querySelector('.blurredcontainer')) {    
     const bufferingElement = document.createElement('div');    
     bufferingElement.className = 'blurredcontainer';
@@ -455,4 +455,19 @@ function quickSpeckDownload(article){
     newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
   })
   .catch(error =>{console.log("document does not exist")} );
+}
+
+function bufferTimeoutStart(){
+  localStorage.setItem("timeoutmin","false"); 
+  localStorage.setItem("timeoutquery","false"); 
+  startBuffering();
+  
+  setTimeout(()=>{
+      localStorage.setItem("timeoutmin","true");
+      if(localStorage.getItem("timeoutquery")=="true" && localStorage.getItem("timeoutmin")=="true") stopBuffering();
+  }, 1000);
+}
+function bufferTimeoutStop(){
+  localStorage.setItem("timeoutquery", "true");
+      if(localStorage.getItem("timeoutquery")=="true" && localStorage.getItem("timeoutmin")=="true") stopBuffering();
 }

@@ -31,7 +31,7 @@ public class UsageController {
     }
 
     public List<ComponentExplosion> getUsageofComponent(String article) {
-
+        
         List<ComponentExplosion> results =  new ArrayList<>();
         boolean exit=false;
         boolean assembly=!isComponent(article);
@@ -45,9 +45,9 @@ public class UsageController {
         first_element.setAssembly(assembly);
         first_element.setControlled(false);
         results.add(first_element);
-
+        
         while(!exit){
-
+            
             for(ComponentExplosion c: results) {
                 if(c.isControlled()) continue;
                 codetosearch=c.getId();
@@ -55,7 +55,7 @@ public class UsageController {
                 level=c.getLevel()+1;
 
 
-                List<Bom> bomresults = bomRepository.findByCompid(codetosearch);
+                List<Bom> bomresults = bomRepository.findByCompidAndAssembly(codetosearch,assembly).get();
                 if (!bomresults.isEmpty()) {
                     for (Bom b : bomresults) {
                         Integer prodid= b.getProdid().getId();
@@ -80,6 +80,7 @@ public class UsageController {
                 }
             }
             exit=true;
+            System.out.println("\n"+results);
             for(ComponentExplosion c: results){
                 if(!c.isControlled()) {
                     exit=false;

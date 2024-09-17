@@ -1,5 +1,6 @@
 
 async function renderqueryadv1(){
+
     const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
         method: 'GET',
         headers: {'Authorization': authenticationheader() }})
@@ -17,6 +18,7 @@ async function renderqueryadv1(){
     clearbomtitles();
     clearTable(totalcolumns);
     //PREPARE THE DASHBOARD
+    
     for(dashboard of document.querySelectorAll(".dashboard")) {
         dashboard.remove();
     }
@@ -76,7 +78,7 @@ async function renderqueryadv1(){
                   return;
         }
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
-        
+        bufferTimeoutStart();
         
             fetch(`/queryboms/componentusage?article=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
@@ -87,13 +89,16 @@ async function renderqueryadv1(){
                 
                     
                     
-            
+                bufferTimeoutStop();
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
                 createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser', 'yesno').then((result) => {     
-                    if(result) downloadExtraction1(data);
+                    if(result) {
+                        
+                        downloadExtraction1(data);
+                    }
                   });
-            } )
+            } )            
             .catch(error => { 
                 if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
                 errormessage.innerHTML="Sorry could not find any result";

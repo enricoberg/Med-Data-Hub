@@ -85,8 +85,10 @@ public class MaterialController {
             else if (plasticizer != null && m.getPlasticizer() != null && !m.getPlasticizer().toUpperCase().contains(plasticizer.toUpperCase()))
                 toRemove.add(m);
             else if (plasticizer != null && !plasticizer.isEmpty() && m.getPlasticizer() == null) toRemove.add(m);
-            else if (supplier != null && !m.getSupplier().toUpperCase().contains(supplier.toUpperCase()))
-                toRemove.add(m);
+            else if (supplier != null && !supplier.isEmpty() && !supplier.equals("")){
+                if(!m.getSupplier().toUpperCase().contains(supplier.toUpperCase())) toRemove.add(m);
+            } 
+                
 
         }
 

@@ -1,5 +1,6 @@
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
-function visualizeBoms(){    
+function visualizeBoms(){  
+    bufferTimeoutStart();
     const product= JSON.parse(localStorage.getItem("bom_to_edit"));
     let url=`/queryboms/?article=${product}`;    
     axios.get(`/queryprod/byidint?article=${product}`,{ headers: { 'Authorization': authenticationheader()}})
@@ -39,7 +40,7 @@ function visualizeBoms(){
     axios.get(url,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {        
         for (const obj of response.data) {
-            console.log(obj)
+            
             const check_assembly= obj.assembly? "checked" : "";
             target_table.innerHTML+=`
             <div class="row" style="position: relative;">                    
@@ -65,7 +66,7 @@ function visualizeBoms(){
         allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
         
         
-      })
+      }).then(()=>bufferTimeoutStop());
  
 }
 

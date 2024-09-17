@@ -5,6 +5,9 @@
 .hidden{
     display: none;
 }
+.invisible{
+    display: none;
+}
 body{
     font-family: "Roboto", sans-serif;
     font-weight: 400;
@@ -262,4 +265,35 @@ i.actionbutton{ cursor: pointer;}
     padding-right: 30px;
     height: 50px;
     border-radius: 10px;
+}
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+.logobuffering{
+
+    width: 125px;
+    height: 125px;
+    background-image: url("logo.png");
+    background-size: contain;
+    position: fixed;
+    left: 47.5%;
+    top: 45%;
+    
+    animation: rotate 2s cubic-bezier(0.25, 0.1, 0.25, 0.6) infinite;
+}
+
+.blurredcontainer{
+    width: 50vw;
+    height: 50vh;
+    position: fixed;
+    bottom: 25vh;
+    left: 25vw;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 7%, rgba(255,255,255,0) 30%);
+    
 }
