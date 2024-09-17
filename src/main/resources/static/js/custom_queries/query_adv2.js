@@ -76,7 +76,7 @@ async function renderqueryadv2(){
                   return;
         }
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
-        
+        bufferTimeoutStart();
         
             fetch(`/queryboms/multilevelbom?article=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
@@ -87,7 +87,7 @@ async function renderqueryadv2(){
                 
                     
                     
-            
+                bufferTimeoutStop();
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
                 createCustomAlert('Download Output','Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser', 'yesno').then((result) => {     if(result) downloadExtraction2(data);  });

@@ -58,7 +58,7 @@ async function renderqueryadv3(materialid){
         }
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
         
-        
+            bufferTimeoutStart();
             fetch(`/querymat/inproduct?id=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
                 if (response.status === 403) throw new Error('Forbidden: Access denied');
@@ -68,7 +68,7 @@ async function renderqueryadv3(materialid){
                 
                     
                     
-            
+                bufferTimeoutStop();
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 // if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction3(data);
                 
