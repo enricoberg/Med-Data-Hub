@@ -130,9 +130,12 @@ async function validateuser(){
     return "";
   }
 function listenForDownloads(){
+
+  
+    
                       document.querySelectorAll('.pdfopener').forEach(function(item, index) {
                       item.addEventListener('click',()=>{
-                        fetch(item.getAttribute('targetref'), {headers: {'Authorization': authenticationheader()}})
+                        fetch(item.getAttribute('targetref'), {headers: {'Authorization': `Bearer ${getCookie("jwt")}`}})
                                 .then(response => {
                                               if (!response.ok) throw new Error('Document not found');
                                               return response.blob();
@@ -470,4 +473,11 @@ function bufferTimeoutStart(){
 function bufferTimeoutStop(){
   localStorage.setItem("timeoutquery", "true");
       if(localStorage.getItem("timeoutquery")=="true" && localStorage.getItem("timeoutmin")=="true") stopBuffering();
+}
+
+function sortSelect(selectElement) {
+  const options = Array.from(selectElement.options);
+  options.sort((a, b) => a.text.localeCompare(b.text));
+  selectElement.innerHTML = '';
+  options.forEach(option => selectElement.add(option));
 }

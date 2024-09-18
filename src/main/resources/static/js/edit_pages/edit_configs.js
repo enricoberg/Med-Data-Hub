@@ -73,6 +73,7 @@ function visualizeConfigurations(){
                         break;
                     }
                 }
+                // sortSelect(select);
                 
             })
             .catch((error) => {
@@ -102,7 +103,7 @@ function visualizeConfigurations(){
                         break;
                     }
                 }
-                
+                // sortSelect(select);
                 
             })
             .catch((error) => {

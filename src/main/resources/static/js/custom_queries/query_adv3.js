@@ -37,7 +37,7 @@ async function renderqueryadv3(materialid){
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 
-                                       
+                                         <div class="errormessage text-danger invisible  mb-2" id="pwerror">Code not found</div>
                                          <div class="mb-3 coloredsection  pl-2 pt-1 pb-1" id="queryresultbox"><br><br><br><br>
                                          
                                          </div>
@@ -57,7 +57,8 @@ async function renderqueryadv3(materialid){
                   return;
         }
         document.querySelector("#queryresultbox").innerHTML="<br><br><br><br>";
-        
+            if (errormessage.classList.contains("invisible")) errormessage.classList.remove("invisible");
+            errormessage.innerHTML="Please wait while I am searching for the results, it may take some minutes...";
             bufferTimeoutStart();
             fetch(`/querymat/inproduct?id=${code}`,{method: 'GET',headers: {'Authorization': authenticationheader() }})
             .then(response => { if(response.ok) return response.text(); 
@@ -69,6 +70,7 @@ async function renderqueryadv3(materialid){
                     
                     
                 bufferTimeoutStop();
+                if (!errormessage.classList.contains("invisible")) errormessage.classList.add("invisible");
                 document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 // if(confirm("Do you want to save the extraction to a file?\nBy pressing Cancel you will only visualize the results in the browser")) downloadExtraction3(data);
                 

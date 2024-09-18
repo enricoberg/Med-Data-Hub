@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/download")
@@ -67,14 +68,13 @@ public class DownloadController {
     public ResponseEntity<ByteArrayResource> downloadActive(
             @RequestParam("article") String article) throws IOException {
 
-            List<Object[]> activedoc=documentRepository.getActiveSpec(article);
-            String revision="";
-            for (Object[] result : activedoc) {
-                revision = getStringValue(result[2]);
-            }
+            
 
+        Document document = documentRepository.findByArticlecodeAndActiveAndDocumenttype(article, true, Document.DocumentType.InternalSpecification);
+        if(document==null) throw new IOException("Document not found");
+        String revision=document.getRevision();
         String filename= article + "_" + revision +"_INTERNALSPECIFICATION";
-
+            System.out.println(filename);
         File file = new File(SERVER_LOCATION + File.separator + filename + EXTENSION);
 
         if (!file.exists()) throw new IOException("Document not found");
@@ -97,7 +97,5 @@ public class DownloadController {
 
 
 
-    private String getStringValue(Object value) {
-        return (value != null) ? value.toString() : null;
-    }
+    
 }

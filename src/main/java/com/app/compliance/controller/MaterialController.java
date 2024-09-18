@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +94,9 @@ public class MaterialController {
         }
 
         allmats.removeAll(toRemove);
+        allmats.sort(Comparator.comparing(material -> material.getBrandname(), String.CASE_INSENSITIVE_ORDER));
         return allmats;
+       
 
     }
 
@@ -154,13 +157,16 @@ public class MaterialController {
         List<String> allarticles = new ArrayList<>();
         UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
         for(Integer i : listWithoutDuplicates){
+            
             String article = componentRepository.findById(i).get().getComp_id();
             allarticles.add(article);
 
         }
-        
+        Integer k=0;
         List<ComponentExplosion> results =  new ArrayList<>();
         for(String j : allarticles){
+            k++;
+            // System.out.println(k+": "+j);
             List<ComponentExplosion> partials = usageController.getUsageofComponent(j);
             for(ComponentExplosion partial : partials ){results.add(partial);}
 
@@ -185,7 +191,7 @@ public class MaterialController {
 
         //convert results to string
         //return usageController.stringifyResults(results, brandname, 3);       
-        System.out.println(resultstringified); 
+        
         return resultstringified;
         
     }
@@ -228,7 +234,7 @@ public class MaterialController {
         Material material = opt_material.get();    
         
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
-        System.out.println(updateMaterialRequest.getBrandname());
+        
         material.setBrandname(updateMaterialRequest.getBrandname());
         material.setSupplier(updateMaterialRequest.getSupplier());
         if(updateMaterialRequest.getNotes().equals("NULL") || updateMaterialRequest.getNotes().equals("") || updateMaterialRequest.getNotes().equals(" ")) material.setNotes(null);

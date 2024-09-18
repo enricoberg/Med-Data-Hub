@@ -20,7 +20,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     Document findByArticlecodeAndActiveAndDocumenttype(String article, boolean active, Document.DocumentType documenttype);
 
     Optional<Document> findByArticlecodeAndRevisionAndDocumenttype(String article, String revision, Document.DocumentType documenttype);
-
+    
     List<Document> findByArticlecodeAndDocumenttype(String article, Document.DocumentType documenttype);
 
     
@@ -59,6 +59,8 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
         "ON d.articlecode = p.code  \n" +
         "where d.assembly=TRUE AND d.active=true AND d.document_type='InternalSpecification' AND p.code=?1", nativeQuery = true)
     List<Object[]> getActiveSpec(String article);
+
+    
 
 
 }

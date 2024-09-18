@@ -65,6 +65,7 @@ function logoutuser(){
 
 }
 renderuser();
+listenForDownloads();
 //ADD EVENT LISTENERS FOR CHECKBOXES VALUE CHANGE
 document.querySelector("#quicksearch").addEventListener('change',()=>{
   

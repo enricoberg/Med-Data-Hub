@@ -90,7 +90,8 @@ async function renderqueryadv1(){
                     
                     
                 bufferTimeoutStop();
-                document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
+                if(data===undefined || data ===null) document.querySelector("#queryresultbox").innerHTML=`Sorry there was an error performing this query`;
+                else document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
                 createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     
                     if(result) {

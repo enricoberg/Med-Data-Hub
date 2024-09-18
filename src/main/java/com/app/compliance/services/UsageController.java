@@ -31,64 +31,72 @@ public class UsageController {
     }
 
     public List<ComponentExplosion> getUsageofComponent(String article) {
-        
-        List<ComponentExplosion> results =  new ArrayList<>();
-        boolean exit=false;
-        boolean assembly=!isComponent(article);
-        Integer codetosearch;
-        if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
-        else codetosearch = componentRepository.findByCompid(article).getId();
-        Integer level=1;
-        ComponentExplosion first_element= new ComponentExplosion();
-        first_element.setLevel(level);
-        first_element.setId(codetosearch);
-        first_element.setAssembly(assembly);
-        first_element.setControlled(false);
-        results.add(first_element);
-        
-        while(!exit){
+        try{
+            List<ComponentExplosion> results =  new ArrayList<>();
+            boolean exit=false;
+            boolean assembly=!isComponent(article);
+            Integer codetosearch;
+            if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
+            else codetosearch = componentRepository.findByCompid(article).getId();
+            Integer level=1;
+            ComponentExplosion first_element= new ComponentExplosion();
+            first_element.setLevel(level);
+            first_element.setId(codetosearch);
+            first_element.setAssembly(assembly);
+            first_element.setControlled(false);
+            results.add(first_element);
             
-            for(ComponentExplosion c: results) {
-                if(c.isControlled()) continue;
-                codetosearch=c.getId();
-                assembly=c.isAssembly();
-                level=c.getLevel()+1;
-
-
-                List<Bom> bomresults = bomRepository.findByCompidAndAssembly(codetosearch,assembly).get();
-                if (!bomresults.isEmpty()) {
-                    for (Bom b : bomresults) {
-                        Integer prodid= b.getProdid().getId();
-                        ComponentExplosion newcompexplosion = new ComponentExplosion();
-                        newcompexplosion.setId(prodid);
-                        newcompexplosion.setAssembly(true);
-                        newcompexplosion.setLevel(level);
-                        newcompexplosion.setControlled(false);
-                        try{
-                            results.add(results.indexOf(c)+1,newcompexplosion);
-                        }
-                        catch(Exception e){
-                            System.out.println("ERROR");
-                        }
+            while(!exit){
+                
+                for(ComponentExplosion c: results) {
+                    if(c.isControlled()) continue;
+                    codetosearch=c.getId();
+                    assembly=c.isAssembly();
+                    level=c.getLevel()+1;
+    
+    
+                    List<Bom> bomresults = bomRepository.findByCompidAndAssembly(codetosearch,assembly).get();
+                    if (!bomresults.isEmpty()) {
+                        for (Bom b : bomresults) {
+                            Integer prodid= b.getProdid().getId();
+                            ComponentExplosion newcompexplosion = new ComponentExplosion();
+                            newcompexplosion.setId(prodid);
+                            newcompexplosion.setAssembly(true);
+                            newcompexplosion.setLevel(level);
+                            newcompexplosion.setControlled(false);
+                            try{
+                                results.add(results.indexOf(c)+1,newcompexplosion);
+                            }
+                            catch(Exception e){
+                                System.out.println("ERROR");
+                            }
+                        }                   
+                        c.setControlled(true);
+                        break;
                     }
-                    c.setControlled(true);
-                    break;
+                    else{
+                        c.setControlled(true);
+                        break;
+                    }
                 }
-                else{
-                    c.setControlled(true);
-                    break;
+                exit=true;
+                // System.out.println("\n"+results);
+                for(ComponentExplosion c: results){
+                    if(!c.isControlled()) {
+                        exit=false;
+                        break;
+                    }
                 }
+                if(level>=100) throw new Exception();
+                
             }
-            exit=true;
-            System.out.println("\n"+results);
-            for(ComponentExplosion c: results){
-                if(!c.isControlled()) {
-                    exit=false;
-                    break;
-                }
-            }
+            return results;
         }
-        return results;
+        catch(Exception e){
+            System.out.println("ERROR IN GETTING USAGE OF COMPONENT, INFINITE LOOP DETECTED");
+            return null;
+        }
+            
     }
 
 
@@ -120,7 +128,7 @@ public class UsageController {
         else if(type_mbom==1) resultstring ="Usage of article code "+article+":";
         else if(type_mbom==3) resultstring ="Products containing material "+article+":";
 
-
+        if (results==null) return null;
         for(ComponentExplosion ce : results){
             
             resultstring+="<br>";
