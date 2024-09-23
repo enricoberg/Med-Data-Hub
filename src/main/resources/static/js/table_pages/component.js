@@ -296,41 +296,55 @@ async function updateComponentsTable(totalcolumns){
 
         let i=0;
         //POPULATE THE TABLE
-        let componentsToEdit=[];
-        jsonResponse.forEach(obj => {
-        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
-        let rv=parseInt(getCookie("resultview"));
-        let rp=parseInt(getCookie("resultpage"));
-        let minview=rv*(rp-1);
-        let maxview=rv*rp;
+        const processJsonResponseForComponents = (jsonResponse) => {
+            return new Promise((resolve) => {
+                let componentsToEdit = [];
+                let i = 0;
+                const rv = parseInt(getCookie("resultview"));
+                const rp = parseInt(getCookie("resultpage"));
+                const minview = rv * (rp - 1);
+                const maxview = rv * rp;
         
-        if(i>=minview && i<maxview && minview<=jsonResponse.length){
-
-        componentsToEdit.push(obj.comp_id);
-        const check1= obj.intercompany==true ? "&#10003;" : "&#10007;"
-        const check2= obj.family==null ? "&#10007;" :getExtendedCompFamily(obj.family)
-        const check3= obj.packagingmaterial==true ? "&#10003;" : "&#10007;"
-        const check4= obj.contact==true ? "&#10003;" : "&#10007;"
-        const check5= obj.ca65==true ? "&#10003;" : "&#10007;"
-        const check6= obj.baimold==true ? "&#10003;" : "&#10007;"
-        const check7= obj.standard==null ? "&#10007;" : obj.standard
-            document.querySelector(".grid-container").innerHTML+=
-        `
-        <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.comp_id}">${obj.comp_id}</a></div>
-        <div class="grid-item cw350">${obj.description}</div>
-        <div class="grid-item ">${check1}</div>
-        <div class="grid-item ">${check2}</div>
-        <div class="grid-item ">${check7}</div>
-        <div class="grid-item ">${check3}</div>
-        <div class="grid-item ">${check4}</div>
-        <div class="grid-item ">${check5}</div>
-        <div class="grid-item ">${check6}</div>
-        <div class="grid-item "><a href="#" onclick="renderEditableConfigs(${obj.id})">See configurations</a></div>
-        `;}
-        i++;
-        });
-        localStorage.setItem("components_to_edit", JSON.stringify(componentsToEdit));
-        listenForDownloads();
+                jsonResponse.forEach(obj => {
+                    if (i >= minview && i < maxview && minview <= jsonResponse.length) {
+                        componentsToEdit.push(obj.comp_id);
+                        const check1 = obj.intercompany ? "&#10003;" : "&#10007;";
+                        const check2 = obj.family == null ? "&#10007;" : getExtendedCompFamily(obj.family);
+                        const check3 = obj.packagingmaterial ? "&#10003;" : "&#10007;";
+                        const check4 = obj.contact ? "&#10003;" : "&#10007;";
+                        const check5 = obj.ca65 ? "&#10003;" : "&#10007;";
+                        const check6 = obj.baimold ? "&#10003;" : "&#10007;";
+                        const check7 = obj.standard == null ? "&#10007;" : obj.standard;
+        
+                        const gridItem = `
+                            <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.comp_id}">${obj.comp_id}</a></div>
+                            <div class="grid-item cw350">${obj.description}</div>
+                            <div class="grid-item ">${check1}</div>
+                            <div class="grid-item ">${check2}</div>
+                            <div class="grid-item ">${check7}</div>
+                            <div class="grid-item ">${check3}</div>
+                            <div class="grid-item ">${check4}</div>
+                            <div class="grid-item ">${check5}</div>
+                            <div class="grid-item ">${check6}</div>
+                            <div class="grid-item "><a href="#" onclick="renderEditableConfigs(${obj.id})">See configurations</a></div>
+                        `;
+        
+                        document.querySelector(".grid-container").innerHTML += gridItem;
+                    }
+                    i++;
+                });
+        
+                localStorage.setItem("components_to_edit", JSON.stringify(componentsToEdit));
+                resolve();
+            });
+        };
+        
+        // Usage
+        async function handleComponentsResponse(jsonResponse) {
+            await processJsonResponseForComponents(jsonResponse);
+            listenForDownloads();
+        }
+        handleComponentsResponse(jsonResponse);
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;        
         

@@ -263,83 +263,76 @@ async function updateProductsTable(totalcolumns){
 
 
         //POPULATE THE TABLE
-        let i=0;
-        let productsToEdit=[];
-        jsonResponse.forEach(obj => {
-        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
-                let rv=parseInt(getCookie("resultview"));
-                let rp=parseInt(getCookie("resultpage"));
-                let minview=rv*(rp-1);
-                let maxview=rv*rp;
-
-                if(i>=minview && i<maxview){
-        productsToEdit.push(obj.code);
-        const check1= obj.intercompany==true ? "&#10003;" : "&#10007;";
-        const check2= obj.semifinished==true ? "&#10003;" : "&#10007;";
-        const check3= obj.dhf!=null ? obj.dhf : "&#10007;";
-        const check4= obj.rmf!=null ? obj.rmf : "&#10007;";
-        const check5= obj.budi!=null ? obj.budi : "&#10007;";
-        const check6= obj.sterilizationsite!=null ? obj.sterilizationsite : "&#10007;";
-        const check7= obj.shelflife!=null ? obj.shelflife+" months" : "";
-        
-        let check8=obj.supplierid==null ? "&#10007;" : obj.supplierid;
-        let suppliername="&#10007;";
-        if(check8!="&#10007;") {
-            axios.get(`/querysup/byid?id=${check8}`,{ headers: { 'Authorization': authenticationheader()}})
-        .then(function (response) {
-            suppliername=response.data.supplier_name;
-            document.querySelector(".grid-container").innerHTML+=
-        `
-
-        <div class="grid-item cw150"><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
-        <div class="grid-item cw350">${obj.description}</div>
-        <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
-        <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
-        <div class="grid-item ">${check1}</div>
-        <div class="grid-item ">${check2}</div>
-        <div class="grid-item ">${check3}</div>
-        <div class="grid-item ">${check4}</div>
-        <div class="grid-item ">${check5}</div>
-        <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
-        <div class="grid-item ">${check6}</div>
-        <div class="grid-item ">${check7}</div>
-        <div class="grid-item supplierbox">${suppliername}</div>
-        <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
-        `;
-         })
-        }
-        else{
-            document.querySelector(".grid-container").innerHTML+=
-            `
-    
-            <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
-            <div class="grid-item ">${obj.description}</div>
-            <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
-            <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
-            <div class="grid-item ">${check1}</div>
-            <div class="grid-item ">${check2}</div>
-            <div class="grid-item ">${check3}</div>
-            <div class="grid-item ">${check4}</div>
-            <div class="grid-item ">${check5}</div>
-            <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
-            <div class="grid-item ">${check6}</div>
-            <div class="grid-item ">${check7}</div>
-            <div class="grid-item supplierbox">&#10007;</div>
-            <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
-            `; 
-        }
-        
         
 
 
-            
+        const processJsonResponse = async (jsonResponse) => {
+            const productsToEdit = [];
+            const promises = [];
+            let i = 0;
         
-        // <div class="grid-item "><a class="bomlink" onclick="renderboms('${obj.code}',${obj.id});">See BOM</a></div>
-        }
-        i++;
-        });
-        localStorage.setItem("products_to_edit", JSON.stringify(productsToEdit));
-        listenForDownloads();
+            jsonResponse.forEach(obj => {
+                let rv = parseInt(getCookie("resultview"));
+                let rp = parseInt(getCookie("resultpage"));
+                let minview = rv * (rp - 1);
+                let maxview = rv * rp;
+        
+                if (i >= minview && i < maxview) {
+                    productsToEdit.push(obj.code);
+                    const check1 = obj.intercompany ? "&#10003;" : "&#10007;";
+                    const check2 = obj.semifinished ? "&#10003;" : "&#10007;";
+                    const check3 = obj.dhf != null ? obj.dhf : "&#10007;";
+                    const check4 = obj.rmf != null ? obj.rmf : "&#10007;";
+                    const check5 = obj.budi != null ? obj.budi : "&#10007;";
+                    const check6 = obj.sterilizationsite != null ? obj.sterilizationsite : "&#10007;";
+                    const check7 = obj.shelflife != null ? obj.shelflife + " months" : "";
+                    
+                    let check8 = obj.supplierid == null ? "&#10007;" : obj.supplierid;
+                    let suppliername = "&#10007;";
+        
+                    const processProduct = async () => {
+                        if (check8 !== "&#10007;") {
+                            try {
+                                const response = await axios.get(`/querysup/byid?id=${check8}`, { headers: { 'Authorization': authenticationheader() } });
+                                suppliername = response.data.supplier_name;
+                            } catch (error) {
+                                console.error("Error fetching supplier info:", error);
+                            }
+                        }
+        
+                        const gridItem = `
+                            <div class="grid-item cw150"><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
+                            <div class="grid-item cw350">${obj.description}</div>
+                            <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
+                            <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
+                            <div class="grid-item ">${check1}</div>
+                            <div class="grid-item ">${check2}</div>
+                            <div class="grid-item ">${check3}</div>
+                            <div class="grid-item ">${check4}</div>
+                            <div class="grid-item ">${check5}</div>
+                            <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
+                            <div class="grid-item ">${check6}</div>
+                            <div class="grid-item ">${check7}</div>
+                            <div class="grid-item supplierbox">${suppliername}</div>
+                            <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
+                        `;
+        
+                        document.querySelector(".grid-container").innerHTML += gridItem;
+                    };
+        
+                    promises.push(processProduct());
+                }
+                i++;
+            });
+        
+            await Promise.all(promises);
+        
+            localStorage.setItem("products_to_edit", JSON.stringify(productsToEdit));
+            listenForDownloads();
+        };
+        
+        // Usage
+        processJsonResponse(jsonResponse);
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
         //SHOW THE TABLE

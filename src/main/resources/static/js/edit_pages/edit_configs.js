@@ -1,3 +1,11 @@
+//PREVENT BACK BUTTONS TO REDIRECT TO THIS PAGE
+window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+
+
+
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
 function visualizeConfigurations(){   
     bufferTimeoutStart();
@@ -57,15 +65,8 @@ function visualizeConfigurations(){
           
           document.querySelectorAll(".boxmaterial").forEach(select=>{
             let current_value=select.querySelector("option").innerHTML;
-            select.innerHTML="";
-            axios.get('/querymat/',{ headers: { 'Authorization': authenticationheader()}})
-            .then((response)=>{
-                response.data.forEach(function(materialobj){
-                    select.innerHTML+=`
-                    <option value="${materialobj.id}" >${materialobj.brandname}</option>            
-                    `;
-                })
-                const options = select.options;
+            select.innerHTML=localStorage.getItem("materialoptions");
+            const options = select.options;
                 for (const option of options) {
                     if (option.innerHTML === current_value) {
                         option.selected = true;
@@ -73,43 +74,20 @@ function visualizeConfigurations(){
                         break;
                     }
                 }
-                // sortSelect(select);
-                
-            })
-            .catch((error) => {
-                console.error("Error deleting user:", error);
-                createCustomAlert('Error','Something went wrong retrieving materials', 'ok');
-            });  
-            
-            
         });
         //POPULATE THE SUPPLIER SELECT
         
         document.querySelectorAll(".boxsupplier").forEach(select=>{
             let current_supplier=select.querySelector("option").innerHTML;
-            select.innerHTML="";            
-            axios.get('/querysup/',{ headers: { 'Authorization': authenticationheader()}})
-            .then((response)=>{
-                response.data.forEach(function(supobj){
-                    select.innerHTML+=`
-                    <option value="${supobj.id}" >${supobj.supplier_name}</option>            
-                    `;
-                })
-                const options = select.options;
-                for (const option of options) {
-                    if (option.innerHTML === current_supplier) {
-                        option.selected = true;
-                        select.setAttribute('actualvalue', option.innerHTML);
-                        break;
-                    }
-                }
-                // sortSelect(select);
-                
-            })
-            .catch((error) => {
-                console.error("Error deleting user:", error);
-                createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');
-            });  
+            select.innerHTML=localStorage.getItem("supplieroptions");      
+            const options = select.options;
+            for (const option of options) {
+                if (option.innerHTML === current_supplier) {
+                    option.selected = true;
+                    select.setAttribute('actualvalue', option.innerHTML);
+                    break;
+                }            }
+             
             
             
         });
@@ -188,22 +166,15 @@ function addNewLine(){
      
     document.querySelectorAll(".addboxmaterial").forEach(select=>{     
         
-           
-        axios.get('/querymat/',{ headers: { 'Authorization': authenticationheader()}})
-        .then((response)=>{ response.data.forEach(function(materialobj){select.innerHTML+=`<option value="${materialobj.id}" >${materialobj.brandname}</option> `;}) 
-        select.selectedIndex = -1;
-    })
-        .catch((error) => { createCustomAlert('Error','Something went wrong retrieving materials', 'ok');});                  
+        select.innerHTML=localStorage.getItem("materialoptions");   
+        select.selectedIndex =-1;   
+                      
     });
-    //POPULATE THE SUPPLIER SELECT 
-        
+    //POPULATE THE SUPPLIER SELECT         
     document.querySelectorAll(".addboxsupplier").forEach(select=>{   
-                 
-        axios.get('/querysup/',{ headers: { 'Authorization': authenticationheader()}})
-        .then((response)=>{response.data.forEach(function(supobj){select.innerHTML+=`<option value="${supobj.id}" >${supobj.supplier_name}</option>`;})
-        select.selectedIndex =-1;
-    })
-        .catch((error) => {createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');});         
+        
+        select.innerHTML=localStorage.getItem("supplieroptions");         
+        select.selectedIndex =-1;       
     });
 }
 
@@ -240,8 +211,38 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
 }
 
 
+function retrieveMaterialandSupplierinfos(){
+    //POPULATE THE MATERIAL SELECT          
+     axios.get('/querymat/',{ headers: { 'Authorization': authenticationheader()}})
+        .then((response)=>{
+                innerhtmlofmaterialselects="";
+                response.data.forEach(function(materialobj){innerhtmlofmaterialselects+=`<option value="${materialobj.id}" >${materialobj.brandname}</option> `;}) 
+                localStorage.setItem("materialoptions", innerhtmlofmaterialselects);
+                axios.get('/querysup/',{ headers: { 'Authorization': authenticationheader()}})
+                .then((response)=>{
+                    innerhtmlofsupplierselects="";
+                    response.data.forEach(function(supobj){innerhtmlofsupplierselects+=`<option value="${supobj.id}" >${supobj.supplier_name}</option>`;})
+                    localStorage.setItem("supplieroptions", innerhtmlofsupplierselects);
+                    visualizeConfigurations();
+                })
+                .catch((error) => {createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');});         
+    
+        })
+        
+        .catch((error) => { createCustomAlert('Error','Something went wrong retrieving materials', 'ok');});                  
+    
+    //POPULATE THE SUPPLIER SELECT       
+    
+                 
+        
 
-visualizeConfigurations();
+
+
+}
+
+
+retrieveMaterialandSupplierinfos();
+
 
 
 

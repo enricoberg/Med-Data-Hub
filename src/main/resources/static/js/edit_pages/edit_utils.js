@@ -1,3 +1,5 @@
+
+
 function updateView(){
     //CREATE AN INPUT INSIDE THE TABLE CELL TO ALLOW MODIFICATION OF THE FIELD
     let etitems=document.querySelectorAll(".etitem");

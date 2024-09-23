@@ -1,3 +1,10 @@
+//PREVENT BACK BUTTONS TO REDIRECT TO THIS PAGE
+window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+
+
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
 function visualizeComponents(){    
     const storedComponents = JSON.parse(localStorage.getItem("components_to_edit"));

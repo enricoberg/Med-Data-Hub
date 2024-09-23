@@ -20,6 +20,7 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
 
     Optional<Configuration> findBySuppliercompnumber(String code);
     Optional<Configuration> findBySuppliercompnumberAndSupplier(String code, Supplier supplier);
+    Optional<Configuration> findBySuppliercompnumberAndSupplierAndCompid(String code, Supplier supplier, Integer comp_id);
     List<Configuration> findByCompid(Integer comp_id);
 
 

@@ -2,6 +2,7 @@ package com.app.compliance.controller;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,9 @@ public class AuxController {
 
     @GetMapping("/getsuppliers")
     public List<Supplier> getAllSuppliers() {
-        return supplierRepository.findAll();
+        List<Supplier> allsups = supplierRepository.findAll();
+        allsups.sort(Comparator.comparing(supplier -> supplier.getSupplier_name(), String.CASE_INSENSITIVE_ORDER));
+        return allsups;
     }
 
     @GetMapping("/getcomponents")
@@ -61,7 +64,9 @@ public class AuxController {
 
     @GetMapping("/getmaterials")
     public List<Material> getAllMaterial() {
-        return materialRepository.findAll();
+        List<Material> allmats = materialRepository.findAll();
+        allmats.sort(Comparator.comparing(material -> material.getBrandname(), String.CASE_INSENSITIVE_ORDER));
+        return allmats;
     }
 
     @GetMapping("/getrole")

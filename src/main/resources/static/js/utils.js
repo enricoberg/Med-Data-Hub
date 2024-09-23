@@ -135,8 +135,10 @@ function listenForDownloads(){
     
                       document.querySelectorAll('.pdfopener').forEach(function(item, index) {
                       item.addEventListener('click',()=>{
+                        console.log("qualcosa sto facendo....")
                         fetch(item.getAttribute('targetref'), {headers: {'Authorization': `Bearer ${getCookie("jwt")}`}})
                                 .then(response => {
+                                              console.log(response)
                                               if (!response.ok) throw new Error('Document not found');
                                               return response.blob();
                                           })

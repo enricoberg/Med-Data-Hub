@@ -1,4 +1,5 @@
 
+
 async function renderqueryadv2(){
     const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
         method: 'GET',
