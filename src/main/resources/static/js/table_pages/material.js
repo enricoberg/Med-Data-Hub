@@ -243,12 +243,13 @@ async function updateMaterialsTable(totalcolumns){
             materialsToEdit.push(obj.id);     
             let checknull1= obj.family==null ? "&#10007;" : obj.family;
             let checknull2= obj.plasticizer==null ? "&#10007;" : obj.plasticizer;
-            let checknull3= obj.notes==null ? "" : obj.notes;
+            let checknull3= obj.supplier==null ? "" : obj.supplier;
+
             document.querySelector(".grid-container").innerHTML+=
         `
 
         <div class="grid-item ">${obj.brandname}</div>
-        <div class="grid-item ">${obj.supplier}</div>
+        <div class="grid-item ">${checknull3}</div>
         <div class="grid-item ">${checknull1}</div>
         <div class="grid-item ">${checknull2}</div>
         

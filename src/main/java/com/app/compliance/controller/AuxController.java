@@ -12,6 +12,8 @@ import com.app.compliance.dto.QuickSearch;
 import com.app.compliance.entities.User;
 import com.app.compliance.model.Product;
 import com.app.compliance.repository.*;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/aux")
 @RequiredArgsConstructor
 public class AuxController {
+
+    
 
     @Autowired
     private final ProductRepository productRepository;
@@ -123,6 +127,12 @@ public class AuxController {
     }
     private String getStringValue(Object value) {
         return (value != null) ? value.toString() : null;
+    }
+
+
+    @GetMapping("/pasteclipboard")
+    public String Paste() {        
+             return "";
     }
 
 

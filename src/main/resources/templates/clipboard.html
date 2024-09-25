@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="sendClipboardDataToServer()">SUBMIT</button>
+</body>
+<script>
+
+
+async function sendClipboardDataToServer() {
+    try {
+        const text = await navigator.clipboard.readText();
+        const response = await fetch('http://localhost:8080/process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({clipboardData: text})
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Error processing clipboard data:', error);
+    }
+}
+
+</script>
+</html>

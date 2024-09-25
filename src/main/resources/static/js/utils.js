@@ -1,4 +1,4 @@
-const totalcomponentcolumns=10;
+const totalcomponentcolumns=9;
 const totalproductcolumns=14;
 const totalmaterialcolumns=5;
 const totalsuppliercolumns=3;
@@ -176,10 +176,15 @@ function extractDataFromTable(){
   let counter=0;  
   for (let i=0;i<totalelements;i++){    
       try{
-          csv_content+=elements[i].getElementsByTagName("a")[0].innerHTML; 
+          cleaned_value=elements[i].getElementsByTagName("a")[0].innerHTML.replaceAll(",","");
+          cleaned_value=cleaned_value.replaceAll(";","");
+          csv_content+=cleaned_value;
       }
       catch{
-          csv_content+=elements[i].innerHTML;
+          cleaned_value=elements[i].innerHTML.replaceAll(",","");
+          cleaned_value=cleaned_value.replaceAll(";","");
+          csv_content+=cleaned_value;
+          
       }
       
       csv_content+=";";
@@ -204,7 +209,9 @@ function downloadFile() {
     b.classList.remove("rotating");
     b.setAttribute("title","Download CSV File");
 },2000);
-  let csvData = extractDataFromTable();     
+  let csvData = extractDataFromTable();  
+  csvData = csvData.replaceAll('✓', 'true');   
+  csvData = csvData.replaceAll('✗', 'false');   
   let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csvData);
   let fileName = "export.csv";
   let aLink = document.createElement('a');

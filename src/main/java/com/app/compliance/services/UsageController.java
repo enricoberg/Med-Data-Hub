@@ -133,7 +133,7 @@ public class UsageController {
             
             resultstring+="<br>";
             for(Integer i = 0 ; i< ce.getLevel();i++){
-                resultstring+="&nbsp;&nbsp;";
+                resultstring+="<>";
             }
             resultstring+=getArticleOfComponentExplosion(ce);
         }

@@ -89,9 +89,17 @@ async function renderqueryadv2(){
                     
                     
                 bufferTimeoutStop();
-                document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
+                createCustomAlert('Download Output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     
+                    
+                    if(result) downloadExtraction2(data);
+                    data=data.replaceAll('<>', '&nbsp;&nbsp;');
+                    document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
                 
-                createCustomAlert('Download Output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     if(result) downloadExtraction2(data);  });
+                });
+                
+                
+                
+                
                 
             } )
             .catch(error => { 
@@ -105,10 +113,10 @@ async function renderqueryadv2(){
 
     function downloadExtraction2(data){     
         
-        
-        data=data.replaceAll('&nbsp;&nbsp;', '\t');
+        data=data.replaceAll('<>', ';');
+        // data=data.replaceAll('&nbsp;&nbsp;', '\t');
         data=data.replaceAll('<br>', '\n');
-        console.log(data)
+        
         let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
         let fileName = "explosion.csv";
         let aLink = document.createElement('a');

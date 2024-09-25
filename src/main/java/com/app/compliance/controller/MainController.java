@@ -78,6 +78,10 @@ public class MainController {
     public String UserPage() {
         return "user";
     }
+    @GetMapping("/paste")
+    public String Paste() {
+        return "clipboard";
+    }
     
 
     

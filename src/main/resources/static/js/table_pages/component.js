@@ -223,7 +223,7 @@ async function updateComponentsTable(totalcolumns){
             <div class="grid-item tableheader">Packaging Material</div>
             <div class="grid-item tableheader">In Contact</div>
             <div class="grid-item tableheader">California65 InScope</div>
-            <div class="grid-item tableheader">BAI Mold</div>
+            
             <div class="grid-item tableheader">Configurations</div>
             `;
 
@@ -324,7 +324,7 @@ async function updateComponentsTable(totalcolumns){
                             <div class="grid-item ">${check7}</div>
                             <div class="grid-item ">${check3}</div>
                             <div class="grid-item ">${check4}</div>
-                            <div class="grid-item ">${check5}</div>
+                            
                             <div class="grid-item ">${check6}</div>
                             <div class="grid-item "><a href="#" onclick="renderEditableConfigs(${obj.id})">See configurations</a></div>
                         `;

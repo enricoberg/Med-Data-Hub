@@ -1,6 +1,25 @@
 
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
 function visualizeBoms(){  
+    fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {
+        if(data=="ADMIN") document.querySelector(".pastebutton").classList.remove("invisible");
+        
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
+
+
+
     bufferTimeoutStart();
     const product= JSON.parse(localStorage.getItem("bom_to_edit"));
     let url=`/queryboms/?article=${product}`;    
@@ -253,13 +272,70 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
 
 }
 
-function dumpBoms(){
-    createCustomAlert('Attention','This procedure allows you to dump content copied to the clipboard inside the BOM. Have you copied the right table and do you wish to proceed?', 'yesno')
+async function dumpBoms(){
+    const clipboardtext = await navigator.clipboard.readText();
+    createCustomAlert('Attention','This procedure allows you to dump content copied to the clipboard inside the BOM.<br> Have you copied the right table and do you wish to proceed?<br>The table must be in format:<br>Component code\t|\tProduct code\t|\tQuantity\t|\tUnit of Measure', 'yesno')
     .then((result) => { 
             if(!result) return;
             else{
                 
-            }
+                const rows = clipboardtext.split('\n');
+                const bom_data = [];               
+                
+                for (const row of rows) {
+                  
+                  const columns = row.split('\t');
+                  console.log("columns: "+columns.length)
+                  if(row=="") continue;
+                  if (columns.length === 4) {
+                    qty=columns[2].replace(",", ".");
+                    qty=parseFloat(qty);
+                    um=columns[3];
+                    um=um.replace("\r", '');
+                    const object = {
+                      component: columns[0],
+                      product: columns[1],
+                      qty: qty,
+                      um: um
+                    };
+                    bom_data.push(object);
+                  }
+                  else {
+                    createCustomAlert('Error','Invalid input format', 'ok');
+                    return;
+                }
+                }
+              
+                
+                console.log(bom_data);
+                axios.post(`/queryboms/pastefromclipboard`, bom_data, { headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {   console.log(response.data);})
+                .catch((error) => {alert("Something went wrong trying to add item"); }); 
+              }
+              
+              
+
+
+
+
+
+
+
+
+
+
+
+                    
+
+
+
+
+
+                
+
+
+
+            
         });
     
 }

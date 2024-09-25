@@ -6,6 +6,7 @@ import com.app.compliance.dto.BomUpdate;
 import com.app.compliance.dto.BomView;
 import com.app.compliance.dto.CompUpdate;
 import com.app.compliance.dto.ComponentExplosion;
+import com.app.compliance.dto.DumpBomRequest;
 import com.app.compliance.model.Bom;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Component.ComponentFamily;
@@ -425,5 +426,17 @@ public class BomController {
         return ResponseEntity.status(500).body("Failed to delete the component: "+e);
     }
         return ResponseEntity.ok("BOM updated successfully");
+    }
+
+    
+
+    @PostMapping("/pastefromclipboard")
+    public String gpasteBoms(@RequestBody DumpBomRequest[]  bomObjects,@RequestHeader(name = "Authorization") String token)
+    {
+
+
+
+
+        return "ok";
     }
 }

@@ -234,8 +234,7 @@ public class DocumentController {
                 new_prod.setSterilizationcycle(SterilizationCycle.BULK);
                 productRepository.save(new_prod);       
                 try{        
-                senderService.sendEmail("marcello.mazzuolo@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
-                senderService.sendEmail("enrico.bergamini@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
+                senderService.sendEmail("marcello.mazzuolo@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");                
                 senderService.sendEmail("nella.trinchini_ext@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
                 senderService.sendEmail("laura.carbone@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
                 senderService.sendEmail("andrea.gallo@bbraun.com", "New Product Created", "The product "+article+" has been created, please fill all the fields");
@@ -255,7 +254,7 @@ public class DocumentController {
                 new_comp.setFamily(ComponentFamily.ADJUVANTS);
                 componentRepository.save(new_comp);
                 try{        
-                    senderService.sendEmail("enrico.bergamini@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
+                    
                     senderService.sendEmail("marcello.mazzuolo@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
                     senderService.sendEmail("nella.trinchini_ext@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");
                     senderService.sendEmail("laura.carbone@bbraun.com", "New Component Created", "The component "+article+" has been created, please fill all the fields");

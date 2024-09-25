@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                 "/js/custom_queries/**",
                 "/error/**",
                 "/error",
+                "/app/paste",
                 "/actuator/shutdown",
         };
 

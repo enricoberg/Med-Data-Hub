@@ -92,13 +92,14 @@ async function renderqueryadv1(){
                     
                 bufferTimeoutStop();
                 if(data===undefined || data ===null) document.querySelector("#queryresultbox").innerHTML=`Sorry there was an error performing this query`;
-                else document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
+                
                 
                 createCustomAlert('Download output','Do you want to save the extraction to a file?\nBy pressing No you will only visualize the results in the browser', 'yesno').then((result) => {     
-                    if(result) {
-                        
-                        downloadExtraction1(data);
-                    }
+                    if(result) downloadExtraction1(data);
+                    data=data.replaceAll('<>', '&nbsp;&nbsp;');
+                    document.querySelector("#queryresultbox").innerHTML=`<p>${data}</p>`;
+
+                    
                   });
             } )            
             .catch(error => { 
@@ -112,10 +113,10 @@ async function renderqueryadv1(){
 
     function downloadExtraction1(data){     
         
-        
-        data=data.replaceAll('&nbsp;&nbsp;', '\t');
+        data=data.replaceAll('<>', ';');
+        // data=data.replaceAll('&nbsp;&nbsp;', '\t');
         data=data.replaceAll('<br>', '\n');
-        console.log(data)
+        
         let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
         let fileName = "usage.csv";
         let aLink = document.createElement('a');
