@@ -9,10 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
+// @PropertySource(value = {"file:///C:/Program Files/MedDataHub/application.properties"})
 
 @SpringBootApplication
-@PropertySource(value = {"file:///C:/Program Files/MedDataHub/application.properties"})
 public class App implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
