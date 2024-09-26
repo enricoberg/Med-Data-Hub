@@ -58,10 +58,12 @@ async function renderproducts(){
                                     <option value="CONC" >CONCENTRATES</option>
                                     <option value="EC" >EMPTY CONTAINERS</option>                                    
                                     <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
-                                    <option value="IU" >IRRIGATION / UROLOGY</option>     
+                                    <option value="IU" >IRRIGATION / UROLOGY</option>    
+                                    <option value="HARDWARE" >MACHINE COMPONENTS</option>    
                                     <option value="OEM" >OEM</option>                                                                
                                     <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
                                     <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                    <option value="INWORK" >IN WORK</option>   
                                     
                                     
                                     <option value="all" selected>See All</option>
@@ -252,7 +254,7 @@ async function updateProductsTable(totalcolumns){
                             return response.text();
                         })
                         .then(data => {
-                            if(data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                            if(data=="ADMIN" || data=="DOCUMENTATION") document.querySelector(".add_button").classList.remove("invisible");
                             if(data=="ENGINEER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
                         })
                         .catch(error => {

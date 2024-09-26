@@ -106,6 +106,7 @@ function visualizeComponents(){
                 <option value="INJECTIONPOINTS" selected>Injection Points</option>
                 <option value="LABELS" selected>Labels</option>
                 <option value="MATERIALS" selected>Raw materials</option>
+                <option value="MATERIALS" selected>Raw materials</option>
                 <option value="POUCHES" selected>Pouches</option>
                 <option value="SFTUBES" selected>Semifinished tubes</option>
                 <option value="SFVARIOUS" selected>Various semifinished goods</option>
@@ -113,6 +114,7 @@ function visualizeComponents(){
                 <option value="TRANSDUCERS" selected>Transducers</option>
                 <option value="TUBES" selected>Tubes</option>
                 <option value="VARIOUS" selected>Various components</option>
+                <option value="INWORK" selected>In Work</option>
             `;
             select.value=current_value;
         });

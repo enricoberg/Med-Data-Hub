@@ -14,7 +14,7 @@ public class Product {
     }
 
     public enum ProductFamily{
-        AV,BAGS,EC,AA,ENT,OEM,IU,CATH,WM,CONCS,ASS
+        AV,BAGS,EC,AA,ENT,OEM,IU,CATH,WM,CONCS,ASS,INWORK,HARDWARE
     }
 
     public enum SterilizationCycle{

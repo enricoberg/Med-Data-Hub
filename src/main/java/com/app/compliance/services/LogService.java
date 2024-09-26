@@ -1,6 +1,7 @@
 package com.app.compliance.services;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class LogService {
     @Autowired
     private JWTService jwtService;
 
-    private static final String FILE_PATH = "C:/Program Files/MedDataHub/log.txt";
+    private static final String FILE_PATH = System.getProperty("user.dir") + File.separator + "log.txt";
 
     public boolean writeToLog(String text, String fulltoken) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {

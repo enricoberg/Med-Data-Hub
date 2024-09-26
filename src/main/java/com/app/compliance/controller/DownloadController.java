@@ -34,8 +34,8 @@ public class DownloadController {
     private final DocumentRepository documentRepository;
 
     private static final String EXTENSION = ".pdf";
-
-    private static final String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+    private final  String SERVER_LOCATION = System.getProperty("user.dir") + File.separator + "documentfolder";    
+    // private static final String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
 
     @GetMapping("/")
     public ResponseEntity<ByteArrayResource> download(

@@ -70,6 +70,7 @@ async function rendercomponents(){
                 <option value="IFU" selected>IFU-Instructions for use</option>
                 <option value="INJECTIONPOINTS" selected>Injection Points</option>
                 <option value="LABELS" selected>Labels</option>
+                <option value="HARDWARE" selected>Machine components</option>
                 <option value="MATERIALS" selected>Raw materials</option>
                 <option value="POUCHES" selected>Pouches</option>
                 <option value="SFTUBES" selected>Semifinished tubes</option>
@@ -78,6 +79,7 @@ async function rendercomponents(){
                 <option value="TRANSDUCERS" selected>Transducers</option>
                 <option value="TUBES" selected>Tubes</option>
                 <option value="VARIOUS" selected>Various components</option>
+                <option value="INWORK" selected>In Work</option>
 
 
                 <option value="all" selected>See All</option>
@@ -281,7 +283,7 @@ async function updateComponentsTable(totalcolumns){
                             return response.text();
                         })
                         .then(data => {
-                            if(data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
+                            if(data=="ADMIN" || data=="DOCUMENTATION") document.querySelector(".add_button").classList.remove("invisible");
                             if(data=="ENGINEER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
                         })
                         .catch(error => {

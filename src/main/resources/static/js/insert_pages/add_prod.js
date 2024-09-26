@@ -69,17 +69,19 @@ function rendernewproduct(){
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Family of the product: </span>
                                               <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" id="familyinput">
+                                                <option value="ASS" >ASSEMBLIES</option>    
                                                 <option value="AV" selected>A/V SYSTEMS</option>
-                                                <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
-                                                <option value="EC" >EMPTY CONTAINERS</option>
                                                 <option value="AA" >ACUTE & APHERESIS</option>
-                                                <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
-                                                <option value="OEM" >OEM</option>
-                                                <option value="IU" >IRRIGATION / UROLOGY</option>                                  
-                                                <option value="CATH" >CATHETERS & ACCESSORIES</option>                                  
-                                                <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                                <option value="CATH" >CATHETERS & ACCESSORIES</option>  
                                                 <option value="CONC" >CONCENTRATES</option>
-                                                <option value="ASS" >ASSEMBLIES</option>                                                                                           
+                                                <option value="EC" >EMPTY CONTAINERS</option>                                    
+                                                <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
+                                                <option value="IU" >IRRIGATION / UROLOGY</option>    
+                                                <option value="HARDWARE" >MACHINE COMPONENTS</option>    
+                                                <option value="OEM" >OEM</option>                                                                
+                                                <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
+                                                <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                                <option value="INWORK" >IN WORK</option>                                                                                           
                                             </select>
                                           </div>
 

@@ -71,7 +71,9 @@ function rendernewcomponents(){
                                                   <option value="IFU" selected>IFU-Instructions for use</option>
                                                   <option value="INJECTIONPOINTS" selected>Injection Points</option>
                                                   <option value="LABELS" selected>Labels</option>
+                                                  <option value="HARDWARE" selected>Machine Components</option>
                                                   <option value="MATERIALS" selected>Raw materials</option>
+                                                  
                                                   <option value="POUCHES" selected>Pouches</option>
                                                   <option value="SFTUBES" selected>Semifinished tubes</option>
                                                   <option value="SFVARIOUS" selected>Various semifinished goods</option>
@@ -79,6 +81,7 @@ function rendernewcomponents(){
                                                   <option value="TRANSDUCERS" selected>Transducers</option>
                                                   <option value="TUBES" selected>Tubes</option>
                                                   <option value="VARIOUS" selected>Various components</option>
+                                                  <option value="INWORK" selected>In Work</option>
                                                 </select>
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-1 pb-1">

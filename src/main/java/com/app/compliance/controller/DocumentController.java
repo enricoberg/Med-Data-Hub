@@ -5,6 +5,7 @@ import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
 import com.app.compliance.model.Product;
 import com.app.compliance.model.Component.ComponentFamily;
+import com.app.compliance.model.Product.ProductFamily;
 import com.app.compliance.model.Product.SterilizationCycle;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.DocumentRepository;
@@ -228,6 +229,7 @@ public class DocumentController {
             if(toBeCreated && assembly){
                 Product new_prod = new Product();
                 new_prod.setCode(article);
+                new_prod.setFamily(ProductFamily.INWORK);
                 new_prod.setDescription(description);
                 new_prod.setIntercompany(false);
                 new_prod.setSemifinished(false);
@@ -251,7 +253,7 @@ public class DocumentController {
                 new_comp.setBaimold(false);
                 new_comp.setCa65(false);
                 new_comp.setContact(false);
-                new_comp.setFamily(ComponentFamily.ADJUVANTS);
+                new_comp.setFamily(ComponentFamily.INWORK);
                 componentRepository.save(new_comp);
                 try{        
                     
@@ -285,7 +287,8 @@ public class DocumentController {
                 document.setArticlecode(article);
                 //-----------------------------------------------------
                 documentRepository.save(document);
-                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                // String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                String SERVER_LOCATION = System.getProperty("user.dir") + File.separator + "documentfolder";    
                 String EXTENSION = ".pdf";
                 String typestring = null;
                 switch (type) {
@@ -342,7 +345,8 @@ public class DocumentController {
             try {
                 String oldFilename = file.getOriginalFilename();
                 if(!isFilenameValid(oldFilename))  return ResponseEntity.status(500).body("Invalid file name");
-                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                String SERVER_LOCATION = System.getProperty("user.dir") + File.separator + "documentfolder";    
+                // String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
                 Path destination = new File(SERVER_LOCATION, oldFilename).toPath();
                 Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
                 logService.writeToLog("Replaced the file "+oldFilename,token);
@@ -378,8 +382,8 @@ public class DocumentController {
                     
             //Save the file with the correct name and path
             try {
-                
-                String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
+                String SERVER_LOCATION = System.getProperty("user.dir") + File.separator + "documentfolder";                
+                // String SERVER_LOCATION = "C:/Program Files/MedDataHub/documentfolder";
                 String EXTENSION = ".pdf";                
                 String fileName = docutype + "_" + materialid +  EXTENSION;
                 Path destination = new File(SERVER_LOCATION, fileName).toPath();

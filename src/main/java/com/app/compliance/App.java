@@ -2,6 +2,9 @@ package com.app.compliance;
 import com.app.compliance.entities.Role;
 import com.app.compliance.entities.User;
 import com.app.compliance.repository.UserRepository;
+
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -36,6 +39,7 @@ public class App implements CommandLineRunner {
 
 
         System.out.println("SERVER RUNNING.....");
+        
  
     }
 
