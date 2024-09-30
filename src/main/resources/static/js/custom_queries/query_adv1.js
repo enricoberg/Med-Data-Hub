@@ -11,10 +11,10 @@ async function renderqueryadv1(){
     .catch(error => {
         console.error('Error during fetch:', error);
     });
-    if(curr_role=="USER") {
-        document.querySelector("#dashboardsection").click();
-        return;
-    }
+    // if(curr_role=="USER") {
+    //     document.querySelector("#dashboardsection").click();
+    //     return;
+    // }
     let totalcolumns=9;
     clearbomtitles();
     clearTable(totalcolumns);
@@ -115,8 +115,7 @@ async function renderqueryadv1(){
         
         data=data.replaceAll('<>', ';');
         // data=data.replaceAll('&nbsp;&nbsp;', '\t');
-        data=data.replaceAll('<br>', '\n');
-        
+        data=data.replaceAll('<br>', '\n');        
         let urlData = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
         let fileName = "usage.csv";
         let aLink = document.createElement('a');

@@ -10,10 +10,10 @@ async function rendermaterials(){
     .catch(error => {
         console.error('Error during fetch:', error);
     });
-    if(curr_role=="USER") {
-        document.querySelector("#dashboardsection").click();
-        return;
-    }
+    // if(curr_role=="USER") {
+    //     document.querySelector("#dashboardsection").click();
+    //     return;
+    // }
 
 
 
