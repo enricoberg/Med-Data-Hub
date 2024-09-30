@@ -1,22 +1,17 @@
 
 async function rendernewdocuments(){
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
+  event.preventDefault();
+  resetPage();
     //CREATE A NEW DASHBOARD
     const newTitle = document.createElement("h3");
-            const referenceElement = document.body.children[1];
-            document.body.insertBefore(newTitle, referenceElement);
-            newTitle.classList.add("bomtitle");
-            newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`NEW DOCUMENT FORM - <a href="#" onclick="renderspecifications();">BACK TO DOCUMENTS</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
+    
+    newTitle.classList.add("bomtitle");
+    newTitle.classList.add("mt-5");
+    newTitle.innerHTML=`NEW DOCUMENT FORM - <a href="#" onclick="renderspecifications();">BACK TO DOCUMENTS</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
     newDash.classList.add("container");
     newDash.classList.add("mt-5");
     newDash.classList.add("addcomponent");

@@ -1,16 +1,19 @@
 let timeouts=[];
 function renderspecifications(){
-    event.preventDefault();
-    window.addEventListener('resize', ()=>{ adjustTableCSS(); });
+    
     document.cookie = `resultpage=1`;
     let totalcolumns=totaldocumentcolumns;
-    resetPage();
+    clearbomtitles();
+    clearTable(totalcolumns);
+    //PREPARE THE DASHBOARD
+    for(dashboard of document.querySelectorAll(".dashboard")) {
+        dashboard.remove();
+    }
     //CREATE A NEW DASHBOARD
         
     const newDash = document.createElement("div");
-    // const referenceElement = document.body.children[1]; 
-    document.body.insertBefore(newDash, document.body.firstChild);
-    // document.body.insertBefore(newDash, referenceElement);
+    const referenceElement = document.body.children[1]; 
+    document.body.insertBefore(newDash, referenceElement);
     newDash.classList.add("dashboard");
     newDash.classList.add("documents");
     newDash.innerHTML=`
@@ -50,12 +53,12 @@ function renderspecifications(){
     </div>   
     <div class="resultbanner"></div>                
  </form>`;
-    
+
     updateDocumentsTable(totalcolumns);
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
         control.addEventListener("input", ()=>{
-            // startBuffering()
+            startBuffering()
             document.cookie = `resultpage=1`;
         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
             timeouts.push(setTimeout(updateDocumentsTable.bind(null, totalcolumns),800));
@@ -74,29 +77,21 @@ function renderspecifications(){
 
 
 async function updateDocumentsTable(totalcolumns){
-    setTimeout(() => {
-        startBuffering();
-    }, 25);
-    // clearTable(totalcolumns);
-    resetPage(["dashboard"]);	
-    const gridContainer = document.createElement("div");    
-    gridContainer.classList.add("grid-container");
-    gridContainer.classList.add("thininvisible");
-    document.body.insertBefore(gridContainer, document.body.lastChild);    
     
-    
+    clearTable(totalcolumns);
+
     //CREATE HEADERS
-    gridContainer.innerHTML+=
+    document.querySelector(".grid-container").innerHTML+=
         `
         <div class="grid-item cw250 tableheader">Article Number</div>
-        <div class="grid-item cw200 tableheader ">Type of document</div>
-        <div class="grid-item cw150 tableheader">Revision</div>
-        <div class="grid-item cw250 tableheader">PPC</div>
+        <div class="grid-item  tableheader ">Type of document</div>
+        <div class="grid-item cw250 tableheader">Revision</div>
+        <div class="grid-item cw500 tableheader">PPC</div>
         <div class="grid-item cw500 tableheader">Description</div>
         
         
         `;
-    
+
     //DO NOT SEND REQUEST IF NOT NECESSARY    
     if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
     if(localStorage.getItem("needupdate")=="false") {
@@ -162,7 +157,10 @@ async function updateDocumentsTable(totalcolumns){
 
         //POPULATE THE TABLE
         let i=0;
-        
+        let rv=parseInt(getCookie("resultview"));
+        let rp=parseInt(getCookie("resultpage"));
+        let minview=rv*(rp-1);
+        let maxview=rv*rp;
         
         jsonResponse.forEach(obj => {
         //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
@@ -171,7 +169,7 @@ async function updateDocumentsTable(totalcolumns){
                 
 
                 if(true){
-                let ppcnumber = (obj.ppc!=null && obj.ppc!="null" ) ? obj.ppc : "n.a.";
+                let ppcnumber = (obj.ppc!=null && obj.ppc!="null" ) ? obj.ppc : "";
                 let docutype="";
                 switch(obj.documentType){
                     case "InternalSpecification":
@@ -207,13 +205,12 @@ async function updateDocumentsTable(totalcolumns){
             if(obj.active) classcolor="text-primary";    
             document.querySelector(".grid-container").innerHTML+=
         `
-        
         <div class="grid-item cw250"><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
-        <div class="grid-item cw200">${docutype}</div>
+        <div class="grid-item ">${docutype}</div>
         
         
-        <div class="grid-item cw150 ${classcolor}">${obj.revision}</div>
-        <div class="grid-item cw250">${ppcnumber}</div>
+        <div class="grid-item cw250 ${classcolor}">${obj.revision}</div>
+        <div class="grid-item cw500">${ppcnumber}</div>
         <div class="grid-item cw500">${obj.description}</div>
         
         
@@ -222,21 +219,16 @@ async function updateDocumentsTable(totalcolumns){
         }
         i++;
         });
-        
-        let rv=parseInt(getCookie("totalresults"));
-        let rp=parseInt(getCookie("resultpage"));
-        let minview=rv*(rp-1);
-        let maxview=rv*rp;        
+
         //UPDATE NUMBER OF RESULTS
         if(getCookie("totalresults")<=0) document.querySelector(".resultbanner").innerHTML=`  No more results `;
         else if(getCookie("totalresults")<50) document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${minview+parseInt(getCookie("totalresults"))} `;
         else document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${maxview} `;
-        adjustTableCSS();
+        
         
         //SHOW THE TABLE
         activeCellColoring(totalcolumns);
-        
-        // if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
+        if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
         listenForDownloads();
         stopBuffering();
         
@@ -289,60 +281,4 @@ function changePageDocuments(increment){
 }
 
 
-
-function renderReplaceDocumentPage(){
-    event.preventDefault();
-    resetPage();
-    const newDash = document.createElement("div");    
-    document.body.prepend(newDash);    
-    newDash.classList.add("containertable");  
-    newDash.innerHTML=`
-    <div class="row mx-2 " >
-            <div style="width: 100%; text-align: center;" class="titleh1"><h1>Replace existing document</h1></div>
-            
-            <div class="mx-auto w-50 mt-5" id="targettable" style="background-color: rgba(255,255,255,0);">               
-                <div class="mb-3 mt-3" >
-                    <label for="formFile" class="form-label mx-auto w-100 text-center mb-3" style="display: block;">Select the correct file, make sure the filename is correct</label>
-                    <input class="form-control mx-auto w-50" type="file" id="formFile" name="docfile">
-                </div>
-                <div class="mb-5 mx-auto w-100 text-center" >
-                    
-                    <button type="button" class="btn btn-primary mx-auto w-25" id="replacebutton">Replace the file</button>
-                </div>
-                
-            </div>
-        </div>
-    
-    
-    
-    
-    `;
-    document.querySelector("#replacebutton").addEventListener("click", function(){
-        let fileInput=document.querySelector("#formFile");
-        if(fileInput.files.length ==0) {                    
-                    alert("Attention, you must select a file to upload first");
-                    return;
-        }
-        if(!window.confirm("Are you sure you want to replace the existing document? Make sure the filename is correct before submitting, the operation is irreversible")) return;
-        const formData = new FormData(); 
-        formData.append('docfile', fileInput.files[0]);       
-
-
-        fetch("/querydocs/replace", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Authorization': authenticationheader() }
-                })
-                .then(response => {
-                    if (!response.ok)  throw new Error('Network response was not ok');
-                    alert("New document replaced successfully!");
-                    window.location.replace("/app/home");
-                })
-                .catch(error => { alert("Something went wrong with your request"); });
-
-    });
-
-
-
-}
 

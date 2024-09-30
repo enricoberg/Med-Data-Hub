@@ -41,32 +41,7 @@
     }
 }
 
-document.querySelector("#usersection").addEventListener("click",()=>{
-    renderpage("users");
-    event.stopPropagation();
-  });
-
-document.querySelector("#suppliersection").addEventListener("click",()=>{
-  
-  renderpage("suppliers");
-  });
-document.querySelector("#materialsection").addEventListener("click",()=>{
-   renderpage("materials");  
-  });
-document.querySelector("#productsection").addEventListener("click",()=>{
-  renderpage("products");   
-  });
-document.querySelector("#componentsection").addEventListener("click",()=>{
-  renderpage("components");    
-  });
-document.querySelector("#specificationsection").addEventListener("click",()=>{    
-  renderpage("specifications");    
-  });
-document.querySelector("#dashboardsection").addEventListener("click",()=>{    
-  renderpage("dashboard");    
-  });
-renderpage("dashboard");
-
+resetPage();
 function clearbomtitles(){
   bomtitles=document.querySelectorAll(".bomtitle");
   try{
@@ -91,31 +66,21 @@ setInterval(()=>{
     if(timeleft<70000) sendRefresh();
 }, 10000);
 
-document.cookie= 'refreshcount=0';
-setInterval(()=>{
-    let refreshcount=parseInt(getCookie("refreshcount"));
-    refreshcount+=1;
-    if(refreshcount<16) {
-    test();
-    document.cookie=`refreshcount=${refreshcount}`;
-    }
 
 
-}, 150);
 
+// document.querySelector("#searchbutton").addEventListener("click", ()=>{
+//   quickSearch(document.querySelector("#searchstring").value)
+// });
 
-document.querySelector("#searchbutton").addEventListener("click", ()=>{
-  quickSearch(document.querySelector("#searchstring").value)
-});
-
-document.querySelector("#searchstring").addEventListener("keypress", (event)=>{
+// document.querySelector("#searchstring").addEventListener("keypress", (event)=>{
   
-  if (event.keyCode === 13){
-    quickSearch(document.querySelector("#searchstring").value);
-    event.preventDefault();
-  }
+//   if (event.keyCode === 13){
+//     quickSearch(document.querySelector("#searchstring").value);
+//     event.preventDefault();
+//   }
   
-});
+// });
 
 
 const urlParams = new URLSearchParams(window.location.search);

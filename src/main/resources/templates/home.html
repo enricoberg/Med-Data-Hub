@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedDataHub - Dashboard</title>
-    <link rel="stylesheet" href="/css/navbar_style.css">
+    <!-- <link rel="stylesheet" href="/css/navbar_style.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/table_style.css">
     <link rel="stylesheet" href="/css/home_style.css">
     <link rel="stylesheet" href="/css/modal_style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/editable.css">
     <link rel="stylesheet" href="/css/spin.css">
     <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Hj6yB77q/favicon.png">
@@ -17,66 +18,11 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.default.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
-
+    <script src="https://kit.fontawesome.com/13494d7035.js" crossorigin="anonymous"></script>
 
 </head>
-<body class="invisible">
+<body class="">
     
-<nav class="navbar navbar-expand-custom navbar-mainbg" id="nomargin">
-    <div class="searchbox"><form action="" class="searchform">
-        <input type="search" id="searchstring" required class="searchinput">
-        <i class="fa fa-search searchfa fabtn-hover" id="searchbutton"></i>
-
-    </form></div>
-    
-    <a class="navbar-brand navbar-logo" id="titlenav"  href="/app/home"><div class="logodiv"></div><div class="logoscritta">Med Data Hub</div></a>
-    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <i class="fas fa-bars text-white"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-            <div class="hori-selector">
-                <div class="left"></div>
-                <div class="right"></div>
-            </div>
-            <li class="nav-item active" id="dashboardsection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-            </li>
-            <li class="nav-item " id="specificationsection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fa-solid fa-book"></i>Documents</a>
-            </li>
-            <li class="nav-item" id="componentsection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fa-solid fa-syringe"></i>Components</a>
-            </li>
-            <li class="nav-item" id="productsection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fas fa-project-diagram"></i>Products</a>
-            </li>
-            <li class="nav-item" id="materialsection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fa-solid fa-flask-vial"></i>Materials</a>
-            </li>
-            <li class="nav-item" id="suppliersection">
-                <a class="nav-link" href="javascript:void(0);"><i class="fa-solid fa-store"></i>Suppliers</a>
-            </li>
-            <li class="nav-item" id="usersection">
-
-                <a class="nav-link" href="javascript:void(0);"><i class="fa-solid fa-user"></i>User</a>
-
-            </li>
-        </ul>
-
-    </div>
-
-
-    <div class="usermenu invisible">
-        <div class="usermenuitem" id="mailplaceholder"></div>
-        <div class="usermenuitem" id="roleplaceholder"></div>
-        <div class="usermenuitem"><a href="#" onclick="logoutuser()">LOGOUT</a></div>
-        <div class="usermenuitem"><a href="/app/passwordchangelogged">CHANGE PASSWORD</a></div>
-        <!--            <div class="usermenuitem"><a href="#">SETTINGS</a> </div>-->
-        <div class="usermenuitem"><a id="manualdownload" href="#" targetref="/download/?filename=MANUAL">HELP</a></div>
-    </div>
-</nav>
 
 
 <div class="tabledisplay invisible">
@@ -84,8 +30,10 @@
     </div>
 </div>
 
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://kit.fontawesome.com/0221803f6d.js" crossorigin="anonymous"></script>
+<script src="/js/commons.js"></script>
 <script src="/js/utils.js"></script>
 <script src="/js/modals.js"></script>
 <script src="/js/table_pages/specification.js"></script>
@@ -112,8 +60,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
 <script src="/js/table_pages/table.js"></script>
-<script src="/js/navbar.js"></script>
+<!-- <script src="/js/navbar.js"></script> -->
 <script src="/js/home.js"></script>
+<script src="/js/sidebar.js"></script>
 
 </body>
 </html>
