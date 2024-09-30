@@ -12,6 +12,7 @@ function visualizeBoms(){
     })
     .then(data => {
         if(data=="ADMIN") document.querySelector(".pastebutton").classList.remove("invisible");
+        if(data=="USER" || data=="ENGINEER") document.querySelector(".addbutton").classList.add("invisible");
         
     })
     .catch(error => {
@@ -102,7 +103,7 @@ function deleteBom(comp_id,prod_id, assembly,id){
                 })
                 .catch((error) => {
                     console.error("Error deleting user:", error);
-                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
+                    createCustomAlert('Error','Something went wrong trying to delete this element', 'ok');
                     
                 }); 
             }

@@ -1,0 +1,11 @@
+2024-09-30 09:49:11 - user: user@bbraun.com - action: Added new configuration for component ID 242, Supplier ID: 2, Supplier component number: gdffgdfg, Material ID: 315
+2024-09-30 09:51:47 - user: admin@gmail.com - action: Added new configuration for component ID 242, Supplier ID: 2, Supplier component number: CONF1, Material ID: 315
+2024-09-30 09:52:08 - user: user@bbraun.com - action: Deleted configuration with material ID 315 and configuration ID 1
+2024-09-30 09:52:19 - user: user@bbraun.com - action: Added new configuration for component ID 242, Supplier ID: 2, Supplier component number: CONF2, Material ID: 315
+2024-09-30 09:55:11 - user: user@bbraun.com - action: Deleted configuration with material ID 315 and configuration ID 2
+2024-09-30 09:55:29 - user: user@bbraun.com - action: Added new configuration for component ID 242, Supplier ID: 3, Supplier component number: COF3, Material ID: 315
+2024-09-30 09:57:01 - user: admin@gmail.com - action: Added new configuration for component ID 242, Supplier ID: 5, Supplier component number: CONF4, Material ID: 315
+2024-09-30 09:57:04 - user: admin@gmail.com - action: Deleted configuration with material ID 315 and configuration ID 3
+2024-09-30 09:57:06 - user: admin@gmail.com - action: Deleted configuration with material ID 315 and configuration ID 4
+2024-09-30 09:59:01 - user: admin@gmail.com - action: Added BOM element. Component PROVA_CIAO(assembly=false), Product: 2112636, qty: 10.0 PZ
+2024-09-30 10:08:13 - user: admin@gmail.com - action: Added new configuration for component ID 242, Supplier ID: 98, Supplier component number: CONF1, Material ID: 315

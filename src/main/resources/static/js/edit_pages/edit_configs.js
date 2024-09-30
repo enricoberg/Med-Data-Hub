@@ -8,6 +8,22 @@ window.history.forward();
 
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
 function visualizeConfigurations(){   
+    fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {        
+        if(data=="USER" || data=="DOCUMENTATION") document.querySelector(".addbutton").classList.add("invisible");
+        
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
     bufferTimeoutStart();
     const component= JSON.parse(localStorage.getItem("config_to_edit"));     
     axios.get(`/querycomp/byid?article=${component}`,{ headers: { 'Authorization': authenticationheader()}})

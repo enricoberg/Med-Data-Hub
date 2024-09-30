@@ -93,7 +93,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/querysup/new").hasAnyAuthority("ADMIN", "ENGINEER")
                         .requestMatchers("/download/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/aux/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
-                        .requestMatchers("/queryconfigs/**").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
+                        .requestMatchers("/queryconfigs").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/querycomp/updatecomponent/**").hasAnyAuthority("ADMIN",  "ENGINEER")
                         .requestMatchers("/querycomp/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
                         .requestMatchers("/queryprod/updatecomponent/**").hasAnyAuthority("ADMIN",  "ENGINEER")
@@ -104,7 +104,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/querysup/delete/**").hasAnyAuthority("ADMIN",  "ENGINEER")
                         .requestMatchers("/queryboms/update/**").hasAnyAuthority("ADMIN",  "DOCUMENTATION")
                         .requestMatchers("/queryboms/deletebom/**").hasAnyAuthority("ADMIN",  "DOCUMENTATION")                        
-                        .requestMatchers("/queryconfigs/deleteconfig/**").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/queryconfigs/deleteconfig").hasAnyAuthority("ADMIN",  "ENGINEER")
+                        .requestMatchers("/queryconfigs/new").hasAnyAuthority("ADMIN",  "ENGINEER")
                         .requestMatchers("/querydocs/replace").hasAnyAuthority("ADMIN", "DOCUMENTATION")
 
 
