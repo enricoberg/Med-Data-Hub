@@ -87,6 +87,9 @@ body{
     background-color: rgba(0,0,0,0.5);
     border-radius: 5px;
     color: white;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
 }
 .add_button a{
     text-decoration: none;
@@ -146,7 +149,7 @@ body{
 }
 .csvbutton{
     position: absolute;
-    bottom: 44px;
+    bottom: 14px;
     right:5px;
 }
 .editbutton{
@@ -173,7 +176,7 @@ body{
 
 .clipboardbutton{
     position: absolute;
-    bottom: 44px;
+    bottom: 14px;
     right:40px;
 }
 
@@ -424,5 +427,79 @@ form.searchform:valid .fa.searchfa:hover{
     background: rgb(255,255,255);
     background: radial-gradient(circle, rgba(255,255,255,1) 7%, rgba(255,255,255,0) 30%);
     
+}
+.formcontainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.formcontainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+  Helvetica, Arial, "Lucida Grande", sans-serif;
+  margin-top: 35px;
+}
+.formcontainer .mb-3{
+    width: 700px;
+    display: flex;
+    justify-content: flex-start;
+    margin: 15px 0 15px 0;
+    padding: 10px;
+}
+.formcontainer .mb-3 input[type=text]{
+    width: 100%;
+    height: 20px;
+    color: darkgray;
+    font-size: large;
+    padding: 2px 5px 2px 5px;
+    border-radius: 7px;
+    border: 1px solid gray;
+}
+.formcontainer .mb-3 label{
+    margin-right: 20px;
+    margin-left: 10px;
+    position:relative; 
+    top:  3px;
+    
+    
+}
+.mb-3 input[type=checkbox]{
+    
+    padding: 20px;
+}
+.bomtitle{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+  Helvetica, Arial, "Lucida Grande", sans-serif;
+  margin-top: 55px;
+  font-size:  x-large;
+}
+.bomtitle a{
+    text-decoration: none;
+    color: #0d6efd;
+}
+.mb-3>button{
+    background-color: #0d6efd;
+    color: white;    
+    border-radius: 7px;
+    border: none;
+    font-size: large;
+    padding: 10px 25px 10px 25px;
+    cursor: pointer;
+}
+.mb-3>button:hover{background-color: #0b5ed7;}
+.form-check{ margin: 7px 0 7px 0;}
+.mb-3 input[type=file]{
+    background-color: darkgray;
+    color: white;    
+    border-radius: 7px;
+    border: none;
+    font-size: large;
+    padding: 5px 0px 5px 25px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 

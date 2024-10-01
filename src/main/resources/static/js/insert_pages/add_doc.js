@@ -12,8 +12,7 @@ async function rendernewdocuments(){
     
     document.body.insertBefore(newDash, document.body.firstChild);
     document.body.insertBefore(newTitle, document.body.firstChild);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    newDash.classList.add("formcontainer");    
     newDash.classList.add("addcomponent");
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
@@ -35,7 +34,7 @@ async function rendernewdocuments(){
                                                <label for="descinput" class="form-label">Description (only new component/product)</label>
                                                <input type="text" class="form-control" id="descinput" name="descinput">
                                            </div>
-                                           <div class="mb-3 form-check ">
+                                           <div class="mb-3 ">
                                              <input type="checkbox" class="form-check-input" id="activeinput" name="activeinput" checked>
                                              <label class="form-check-label" for="activeinput">Active Revision</label>
 
@@ -81,11 +80,11 @@ async function rendernewdocuments(){
                                                  </div>
                                            </div>
                                            <div class="mb-3">
-                                               <label for="formFile" class="form-label">Select the file attachment</label>
+                                               <label for="formFile" class="form-label" style="top:  5px; color: #0b5ed7; font-size: 20px; ">Select the file attachment</label>
                                                <input class="form-control" type="file" id="formFile" name="docfile" >
                                              </div>
                                             <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
-                                           <div class="mb-3 w-100 text-center">
+                                           <div class="mb-3 w-100 text-center" style="justify-content: center">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto"  id="submitnewdoc" onclick="submitsnewdoc()">Submit Document</button>
                                            </div>
 

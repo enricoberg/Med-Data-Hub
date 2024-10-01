@@ -4,7 +4,8 @@ function resetPage(exceptions=[]) {
     const elements = Array.from(body.children);  
     elements.forEach(element => {
       const tagName = element.tagName.toLowerCase();
-      if (tagName !== 'script' && tagName !== 'nav') {
+      
+      if (tagName !== 'script' && tagName !== 'nav' && !element.classList.contains("assistantcontainer")) {
         if (exceptions==[]) body.removeChild(element);
         else{
             

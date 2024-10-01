@@ -15,7 +15,7 @@ function renderspecifications(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="pagelabel"></div>
-    <div class="add_button invisible" onclick="rendernewdocuments()"><a href="#"><i class="fa-regular fa-square-plus"></i>Create new</a></div>
+    
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageDocuments(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
         <div class="nextbutton hover-message" title="Next Page" onclick="changePageDocuments(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
     <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
@@ -293,35 +293,36 @@ function changePageDocuments(increment){
 function renderReplaceDocumentPage(){
     event.preventDefault();
     resetPage();
+    const newTitle = document.createElement("h3");
+    
+    newTitle.classList.add("bomtitle");
+    
+    newTitle.innerHTML=`REPLACE EXISTING DOCUMENT -  <a href="" onclick="renderspecifications();">BACK TO DOCUMENTS</a>`;
+
+
     const newDash = document.createElement("div");    
     document.body.prepend(newDash);    
-    newDash.classList.add("containertable");  
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer"); 
+    newDash.style.flexDirection="column"; 
+    newDash.style.minHeight="50vh";
     newDash.innerHTML=`
-    <div class="row mx-2 " >
-            <div style="width: 100%; text-align: center;" class="titleh1"><h1>Replace existing document</h1></div>
-            
-            <div class="mx-auto w-50 mt-5" id="targettable" style="background-color: rgba(255,255,255,0);">               
-                <div class="mb-3 mt-3" >
-                    <label for="formFile" class="form-label mx-auto w-100 text-center mb-3" style="display: block;">Select the correct file, make sure the filename is correct</label>
-                    <input class="form-control mx-auto w-50" type="file" id="formFile" name="docfile">
-                </div>
-                <div class="mb-5 mx-auto w-100 text-center" >
-                    
-                    <button type="button" class="btn btn-primary mx-auto w-25" id="replacebutton">Replace the file</button>
-                </div>
-                
-            </div>
-        </div>
-    
-    
-    
-    
+    <div class="mb-3" style="justify-content: center">           
+        <label for="formFile"  style="display: block; text-align: center">Select the correct file, make sure the filename is correct</label>                  
+    </div>
+    <div class="mb-3"  style="justify-content: center">
+        <input class="form-control mx-auto w-50" type="file" id="formFile" name="docfile">   
+    </div>    
+    <div class="mb-3" style="justify-content: center">
+        <button type="button" class="btn btn-primary mx-auto w-25" id="replacebutton">Replace the file</button>
+    </div>
     `;
+    
     document.querySelector("#replacebutton").addEventListener("click", function(){
         let fileInput=document.querySelector("#formFile");
-        if(fileInput.files.length ==0) {                    
-                    alert("Attention, you must select a file to upload first");
-                    return;
+        if(fileInput.files.length ==0) {      
+                createCustomAlert('Attention','You must select a file to upload first', 'ok') ;           
+                return;
         }
         if(!window.confirm("Are you sure you want to replace the existing document? Make sure the filename is correct before submitting, the operation is irreversible")) return;
         const formData = new FormData(); 
