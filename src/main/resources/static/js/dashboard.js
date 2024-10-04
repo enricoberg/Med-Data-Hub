@@ -87,7 +87,9 @@ function renderdashboard(){
 
 `;
 document.cookie= 'refreshcount=0';
-
+const companyLogo=document.createElement("div");
+companyLogo.classList.add("company-logo");
+document.body.appendChild(companyLogo);
 
 const alltiles=document.querySelectorAll(".btn-hover");
 for(let i=0;i<alltiles.length;i++){
