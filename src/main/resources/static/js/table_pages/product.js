@@ -108,18 +108,7 @@ async function renderproducts(){
                                      <option value="false" >Products</option>
                                      <option value="all" selected>See All</option>
                                    </select>
-                                   <span class="ml-3">Sterilization Site: </span>
-                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput">
-                                    <option value="BAI" >B.Braun Avitum Italy</option>                                                                        
-                                    <option value="Melsungen" >B.Braun Melsungen</option>
-                                    <option value="Sterilverona" >Sterilverona</option>
-                                    <option value="Sterisastkomenda" >Sterisast Komenda</option>
-                                    <option value="Sterilveronanogara" >Sterilverona Nogara</option>
-                                    <option value="Sterisastseriate" >Sterisast Seriate</option>
-                                    <option value="Sterisastwestport" >Sterisast Westport</option>
-                                    <option value="Synergyhealth" >Synergy Health</option>                                    
-                                    <option value="all" selected>See All</option>
-                                   </select>
+                                   
                                    <span class="ml-3">Manufacturer: </span>
                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="supplierinput" id="supplierinput">
                                     
@@ -130,6 +119,20 @@ async function renderproducts(){
 
             <div class="resultbanner">~  Found 0 results  ~</div>
          </form>`;
+
+
+        //  <span class="ml-3">Sterilization Site: </span>
+        //                            <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput">
+        //                             <option value="BAI" >B.Braun Avitum Italy</option>                                                                        
+        //                             <option value="Melsungen" >B.Braun Melsungen</option>
+        //                             <option value="Sterilverona" >Sterilverona</option>
+        //                             <option value="Sterisastkomenda" >Sterisast Komenda</option>
+        //                             <option value="Sterilveronanogara" >Sterilverona Nogara</option>
+        //                             <option value="Sterisastseriate" >Sterisast Seriate</option>
+        //                             <option value="Sterisastwestport" >Sterisast Westport</option>
+        //                             <option value="Synergyhealth" >Synergy Health</option>                                    
+        //                             <option value="all" selected>See All</option>
+        //                            </select>
          sup_options=document.querySelector("#supplierinput");
          fetch('/aux/getsuppliers',{
              method: 'GET',            
@@ -194,7 +197,7 @@ async function updateProductsTable(totalcolumns){
         <div class="grid-item tableheader">RMF</div>
         <div class="grid-item tableheader">BUDI</div>
         <div class="grid-item tableheader">Sterilization Method</div>
-        <div class="grid-item tableheader">Sterilization Site</div>
+        
         <div class="grid-item tableheader">Shelf Life</div>
         <div class="grid-item tableheader">Supplier</div>
         <div class="grid-item tableheader">Bill of materials</div>
@@ -217,7 +220,7 @@ async function updateProductsTable(totalcolumns){
     let rmf=document.getElementsByName("rmfinput")[0].value;
     let budi=document.getElementsByName("budiinput")[0].value;
     let sterimethod=document.getElementsByName("sterimethodinput")[0].value;
-    let sterisite=document.getElementsByName("sterisiteinput")[0].value;
+    // let sterisite=document.getElementsByName("sterisiteinput")[0].value;
     let shelflife= document.getElementsByName("shelflifeinput")[0].value;
     let supplierid=document.getElementsByName("supplierinput")[0].value;
 
@@ -225,7 +228,7 @@ async function updateProductsTable(totalcolumns){
     //SEND REQUEST TO THE REST API
 
     let url = '/queryprod/';
-    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&sapstatus=${sapstatus}&semifinished=${semifinished}&dhf=${dhf}&rmf=${rmf}&budi=${budi}&sterimethod=${sterimethod}&sterisite=${sterisite}&shelflife=${shelflife}`;
+    url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&sapstatus=${sapstatus}&semifinished=${semifinished}&dhf=${dhf}&rmf=${rmf}&budi=${budi}&sterimethod=${sterimethod}&sterisite=all&shelflife=${shelflife}`;
     if(supplierid!="all") url+=`&supplierid=${supplierid}`
     const requestOptions = {
       method: 'GET',
@@ -289,7 +292,7 @@ async function updateProductsTable(totalcolumns){
                     const check3 = obj.dhf != null ? obj.dhf : "&#10007;";
                     const check4 = obj.rmf != null ? obj.rmf : "&#10007;";
                     const check5 = obj.budi != null ? obj.budi : "&#10007;";
-                    const check6 = obj.sterilizationsite != null ? obj.sterilizationsite : "&#10007;";
+                    // const check6 = obj.sterilizationsite != null ? obj.sterilizationsite : "&#10007;";
                     const check7 = obj.shelflife != null ? obj.shelflife + " months" : "";
                     
                     let check8 = obj.supplierid == null ? "&#10007;" : obj.supplierid;
@@ -316,7 +319,7 @@ async function updateProductsTable(totalcolumns){
                             <div class="grid-item ">${check4}</div>
                             <div class="grid-item ">${check5}</div>
                             <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
-                            <div class="grid-item ">${check6}</div>
+                            
                             <div class="grid-item ">${check7}</div>
                             <div class="grid-item supplierbox">${suppliername}</div>
                             <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>

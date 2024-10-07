@@ -425,4 +425,18 @@ form.searchform:valid .fa.searchfa:hover{
     background: radial-gradient(circle, rgba(255,255,255,1) 7%, rgba(255,255,255,0) 30%);
     
 }
+.company-logo{
+    position: fixed;
+    opacity: 0.8;
+    bottom: 10px;
+    right: 10px;
+    width: 150px;
+    height: 50px;
+    background-image: url("logo_green.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+
 
