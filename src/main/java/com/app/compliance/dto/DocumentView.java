@@ -14,15 +14,17 @@ public class DocumentView {
         private String documentType;
         private String ppc;
         private boolean active;
+        private String docid;
 
 
 
-        public DocumentView(String id, String description, String revision, String documentType, String ppc, boolean active) {
+        public DocumentView(String id, String description, String revision, String documentType, String ppc, boolean active, String docid) {
                 this.id = id;
                 this.description = description;
                 this.revision = revision;
                 this.documentType = documentType;
                 this.ppc = ppc;
                 this.active=active;
+                this.docid=docid;
         }
 }

@@ -1,30 +1,51 @@
 
 function rendernewcomponents(){
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
+    
+    event.preventDefault();
+    resetPage();
     //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-    const referenceElement = document.body.children[1];
-    document.body.insertBefore(newTitle, referenceElement);
+    // const newTitle = document.createElement("h3");
+    // const referenceElement = document.body.children[1];
+    // document.body.insertBefore(newTitle, referenceElement);
+    // newTitle.classList.add("bomtitle");
+    // newTitle.classList.add("mt-5");
+    // newTitle.innerHTML=`NEW COMPONENT FORM - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
+    // const newDash = document.createElement("div");
+    // const referenceElement2 = document.body.children[2];
+    // document.body.insertBefore(newDash, referenceElement2);
+    // newDash.classList.add("container");
+    // newDash.classList.add("mt-5");
+    // newDash.classList.add("addcomponent");
+
+
+    const newTitle = document.createElement("h3");    
     newTitle.classList.add("bomtitle");
-    newTitle.classList.add("mt-5");
+    
     newTitle.innerHTML=`NEW COMPONENT FORM - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
     newDash.classList.add("addcomponent");
+
+
+
+
+
+
+
+
+
+
+
+
+
     newDash.innerHTML=`<div class="row">
                                   <div class="col-8 mx-auto mt-3">
 
-                                      <form id="newcompform">
-                                          <div class="mb-3">
+                                      <form id="newcompform" style="width: 700px;">
+                                          <div class="mb-3" >
                                             <label for="articleinput" class="form-label">Article Number</label>
                                             <input type="text" class="form-control" id="articleinput" name="articleinput">
                                           </div>
@@ -32,29 +53,29 @@ function rendernewcomponents(){
                                               <label for="revinput" class="form-label">Description</label>
                                               <input type="text" class="form-control" id="descriptioninput" name="descriptioninput">
                                           </div>
-                                          <div class="mb-3 form-check ">
+                                          <div class="mb-3 form-check " style="padding-left:280px;">
                                             <input type="checkbox" class="form-check-input" id="intercompanyinput" name="intercompanyinput" >
                                             <label class="form-check-label" for="activeinput">Intercompany Component</label>
                                           </div>
-                                          <div class="mb-3 form-check ">
+                                          <div class="mb-3 form-check " style="padding-left:280px;">
                                               <input type="checkbox" class="form-check-input" id="packaginginput" name="packaginginput" >
                                               <label class="form-check-label" for="activeinput">Packaging Material</label>
                                           </div>
-                                          <div class="mb-3 form-check ">
+                                          <div class="mb-3 form-check " style="padding-left:280px;">
                                               <input type="checkbox" class="form-check-input" id="contactinput" name="contactinput" >
                                               <label class="form-check-label" for="activeinput">Component In-Contact</label>
                                           </div>
-                                          <div class="mb-3 form-check ">
+                                          <div class="mb-3 form-check " style="padding-left:280px;">
                                               <input type="checkbox" class="form-check-input" id="ca65input" name="ca65input" >
                                               <label class="form-check-label" for="activeinput">California 65 In Scope</label>
                                           </div>
-                                          <div class="mb-3 form-check ">
+                                          <div class="mb-3 form-check " style="padding-left:280px;">
                                               <input type="checkbox" class="form-check-input" id="baimoldinput" name="baimoldinput" >
                                               <label class="form-check-label" for="activeinput">Mold owned by BAI</label>
                                           </div>
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Family of the component: </span>
-                                              <select class="form-select form-select-lg mb-3" aria-label="Large select example" id="familyinput">                                                  
+                                              <select class="form-select form-select-lg mb-3 text-center" aria-label="Large select example" id="familyinput">                                                  
                                                   <option value="ADJUVANTS" selected>Adjuvants</option>
                                                   <option value="BAGS" selected>Bags</option>
                                                   <option value="CAPS">Caps</option>
@@ -112,7 +133,7 @@ function rendernewcomponents(){
                                           </div>
 
                                           <div class="errormessage text-danger invisible mb-2" id="pwerror"></div>
-                                          <div class="mb-3 w-100 text-center">
+                                          <div class="mb-3 " style="justify-content: center">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewcomp" onclick="submitsnewcomp()">Submit Component</button>
                                           </div>
 

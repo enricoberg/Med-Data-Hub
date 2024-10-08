@@ -1,3 +1,4 @@
+@import url('https://fonts.cdnfonts.com/css/swis721-bt');
 *{
     margin: 0;
     padding: 0;
@@ -8,18 +9,23 @@
 .invisible{
     display: none;
 }
-body{
+/* body{
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;  
     background-image: url("background.webp");
     background-size: cover;
 
-}
+} */
 
 .actionbutton{
+    background-color: rgb(0, 123, 255);
     color: white;
     border-radius: 5px;
+    font-size:12px;
+    padding: 2px 0 2px 0;
+    margin: 0 2px 0 2px;
+    max-height: 12px;
     
 }
 i.actionbutton{ cursor: pointer;}
@@ -55,6 +61,12 @@ i.actionbutton{ cursor: pointer;}
     margin-left: 15px;
     margin-right: 10px;
 }
+.cw50{
+    width: 50px;
+}
+.cw75{
+    width: 75px;
+}
 .cw100{
     width: 100px;
 }
@@ -82,35 +94,118 @@ i.actionbutton{ cursor: pointer;}
 .cw500{
     width: 500px;
 }
+.cw550{
+    width: 550px;
+}
+.cw950{
+    width: 950px;
+}
 
 #targettable{
     width: 90vw;
-    margin: auto;    
-    height: 85vh;
+    /* margin: auto;    */
+    margin-left: calc(50px + 0.5 * (10vw - 60px));
+    max-height: 70vh; 
+     
+    /* height: 85vh; */
+    
     overflow: auto;
     background-color: rgba(255, 255, 255,0.5);
+}
+@media screen and (max-height: 850px) and (min-height: 750px) {
+    #targettable{
+        max-height: 65vh; 
+    }
+}
+@media screen and (max-height: 749px) {
+    #targettable{
+        max-height: 55vh; 
+    }
 }
 .containertable{
     width: 100%;
     
     
 }
+.offsetvertical{
+    margin-top: 75px;
+    
+}
+.text-center{
+    text-align: center;
+}
+#targettable .row{
+    height: 25px;
+    margin: 4px 2px 4px 2px;
+    width: fit-content;
+    
+}
+#targettable .rowbulk{
+    min-height: 50px;
+    margin: 4px 0px 4px 0px;
+    padding: 8px 0px 8px 0px;
+    width: fit-content;
+    overflow:visible;
+    
+    
+}
+#targettable .row:not(.headerrow):hover::before,#targettable .rowbulk:not(.headerrow):hover::before {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #fe7aff;
+    border-radius: 3px;
+  }
+/* #targettable .row:hover{
+    margin: calc(default_margin - 2px);
+    border: 2px solid rgb(0, 123, 255);
+} */
 .etheader{
+    font-size: smaller;
+    font-weight:  lighter;
     background-color: rgb(0, 123, 255);
     color: white;
     border-radius: 4px;
     text-align: center;
+    font-family: Arial;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 .etitem{
-    background-color: rgba(0, 0, 0,0.05);    
+    background-color: rgba(0, 0, 0,0.05);  
+    max-height: 25px;  
     border-radius: 2px;
     text-align: center;
-    text-overflow:clip;
-    margin-top: 2px;
+    text-overflow:clip;    
     padding-top: 3px;
     padding-bottom: 3px;
+    position: relative;
+    bottom: 17px; 
+    font-size: smaller;
+    font-family: Arial;
     
 }
+.etitembulk{
+    background-color: rgba(0, 0, 0,0.05);  
+    /* height: max-content; */
+    border-radius: 2px;
+    text-align: center;
+    padding: 3px 0 3px 0;
+    line-height: 50px;
+    height: 90%;
+    font-size: smaller;
+    font-family: Arial;
+    
+    word-wrap: break-word;
+}
+
+
+
+
+
 .row{
     overflow:visible;
     white-space: nowrap;
@@ -120,17 +215,30 @@ i.actionbutton{ cursor: pointer;}
 }
 .deletebutton{
     background-color: #dc3545;
-    padding: 3px;
-    border-radius: 2px;
+    
 }
+
 .editselect select{
-    width: 80%;
+    width: 100%; 
+    
     text-align: center;
+    font-size: small;
+    height: 22px;
+    z-index: 200;
+}
+.etitem:has(select){
+    height: 5px;
+    background-color: transparent;
 }
 .etitem input{
     width: 95%;
     text-align: center;
 }
+.etitem select:disabled{
+    opacity: 1;
+    
+}
+
 .edited{
     color: rgb(0, 123, 255); 
 }
@@ -166,8 +274,8 @@ i.actionbutton{ cursor: pointer;}
 }
 .addbutton{
     position: absolute;
-    top: 77px;
-    left: 75px;
+    top: 20px;
+    left: 85px;
     width: 45px;
     height: 45px;
     background-size: contain;
@@ -191,13 +299,28 @@ i.actionbutton{ cursor: pointer;}
 }
 
 .additem{
-    background-color: rgba(114, 233, 177, 0.75);    
+    
     border-radius: 2px;
     text-align: center;
     text-overflow:clip;
-    margin-top: 2px;
+    margin-top: 0px;
     padding-top: 3px;
     padding-bottom: 3px;
+    
+    
+}
+.additem select, .additem input[type=text]{
+    background-color: rgba(114, 233, 177, 0.75);    
+    
+}
+.bomrow .etitem{
+position: relative;
+top: 0px;
+font-family: "Roboto", sans-serif;
+}
+.text-primary{
+    color: rgb(0, 123, 255);
+    font-weight: bold;
 }
 .additem input{text-align: center;}
 .floppybutton{
@@ -305,4 +428,18 @@ i.actionbutton{ cursor: pointer;}
     color: #2b2bc1;
     text-decoration: underline;
     cursor: pointer;
+}
+.certificatebutton{
+    cursor: pointer;
+    background-color: rgb(226,104,227);
+    color: white;
+    width: 60px;
+    height: 18px;
+    border-radius: 5px;
+    margin: 0 5px 0 5px;
+    padding: 2px 8px 2px 8px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-family: 'Swis721 BT', sans-serif;
+                                                
 }

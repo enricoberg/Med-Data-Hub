@@ -1,9 +1,15 @@
 
 async function rendercomponents(){
     document.cookie = `resultpage=1`;
-    localStorage.setItem("currentsection","components");
-    localStorage.setItem("editmode","false");
-    
+    const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (response.ok) return response.text();
+    })    
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
     
 
     // event.preventDefault();
@@ -18,14 +24,12 @@ async function rendercomponents(){
     newDash.classList.add("components");
     newDash.innerHTML=`
     <div class="pagelabel">PAGE 1/7</div>
-    <div class="rainbowtext sectiontitle">COMPONENTS TABLE</div>
+    
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageComponents(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
     <div class="nextbutton hover-message" title="Next Page" onclick="changePageComponents(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
-    <div class="editbutton hover-message " title="Toggle edit mode" onclick="toggleEditMode(['ENGINEER'])"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
-    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="../../css/download.png"></img></div>
-    <div class="flopbutton hover-message" style="right:75px;" title="Save edits" onclick="saveComponentsModifications()"><img class="btnsmall" alt="Save edits" src="../../css/diskette.png"></img></div>
-    <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="../../css/copy.png"></img></div>
-    <div class="newrecbutton hover-message" title="New record" onclick="rendernewcomponents()"><img alt="New record" class="btnsmall" src="../../css/add.png"></img></div>
+    <div class="editbutton hover-message invisible" title="Edit Selection" onclick="sendToEditComponents()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
+    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
+    <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
     <form action="">
         <div class="input-group ">
             <input type="text" id="componentarticleinput" class="form-control documentcontrol" placeholder="Article number" name="codeinput" >
@@ -132,10 +136,8 @@ async function rendercomponents(){
         </div>
 
 
-        
-     </form>
-     <div class="resultbanner mt-4">~  Found 0 results  ~</div>
-     `;
+        <div class="resultbanner mt-4">~  Found 0 results  ~</div>
+     </form>`;
      mat_options=document.querySelector("#materialinput");
      fetch('/aux/getmaterials',{
          method: 'GET',            
@@ -173,7 +175,6 @@ async function rendercomponents(){
          console.error('Error during fetch:', error);
      });
     updateComponentsTable();
-    
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 
@@ -181,15 +182,15 @@ async function rendercomponents(){
                 startBuffering();
                 document.cookie = `resultpage=1`;
                     for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
-                        timeouts.push(setTimeout(updateComponentsTable.bind(null),500));
+                        timeouts.push(setTimeout(updateComponentsTable.bind(null),800));
                     });
 
         }
         const selectcontrols=document.querySelectorAll(".selectcontrol");
         for (let control of selectcontrols){
-                startBuffering();
+
                 control.addEventListener("change", ()=>{
-                        
+                        startBuffering();
                         document.cookie = `resultpage=1`;
                         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
                             timeouts.push(setTimeout(updateComponentsTable.bind(null),100));
@@ -212,48 +213,24 @@ async function updateComponentsTable(){
     }, 25);
     
     resetPage(["dashboard"]);
-
-
     const gridContainer = document.createElement("div");    
-    gridContainer.classList.add("containertable");
-    // gridContainer.classList.add("thininvisible");
+    gridContainer.classList.add("grid-container");
+    gridContainer.classList.add("thininvisible");
     document.body.insertBefore(gridContainer, document.body.lastChild);  
 
     //CREATE HEADERS
-    gridContainer.innerHTML=`<div class=" mx-auto" id="targettable"></div>`;
-    document.querySelector("#targettable").innerHTML=`<div class="row headerrow">                    
-    <div class="col cw50 text-center etheader border ">
-        <h3>ID</h3>
-    </div> 
-    <div class="col cw150  text-center etheader border   ">
-        <h3>Part code</h3>
-    </div>
-    <div class="col cw400  text-center etheader border ">
-        <h3>Description</h3>
-    </div>
-    <div class="col cw150  text-center etheader border ">
-        <h3>Intercompany</h3>
-    </div>
-    <div class="col cw200  text-center etheader border ">
-        <h3>Family</h3>
-    </div>
-    <div class="col cw200 text-center etheader border ">
-        <h3>Conical STD</h3>
-    </div>
-    <div class="col cw100 text-center etheader border ">
-        <h3>Packaging</h3>
-    </div>
-    <div class="col cw100  text-center etheader border ">
-        <h3>Contact</h3>
-    </div>
-    <div class="col cw100 text-center etheader border ">
-        <h3>CA65</h3>
-    </div>    
-    <div class="col cw250 text-center etheader border  ">
-        <h3>Action</h3>
-    </div>      
-</div>
-`;
+    document.querySelector(".grid-container").innerHTML+=
+            `<div class="grid-item tableheader">Part code</div>
+            <div class="grid-item tableheader cw350">Description</div>
+            <div class="grid-item tableheader">Intercompany</div>
+            <div class="grid-item tableheader">Family</div>
+            <div class="grid-item tableheader">Conical standard</div>
+            <div class="grid-item tableheader">Packaging Material</div>
+            <div class="grid-item tableheader">In Contact</div>
+            <div class="grid-item tableheader">California65 InScope</div>
+            
+            <div class="grid-item tableheader">Configurations</div>
+            `;
 
     //DO NOT SEND REQUEST IF NOT NECESSARY    
     if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
@@ -279,7 +256,7 @@ async function updateComponentsTable(){
     let url = '/querycomp/';
     url+=`?description=${description}&article=${article}&intercompany=${intercompany}&family=${family}&standard=${standard}&packaging=${packaging}&contact=${contact}&ca65=${ca65}&baimold=${baimold}&contains=${contains}&suppliedby=${suppliedby}`;
 
-    
+
 
     const requestOptions = {
       method: 'GET', 
@@ -303,59 +280,56 @@ async function updateComponentsTable(){
         
 
     
-        // if (response.status !== 200) {
-        //     console.error('Request failed with status:', response.status);
-        //     return ;
-        // }
+        if (response.status !== 200) {
+            console.error('Request failed with status:', response.status);
+            return ;
+        }
 
         let i=0;
         //POPULATE THE TABLE
         const processJsonResponseForComponents = (jsonResponse) => {
             return new Promise((resolve) => {
                 
-                
+                let componentsToEdit = [];
                 let i = 0;
                 const rv = 50;
                 const rp = parseInt(getCookie("resultpage"));
                 
-                const minview = (rp-1)*50
-                const maxview = rp*50-1;
+                const minview = (rp-1)*50+1
+                const maxview = rp*50;
                 
                 jsonResponse.forEach(obj => {
                     
-                    if (i >= minview && i <=maxview && minview <= jsonResponse.length) {
-
-
-                        const check_intercompany= obj.intercompany? "checked" : "";            
-                        const check_packaging= obj.packagingmaterial? "checked" : "";
-                        const check_contact= obj.contact? "checked" : "";
-                        const check_california= obj.ca65? "checked" : "";
-                        const standardplaceholder= obj.standard==null ? "NULL" : obj.standard;
-                        document.querySelector("#targettable").innerHTML+=`
-                        <div class="row" style="position: relative;">                    
-                            <div class="col cw50 py-2 text-center etitem   border  bg-light etinactive boxid ">${obj.id}</div>
-                            <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable boxarticle ">${obj.comp_id}</div>
-                            <div class="col cw400 py-2 text-center etitem border  bg-light etinactive editable boxdescription ">${obj.description}</div>
-                            <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck"><input class="form-check-input boxintercompany " type="checkbox" ${check_intercompany} id="flexCheckDefault"></div>
-                            <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable  editselect "> <select class="form-select selectcompfamily boxfamily" aria-label="Default select example"><option selected>${obj.family}</option></select></div>
-                            <div class="col cw200 py-2 text-center etitem border  bg-light etinactive editable editselect "> <select class="form-select selectstandard boxstandard"  aria-label="Default select example"><option selected>${standardplaceholder}</option></select></div>
+                    if (i >= minview && i < maxview && minview <= jsonResponse.length) {
+                        
+                        componentsToEdit.push(obj.comp_id);
+                        const check1 = obj.intercompany ? "&#10003;" : "&#10007;";
+                        const check2 = obj.family == null ? "&#10007;" : getExtendedCompFamily(obj.family);
+                        const check3 = obj.packagingmaterial ? "&#10003;" : "&#10007;";
+                        const check4 = obj.contact ? "&#10003;" : "&#10007;";
+                        const check5 = obj.ca65 ? "&#10003;" : "&#10007;";
+                        const check6 = obj.baimold ? "&#10003;" : "&#10007;";
+                        const check7 = obj.standard == null ? "&#10007;" : obj.standard;
+        
+                        const gridItem = `
+                            <div class="grid-item "><a class="pdfopener" targetref="/download/activespec?article=${obj.comp_id}">${obj.comp_id}</a></div>
+                            <div class="grid-item cw350">${obj.description}</div>
+                            <div class="grid-item ">${check1}</div>
+                            <div class="grid-item ">${check2}</div>
+                            <div class="grid-item ">${check7}</div>
+                            <div class="grid-item ">${check3}</div>
+                            <div class="grid-item ">${check4}</div>
                             
-                            <div class="col cw100 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxpackaging" type="checkbox" ${check_packaging} id="flexCheckDefault"></div>
-                            <div class="col cw100 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxcontact" type="checkbox" ${check_contact} id="flexCheckDefault"></div>
-                            <div class="col cw100 py-2 text-center etitem border  bg-light etinactive triggerrowcontrol editable  editcheck"><input class="form-check-input boxcalifornia" type="checkbox" ${check_california} id="flexCheckDefault"></div>
-                                
-                            <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
-                                <i class="fa fa-trash-o fa-1 deletebutton actionbutton"  onclick="deleteItemComponent(${obj.id})" aria-hidden="true"></i> <i class="fa fa-search-plus fa-1  actionbutton"  onclick="retrieveMaterialandSupplierinfos(${obj.id})" aria-hidden="true"></i><i class="fa fa-link fa-1  actionbutton pdfopener" targetref="/download/activespec?article=${obj.comp_id}" style="background-color: #F5B041;" onclick="" aria-hidden="true"></i>
-                                
-                            </div>                
-                        </div>
+                            <div class="grid-item ">${check6}</div>
+                            <div class="grid-item "><a href="#" onclick="renderEditableConfigs(${obj.id})">See configurations</a></div>
                         `;
-
+                        
+                        document.querySelector(".grid-container").innerHTML += gridItem;
                     }
                     i++;
                 });
                 
-                
+                localStorage.setItem("components_to_edit", JSON.stringify(componentsToEdit));
                 resolve();
             });
         };
@@ -363,69 +337,19 @@ async function updateComponentsTable(){
         // Usage
         async function handleComponentsResponse(jsonResponse) {
             await processJsonResponseForComponents(jsonResponse);
-            const allchecks=document.querySelectorAll(".editcheck.editable input");
+            listenForDownloads();
             
-        const allselects=document.querySelectorAll(".editselect.editable select");
-        
-        allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
-        allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
-        document.querySelectorAll(".selectcompfamily").forEach(select=>{
-            let current_value=select.value;
-            select.innerHTML=`
-                <option value="ADJUVANTS" selected>Adjuvants</option>
-                <option value="BAGS" selected>Bags</option>
-                <option value="CAPS">Caps</option>
-                <option value="CARTONS" selected>Boxes</option>
-                <option value="CHAMBERS" selected>Drip Chambers</option>
-                <option value="CLAMPS" selected>Clamps</option>
-                <option value="CONNECTORS" selected>Connectors</option>
-                <option value="CONICALCONNECTORS" selected>Conical Connectors</option>
-                <option value="COVERS" selected>Covers</option>
-                <option value="ELECTRODES" selected>Electrodes & Accessories</option>
-                <option value="FILTERS" selected>Filters</option>
-                <option value="FILMS" selected>Films</option>
-                <option value="HOTSTAMPING" selected>Hot stamping</option>
-                <option value="IFU" selected>IFU-Instructions for use</option>
-                <option value="INJECTIONPOINTS" selected>Injection Points</option>
-                <option value="LABELS" selected>Labels</option>
-                <option value="MATERIALS" selected>Raw materials</option>
-                <option value="MATERIALS" selected>Raw materials</option>
-                <option value="POUCHES" selected>Pouches</option>
-                <option value="SFTUBES" selected>Semifinished tubes</option>
-                <option value="SFVARIOUS" selected>Various semifinished goods</option>
-                <option value="SPIKES" selected>Spikes</option>
-                <option value="TRANSDUCERS" selected>Transducers</option>
-                <option value="TUBES" selected>Tubes</option>
-                <option value="VARIOUS" selected>Various components</option>
-                <option value="INWORK" selected>In Work</option>
-            `;
-            select.value=current_value;
-        });
-        document.querySelectorAll(".selectstandard").forEach(select=>{
-            let current_value=select.value;
-            select.innerHTML=`
-            <option value="LUERLOCK">Luer</option>
-              <option value="ENFIT">ENFIT</option>
-              <option value="TPNLOCK">TPN Lock</option>
-              <option value="NULL">N/A</option>
-            `;
-            select.value=current_value;
-        });
-        updateView();
-        listenForDownloads();
-        
-        setTimeout(()=>{stopBuffering();document.getElementById("componentarticleinput").focus();},350);
         }
         handleComponentsResponse(jsonResponse);
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;        
         
-        // adjustTableCSS();
+        adjustTableCSS();
         //SHOW THE TABLE
         let totalcolumns=totalcomponentcolumns;
-        // activeCellColoring(totalcolumns);
+        activeCellColoring(totalcolumns);
         // if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
-        
+        stopBuffering();
         return ;        
     } catch (error) {
         console.error('Error during fetch:', error);
@@ -476,85 +400,4 @@ function sendToEditComponents(){
 function renderEditableConfigs(id){
     localStorage.setItem("config_to_edit", id);
     window.location.replace("/app/editconfigurations")
-}
-
-
-function saveComponentsModifications(){
-    inputToTableItem();
-    const modified_items=document.querySelectorAll(".edited");
-    if(modified_items.length===0){
-        createCustomAlert('Error','The table is already up to date', 'ok');
-        
-        return;
-    }
-      
-    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
-    .then((result) => {
-             if(!result) return;
-             else{
-                let processed_items=0;
-    
-                modified_items.forEach(function(button){
-                    processed_items++;
-                    const parentRow = button.closest('.row');
-                    if (parentRow) {
-                        const id = parentRow.querySelector('.boxid').innerHTML;
-                        const article = parentRow.querySelector('.boxarticle').innerHTML;
-                        const description = parentRow.querySelector('.boxdescription').innerHTML;
-                        const intercompany = parentRow.querySelector('.boxintercompany').checked;
-                        const family = parentRow.querySelector('.boxfamily').value;
-                        const packaging= parentRow.querySelector('.boxpackaging').checked;
-                        const california = parentRow.querySelector('.boxcalifornia').checked;
-                        const contact = parentRow.querySelector('.boxcontact').checked;      
-                        const cone = parentRow.querySelector(".boxstandard").value;   
-            
-                        // if(!id || !email || !password || !street || !number || !city || !province || !birthdate || !first || !second) return;
-                        const comp_correct = { 
-                                                article: article,
-                                                description: description,
-                                                intercompany: intercompany,
-                                                packaging: packaging,
-                                                contact: contact,
-                                                ca65: california,
-                                                family: family  ,
-                                                standard: cone
-                                            };
-                        
-                        axios.put(`/querycomp/updatecomponent/${id}`, comp_correct,{ headers: { 'Authorization': authenticationheader()}})
-                        .then((response) => {
-                            if(!response.ok) createCustomAlert('Error','Something went wrong trying to save modifications', 'ok');
-                        })
-                        
-                        if (processed_items==modified_items.length)  setTimeout(()=>{updateComponentsTable();},250);         
-                        
-                    }
-                });               
-             }  
-            });
-
-
-
-
-    
-}
-function deleteItemComponent(id){
-     
-    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS COMPONENT PERMANENTLY?', 'yesno')
-    .then((result) => {
-             if(!result) return;
-             else{
-                axios.delete(`/querycomp/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
-                .then((response) => {
-                    updateComponentsTable();
-                })
-                .catch((error) => {
-                    console.error("Error deleting user:", error);
-                    createCustomAlert('Error','Something went wrong trying to delete this user', 'ok');
-                    
-                });
-             } 
-            });
-    
-
-       
 }

@@ -215,14 +215,15 @@ async function rendernewdocuments(){
                           
                           setTimeout(()=>{document.querySelector("#speccodeinput").value=article;
                             setTimeout(()=>{
-                              updateDocumentsTable(totaldocumentcolumns);
+                              updateDocumentsTable();
                             },50)
                         },350); 
                               
                         
                         
                     })
-                    .catch(error => { createCustomAlert('Oops!','Something went wrong with your request.', 'ok'); });
+                    .catch(error => { console.log(error)
+                      createCustomAlert('Oops!','Something went wrong with your request.', 'ok'); });
                   }
                  });
 

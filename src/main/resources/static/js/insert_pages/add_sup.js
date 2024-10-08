@@ -1,25 +1,22 @@
 
 function rendernewsuppliers(){
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
-    //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-            const referenceElement = document.body.children[1];
-            document.body.insertBefore(newTitle, referenceElement);
-            newTitle.classList.add("bomtitle");
-            newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`NEW SUPPLIER FORM - <a href="#" onclick="rendersuppliers();">BACK TO SUPPLIERS</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
-    newDash.classList.add("addcomponent");
+    event.preventDefault();
+    resetPage();
+
+
+    const newTitle = document.createElement("h3");    
+    newTitle.classList.add("bomtitle");
+    
+    newTitle.innerHTML=`NEW SUPPLIER FORM - <a href="#" onclick="rendersuppliers();">BACK TO SUPPLIERS</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
+    newDash.classList.add("addsupplier");
+
+
+    
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 
@@ -39,7 +36,7 @@ function rendernewsuppliers(){
 
 
                                            <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
-                                           <div class="mb-3 w-100 text-center">
+                                           <div class="mb-3 w-100 text-center" style="justify-content: center">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewsup" onclick="submitsnewsup()">Submit Supplier</button>
                                            </div>
 

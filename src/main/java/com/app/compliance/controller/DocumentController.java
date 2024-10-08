@@ -323,11 +323,12 @@ public class DocumentController {
             String documentType = getStringValue(result[3]);
             String ppc = getStringValue(result[4]);
             boolean active= (boolean) result[5];
+            String docid = getStringValue(result[6]);
 
 
 
 
-            documentViews.add(new DocumentView(id, description, revision, documentType, ppc, active));
+            documentViews.add(new DocumentView(id, description, revision, documentType, ppc, active, docid));
         }
         return documentViews;
     }
@@ -396,5 +397,22 @@ public class DocumentController {
         }
 
         return ResponseEntity.ok("New certificate created successfully!");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteComponent(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
+        String SERVER_LOCATION = System.getProperty("user.dir") + File.separator + "documentfolder";  
+        try{
+            Document docToDelete = documentRepository.findById(id).get();
+            if(docToDelete==null) throw new Exception();
+            documentRepository.deleteById(id);    
+            String completefilename= docToDelete.getArticlecode() + "_" + docToDelete.getRevision() + "_" + docToDelete.getDocumenttype() + ".pdf";
+            File fileToDelete = new File(SERVER_LOCATION + File.separator + completefilename);
+            if(!fileToDelete.delete()) throw new Exception();
+            logService.writeToLog("Deleted the document with id  "+id+" - ("+completefilename+")",token);
+        }catch(Exception e ){
+            return ResponseEntity.status(500).body("Failed to delete the document");
+        }
+        return ResponseEntity.ok("Document deleted successfully");
     }
 }

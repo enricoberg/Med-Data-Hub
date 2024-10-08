@@ -1,34 +1,37 @@
 
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
-function visualizeBoms(product){  
-    resetPage();
+function visualizeBoms(){  
+    fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {
+        if(data=="ADMIN") document.querySelector(".pastebutton").classList.remove("invisible");
+        if(data=="USER" || data=="ENGINEER") document.querySelector(".addbutton").classList.add("invisible");
+        
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
+
+
+
     bufferTimeoutStart();
-    localStorage.setItem("bom_to_edit",product);
-    
-    const newDash = document.createElement("div");
-    document.body.insertBefore(newDash, document.body.firstChild);
-    newDash.classList.add("containertable");
-    newDash.classList.add("offsetvertical");
-    newDash.innerHTML=`
-    <img src="https://i.postimg.cc/DwP8n2Bn/copy.png" alt="" class="pastebutton invisible" onclick="dumpBoms()">
-        <img src="https://i.postimg.cc/8kh4z23y/add-button-1.png" alt="" class="addbutton" onclick="addNewBomLine()">
-        <img src="https://i.postimg.cc/dVsMMKqW/diskette.png" alt="" class="savebutton" style="display: none;" onclick="saveBomsModifications()">
-        <div class="row mx-2" >
-            <div style="width: 100%; text-align: center;" class="titleh1"><h1 style="font-family: 'Roboto', sans-serif;">Bill of Materials</h1></div>            
-            <div class=" mx-auto" id="targettable">              
-            </div>
-        </div>
-    `;
-    
+    const product= JSON.parse(localStorage.getItem("bom_to_edit"));
     let url=`/queryboms/?article=${product}`;    
     axios.get(`/queryprod/byidint?article=${product}`,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {         
-        document.querySelector("h1").innerHTML=`${response.data.code} - Bill of Materials - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a>` ; 
+        document.querySelector("h1").innerHTML=`${response.data.code} - Bill of Materials` ; 
      })
 
     
     const target_table=document.querySelector("#targettable");
-    target_table.innerHTML=`<div class="row headerrow">                    
+    target_table.innerHTML=`<div class="row">                    
     
     <div class="col cw350  text-center etheader border   ">
         <h3>Part code</h3>
@@ -61,7 +64,7 @@ function visualizeBoms(product){
             
             const check_assembly= obj.assembly? "checked" : "";
             target_table.innerHTML+=`
-            <div class="row bomrow" style="position: relative;">                    
+            <div class="row" style="position: relative;">                    
                 <div class="col cw350 py-2 text-center etitem  border  bg-light etinactive bomid="${obj.id}"  boxarticle">${obj.comp_id}</div>
                 <div class="col cw500 py-2 text-center etitem border  bg-light etinactive   boxdescription">${obj.comp_description}</div>
                 <div class="col cw150 py-2 text-center etitem border  bg-light etinactive editable  editcheck" ><input disabled class="form-check-input boxassembly " type="checkbox" ${check_assembly} id="flexCheckDefault"></div>
@@ -96,7 +99,7 @@ function deleteBom(comp_id,prod_id, assembly,id){
             else{
                 axios.get(`/queryboms/deletebom?compid=${comp_id}&prodid=${prod_id}&assembly=${assembly}&id=${id}`,{ headers: { 'Authorization': authenticationheader()}})
                 .then((response) => {
-                    visualizeBoms(localStorage.getItem("bom_to_edit"));
+                    visualizeBoms();
                 })
                 .catch((error) => {
                     console.error("Error deleting user:", error);
@@ -147,7 +150,7 @@ function saveBomsModifications(){
                                             };
                         
                         axios.put(`/queryboms/update/${id}`, bom_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-                        if (processed_items==modified_items.length)  setTimeout(()=>{visualizeBoms(localStorage.getItem("bom_to_edit"))},350);         
+                        if (processed_items==modified_items.length)  setTimeout(()=>{window.location.reload()},350);         
                         
                     }
                 });
@@ -162,19 +165,19 @@ function saveBomsModifications(){
     
 }
 
-function addNewBomLine(){
+function addNewLine(){
     const target_table=document.querySelector("#targettable");
     const additems=document.querySelectorAll(".additem");
     if (additems.length!=0) return;
     target_table.innerHTML+=`
-    <div class="row bomrow" style="position: relative;">                    
-        <div class="etitem col cw350  additem boxarticle"><input class="codeinput" type="text" class="w-100 text-start" value="" style="z-index: 2000;"></div>
-        <div class="etitem col cw500  additem  boxdescription">Description</div>
-        <div class="etitem col cw150  additem editable  editcheck" ><input class="checkinput" class="form-check-input boxassembly " type="checkbox"  id="flexCheckDefault" style="z-index: 2000;"></div>
-        <div class="etitem col cw250  additem editable boxqty "><input class="qtyinput"type="text" class="w-100 text-start" value="" style="z-index: 2000;"></div>
-        <div class="etitem col cw200  additem editable  boxum"><input class="uminput" type="text" class="w-100 text-start" value="" style="z-index: 2000;"></div>
+    <div class="row" style="position: relative;">                    
+        <div class="col cw350  additem boxarticle"><input class="codeinput" type="text" class="w-100 text-start" value=""></div>
+        <div class="col cw500  additem  boxdescription">Description</div>
+        <div class="col cw150  additem editable  editcheck" ><input class="checkinput" class="form-check-input boxassembly " type="checkbox"  id="flexCheckDefault"></div>
+        <div class="col cw250  additem editable boxqty "><input class="qtyinput"type="text" class="w-100 text-start" value=""></div>
+        <div class="col cw200  additem editable  boxum"><input class="uminput" type="text" class="w-100 text-start" value=""></div>
         
-        <div class="etitem col cw250 py-2 text-center etitem border  bg-light etinactive" >
+        <div class="col cw250 py-2 text-center etitem border  bg-light etinactive" >
             <i class="fa fa-floppy-o  actionbutton floppybutton "  onclick="SaveBomItem(this)" aria-hidden="true"></i> Save
             
         </div>                
@@ -197,8 +200,7 @@ function SaveBomItem(element){
         return;
     }
     if(Number(qty) != qty ) {
-        createCustomAlert('Error','Invalid quantity', 'ok');
-        
+        alert("Invalid quantity");
         return;
     }
 
@@ -210,9 +212,8 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
                 axios.get(`/querycomp/byname?id=${code}`,{ headers: { 'Authorization': authenticationheader()}})
                 .then((response) => {
                     
-                    if(response.data.length==0) {     
-                        createCustomAlert('Warning','The component does not exist and must be created first', 'ok');      
-                        
+                    if(response.data.length==0) {            
+                        alert("Warning: the component does not exist and must be created first");
                         return;
                     }
                     const compid=response.data.id;
@@ -225,8 +226,8 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
                     }]
             
                     axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
-                    .then((response) => {    setTimeout(()=>{visualizeBoms(localStorage.getItem("bom_to_edit"))},150);})
-                    .catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok'); }); 
+                    .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
+                    .catch((error) => {alert("Something went wrong trying to add item"); }); 
             
             
             
@@ -242,7 +243,7 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
                 .then((response) => {
                     
                     if(response.data==null) {
-                        createCustomAlert('Warning','The component does not exist and must be created first', 'ok');                        
+                        alert("Warning: the component does not exist and must be created first");
                         return;
                     }
                     const compid=response.data;
@@ -255,8 +256,8 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
                     }]
                     
                     axios.post(`/queryboms/new`, bom_data, { headers: { 'Authorization': authenticationheader()}})
-                    .then((response) => {    setTimeout(()=>{visualizeBoms(localStorage.getItem("bom_to_edit"))},150);})
-                    .catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok'); }); 
+                    .then((response) => {    setTimeout(()=>{window.location.reload()},150);})
+                    .catch((error) => {alert("Something went wrong trying to add item"); }); 
             
             
             
@@ -307,10 +308,10 @@ async function dumpBoms(){
                 }
               
                 
-                
+                console.log(bom_data);
                 axios.post(`/queryboms/pastefromclipboard`, bom_data, { headers: { 'Authorization': authenticationheader()}})
                 .then((response) => {   console.log(response.data);})
-                .catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok'); }); 
+                .catch((error) => {alert("Something went wrong trying to add item"); }); 
               }
               
               
@@ -340,7 +341,7 @@ async function dumpBoms(){
     
 }
 
-
+visualizeBoms();
 
 
 

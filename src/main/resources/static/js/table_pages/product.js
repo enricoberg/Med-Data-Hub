@@ -1,42 +1,30 @@
 
 async function renderproducts(){
-    const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
-        method: 'GET',
-        headers: {'Authorization': authenticationheader() }})
-    .then(response => {
-        if (response.ok) return response.text();
-    })    
-    .catch(error => {
-        console.error('Error during fetch:', error);
-    });
-    // if(curr_role=="USER") {
-    //     document.querySelector("#dashboardsection").click();
-    //     return;
-    // }
-
     
-    let totalcolumns=totalproductcolumns;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
+    document.cookie = `resultpage=1`;
+    localStorage.setItem("currentsection","products");
+    localStorage.setItem("editmode","false");
+    resetPage();
+    // let totalcolumns=totalproductcolumns;
+    
     //CREATE A NEW DASHBOARD
 
-    const newDash = document.createElement("div");
-        const referenceElement = document.body.children[1];
-        document.body.insertBefore(newDash, referenceElement);
+    const newDash = document.createElement("div");        
+        document.body.insertBefore(newDash, document.body.firstChild);
         newDash.classList.add("dashboard");
         newDash.classList.add("products");
         newDash.innerHTML=`
         <div class="pagelabel">PAGE 1/7</div>
-        <div class="add_button invisible" onclick="rendernewproduct()"><i class="fa-regular fa-square-plus"></i>Create new</div>
+        <div class="rainbowtext sectiontitle">PRODUCTS TABLE</div>
+        
+        <div class="editbutton hover-message " title="Toggle edit mode" onclick="toggleEditMode(['ENGINEER'])"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
+        <div class="newrecbutton hover-message" title="New record" onclick="rendernewproduct()"><img alt="New record" class="btnsmall" src="../../css/add.png"></img></div>
+        <div class="flopbutton hover-message" style="right:75px;" title="Save edits" onclick="saveProductsModifications()"><img class="btnsmall" alt="Save edits" src="../../css/diskette.png"></img></div> 
         <div class="prevbutton hover-message" title="Previous Page" onclick="changePageProducts(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
         <div class="nextbutton hover-message" title="Next Page" onclick="changePageProducts(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
-        <div class="editbutton hover-message invisible" title="Edit Selection" onclick="sendToEditProducts()"><img class="btnsmall" alt="Edit selection" src="https://i.postimg.cc/xCjY1RdG/write.png"></img></div>
-        <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
-        <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
+       
+        <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="../../css/download.png"></img></div>
+        <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="../../css/copy.png"></img></div>
         <form action="">
             <div class="input-group ">
                 <input type="text" class="form-control documentcontrol" placeholder="Article number" name="articleinput" id="productarticleinput">
@@ -148,24 +136,27 @@ async function renderproducts(){
          .catch(error => {            
              console.error('Error during fetch:', error);
          });
-    updateProductsTable(totalcolumns);
+
+    updateProductsTable();
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
 
             control.addEventListener("input", ()=>{
                 startBuffering();
+                document.cookie = `resultpage=1`;
                     for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
-                        timeouts.push(setTimeout(updateProductsTable.bind(null, totalcolumns),800));
+                        timeouts.push(setTimeout(updateProductsTable.bind(null),500));
                     });
 
         }
         const selectcontrols=document.querySelectorAll(".selectcontrol");
         for (let control of selectcontrols){
-
+                startBuffering();
                 control.addEventListener("change", ()=>{
-                        startBuffering();
+                        
+                        document.cookie = `resultpage=1`;
                         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
-                            timeouts.push(setTimeout(updateProductsTable.bind(null, totalcolumns),100));
+                            timeouts.push(setTimeout(updateProductsTable.bind(null),100));
                         });
 
             }
@@ -179,26 +170,68 @@ async function renderproducts(){
 
 
 
-async function updateProductsTable(totalcolumns){
-    clearTable(totalcolumns);
-
+async function updateProductsTable(){
+    setTimeout(() => {
+        startBuffering();
+    }, 25);
+    
+    resetPage(["dashboard"]);
+    const gridContainer = document.createElement("div");    
+    gridContainer.classList.add("containertable");
+    // gridContainer.classList.add("thininvisible");
+    document.body.insertBefore(gridContainer, document.body.lastChild); 
     //CREATE HEADERS
-    document.querySelector(".grid-container").innerHTML+=
-        `<div class="grid-item tableheader cw150">Article Number</div>
-        <div class="grid-item tableheader cw350">Description</div>
-        <div class="grid-item tableheader">SAP Status</div>
-        <div class="grid-item tableheader">Product Family</div>
-        <div class="grid-item tableheader">Intercompany</div>
-        <div class="grid-item tableheader">Semifinished</div>
-        <div class="grid-item tableheader">DHF</div>
-        <div class="grid-item tableheader">RMF</div>
-        <div class="grid-item tableheader">BUDI</div>
-        <div class="grid-item tableheader">Sterilization Method</div>
-        <div class="grid-item tableheader">Sterilization Site</div>
-        <div class="grid-item tableheader">Shelf Life</div>
-        <div class="grid-item tableheader">Supplier</div>
-        <div class="grid-item tableheader">Bill of materials</div>
-        `;
+    gridContainer.innerHTML=`<div class=" mx-auto" id="targettable"></div>`;
+    document.querySelector("#targettable").innerHTML=
+        `<div class="row headerrow">                    
+    <div class="col cw100 text-center etheader border ">
+        <h3>ID</h3>
+    </div> 
+    <div class="col cw150  text-center etheader border   ">
+        <h3>Article code</h3>
+    </div>
+    <div class="col cw350  text-center etheader border ">
+        <h3>Description</h3>
+    </div>
+    <div class="col cw150  text-center etheader border ">
+        <h3>SAP Status</h3>
+    </div>
+    <div class="col cw200  text-center etheader border ">
+        <h3>Family</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>Intercompany</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>Semifinished</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>DHF</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>RMF</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>BUDI</h3>
+    </div>
+    <div class="col cw150  text-center etheader border ">
+        <h3>Ster. method</h3>
+    </div>
+    <div class="col cw150 text-center etheader border ">
+        <h3>Ster. site</h3>
+    </div> 
+    <div class="col cw150 text-center etheader border ">
+        <h3>Shelf life</h3>
+    </div> 
+    <div class="col cw150 text-center etheader border ">
+        <h3>Supplier</h3>
+    </div>     
+    <div class="col cw250 text-center etheader border  ">
+        <h3>Action</h3>
+    </div>  
+    
+</div>
+`;    
 
     //DO NOT SEND REQUEST IF NOT NECESSARY    
     if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
@@ -239,111 +272,179 @@ async function updateProductsTable(totalcolumns){
         const jsonResponse = await response.json();
         document.cookie = `totalresults=${jsonResponse.length}`;
         //UPDATE THE NUMBER OF CURRENT PAGE
-        let numberofpages=Math.ceil(getCookie("totalresults")/getCookie("resultview"));
+        let numberofpages=Math.ceil(getCookie("totalresults")/50);
         let currentpage=getCookie("resultpage");        
         document.querySelector(".pagelabel").innerHTML=`PAGE ${currentpage}/${numberofpages}`;
 
-        //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
-        fetch(`/aux/getrole?email=${currentuser()}`,{
-                            method: 'GET',
-                            headers: {'Authorization': authenticationheader() }})
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok: ' + response.statusText);
-                            }
-                            return response.text();
-                        })
-                        .then(data => {
-                            if(data=="ADMIN" || data=="DOCUMENTATION") document.querySelector(".add_button").classList.remove("invisible");
-                            if(data=="ENGINEER" || data=="ADMIN") document.querySelector(".editbutton").classList.remove("invisible");
-                        })
-                        .catch(error => {
-                            console.error('Error during fetch:', error);
-                        });
-
-        if (response.status !== 200) {
-            console.error('Request failed with status:', response.status);
-            return ;
-        }
-
+        
 
         //POPULATE THE TABLE
         
 
 
-        const processJsonResponse = async (jsonResponse) => {
-            const productsToEdit = [];
-            const promises = [];
-            let i = 0;
-        
-            jsonResponse.forEach(obj => {
-                let rv = parseInt(getCookie("resultview"));
-                let rp = parseInt(getCookie("resultpage"));
-                let minview = rv * (rp - 1);
-                let maxview = rv * rp;
-        
-                if (i >= minview && i < maxview) {
-                    productsToEdit.push(obj.code);
-                    const check1 = obj.intercompany ? "&#10003;" : "&#10007;";
-                    const check2 = obj.semifinished ? "&#10003;" : "&#10007;";
-                    const check3 = obj.dhf != null ? obj.dhf : "&#10007;";
-                    const check4 = obj.rmf != null ? obj.rmf : "&#10007;";
-                    const check5 = obj.budi != null ? obj.budi : "&#10007;";
-                    const check6 = obj.sterilizationsite != null ? obj.sterilizationsite : "&#10007;";
-                    const check7 = obj.shelflife != null ? obj.shelflife + " months" : "";
+        const processJsonResponseForProducts = async (jsonResponse) => {
+
+            return new Promise((resolve) => {
+                let productsToEdit = [];
+                const promises = [];
+                let i = 0;
+                const rv = 50;
+                const rp = parseInt(getCookie("resultpage"));
+                
+                const minview = (rp-1)*50
+                const maxview = rp*50-1;
+            
+                jsonResponse.forEach(obj => {
                     
-                    let check8 = obj.supplierid == null ? "&#10007;" : obj.supplierid;
-                    let suppliername = "&#10007;";
-        
-                    const processProduct = async () => {
-                        if (check8 !== "&#10007;") {
-                            try {
-                                const response = await axios.get(`/querysup/byid?id=${check8}`, { headers: { 'Authorization': authenticationheader() } });
-                                suppliername = response.data.supplier_name;
-                            } catch (error) {
-                                console.error("Error fetching supplier info:", error);
-                            }
-                        }
-        
-                        const gridItem = `
-                            <div class="grid-item cw150"><a class="pdfopener" targetref="/download/activespec?article=${obj.code}">${obj.code}</a></div>
-                            <div class="grid-item cw350">${obj.description}</div>
-                            <div class="grid-item ">${getExtendedSapStatus(obj.sapstatus)}</div>
-                            <div class="grid-item ">${getExtendedFamily(obj.family)}</div>
-                            <div class="grid-item ">${check1}</div>
-                            <div class="grid-item ">${check2}</div>
-                            <div class="grid-item ">${check3}</div>
-                            <div class="grid-item ">${check4}</div>
-                            <div class="grid-item ">${check5}</div>
-                            <div class="grid-item ">${getExtendedSteriMethod(obj.sterilizationcycle)}</div>
-                            <div class="grid-item ">${check6}</div>
-                            <div class="grid-item ">${check7}</div>
-                            <div class="grid-item supplierbox">${suppliername}</div>
-                            <div class="grid-item "><a class="bomlink" onclick="renderEditableBoms(${obj.id})">See BOM</a></div>
+            
+                    if (i >= minview && i <=maxview && minview <= jsonResponse.length) {
+                        const check_intercompany= obj.intercompany? "checked" : "";  
+                        const check_semifinished= obj.semifinished? "checked" : "";             
+                        const stericycleplaceholder= obj.sterilizationcycle==null ? "NULL" : obj.sterilizationcycle;
+                        const sterisiteplaceholder= obj.sterilizationsite==null ? "NULL" : obj.sterilizationsite;
+                        const sapplaceholder= obj.sapstatus==null ? "NULL" : obj.sapstatus;
+                        const dhf=  obj.dhf==null ? "NULL" : obj.dhf;
+                        const rmf=  obj.rmf==null ? "NULL" : obj.rmf;
+                        const budi=  obj.budi==null ? "NULL" : obj.budi;
+                        const shelflife=  obj.shelflife==null ? "NULL" : obj.shelflife;
+                        const supplierplaceholder= obj.supplierid==null? "NULL" : obj.supplierid;
+                        document.querySelector("#targettable").innerHTML+=`
+                        <div class="row" style="position: relative;">                    
+                            <div class="col cw100 text-center etitem border etinactive editable boxid">${obj.id}</div> 
+                            <div class="col cw150  text-center etitem border etinactive editable boxarticle">${obj.code}</div>
+                            <div class="col cw350  text-center etitem border etinactive editable boxdescription">${obj.description}</div>
+                            <div class="col cw150  text-center etitem border etinactive editable editselect"><select class="form-select  boxsap" aria-label="Default select example"><option selected>${sapplaceholder}</option></select></div>
+                            <div class="col cw200  text-center etitem border etinactive editable editselect"><select class="form-select boxfamily" aria-label="Default select example"><option selected>${obj.family}</option></select></div>
+                            <div class="col cw150 text-center etitem border etinactive editable editcheck"><input class="form-check-input boxintercompany " type="checkbox" ${check_intercompany}></div>
+                            <div class="col cw150 text-center etitem border etinactive editable editcheck"><input class="form-check-input boxsemifinished " type="checkbox" ${check_semifinished}></div>
+                            <div class="col cw150 text-center etitem border etinactive editable boxdhf">${dhf}</div>
+                            <div class="col cw150 text-center etitem border etinactive editable boxrmf">${rmf}</div>
+                            <div class="col cw150 text-center etitem border etinactive editable boxbudi">${budi}</div>
+                            <div class="col cw150  text-center etitem border etinactive editable editselect"><select class="form-select  boxstericycle" aria-label="Default select example"><option selected>${stericycleplaceholder}</option></select></div>
+                            <div class="col cw150 text-center etitem border etinactive editable editselect"><select class="form-select  boxsterisite" aria-label="Default select example"><option selected>${sterisiteplaceholder}</option></select></div> 
+                            <div class="col cw150 text-center etitem border etinactive editable boxshelflife">${shelflife}</div>   
+                            <div class="col cw150 text-center etitem border etinactive editable editselect"><select class="form-select  boxsupplier" aria-label="Default select example"><option value="${supplierplaceholder}" selected></option></select></div>   
+                            <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
+                                <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteProduct(${obj.id})" aria-hidden="true"></i> <i class="fa fa-search-plus fa-1  actionbutton"  onclick="visualizeBoms(${obj.id})" aria-hidden="true"></i><i class="fa fa-link fa-1  actionbutton pdfopener" targetref="/download/activespec?article=${obj.code}" style="background-color: #F5B041;" onclick="" aria-hidden="true"></i>
+                                
+                            </div>                
+                        </div>
                         `;
-        
-                        document.querySelector(".grid-container").innerHTML += gridItem;
-                    };
-        
-                    promises.push(processProduct());
-                }
-                i++;
-            });
-        
-            await Promise.all(promises);
-        
-            localStorage.setItem("products_to_edit", JSON.stringify(productsToEdit));
-            listenForDownloads();
+            
+                        
+                    }
+                    i++;
+                });
+                resolve();
+            })
+           
         };
         
         // Usage
-        processJsonResponse(jsonResponse);
+
+        async function handleProductsResponse(jsonResponse) {
+            await processJsonResponseForProducts(jsonResponse);
+            const allchecks=document.querySelectorAll(".editcheck.editable input");            
+            const allselects=document.querySelectorAll(".editselect.editable select");            
+            allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
+            allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
+            document.querySelectorAll(".boxfamily").forEach(select=>{
+                let current_value=select.value;
+                select.innerHTML=`
+                <option value="AV" selected>A/V SYSTEMS</option>
+                                        <option value="ASS" >ASSEMBLIES</option>    
+                                        <option value="AV" selected>A/V SYSTEMS</option>
+                                        <option value="AA" >ACUTE & APHERESIS</option>
+                                        <option value="CATH" >CATHETERS & ACCESSORIES</option>  
+                                        <option value="CONC" >CONCENTRATES</option>
+                                        <option value="EC" >EMPTY CONTAINERS</option>                                    
+                                        <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
+                                        <option value="IU" >IRRIGATION / UROLOGY</option>    
+                                        <option value="HARDWARE" >MACHINE COMPONENTS</option>    
+                                        <option value="OEM" >OEM</option>                                                                
+                                        <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
+                                        <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
+                                        <option value="INWORK" >IN WORK</option>                                                                      
+                `;
+                select.value=current_value;
+            });
+                // INSERT SUPPLIER SELECT OPTIONS HERE
+            fetch('/aux/getsuppliers',{
+                method: 'GET',            
+                headers: {'Authorization': authenticationheader() }})
+            .then(response => {            
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }            
+                return response.json();
+            })
+            .then(data => {    
+                sup_options="";        
+                data.forEach(element => {                
+                    sup_options+=`<option value="${element.id}" >${element.supplier_name}</option>`;                   
+                });
+                document.querySelectorAll(".boxsupplier").forEach(select=>{
+                    let current_value=select.value;
+                    if (current_value==undefined) current_value="NULL"
+                    select.innerHTML=sup_options;
+                    select.innerHTML+=`<option value="NULL">NULL</option>`;
+                    select.value=current_value;
+                    
+                });
+
+
+            })
+            .catch(error => {            
+                console.error('Error during fetch:', error);
+            });
+            
+            document.querySelectorAll(".boxsap").forEach(select=>{
+                let current_value=select.value;
+                select.innerHTML=`            
+                <option value="M1V1" >M1/V1</option>
+                <option value="M2V1" >M2/V1</option>
+                <option value="M2V2" >M2/V2</option>
+                <option value="M2V4" >M2/V4</option>
+                <option value="M3V3" >M3/V3</option>
+                <option value="M4V4" >M4/V4</option>                                   
+                `;
+                select.value=current_value;
+            });
+            document.querySelectorAll(".boxsterisite").forEach(select=>{
+                let current_value=select.value;
+                select.innerHTML=`
+                <option value="BAI" >B.Braun Avitum Italy</option>
+                <option value="Sterilverona" >Sterilverona</option>
+                <option value="Sterilveronanogara" >Sterilverona Nogara</option>
+                <option value="Melsungen" >B.Braun Melsungen</option>
+                <option value="Sterisastkomenda" >Sterisast Komenda</option>
+                <option value="Sterisastwestport" >Sterisast Westport</option>
+                <option value="Sterisastseriate" >Sterisast Seriate</option>
+                <option value="Synergyhealth" >Synergy Health</option>
+                <option value="NULL">N/A</option>
+                `;
+                select.value=current_value;
+            });
+            document.querySelectorAll(".boxstericycle").forEach(select=>{
+                let current_value=select.value;
+                select.innerHTML=`
+                <option value="ETO21" selected>ETO - cycle 21</option>                                    
+                <option value="ETO22" >ETO - cycle 22</option>                                    
+                <option value="GAMMA" >Raggi Gamma</option>
+                <option value="BETA" >Raggi Beta</option>
+                <option value="BULK" >Bulk / Non sterile</option>
+                <option value="UNKNOWN" >Not applicable</option>
+                `;
+                select.value=current_value;
+            });
+            updateView();
+            listenForDownloads();
+            setTimeout(()=>{stopBuffering();document.getElementById("productarticleinput").focus();},350);
+        }
+        handleProductsResponse(jsonResponse);
         //UPDATE NUMBER OF RESULTS
         document.querySelector(".resultbanner").innerHTML=`~  Found ${jsonResponse.length} results  ~`;
-        //SHOW THE TABLE
-        activeCellColoring(totalcolumns);
-        if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
-        stopBuffering();
+        
         return ;
     } catch (error) {
         console.error('Error during fetch:', error);
@@ -409,4 +510,96 @@ function sendToEditProducts(){
 function renderEditableBoms(id){
     localStorage.setItem("bom_to_edit", id);
     window.location.replace("/app/editboms")
+}
+
+
+
+//FUNCTION TO DELETE ONE PRODUCT
+function deleteProduct(id){
+    
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS PRODUCT PERMANENTLY? ALL RELATED BOM ITEMS WILL BE DELETED PERMANENTLY', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/queryprod/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    updateProductsTable();
+                })
+                .catch((error) => {
+                    console.error("Error deleting user:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this product', 'ok');
+                    
+                });    
+             } 
+            });
+
+}
+
+//FUNCTION TO SAVE THE DATA OF ALL MODIFIED USERS
+function saveProductsModifications(){
+    inputToTableItem();
+    const modified_items=document.querySelectorAll(".edited");
+    if(modified_items.length===0){
+        createCustomAlert('Error','The table is already up to date', 'ok');
+        
+        return;
+    }
+    
+     
+    createCustomAlert('Attention',"ARE YOU SURE YOU WANT TO UPDATE ALL "+modified_items.length+" MODIFIED FIELDS?", 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                let processed_items=0;
+    
+                modified_items.forEach(function(button){
+                    processed_items++;
+                    const parentRow = button.closest('.row');
+                    if (parentRow) {
+                        const id = parentRow.querySelector('.boxid').innerHTML;
+                        const article = parentRow.querySelector('.boxarticle').innerHTML;
+                        const description = parentRow.querySelector('.boxdescription').innerHTML;
+                        const intercompany = parentRow.querySelector('.boxintercompany').checked;
+                        const semifinished = parentRow.querySelector('.boxsemifinished').checked;
+                        const family = parentRow.querySelector('.boxfamily').value;
+                        const sapstatus = parentRow.querySelector(".boxsap").value;
+                        const dhf = parentRow.querySelector('.boxdhf').innerHTML;
+                        const rmf = parentRow.querySelector('.boxrmf').innerHTML;
+                        const budi = parentRow.querySelector('.boxbudi').innerHTML;
+                        const shelflife = parentRow.querySelector('.boxshelflife').innerHTML;
+                        const stericycle = parentRow.querySelector(".boxstericycle").value;
+                        const sterisite = parentRow.querySelector(".boxsterisite").value;
+                        const supplierid = parentRow.querySelector(".boxsupplier").value;
+                          
+            
+                        const prod_correct = { 
+                                                article: article,
+                                                description: description,
+                                                sapstatus: sapstatus,
+                                                intercompany: intercompany,
+                                                semifinished: semifinished,
+                                                family: family  ,
+                                                dhf: dhf,
+                                                rmf: rmf,
+                                                budi: budi,
+                                                sterisite: sterisite,
+                                                stericycle: stericycle,
+                                                shelflife: shelflife,
+                                                supplierid: supplierid
+                                            };
+                        
+                        axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
+                        if (processed_items==modified_items.length)  setTimeout(()=>{updateProductsTable();},250);           
+                        
+                    }
+                });
+             }
+     
+            });
+
+
+
+
+
+    
 }

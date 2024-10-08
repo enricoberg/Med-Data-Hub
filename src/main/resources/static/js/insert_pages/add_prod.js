@@ -1,25 +1,21 @@
 
 function rendernewproduct(){
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
-    //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-        const referenceElement = document.body.children[1];
-        document.body.insertBefore(newTitle, referenceElement);
-        newTitle.classList.add("bomtitle");
-        newTitle.classList.add("mt-5");
-        newTitle.innerHTML=`NEW PRODUCT FORM - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    event.preventDefault();
+    resetPage();
+    const newTitle = document.createElement("h3");    
+    newTitle.classList.add("bomtitle");
+    
+    newTitle.innerHTML=`NEW PRODUCT FORM - <a href="#" onclick="renderproducts();">BACK TO PRODUCTS</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
     newDash.classList.add("addproduct");
+
+
+
+    
     newDash.innerHTML=`<div class="row">
                                   <div class="col-8 mx-auto mt-3">
 
@@ -62,13 +58,13 @@ function rendernewproduct(){
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Supplier: </span>
-                                              <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="supplierinput" id="supplierinput">                                                                                                                                                
+                                              <select class="form-select form-select-lg mb-3 selectcontrol text-center" aria-label="Large select example" name="supplierinput" id="supplierinput">                                                                                                                                                
                                             </select>
                                           </div>
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Family of the product: </span>
-                                              <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" id="familyinput">
+                                              <select class="form-select form-select-lg mb-3 selectcontrol text-center" aria-label="Large select example" name="familyinput" id="familyinput">
                                                 <option value="ASS" >ASSEMBLIES</option>    
                                                 <option value="AV" selected>A/V SYSTEMS</option>
                                                 <option value="AA" >ACUTE & APHERESIS</option>
@@ -87,7 +83,7 @@ function rendernewproduct(){
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Sterilization Method: </span>
-                                              <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput" >
+                                              <select class="form-select form-select-lg mb-3 selectcontrol text-center" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput" >
                                                     <option value="ETO21" selected>ETO - cycle 21</option>                                    
                                                     <option value="ETO22" >ETO - cycle 22</option>                                    
                                                     <option value="GAMMA" >Raggi Gamma</option>
@@ -101,7 +97,7 @@ function rendernewproduct(){
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>Sterilization Site: </span>
-                                              <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput" id="sterisiteinput" >
+                                              <select class="form-select form-select-lg mb-3 selectcontrol text-center" aria-label="Large select example" name="sterisiteinput" id="sterisiteinput" >
                                                     <option value="BAI" selected>BBraun Avitum Italy</option>
                                                     <option value="Sterilverona" >Sterilverona</option>
                                                                                                   
@@ -110,7 +106,7 @@ function rendernewproduct(){
 
                                           <div class="mb-3 coloredsection pl-2 pt-3 pb-1">
                                               <span>SAP Status: </span>
-                                              <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapinput" id="sapinput">
+                                              <select class="form-select form-select-lg mb-3 selectcontrol text-center" aria-label="Large select example" name="sapinput" id="sapinput">
                                                     <option value="M1V1" >M1/V1</option>
                                                     <option value="M2V1" >M2/V1</option>
                                                     <option value="M2V2" selected>M2/V2</option>
@@ -125,7 +121,7 @@ function rendernewproduct(){
 
                                          
                                           <div class="errormessage text-danger invisible mb-2" id="pwerror"></div>
-                                          <div class="mb-3 w-100 text-center">
+                                          <div class="mb-3 w-100 " style="justify-content: center">
                                           <button type="button" class="btn btn-primary btn-lg mx-auto" type="button" id="submitnewprod" onclick="submitsnewprod()">Submit Product</button>
                                           </div>
 

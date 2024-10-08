@@ -30,8 +30,14 @@ function resetPage(exceptions=[]) {
     totallength=0;
     for(let i=0;i<headers.length;i++)totallength+=headers[i].offsetWidth;     
     let freespace=(screen.width*0.9 -totallength);
-    let increment=Math.floor(freespace / columns);
-    for(item of allitems) item.style.width = (item.offsetWidth + increment) + 'px';        
+    
+    if(freespace>0){
+      let increment=Math.floor(freespace / columns);
+      if(increment>10)  for(item of allitems) item.style.width = (item.offsetWidth + increment) + 'px';      
+      
+       
+    }
+         
     
     if(document.querySelector(".grid-container").classList.contains("thininvisible")) document.querySelector(".grid-container").classList.remove("thininvisible");
     

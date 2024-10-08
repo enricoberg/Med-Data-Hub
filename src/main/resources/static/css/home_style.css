@@ -3,9 +3,14 @@
 body{
     background-image: url("background.webp");
     background-size: cover;
-    min-height: 100vh;
+    max-height: 100vh;
+    /* overflow-y: scroll; */
 }
-
+.errormessage{
+    width: 100%;
+    color: red;
+    text-align: center;
+}
 .dash{
     width: 100vw;
     margin-top: 25px;
@@ -77,11 +82,15 @@ body{
 
 }
 .resultbanner{
-    width: 100%;
+    width: 300px;
     text-align: center;
     font-size: small;
     color: lightskyblue;
     font-style: italic;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .coloredsection{
     background-color: rgba(0,0,0,0.5);
@@ -110,11 +119,36 @@ body{
     cursor:pointer;
 
 }
+.rainbowtext{
+    background: linear-gradient(270deg, #367DF9 0%, rgba(0,212,255,1) 44%, #fe7aff 100%);      
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .dashboard{
     position: relative;
+    margin-left: 70px ;
+    padding-top: 38px;
+    font-family: Arial;
 }
-
-
+.dashboard.documents{
+    padding-bottom: 27px;
+}
+.dashboard.components{
+    padding-bottom: 55px;
+}
+.dashboard.materials{
+    padding-bottom: 55px;
+}
+.input-group{
+    display: flex;
+    justify-content: space-around;
+}
+.input-group input[type=text]{
+    width: 90%;
+    border-radius: 7px;
+    color: darkgray;
+    padding-left: 10px;
+}
 .bomcontainer{
     width: 50vw;
     
@@ -146,16 +180,27 @@ body{
 .btnsmall{
     width:25px;
     cursor: pointer;
+    
 }
 .csvbutton{
     position: absolute;
-    bottom: 14px;
+    bottom: 7px;
     right:5px;
+}
+.newrecbutton{
+    position: absolute;
+    bottom: 7px;
+    right:145px;
+}
+.flopbutton{
+    position: absolute;
+    bottom: 7px;
+    right:75px;
 }
 .editbutton{
     position: absolute;
-    bottom: 44px;
-    right:75px;
+    bottom: 7px;
+    right:110px;
 }
 .uploadbutton{
     position: absolute;
@@ -164,19 +209,19 @@ body{
 }
 .prevbutton{
     position: absolute;
-    bottom: 14px;
-    left:10px;
+    bottom: 7px;
+    left:20px;
 }
 .nextbutton{
     position: absolute;
-    bottom: 14px;
-    left:45px;
+    bottom: 7px;
+    left:55px;
 }
 
 
 .clipboardbutton{
     position: absolute;
-    bottom: 14px;
+    bottom: 7px;
     right:40px;
 }
 
@@ -194,7 +239,9 @@ body{
   }
 
   
-
+.hover-message{
+    z-index: 1000;
+}
 .hover-message:hover::after {
     content: attr(title);
     position: absolute;
@@ -287,10 +334,11 @@ form.searchform:valid input.searchinput{
 }
 .pagelabel{
     position: absolute;
-    bottom: 42px;
+    bottom: 37px;
     color: #F5B041;
-    left:12px;
-    font-size: small;
+    left:21px;
+    font-size: 11px;
+    font-family: "Roboto", sans-serif;
 }
 .searchbox{
 
@@ -433,12 +481,6 @@ form.searchform:valid .fa.searchfa:hover{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.formcontainer{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
   Helvetica, Arial, "Lucida Grande", sans-serif;
   margin-top: 35px;
@@ -502,4 +544,15 @@ form.searchform:valid .fa.searchfa:hover{
     margin-left: 10px;
     cursor: pointer;
 }
-
+.sectiontitle{
+    position: absolute;
+    top: 7px;
+    right: 12px;
+    font-size: 25px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    /* transform: translateX(-50%); */
+}
+.userinfo{
+    font-family: "Roboto", sans-serif;
+}

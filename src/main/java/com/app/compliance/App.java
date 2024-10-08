@@ -2,17 +2,12 @@ package com.app.compliance;
 import com.app.compliance.entities.Role;
 import com.app.compliance.entities.User;
 import com.app.compliance.repository.UserRepository;
-
-import java.io.File;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-// @PropertySource(value = {"file:///C:/Program Files/MedDataHub/application.properties"})
 
 @SpringBootApplication
 public class App implements CommandLineRunner {

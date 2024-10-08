@@ -142,7 +142,7 @@
 }
 select{
     margin-top:15px;
-    min-width: 200px;
+    /* min-width: 200px; */
     color: rgb(73, 80, 87);
     font-size:16px;
     margin-right:20px;

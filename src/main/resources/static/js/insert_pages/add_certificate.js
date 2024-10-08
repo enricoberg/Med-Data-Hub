@@ -1,30 +1,29 @@
 
 async function rendernewcertificate(){
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
-    //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-            const referenceElement = document.body.children[1];
-            document.body.insertBefore(newTitle, referenceElement);
-            newTitle.classList.add("bomtitle");
-            newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`NEW CERTIFICATE FORM - <a href="#" onclick="rendermaterials();">BACK TO MATERIALS</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    event.preventDefault();
+    resetPage();
+
+
+    const newTitle = document.createElement("h3");    
+    newTitle.classList.add("bomtitle");
+    
+    newTitle.innerHTML=`NEW CERTIFICATE FORM - <a href="#" onclick="rendermaterials();">BACK TO MATERIALS</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
+    newDash.classList.add("addsupplier");
+    newDash.classList.add("queryadv1");
     newDash.classList.add("addcertificate");
+
+
+
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 
                                        <form id="newcertform">
-                                           <div class="mb-3 text-center">
+                                           <div class="mb-3 text-center" style="justify-content: center">
                                                 <label for="materialinput mx-auto text-center" class="form-label">Select the material</label>                                                
                                            </div>
                                            <div class="mb-3">                                                
@@ -56,7 +55,7 @@ async function rendernewcertificate(){
                                                <input class="form-control" type="file" id="formFile" name="docfile">
                                             </div>
                                             <div class="errormessage text-danger invisible mb-2" id="pwerror">Passwords are not matching</div>
-                                           <div class="mb-3 text-center">
+                                           <div class="mb-3 text-center" style="justify-content: center">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto "  id="submitnewcert" onclick="submitsnewcert()">Submit Certificate</button>
                                            </div>
 

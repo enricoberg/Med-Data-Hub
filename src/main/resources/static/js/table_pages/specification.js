@@ -1,9 +1,7 @@
 let timeouts=[];
 function renderspecifications(){
-    event.preventDefault();
-    window.addEventListener('resize', ()=>{ adjustTableCSS(); });
-    document.cookie = `resultpage=1`;
-    let totalcolumns=totaldocumentcolumns;
+    // event.preventDefault();    
+    document.cookie = `resultpage=1`;    
     resetPage();
     //CREATE A NEW DASHBOARD
         
@@ -15,11 +13,12 @@ function renderspecifications(){
     newDash.classList.add("documents");
     newDash.innerHTML=`
     <div class="pagelabel"></div>
-    
+    <div class="rainbowtext sectiontitle">DOCUMENTS TABLE</div>
     <div class="prevbutton hover-message" title="Previous Page" onclick="changePageDocuments(-1)"><img class="btnsmall" alt="Previous page" src="https://i.postimg.cc/zXN62Tk8/prev.png"></img></div>
-        <div class="nextbutton hover-message" title="Next Page" onclick="changePageDocuments(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
-    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="https://i.postimg.cc/28Sp2V64/download.png"></img></div>
-    <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="https://i.postimg.cc/gj4V1S6V/copy.png"></img></div>
+    <div class="nextbutton hover-message" title="Next Page" onclick="changePageDocuments(1)"><img class="btnsmall" alt="Next page" src="https://i.postimg.cc/FsxqM1Pc/next.png"></img></div>
+    <div class="csvbutton hover-message" title="Download CSV File" onclick="downloadFile()"><img class="btnsmall" alt="Download CSV file" src="../../css/download.png"></img></div>    
+    <div class="clipboardbutton hover-message" title="Copy to clipboard" onclick="copyTableToClipboard()"><img alt="Copy content of the table" class="btnsmall" src="../../css/copy.png"></img></div>
+    <div class="newrecbutton hover-message" title="New record" onclick="rendernewdocuments()" style="right:75px;"><img alt="New record" class="btnsmall" src="../../css/add.png"></img></div>
     <form action="">
     <div class="input-group ">
         <input type="text" class="form-control documentcontrol" placeholder="Article number" name="codeinput" id="speccodeinput" >
@@ -51,14 +50,14 @@ function renderspecifications(){
     <div class="resultbanner"></div>                
  </form>`;
     
-    updateDocumentsTable(totalcolumns);
+    updateDocumentsTable();
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
         control.addEventListener("input", ()=>{
             // startBuffering()
             document.cookie = `resultpage=1`;
         for(let i=0;i<timeouts.length;i++){ clearTimeout(timeouts[i]);}
-            timeouts.push(setTimeout(updateDocumentsTable.bind(null, totalcolumns),800));
+            timeouts.push(setTimeout(updateDocumentsTable.bind(null),800));
         });
 
 
@@ -73,29 +72,43 @@ function renderspecifications(){
 
 
 
-async function updateDocumentsTable(totalcolumns){
+async function updateDocumentsTable(){
     setTimeout(() => {
         startBuffering();
     }, 25);
-    // clearTable(totalcolumns);
+    
     resetPage(["dashboard"]);	
     const gridContainer = document.createElement("div");    
-    gridContainer.classList.add("grid-container");
-    gridContainer.classList.add("thininvisible");
-    document.body.insertBefore(gridContainer, document.body.lastChild);    
-    
-    
+    // gridContainer.classList.add("containertabless");
+    // gridContainer.classList.add("thininvisible");
+    document.body.insertBefore(gridContainer, document.body.firstChild.nextSibling); 
+    gridContainer.id="targettable";
     //CREATE HEADERS
-    gridContainer.innerHTML+=
-        `
-        <div class="grid-item cw250 tableheader">Article Number</div>
-        <div class="grid-item cw200 tableheader ">Type of document</div>
-        <div class="grid-item cw150 tableheader">Revision</div>
-        <div class="grid-item cw250 tableheader">PPC</div>
-        <div class="grid-item cw500 tableheader">Description</div>
-        
-        
-        `;
+    // gridContainer.innerHTML=`<div class=" mx-auto" id="targettable"></div>`;
+    document.querySelector("#targettable").innerHTML=`<div class="row headerrow">                    
+    <div class="col cw100 text-center etheader border ">
+        <h3>ID</h3>
+    </div> 
+    <div class="col cw250  text-center etheader border   ">
+        <h3>Article Number</h3>
+    </div>
+    <div class="col cw200  text-center etheader border ">
+        <h3>Type of document</h3>
+    </div>
+    <div class="col cw150  text-center etheader border ">
+        <h3>Revision</h3>
+    </div>
+    <div class="col cw150  text-center etheader border ">
+        <h3>PPC</h3>
+    </div>
+    <div class="col cw550 text-center etheader border ">
+        <h3>Description</h3>
+    </div>      
+    <div class="col cw250 text-center etheader border  ">
+        <h3>Action</h3>
+    </div>      
+</div>
+`;
     
     //DO NOT SEND REQUEST IF NOT NECESSARY    
     if(localStorage.getItem("needupdate")==null) localStorage.setItem("needupdate", true);
@@ -137,27 +150,7 @@ async function updateDocumentsTable(totalcolumns){
         document.cookie = `totalresults=${jsonResponse.length}`;
         
 
-        //UNHIDE THE ADD BUTTON IF THE USER HAS THE AUTHORITY (API IS BLOCKED BY SERVER IF NOT ALLOWED ANYWAY)
-        fetch(`/aux/getrole?email=${currentuser()}`,{
-                    method: 'GET',
-                    headers: {'Authorization': authenticationheader() }})
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    if(data=="DOCUMENTATION" || data=="ADMIN") document.querySelector(".add_button").classList.remove("invisible");
-                })
-                .catch(error => {
-                    console.error('Error during fetch:', error);
-                });
-    
-        if (response.status !== 200) {
-            console.error('Request failed with status:', response.status);
-            return ;
-        }
+        
 
 
         //POPULATE THE TABLE
@@ -165,8 +158,7 @@ async function updateDocumentsTable(totalcolumns){
         
         
         jsonResponse.forEach(obj => {
-        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY
-                
+        //CALCULATE THE MATCHING INTERVAL OF RESULTS TO DISPLAY               
                 
                 
 
@@ -204,18 +196,21 @@ async function updateDocumentsTable(totalcolumns){
                 }
 
             let classcolor="";
+            let descriptionplaceholder = obj.description==null ? "Description not found" : obj.description;
             if(obj.active) classcolor="text-primary";    
-            document.querySelector(".grid-container").innerHTML+=
+            document.querySelector("#targettable").innerHTML+=
         `
-        
-        <div class="grid-item cw250"><a class="pdfopener"  targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}">${obj.id}</a></div>
-        <div class="grid-item cw200">${docutype}</div>
-        
-        
-        <div class="grid-item cw150 ${classcolor}">${obj.revision}</div>
-        <div class="grid-item cw250">${ppcnumber}</div>
-        <div class="grid-item cw500">${obj.description}</div>
-        
+        <div class="row bomrow" style="position: relative;">                    
+    <div class="etitem col cw100 text-center  border etinactive" >${obj.docid}</div> 
+    <div class="etitem col cw250  text-center  border   etinactive">${obj.id}</div>
+    <div class="etitem col cw200  text-center  border etinactive">${docutype}</div>
+    <div class="etitem col cw150  text-center  border etinactive ${classcolor}">${obj.revision}</div>
+    <div class="etitem col cw150  text-center  border etinactive ">${ppcnumber}</div>
+    <div class="etitem col cw550 text-center  border etinactive">${descriptionplaceholder}</div>      
+    <div class="etitem col cw250 text-center  border  etinactive">
+        <i class="fa fa-trash-o fa-1 deletebutton actionbutton"  onclick="deleteItemDocument(${obj.docid})" aria-hidden="true"></i> <i class="fa fa-recycle fa-1  actionbutton"  onclick="sendToReplace(${obj.id})" aria-hidden="true"></i><i class="fa fa-link fa-1  actionbutton pdfopener" targetref="/download/?filename=${obj.id}_${obj.revision.toUpperCase()}_${obj.documentType.toUpperCase()}" style="background-color: #F5B041;" onclick="" aria-hidden="true"></i>
+    </div>      
+</div>       
         
         `;
 
@@ -231,10 +226,7 @@ async function updateDocumentsTable(totalcolumns){
         if(getCookie("totalresults")<=0) document.querySelector(".resultbanner").innerHTML=`  No more results `;
         else if(getCookie("totalresults")<50) document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${minview+parseInt(getCookie("totalresults"))} `;
         else document.querySelector(".resultbanner").innerHTML=`  Viewing results ${minview+1} ÷ ${maxview} `;
-        adjustTableCSS();
         
-        //SHOW THE TABLE
-        activeCellColoring(totalcolumns);
         
         // if(document.querySelector(".tabledisplay").classList.contains("invisible")) document.querySelector(".tabledisplay").classList.remove("invisible");
         listenForDownloads();
@@ -290,14 +282,14 @@ function changePageDocuments(increment){
 
 
 
-function renderReplaceDocumentPage(){
+function renderReplaceDocumentPage(specific=false){
     event.preventDefault();
     resetPage();
     const newTitle = document.createElement("h3");
     
     newTitle.classList.add("bomtitle");
     
-    newTitle.innerHTML=`REPLACE EXISTING DOCUMENT -  <a href="" onclick="renderspecifications();">BACK TO DOCUMENTS</a>`;
+    newTitle.innerHTML=`REPLACE EXISTING DOCUMENT -  <a href="#" onclick="renderspecifications();">BACK TO DOCUMENTS</a>`;
 
 
     const newDash = document.createElement("div");    
@@ -336,10 +328,10 @@ function renderReplaceDocumentPage(){
                 })
                 .then(response => {
                     if (!response.ok)  throw new Error('Network response was not ok');
-                    alert("New document replaced successfully!");
+                    createCustomAlert('Success','New document replaced successfully!', 'ok') ;                    
                     window.location.replace("/app/home");
                 })
-                .catch(error => { alert("Something went wrong with your request"); });
+                .catch(error => { createCustomAlert('Error','Something went wrong with your request', 'ok') ;});
 
     });
 
@@ -347,3 +339,29 @@ function renderReplaceDocumentPage(){
 
 }
 
+function deleteItemDocument(id){
+     
+    createCustomAlert('Attention','ARE YOU SURE YOU WANT TO DELETE THIS DOCUMENT PERMANENTLY? REMEMBER TO SET THE APPROPRIATE ACTIVE ATTRIBUTE TO THE REMAINING DOCS', 'yesno')
+    .then((result) => {
+             if(!result) return;
+             else{
+                axios.delete(`/querydocs/delete/${id}`,{ headers: { 'Authorization': authenticationheader()}})
+                .then((response) => {
+                    updateDocumentsTable();
+                })
+                .catch((error) => {
+                    console.error("Error deleting doc:", error);
+                    createCustomAlert('Error','Something went wrong trying to delete this document', 'ok');
+                    
+                });
+             } 
+            });
+    
+
+       
+}
+function sendToReplace(article){
+    localStorage.setItem("articletoreplace",article);
+    renderReplaceDocumentPage(true);
+    
+}

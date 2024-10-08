@@ -25,12 +25,12 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
     
 
-    @Query(value="select d.articlecode, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
+    @Query(value="select d.articlecode, c.description, d.revision, d.document_type, d.ppc, d.active, d.id\n" +
             "from documents d LEFT JOIN components c\n" +
             "ON d.articlecode = c.comp_id  \n" +
             "where d.assembly=FALSE\n" +
             "UNION\n" +
-            "select d.articlecode, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
+            "select d.articlecode, p.description, d.revision, d.document_type, d.ppc, d.active, d.id\n" +
             "from documents d LEFT JOIN products p\n" +
             "ON d.articlecode = p.code  \n" +
             "where d.assembly=TRUE ;",nativeQuery = true)

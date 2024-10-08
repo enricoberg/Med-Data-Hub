@@ -135,10 +135,10 @@ function listenForDownloads(){
     
                       document.querySelectorAll('.pdfopener').forEach(function(item, index) {
                       item.addEventListener('click',()=>{
-                        console.log("qualcosa sto facendo....")
+                        
                         fetch(item.getAttribute('targetref'), {headers: {'Authorization': `Bearer ${getCookie("jwt")}`}})
                                 .then(response => {
-                                              console.log(response)
+                                              
                                               if (!response.ok) throw new Error('Document not found');
                                               return response.blob();
                                           })
@@ -274,28 +274,9 @@ function copyTextToClipboard(text) {
 async function quickSearch(searchstring){
   if(searchstring==null || searchstring.length<=2) return;
   document.querySelector("#searchstring").value="";
-  
-  const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
-    method: 'GET',
-    headers: {'Authorization': authenticationheader() }})
-    .then(response => {
-        if (response.ok) return response.text();
-    })    
-    .catch(error => {
-        console.error('Error during fetch:', error);
-    });
-    if(curr_role=="USER") searchForSimpleUser(searchstring);
-    else {
-      let onlydocs=localStorage.getItem("onlydocs");
-      if(onlydocs=="true") searchForSimpleUser(searchstring);
-      else searchForSuperUser(searchstring);
-    }
-
-
-
-  
-
-
+  let onlydocs=localStorage.getItem("onlydocs");
+  if(onlydocs=="true") searchForSimpleUser(searchstring);
+  else searchForSuperUser(searchstring);
 }
 
 function searchForSuperUser(searchstring){
@@ -312,39 +293,39 @@ function searchForSuperUser(searchstring){
     switch(data){
       
       case "COMPART":        
-        document.querySelector("#componentsection").click();
+        rendercomponents();
         setTimeout(()=>{document.querySelector("#componentarticleinput").value=searchstring;
-        updateComponentsTable(totalcomponentcolumns);
+        updateComponentsTable();
       },400);        
       break;
       case "COMPDESC":        
-        document.querySelector("#componentsection").click();
+      rendercomponents();
         setTimeout(()=>{document.querySelector("#componentdescriptioninput").value=searchstring;
-        updateComponentsTable(totalcomponentcolumns);
+        updateComponentsTable();
       },400);        
       break;
       case "PRODART":        
-        document.querySelector("#productsection").click();
+        renderproducts();
         setTimeout(()=>{document.querySelector("#productarticleinput").value=searchstring;
-        updateProductsTable(totalproductcolumns);
+        updateProductsTable();
       },400);        
       break;
       case "PRODDESC":        
-        document.querySelector("#productsection").click();
+      renderproducts();
         setTimeout(()=>{document.querySelector("#productdescriptioninput").value=searchstring;
-        updateProductsTable(totalproductcolumns);
+        updateProductsTable();
       },400);        
       break;
       case "MATERIAL":        
-        document.querySelector("#materialsection").click();
+        rendermaterials();
         setTimeout(()=>{document.querySelector("#materialnameinput").value=searchstring;
-        updateMaterialsTable(totalmaterialcolumns);
+        updateMaterialsTable();
       },400);        
       break;
       case "SUPPLIER":        
-        document.querySelector("#suppliersection").click();
+        rendersuppliers();
         setTimeout(()=>{document.querySelector("#suppliernameinput").value=searchstring;
-        updateSuppliersTable(totalsuppliercolumns);
+        updateSuppliersTable();
       },400);        
       break;
       default:
@@ -432,7 +413,13 @@ else{
 
 }
 function stopBuffering(){
-  document.querySelector(".blurredcontainer").classList.add("invisible");
+  try{ const blurredContainer=document.querySelector(".blurredcontainer");
+    setTimeout(() => {
+      blurredContainer.classList.add("invisible");
+    }, 400);
+  }
+  catch(err){}
+  
 }
 
 function bufferedFunction(func){

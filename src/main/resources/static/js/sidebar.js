@@ -15,10 +15,10 @@ function renderNavbar(){
     navBar.classList.add("main-menu");
     navBar.innerHTML=`      
     
-        <div class="logoarea" onclick="window.location.href='/app/'">
-            <img src="../css/logo.png" alt="Med Data Hub logo">
-            <h1>Med Data Hub</h1>
-            <input type="text" class="searchbar" placeholder="Search for..." id="searchstring">
+        <div class="logoarea" ">
+            <img src="../css/logo.png" alt="Med Data Hub logo" onclick="window.location.href='/app/'">
+            <h1 onclick="window.location.href='/app/'">Med Data Hub</h1>
+            <input type="text" class="searchbar" placeholder="Search for..." id="searchstring" style="z-index: 2000;">
         </div>
         <ul>
             
@@ -124,7 +124,7 @@ function renderNavbar(){
                 <a href="#" >
                     <i class="fas fa-stream fa-1-5x  "></i>
                      <span class="nav-text" onclick="rendernewcertificate()">
-                        Load certificate
+                        Add new certificate
                      </span>
                  </a>
              </li>
@@ -258,6 +258,16 @@ function renderNavbar(){
        for(const element of alllielements){
         if(element.style.display!="none") element.style.display="none";
        }
+      });
+      document.querySelector("#searchstring").addEventListener("keypress", (event)=>{
+  
+        
+        if (event.keyCode === 13){
+            
+          quickSearch(document.querySelector("#searchstring").value);
+          event.preventDefault();
+        }
+        
       });
 }
 

@@ -73,14 +73,7 @@ setInterval(()=>{
 //   quickSearch(document.querySelector("#searchstring").value)
 // });
 
-// document.querySelector("#searchstring").addEventListener("keypress", (event)=>{
-  
-//   if (event.keyCode === 13){
-//     quickSearch(document.querySelector("#searchstring").value);
-//     event.preventDefault();
-//   }
-  
-// });
+
 
 
 const urlParams = new URLSearchParams(window.location.search);

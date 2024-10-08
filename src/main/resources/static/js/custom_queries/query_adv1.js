@@ -1,41 +1,22 @@
 
 
 async function renderqueryadv1(){
+    event.preventDefault();
+    resetPage();
 
-    const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
-        method: 'GET',
-        headers: {'Authorization': authenticationheader() }})
-    .then(response => {
-        if (response.ok) return response.text();
-    })    
-    .catch(error => {
-        console.error('Error during fetch:', error);
-    });
-    // if(curr_role=="USER") {
-    //     document.querySelector("#dashboardsection").click();
-    //     return;
-    // }
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
+
+    const newTitle = document.createElement("h3");    
+    newTitle.classList.add("bomtitle");
     
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
-    //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-            const referenceElement = document.body.children[1];
-            document.body.insertBefore(newTitle, referenceElement);
-            newTitle.classList.add("bomtitle");
-            newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`SEARCH USAGE OF COMPONENT / SEMIFINISHED GOOD- <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    newTitle.innerHTML=`SEARCH USAGE OF COMPONENT / SEMIFINISHED GOOD- <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
+    newDash.classList.add("addsupplier");
     newDash.classList.add("queryadv1");
+    newDash.classList.add("container");
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 
@@ -45,7 +26,7 @@ async function renderqueryadv1(){
                                              <input type="text" class="form-control" id="articleinput" name="articleinput">
                                            </div>
                                            <div class="errormessage text-danger invisible  mb-2" id="pwerror">Code not found</div>
-                                           <div class="mb-3">
+                                           <div class="mb-3" style="justify-content: center">
                                                <button type="button" class="btn btn-primary btn-lg mx-auto"  id="startquery1" >Start Usage Analysis</button>
                                            </div>
                                          </form>

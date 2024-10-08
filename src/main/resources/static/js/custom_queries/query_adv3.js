@@ -2,40 +2,22 @@
 
 
 async function renderqueryadv3(materialid){
-    const curr_role= await fetch(`/aux/getrole?email=${currentuser()}`,{
-        method: 'GET',
-        headers: {'Authorization': authenticationheader() }})
-    .then(response => {
-        if (response.ok) return response.text();
-    })    
-    .catch(error => {
-        console.error('Error during fetch:', error);
-    });
-    // if(curr_role=="USER") {
-    //     document.querySelector("#dashboardsection").click();
-    //     return;
-    // }
+    event.preventDefault();
+    resetPage();
+
+
+    const newTitle = document.createElement("h3");    
+    newTitle.classList.add("bomtitle");
     
-    let totalcolumns=9;
-    clearbomtitles();
-    clearTable(totalcolumns);
-    //PREPARE THE DASHBOARD
-    for(dashboard of document.querySelectorAll(".dashboard")) {
-        dashboard.remove();
-    }
-    //CREATE A NEW DASHBOARD
-    const newTitle = document.createElement("h3");
-            const referenceElement = document.body.children[1];
-            document.body.insertBefore(newTitle, referenceElement);
-            newTitle.classList.add("bomtitle");
-            newTitle.classList.add("mt-5");
-            newTitle.innerHTML=`MATERIAL USAGE ANALYSIS - <a href="#" onclick="renderdashboard();">BACK TO DASHBOARD</a>`;
-    const newDash = document.createElement("div");
-    const referenceElement2 = document.body.children[2];
-    document.body.insertBefore(newDash, referenceElement2);
-    newDash.classList.add("container");
-    newDash.classList.add("mt-5");
+    newTitle.innerHTML=`MATERIAL USAGE ANALYSIS - <a href="#" onclick="rendermaterials();">BACK TO MATERIALS</a>`;
+    const newDash = document.createElement("div");   
+    
+    document.body.insertBefore(newDash, document.body.firstChild);
+    document.body.insertBefore(newTitle, document.body.firstChild);
+    newDash.classList.add("formcontainer");    
+    newDash.classList.add("addsupplier");
     newDash.classList.add("queryadv1");
+    newDash.classList.add("container");
     newDash.innerHTML=`<div class="row">
                                    <div class="col-8 mx-auto mt-3">
 

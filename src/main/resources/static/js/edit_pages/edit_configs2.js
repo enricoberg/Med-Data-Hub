@@ -1,33 +1,37 @@
+//PREVENT BACK BUTTONS TO REDIRECT TO THIS PAGE
+window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+
+
+
 //FUNCTION THAT LOADS ALL THE COMPONENTS FROM THE DATABASE AND DRAWS THE TABLE WITH THE RETRIEVED DATA (RUNS AT PAGE LOAD)
-function visualizeConfigurations(component){   
-    localStorage.setItem("config_to_edit", component);
-    
-    resetPage();
+function visualizeConfigurations(){   
+    fetch(`/aux/getrole?email=${currentuser()}`,{
+        method: 'GET',
+        headers: {'Authorization': authenticationheader() }})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {        
+        if(data=="USER" || data=="DOCUMENTATION") document.querySelector(".addbutton").classList.add("invisible");
+        
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+    });
     bufferTimeoutStart();
-    const newDash = document.createElement("div");
-    document.body.insertBefore(newDash, document.body.firstChild);
-    newDash.classList.add("containertable");
-    newDash.classList.add("offsetvertical");
-    newDash.innerHTML=`<img src="https://i.postimg.cc/8kh4z23y/add-button-1.png" alt="" class="addbutton"  onclick="addNewConfigLine()">
-       
-        <div class="row mx-2" >
-            <div style="width: 100%; text-align: center;" class="titleh1"><h1 style="font-family: 'Roboto', sans-serif;">Configurations table</h1></div>
-            
-            <div class=" mx-auto" id="targettable" style="min-height: 50vh;">               
-
-                
-                
-            </div>
-        </div>`;
-
-
-     
+    const component= JSON.parse(localStorage.getItem("config_to_edit"));     
     axios.get(`/querycomp/byid?article=${component}`,{ headers: { 'Authorization': authenticationheader()}})
       .then(function (response) {    
         let article= response.data.comp_id;    
-        document.querySelector("h1").innerHTML=`${article} - Configurations Table - <a href="#" onclick="rendercomponents();">BACK TO COMPONENTS</a>` ; 
+        document.querySelector("h1").innerHTML=`${article} - Configurations Table` ; 
         const target_table=document.querySelector("#targettable");
-        target_table.innerHTML=`<div class="row headerrow">                    
+        target_table.innerHTML=`<div class="row">                    
         
         <div class="col cw150  text-center etheader border   ">
             <h3>ID</h3>
@@ -54,9 +58,9 @@ function visualizeConfigurations(component){
               target_table.innerHTML+=`
               <div class="row" style="position: relative;">                    
                   <div class="col cw150 py-2 text-center etitem  border  bg-light etinactive boxid">${obj.id}</div>
-                  <div class="col cw400 py-2 text-center etitem border  bg-light etinactive   editselect "><select disabled class="form-select  boxsupplier" aria-label="Default select example"><option selected>${obj.supplier}</option></select></div>
+                  <div class="col cw400 py-2 text-center etitem border  bg-light etinactive  editable editselect "><select disabled class="form-select  boxsupplier" aria-label="Default select example"><option selected>${obj.supplier}</option></select></div>
                   <div class="col cw400 py-2 text-center etitem border  bg-light etinactive  boxsupcode " >${obj.suppliercode}</div>
-                  <div class="col cw400 py-2 text-center etitem border  bg-light etinactive   editselect"><select disabled class="form-select  boxmaterial" aria-label="Default select example"><option selected>${obj.brandname}</option></select></div>                  
+                  <div class="col cw400 py-2 text-center etitem border  bg-light etinactive editable  editselect"><select disabled class="form-select  boxmaterial" aria-label="Default select example"><option selected>${obj.brandname}</option></select></div>                  
                   
                   <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
                       <i class="fa fa-trash-o deletebutton actionbutton"  onclick="deleteConfig(this)" aria-hidden="true"></i> Delete
@@ -127,7 +131,7 @@ function deleteConfig(button){
              else{
                 axios.get(`/queryconfigs/deleteconfig?matid=${matid}&confid=${configid}`,{ headers: { 'Authorization': authenticationheader()}})
                 .then((response) => {
-                    visualizeConfigurations(JSON.parse(localStorage.getItem("config_to_edit")));
+                    visualizeConfigurations();
                 })
                 .catch((error) => {
                     console.error("Error deleting user:", error);
@@ -144,36 +148,33 @@ function deleteConfig(button){
 }
 
 
-function addNewConfigLine(){
+function addNewLine(){
     const target_table=document.querySelector("#targettable");
     const additems=document.querySelectorAll(".additem");
     if (additems.length!=0) return;
     target_table.innerHTML+=`
     <div class="row" style="position: relative;">                    
-        <div class="etitem col cw150  additem boxid">ID</div>
-        <div class="etitem col cw400  additem  editable editselect"><select class="form-select  addboxsupplier" ></select></div>        
-        <div class="etitem col cw400  additem editable  "><input class="addsupcodeinput"type="text" class="w-100 text-start" value=""></div>        
-        <div class="etitem col cw400  additem editable  editselect" ><select class="form-select  addboxmaterial" ></select></div>
-        <div class="etitem col cw250 py-2 text-center etitem border  bg-light etinactive ">
+        <div class="col cw150  additem boxid">ID</div>
+        <div class="col cw400  additem  editable editselect"><select class="form-select  addboxsupplier" ></select></div>        
+        <div class="col cw400  additem editable  "><input class="addsupcodeinput"type="text" class="w-100 text-start" value=""></div>        
+        <div class="col cw400  additem editable  editselect" ><select class="form-select  addboxmaterial" ></select></div>
+        <div class="col cw250 py-2 text-center etitem border  bg-light etinactive ">
             <i class="fa fa-floppy-o  actionbutton floppybutton"  onclick="SaveConfItem(this)" aria-hidden="true"></i> Save
             
         </div>                
     </div>
     `;
     document.querySelectorAll(".boxmaterial").forEach(select=>{
-        
         const parent=select.parentNode;
         const actualvalue=select.getAttribute('actualvalue');
-        parent.innerHTML=`<select disabled class="form-select  boxmaterial" aria-label="Default select example"><option selected>${actualvalue}</option></select>`;
-        
+        parent.innerHTML=`<div>${actualvalue}</div>`;
         
         
     });
     document.querySelectorAll(".boxsupplier").forEach(select=>{
-        ;
         const parent=select.parentNode;
         const actualvalue=select.getAttribute('actualvalue');
-        parent.innerHTML=`<select disabled class="form-select  boxsupplier" aria-label="Default select example"><option selected>${actualvalue}</option></select>`;
+        parent.innerHTML=`<div>${actualvalue}</div>`;
         
     });
     
@@ -219,14 +220,14 @@ createCustomAlert('Attention','Are you sure you want to add this item to the bom
             }]
             
             axios.post(`/queryconfigs/new`, conf_data, { headers: { 'Authorization': authenticationheader()}})
-            .then((response) => { setTimeout(()=>{retrieveMaterialandSupplierinfos(componentid)},150);})
+            .then((response) => { setTimeout(()=>{window.location.reload()},150);})
             .catch((error) => {createCustomAlert('Error','Something went wrong trying to add item', 'ok');}); 
         }
     });
 }
 
 
-function retrieveMaterialandSupplierinfos(component){
+function retrieveMaterialandSupplierinfos(){
     //POPULATE THE MATERIAL SELECT          
      axios.get('/querymat/',{ headers: { 'Authorization': authenticationheader()}})
         .then((response)=>{
@@ -238,7 +239,7 @@ function retrieveMaterialandSupplierinfos(component){
                     innerhtmlofsupplierselects="";
                     response.data.forEach(function(supobj){innerhtmlofsupplierselects+=`<option value="${supobj.id}" >${supobj.supplier_name}</option>`;})
                     localStorage.setItem("supplieroptions", innerhtmlofsupplierselects);
-                    visualizeConfigurations(component);
+                    visualizeConfigurations();
                 })
                 .catch((error) => {createCustomAlert('Error','Something went wrong retrieving suppliers', 'ok');});         
     
@@ -256,6 +257,7 @@ function retrieveMaterialandSupplierinfos(component){
 }
 
 
+retrieveMaterialandSupplierinfos();
 
 
 

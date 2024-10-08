@@ -2,6 +2,7 @@ package com.app.compliance.controller;
 
 import com.app.compliance.dto.CompUpdate;
 import com.app.compliance.dto.ProdUpdate;
+import com.app.compliance.model.Bom;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Component.ComponentFamily;
 import com.app.compliance.model.Component.ConicalStandard;
@@ -11,6 +12,7 @@ import com.app.compliance.model.Product.ProductFamily;
 import com.app.compliance.model.Product.SapStatus;
 import com.app.compliance.model.Product.SterilizationCycle;
 import com.app.compliance.model.Product.SterilizationSite;
+import com.app.compliance.repository.BomRepository;
 import com.app.compliance.repository.ProductRepository;
 import com.app.compliance.repository.SupplierRepository;
 import com.app.compliance.services.LogService;
@@ -46,6 +48,9 @@ public class ProductController {
 
     @Autowired
     private final SupplierRepository supplierRepository;
+
+    @Autowired
+    private final BomRepository bomRepository;
 
     @Autowired
     private LogService logService;
@@ -219,6 +224,12 @@ public class ProductController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUseProduct(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
+            Product prodToDestroy=productRepository.findById(id).get();
+            List<Bom> allboms = bomRepository.findByProdid(prodToDestroy);
+            if(allboms.size()>0) {
+                for(Bom bom : allboms) bomRepository.delete(bom);
+            }
+
             productRepository.deleteById(id);
             logService.writeToLog("deleted product with id "+id,token);
         }catch(Exception e ){
