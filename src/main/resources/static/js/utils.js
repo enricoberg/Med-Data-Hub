@@ -169,10 +169,22 @@ function sendRefresh(){
             .catch(error => { console.log("Error refreshing token");})
 }
 function extractDataFromTable(){
-  let totalcolumns=document.querySelectorAll(".tableheader").length;
-  let totalelements=document.querySelectorAll(".grid-item").length;
-  let elements=document.querySelectorAll(".grid-item");
+  let headers=document.querySelectorAll(".etheader");
+  let totalcolumns=headers.length;
+  let elements=document.querySelectorAll(".etitem");
+  let totalelements=elements.length;
+  
   let csv_content="";
+  for (let i=0;i<totalcolumns;i++){
+          cleaned_value=headers[i].querySelector("h3").innerHTML.replaceAll(",","");
+          cleaned_value=cleaned_value.replaceAll(";","");
+          if(cleaned_value.indexOf("Action") !== -1 || cleaned_value.indexOf("Certificates") !== -1) cleaned_value="";
+          csv_content+=cleaned_value;
+          csv_content+=";";
+          
+        }
+     
+  csv_content+="\n";
   let counter=0;  
   for (let i=0;i<totalelements;i++){    
       try{
@@ -183,7 +195,15 @@ function extractDataFromTable(){
       catch{
           cleaned_value=elements[i].innerHTML.replaceAll(",","");
           cleaned_value=cleaned_value.replaceAll(";","");
+          cleaned_value=cleaned_value.replaceAll("&ensp;"," ");
+          cleaned_value=cleaned_value.replaceAll("\t"," ");
+          cleaned_value=cleaned_value.replaceAll("\n"," ");
+          if(cleaned_value.indexOf("</i>") !== -1) cleaned_value="";
+          else if(cleaned_value.indexOf("certificatebutton") !== -1) cleaned_value="";
+          else if(cleaned_value.indexOf("checkbox") !== -1) cleaned_value = cleaned_value.indexOf("checked") !== -1 ? "true" : "false";
+          else if(cleaned_value.indexOf("</select>") !== -1) cleaned_value = elements[i].querySelector("select").options[elements[i].querySelector("select").selectedIndex].textContent;
           csv_content+=cleaned_value;
+
           
       }
       

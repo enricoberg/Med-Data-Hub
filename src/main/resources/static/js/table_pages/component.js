@@ -42,46 +42,11 @@ async function rendercomponents(){
         </div>
         <div class="form-group ">
         <label for="family" class="control-label">Component Family </label>
-            <select id="family" class="form-select form-select-sm selectcontrol compfamilyinput" name="family" >
-                <option value="ADJUVANTS" selected>Adjuvants</option>
-                <option value="BAGS" selected>Bags</option>
-                <option value="CAPS">Caps</option>
-                <option value="CARTONS" selected>Boxes</option>
-                <option value="CHAMBERS" selected>Drip Chambers</option>
-                <option value="CLAMPS" selected>Clamps</option>
-                <option value="CONNECTORS" selected>Connectors</option>
-                <option value="CONICALCONNECTORS" selected>Conical Connectors</option>
-                <option value="COVERS" selected>Covers</option>
-                <option value="ELECTRODES" selected>Electrodes & Accessories</option>
-                <option value="FILTERS" selected>Filters</option>
-                <option value="FILMS" selected>Films</option>
-                <option value="HOTSTAMPING" selected>Hot stamping</option>
-                <option value="IFU" selected>IFU-Instructions for use</option>
-                <option value="INJECTIONPOINTS" selected>Injection Points</option>
-                <option value="LABELS" selected>Labels</option>
-                <option value="HARDWARE" selected>Machine components</option>
-                <option value="MATERIALS" selected>Raw materials</option>
-                <option value="POUCHES" selected>Pouches</option>
-                <option value="SFTUBES" selected>Semifinished tubes</option>
-                <option value="SFVARIOUS" selected>Various semifinished goods</option>
-                <option value="SPIKES" selected>Spikes</option>
-                <option value="TRANSDUCERS" selected>Transducers</option>
-                <option value="TUBES" selected>Tubes</option>
-                <option value="VARIOUS" selected>Various components</option>
-                <option value="INWORK" selected>In Work</option>
-
-
-                <option value="all" selected>See All</option>
-            </select>
+            <select id="family" class="form-select form-select-sm selectcontrol compfamilyinput" name="family" ><option value="all" selected >See All</option></select>
         </div>
         <div class="form-group ">
         <label for="standard" class="control-label">Conical Standard</label>
-            <select id="standard" class="form-select form-select-sm selectcontrol" name="standard">
-              <option value="luer">Luer</option>
-              <option value="enfit">ENFIT</option>
-              <option value="tpnlock">TPN Lock</option>
-              <option value="all" selected>See All</option>
-            </select>
+            <select id="standard" class="form-select form-select-sm selectcontrol" name="standard"><option value="all" selected >See All</option></select>
         </div>
         <div class="form-group ">
         <label for="packaging" class="control-label">Packaging Material</label>
@@ -136,6 +101,19 @@ async function rendercomponents(){
      </form>
      <div class="resultbanner mt-4">~  Found 0 results  ~</div>
      `;
+    // POPULATE THE SELECTS IN THE DASHBOARD
+    retrieveOptions('COMPONENTFAMILY').then(result => {
+        document.querySelector("#family").innerHTML = result+document.querySelector("#family").innerHTML;        
+    }).catch(error => {
+        console.error('Failed to retrieve and log options:', error);
+    });
+    retrieveOptions('CONICALSTANDARDS').then(result => {
+        document.querySelector("#standard").innerHTML = result+document.querySelector("#standard").innerHTML;        
+    }).catch(error => {
+        console.error('Failed to retrieve and log options:', error);
+    });
+    
+
      mat_options=document.querySelector("#materialinput");
      fetch('/aux/getmaterials',{
          method: 'GET',            
@@ -369,46 +347,17 @@ async function updateComponentsTable(){
         
         allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
         allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
+        // ASSIGN THE CORRECT OPTIONS TO THE SELECT INSIDE THE RESULTS TABLE
+        const htmloptionsfamily= await retrieveOptions('COMPONENTFAMILY');
         document.querySelectorAll(".selectcompfamily").forEach(select=>{
             let current_value=select.value;
-            select.innerHTML=`
-                <option value="ADJUVANTS" selected>Adjuvants</option>
-                <option value="BAGS" selected>Bags</option>
-                <option value="CAPS">Caps</option>
-                <option value="CARTONS" selected>Boxes</option>
-                <option value="CHAMBERS" selected>Drip Chambers</option>
-                <option value="CLAMPS" selected>Clamps</option>
-                <option value="CONNECTORS" selected>Connectors</option>
-                <option value="CONICALCONNECTORS" selected>Conical Connectors</option>
-                <option value="COVERS" selected>Covers</option>
-                <option value="ELECTRODES" selected>Electrodes & Accessories</option>
-                <option value="FILTERS" selected>Filters</option>
-                <option value="FILMS" selected>Films</option>
-                <option value="HOTSTAMPING" selected>Hot stamping</option>
-                <option value="IFU" selected>IFU-Instructions for use</option>
-                <option value="INJECTIONPOINTS" selected>Injection Points</option>
-                <option value="LABELS" selected>Labels</option>
-                <option value="MATERIALS" selected>Raw materials</option>
-                <option value="MATERIALS" selected>Raw materials</option>
-                <option value="POUCHES" selected>Pouches</option>
-                <option value="SFTUBES" selected>Semifinished tubes</option>
-                <option value="SFVARIOUS" selected>Various semifinished goods</option>
-                <option value="SPIKES" selected>Spikes</option>
-                <option value="TRANSDUCERS" selected>Transducers</option>
-                <option value="TUBES" selected>Tubes</option>
-                <option value="VARIOUS" selected>Various components</option>
-                <option value="INWORK" selected>In Work</option>
-            `;
-            select.value=current_value;
+            select.innerHTML=htmloptionsfamily;
+            select.value=current_value;      
         });
+        const htmloptionsstandards= await retrieveOptions('CONICALSTANDARDS');
         document.querySelectorAll(".selectstandard").forEach(select=>{
             let current_value=select.value;
-            select.innerHTML=`
-            <option value="LUERLOCK">Luer</option>
-              <option value="ENFIT">ENFIT</option>
-              <option value="TPNLOCK">TPN Lock</option>
-              <option value="NULL">N/A</option>
-            `;
+            select.innerHTML=htmloptionsstandards;
             select.value=current_value;
         });
         updateView();

@@ -1,0 +1,9 @@
+    <div class="newsboxheader" >&emsp;Last Updates</div>
+    
+    
+    <ul style="margin-left: 40px;">
+        <li>Added PPC section</li>
+        <li>New category of Product "Electrodes" created</li>
+        <li>Added italian language</li>  
+        
+    </ul>

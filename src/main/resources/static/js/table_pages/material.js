@@ -37,70 +37,7 @@ async function rendermaterials(){
         <div class="selectcontainer" style="display:flex; justify-content:align-center; align-items:center; flex-wrap:wrap;">
         <div class="form-group ">
         <label for="family" class="control-label "> Material Type </label>
-        <select id="ifamily" class="form-select form-select-sm selectcontrol" name="familyinput">
-        
-                        <option value="ABS">ABS</option>
-                        <option value="ADDITIVE">Additives</option>
-                        <option value="ADHESIVEPAPER">Adhesive Paper</option>
-                        <option value="ADHESIVETAPE">Adhesive Tape</option>
-                        <option value="ADHESIVE">Adhesives</option>
-                        <option value="ALUMINUM">Aluminium</option>
-                        <option value="BRASS">Brass</option>
-                        <option value="CARTONBOX">Cartonbox</option>
-                        <option value="CIIR">CIIR (Chlorobutyl)</option>
-                        <option value="COLORANT">Colorants</option>                        
-                        <option value="COP">COP</option>
-                        <option value="EVA">EVA</option>
-                        <option value="HDPE">HDPE</option>
-                        <option value="HIPS">HIPS</option>
-                        <option value="INK">Inks</option>
-                        <option value="IR">IR</option>
-                        <option value="LDPE">LDPE</option>
-                        <option value="MABS">MABS</option>
-                        <option value="MEDICALPAPER">Medical Paper</option>
-                        <option value="MULTIMATERIAL">Multimaterial</option>        
-                        <option value="NITINOL">Nitinol</option>
-                        <option value="PA">PA</option>
-                        <option value="PAPE">PA/PE</option>
-                        <option value="PAPER">Paper</option>
-                        <option value="PC">PC</option>
-                        <option value="PCABS">PC/ABS</option>
-                        <option value="PE">PE</option>
-                        <option value="PEEVA">PE/EVA</option>
-                        <option value="PES">PES</option>
-                        <option value="PET">PET</option>
-                        <option value="PETPE">PET/PE</option>
-                        <option value="PETPP">PET/PP</option>
-                        <option value="PMMA">PMMA</option>
-                        <option value="PO">PO</option>
-                        <option value="POM">POM</option>
-                        <option value="PP">PP</option>
-                        <option value="PPPE">PP/PE</option>
-                        <option value="PPC">PPC</option>
-                        <option value="PPE">PPE</option>
-                        <option value="PPH">PPH</option>
-                        <option value="PS">PS</option>
-                        <option value="PSU">PSU</option>
-                        <option value="PTFE">PTFE</option>
-                        <option value="PUR">PUR</option>
-                        <option value="PVC">PVC</option>
-                        <option value="PVP">PVP</option>
-                        <option value="SAN">SAN</option>
-                        <option value="SBC">SBC</option>
-                        <option value="SEBS">SEBS</option>
-                        <option value="SI">Silicone</option>
-                        <option value="SOLVENT">Solvents</option>
-                        <option value="SST">SST</option>
-                        <option value="SUBSTANCES">Substances</option>
-                        <option value="SULFATE">Sulfates</option>
-                        <option value="TPE">TPE</option>
-                        <option value="TPU">TPU</option>
-                        <option value="TUNGSTEN>Tungsten</option>
-                        <option value="UNKNOWN">N/A - Not applicable</option>
-                        
-                        <option value="all" selected>Select All</option>
-                        
-                    </select>
+        <select id="ifamily" class="form-select form-select-sm selectcontrol" name="familyinput"><option value="all" selected>Select All</option></select>
         </div>
 
 
@@ -109,7 +46,11 @@ async function rendermaterials(){
 
         <div class="resultbanner">~  Found 0 results  ~</div>
      </form>`;
-
+     retrieveOptions('MATERIALS').then(result => {
+        document.querySelector("#ifamily").innerHTML = result+document.querySelector("#ifamily").innerHTML;        
+    }).catch(error => {
+        console.error('Failed to retrieve and log options:', error);
+    });
     updateMaterialsTable();
     const controls=document.querySelectorAll(".documentcontrol");
     for (let control of controls){
@@ -272,69 +213,11 @@ async function updateMaterialsTable(){
                 
                 allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
                 allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
+                // ASSIGN THE CORRECT OPTIONS TO THE SELECT INSIDE THE RESULTS TABLE
+                const htmloptionsfamily= await retrieveOptions('MATERIALS');
                 document.querySelectorAll(".boxfamily").forEach(select=>{
                     let current_value=select.value;
-                    select.innerHTML=`
-                                
-                                <option value="ABS">ABS</option>
-                                <option value="ADDITIVE">Additives</option>
-                                <option value="ADHESIVEPAPER">Adhesive Paper</option>
-                                <option value="ADHESIVETAPE">Adhesive Tape</option>
-                                <option value="ADHESIVE">Adhesives</option>
-                                <option value="ALUMINUM">Aluminium</option>
-                                <option value="BRASS">Brass</option>
-                                <option value="CARTONBOX">Cartonbox</option>
-                                <option value="CIIR">CIIR (Chlorobutyl)</option>
-                                <option value="COLORANT">Colorants</option>                        
-                                <option value="COP">COP</option>
-                                <option value="EVA">EVA</option>
-                                <option value="HDPE">HDPE</option>
-                                <option value="HIPS">HIPS</option>
-                                <option value="INK">Inks</option>
-                                <option value="IR">IR</option>
-                                <option value="LDPE">LDPE</option>
-                                <option value="MABS">MABS</option>
-                                <option value="MEDICALPAPER">Medical Paper</option>
-                                <option value="MULTIMATERIAL">Multimaterial</option>        
-                                <option value="NITINOL">Nitinol</option>
-                                <option value="PA">PA</option>
-                                <option value="PAPE">PA/PE</option>
-                                <option value="PAPER">Paper</option>
-                                <option value="PC">PC</option>
-                                <option value="PCABS">PC/ABS</option>
-                                <option value="PE">PE</option>
-                                <option value="PEEVA">PE/EVA</option>
-                                <option value="PES">PES</option>
-                                <option value="PET">PET</option>
-                                <option value="PETPE">PET/PE</option>
-                                <option value="PETPP">PET/PP</option>
-                                <option value="PMMA">PMMA</option>
-                                <option value="PO">PO</option>
-                                <option value="POM">POM</option>
-                                <option value="PP">PP</option>
-                                <option value="PPPE">PP/PE</option>
-                                <option value="PPC">PPC</option>
-                                <option value="PPE">PPE</option>
-                                <option value="PPH">PPH</option>
-                                <option value="PS">PS</option>
-                                <option value="PSU">PSU</option>
-                                <option value="PTFE">PTFE</option>
-                                <option value="PUR">PUR</option>
-                                <option value="PVC">PVC</option>
-                                <option value="PVP">PVP</option>
-                                <option value="SAN">SAN</option>
-                                <option value="SBC">SBC</option>
-                                <option value="SEBS">SEBS</option>
-                                <option value="SI">Silicone</option>
-                                <option value="SOLVENT">Solvents</option>
-                                <option value="SST">SST</option>
-                                <option value="SUBSTANCES">Substances</option>
-                                <option value="SULFATE">Sulfates</option>
-                                <option value="TPE">TPE</option>
-                                <option value="TPU">TPU</option>
-                                <option value="TUNGSTEN>Tungsten</option>
-                                <option value="UNKNOWN">N/A - Not applicable</option>
-                    `;
+                    select.innerHTML=htmloptionsfamily;
                     select.value=current_value;
                 });        
         

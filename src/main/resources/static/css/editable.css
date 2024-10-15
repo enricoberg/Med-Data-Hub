@@ -106,7 +106,7 @@ i.actionbutton{ cursor: pointer;}
     /* margin: auto;    */
     margin-left: calc(50px + 0.5 * (10vw - 60px));
     max-height: 70vh; 
-     
+    
     /* height: 85vh; */
     
     overflow: auto;
@@ -173,6 +173,7 @@ i.actionbutton{ cursor: pointer;}
     font-family: Arial;
     padding-top: 4px;
     padding-bottom: 4px;
+    
 }
 .etitem{
     background-color: rgba(0, 0, 0,0.05);  

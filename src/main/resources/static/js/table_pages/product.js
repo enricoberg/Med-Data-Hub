@@ -38,48 +38,11 @@ async function renderproducts(){
 
             <div class=" pl-2 pt-4 ">
                                 <span >Family of the product: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" id="familyinput">
-                                    <option value="ASS" >ASSEMBLIES</option>    
-                                    <option value="AV" selected>A/V SYSTEMS</option>
-                                    <option value="AA" >ACUTE & APHERESIS</option>
-                                    <option value="CATH" >CATHETERS & ACCESSORIES</option>  
-                                    <option value="CONC" >CONCENTRATES</option>
-                                    <option value="EC" >EMPTY CONTAINERS</option>                                    
-                                    <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
-                                    <option value="IU" >IRRIGATION / UROLOGY</option>    
-                                    <option value="HARDWARE" >MACHINE COMPONENTS</option>    
-                                    <option value="OEM" >OEM</option>                                                                
-                                    <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
-                                    <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
-                                    <option value="INWORK" >IN WORK</option>   
-                                    
-                                    
-                                    <option value="all" selected>See All</option>
-                                  </select>
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="familyinput" id="familyinput"><option value="all" selected>See All</option></select>
                                   <span class="ml-3">SAP STATUS: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapstatusinput" id="sapstatusinput">
-                                    <option value="M1V1" selected>M1V1 (planning stage)</option>
-                                    <option value="M2V1" >M2V1 (active, planning stage)</option>
-                                    <option value="M2V2" >M2V2 (active, free for sale)</option>
-                                    <option value="M2V4" >M2V4 (active, not saleable)</option>
-                                    <option value="M3V3" >M3V3 (discontinued line)</option>
-                                    <option value="M4V4" >M4V4 (end of life, not saleable)</option>
-                                    <option value="all" selected >See All</option>
-
-                                  </select>
-                                  <span class="ml-3">Sterilization Method: </span>
-                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput">
-                                                                      
-                                    
-                                    <option value="BETA" >Beta radiation</option>
-                                    <option value="GAMMA" >Gamma radiation</option>
-                                    <option value="ETO21" selected>ETO - cycle 21</option>                                    
-                                    <option value="ETO22" >ETO - cycle 22</option>  
-                                    <option value="BULK" >Non sterile / Bulk</option>
-                                    <option value="UNKNOWN" >Not applicable</option>
-                                    <option value="all" selected >See All</option>
-
-                                  </select>
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sapstatusinput" id="sapstatusinput"><option value="all" selected >See All</option></select>
+                                <span class="ml-3">Sterilization Method: </span>
+                                <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterimethodinput" id="sterimethodinput"><option value="all" selected >See All</option></select>
                                   
 
             </div>
@@ -97,17 +60,7 @@ async function renderproducts(){
                                      <option value="all" selected>See All</option>
                                    </select>
                                    <span class="ml-3">Sterilization Site: </span>
-                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput">
-                                    <option value="BAI" >B.Braun Avitum Italy</option>                                                                        
-                                    <option value="Melsungen" >B.Braun Melsungen</option>
-                                    <option value="Sterilverona" >Sterilverona</option>
-                                    <option value="Sterisastkomenda" >Sterisast Komenda</option>
-                                    <option value="Sterilveronanogara" >Sterilverona Nogara</option>
-                                    <option value="Sterisastseriate" >Sterisast Seriate</option>
-                                    <option value="Sterisastwestport" >Sterisast Westport</option>
-                                    <option value="Synergyhealth" >Synergy Health</option>                                    
-                                    <option value="all" selected>See All</option>
-                                   </select>
+                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="sterisiteinput" id="sterisiteinput"><option value="all" selected>See All</option></select>
                                    <span class="ml-3">Manufacturer: </span>
                                   <select class="form-select form-select-lg mb-3 selectcontrol" aria-label="Large select example" name="supplierinput" id="supplierinput">
                                     
@@ -118,6 +71,28 @@ async function renderproducts(){
 
             <div class="resultbanner">~  Found 0 results  ~</div>
          </form>`;
+        // POPULATE THE SELECTS IN THE DASHBOARD
+        retrieveOptions('SAPSTATUS').then(result => {
+            document.querySelector("#sapstatusinput").innerHTML = result+document.querySelector("#sapstatusinput").innerHTML;        
+        }).catch(error => {
+            console.error('Failed to retrieve and log options:', error);
+        });
+        retrieveOptions('PRODUCTFAMILY').then(result => {
+            document.querySelector("#familyinput").innerHTML = result+document.querySelector("#familyinput").innerHTML;        
+        }).catch(error => {
+            console.error('Failed to retrieve and log options:', error);
+        });
+        retrieveOptions('STERILIZATIONCYCLE').then(result => {
+            document.querySelector("#sterimethodinput").innerHTML = result+document.querySelector("#sterimethodinput").innerHTML;        
+        }).catch(error => {
+            console.error('Failed to retrieve and log options:', error);
+        });
+        retrieveOptions('STERILIZATIONSITE').then(result => {
+            document.querySelector("#sterisiteinput").innerHTML = result+document.querySelector("#sterisiteinput").innerHTML;        
+        }).catch(error => {
+            console.error('Failed to retrieve and log options:', error);
+        });
+        
          sup_options=document.querySelector("#supplierinput");
          fetch('/aux/getsuppliers',{
              method: 'GET',            
@@ -348,24 +323,11 @@ async function updateProductsTable(){
             const allselects=document.querySelectorAll(".editselect.editable select");            
             allchecks.forEach(check=>{ check.addEventListener("change",()=>editFather(check))});
             allselects.forEach(select=>{ select.addEventListener("change",()=>editFather(select))});
+            // ASSIGN THE CORRECT OPTIONS TO THE SELECT INSIDE THE RESULTS TABLE
+            const htmloptionsfamily= await retrieveOptions('PRODUCTFAMILY');
             document.querySelectorAll(".boxfamily").forEach(select=>{
                 let current_value=select.value;
-                select.innerHTML=`
-                <option value="AV" selected>A/V SYSTEMS</option>
-                                        <option value="ASS" >ASSEMBLIES</option>    
-                                        <option value="AV" selected>A/V SYSTEMS</option>
-                                        <option value="AA" >ACUTE & APHERESIS</option>
-                                        <option value="CATH" >CATHETERS & ACCESSORIES</option>  
-                                        <option value="CONC" >CONCENTRATES</option>
-                                        <option value="EC" >EMPTY CONTAINERS</option>                                    
-                                        <option value="ENT" >ENTERAL NUTRITION & ACCESSORIES</option>
-                                        <option value="IU" >IRRIGATION / UROLOGY</option>    
-                                        <option value="HARDWARE" >MACHINE COMPONENTS</option>    
-                                        <option value="OEM" >OEM</option>                                                                
-                                        <option value="BAGS" >TPN BAGS & ACCESSORIES</option>
-                                        <option value="WM" >WOUND-OSTOMY MANAGEMENT</option>
-                                        <option value="INWORK" >IN WORK</option>                                                                      
-                `;
+                select.innerHTML=htmloptionsfamily;
                 select.value=current_value;
             });
                 // INSERT SUPPLIER SELECT OPTIONS HERE
@@ -397,44 +359,22 @@ async function updateProductsTable(){
             .catch(error => {            
                 console.error('Error during fetch:', error);
             });
-            
+            const htmloptionssapstatus= await retrieveOptions('SAPSTATUS');
             document.querySelectorAll(".boxsap").forEach(select=>{
                 let current_value=select.value;
-                select.innerHTML=`            
-                <option value="M1V1" >M1/V1</option>
-                <option value="M2V1" >M2/V1</option>
-                <option value="M2V2" >M2/V2</option>
-                <option value="M2V4" >M2/V4</option>
-                <option value="M3V3" >M3/V3</option>
-                <option value="M4V4" >M4/V4</option>                                   
-                `;
+                select.innerHTML=htmloptionssapstatus;
                 select.value=current_value;
             });
+            const htmloptionssteriste= await retrieveOptions('STERILIZATIONSITE');
             document.querySelectorAll(".boxsterisite").forEach(select=>{
                 let current_value=select.value;
-                select.innerHTML=`
-                <option value="BAI" >B.Braun Avitum Italy</option>
-                <option value="Sterilverona" >Sterilverona</option>
-                <option value="Sterilveronanogara" >Sterilverona Nogara</option>
-                <option value="Melsungen" >B.Braun Melsungen</option>
-                <option value="Sterisastkomenda" >Sterisast Komenda</option>
-                <option value="Sterisastwestport" >Sterisast Westport</option>
-                <option value="Sterisastseriate" >Sterisast Seriate</option>
-                <option value="Synergyhealth" >Synergy Health</option>
-                <option value="NULL">N/A</option>
-                `;
+                select.innerHTML=htmloptionssteriste;
                 select.value=current_value;
             });
+            const htmloptionsstericycle= await retrieveOptions('STERILIZATIONCYCLE');
             document.querySelectorAll(".boxstericycle").forEach(select=>{
                 let current_value=select.value;
-                select.innerHTML=`
-                <option value="ETO21" selected>ETO - cycle 21</option>                                    
-                <option value="ETO22" >ETO - cycle 22</option>                                    
-                <option value="GAMMA" >Raggi Gamma</option>
-                <option value="BETA" >Raggi Beta</option>
-                <option value="BULK" >Bulk / Non sterile</option>
-                <option value="UNKNOWN" >Not applicable</option>
-                `;
+                select.innerHTML=htmloptionsstericycle;
                 select.value=current_value;
             });
             updateView();

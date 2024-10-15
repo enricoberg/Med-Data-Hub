@@ -1,6 +1,10 @@
 package com.app.compliance.controller;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,9 +16,15 @@ import com.app.compliance.dto.QuickSearch;
 import com.app.compliance.entities.User;
 import com.app.compliance.model.Product;
 import com.app.compliance.repository.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,6 +139,54 @@ public class AuxController {
         return (value != null) ? value.toString() : null;
     }
 
+    @GetMapping("/gettext")
+    public String Paste(@RequestParam(required = true) String filename) {   
+        String TXT_PATH = System.getProperty("user.dir") + File.separator + "txt";  
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(TXT_PATH+File.separator+filename+".txt"));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+            br.close();
+            return everything;
+        } catch(Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+    @GetMapping("/getoptions")
+    public String enumValues(@RequestParam(required = true) String listname) {   
+        String JSON_PATH = System.getProperty("user.dir")+ File.separator + "enums.json";  
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(JSON_PATH));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+            br.close();
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(everything);
+            for (JsonNode node : jsonNode) {
+                if (node.has("title") && node.get("title").asText().equals(listname)) if (node.has("options")) return node.get("options").toString();
+            }
+            return null;
+
+        } catch(Exception e){
+            System.out.println(e);
+            return null;
+        }
+        
+    }
 
     @GetMapping("/pasteclipboard")
     public String Paste() {        

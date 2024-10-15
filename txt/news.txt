@@ -1,0 +1,7 @@
+<div class="newsboxheader" >&emsp;Recent News</div>
+    
+    <ul style="margin-left: 40px;">
+        <li>PPC 24041 Closed: Change of material </li>
+        <li>Lorem ipsum doloer sit amet</li>
+        <li>Lorem ipsum doloer sit amet</li>  
+    </ul>

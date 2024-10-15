@@ -42,3 +42,28 @@ function resetPage(exceptions=[]) {
     if(document.querySelector(".grid-container").classList.contains("thininvisible")) document.querySelector(".grid-container").classList.remove("thininvisible");
     
   }
+
+
+
+  async function retrieveOptions(listname){
+    try{
+    const response= await axios.get(`/aux/getoptions?listname=${listname}`,{ headers: { 'Authorization': authenticationheader()}});
+    if(response.status != 200) throw new Error('Error retrieving options');
+    let options="";
+    for(const obj of response.data) options+=`<option value="${obj.value}">${obj.label}</option>`;        
+    return options;
+    }
+    catch(error){
+        console.error(error);
+        throw new Error('Error retrieving options');
+    }
+    
+  }
+  
+  async function retrieveText(txtname) {
+    return axios.get(`/aux/gettext?filename=${txtname}`, { headers: { 'Authorization': authenticationheader() } })
+      .then((response) => {
+        if (response.status !== 200) throw new Error('Error retrieving options');
+        return response.data;
+      });
+  }

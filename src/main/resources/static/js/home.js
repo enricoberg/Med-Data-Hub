@@ -41,20 +41,20 @@
     }
 }
 
-resetPage();
-function clearbomtitles(){
-  bomtitles=document.querySelectorAll(".bomtitle");
-  try{
-    for(title of bomtitles){
-      title.remove();
-    }
-    bomtitles=document.querySelectorAll(".bomtitle").classList.add("invisible");
-  }
-  catch(error){}
-  for(container of document.querySelectorAll(".container")) {
-                  container.remove();
-              }
-}
+renderdashboard();
+// function clearbomtitles(){
+//   bomtitles=document.querySelectorAll(".bomtitle");
+//   try{
+//     for(title of bomtitles){
+//       title.remove();
+//     }
+//     bomtitles=document.querySelectorAll(".bomtitle").classList.add("invisible");
+//   }
+//   catch(error){}
+//   for(container of document.querySelectorAll(".container")) {
+//                   container.remove();
+//               }
+// }
 function authenticationheader(){
     const jwt=getCookie("jwt");
     return `Bearer ${jwt}`;
@@ -76,26 +76,26 @@ setInterval(()=>{
 
 
 
-const urlParams = new URLSearchParams(window.location.search);
-const sectionToDisplay = urlParams.get('section'); 
-if(sectionToDisplay){
+// const urlParams = new URLSearchParams(window.location.search);
+// const sectionToDisplay = urlParams.get('section'); 
+// if(sectionToDisplay){
 
-setTimeout(()=>{
-  switch(sectionToDisplay){
+// setTimeout(()=>{
+//   switch(sectionToDisplay){
       
-    case "components":        
-      document.querySelector("#componentsection").click();              
-    break;
-    case "products":        
-      document.querySelector("#productsection").click();             
-    break;
-    case "materials":        
-      document.querySelector("#materialsection").click();             
-    break;
-    case "suppliers":        
-      document.querySelector("#suppliersection").click();             
-    break;
-  }
-},150);
+//     case "components":        
+//       document.querySelector("#componentsection").click();              
+//     break;
+//     case "products":        
+//       document.querySelector("#productsection").click();             
+//     break;
+//     case "materials":        
+//       document.querySelector("#materialsection").click();             
+//     break;
+//     case "suppliers":        
+//       document.querySelector("#suppliersection").click();             
+//     break;
+//   }
+// },150);
   
-}
+// }
