@@ -1,5 +1,8 @@
 target/
-
+txt/
+log.txt
+enums.json
+documentfolder/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
