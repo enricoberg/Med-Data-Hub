@@ -491,10 +491,10 @@ function saveProductsModifications(){
              if(!result) return;
              else{
                 let processed_items=0;
-    
-                modified_items.forEach(function(button){
+                let allmodifiedrows=document.querySelectorAll(".row:has(.edited)");
+                allmodifiedrows.forEach(function(parentRow){
                     processed_items++;
-                    const parentRow = button.closest('.row');
+                    // const parentRow = button.closest('.row');
                     if (parentRow) {
                         const id = parentRow.querySelector('.boxid').innerHTML;
                         const article = parentRow.querySelector('.boxarticle').innerHTML;
@@ -528,11 +528,17 @@ function saveProductsModifications(){
                                                 supplierid: supplierid
                                             };
                         
-                        axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-                        if (processed_items==modified_items.length)  setTimeout(()=>{updateProductsTable();},250);           
+                        axios.put(`/queryprod/updatecomponent/${id}`, prod_correct,{ headers: { 'Authorization': authenticationheader()}})
+                        .then((response) => {
+                            
+                            if(response.status!=200) createCustomAlert('Error','Something went wrong trying to save modifications', 'ok');
+                        })
+                                 
                         
                     }
                 });
+                setTimeout(()=>{updateProductsTable();},250);  
+                setTimeout(()=>{toggleEditMode(['ENGINEER']);},300);  
              }
      
             });

@@ -237,8 +237,8 @@ public class MaterialController {
         
         material.setBrandname(updateMaterialRequest.getBrandname());
         material.setSupplier(updateMaterialRequest.getSupplier());
-        if(updateMaterialRequest.getNotes().equals("NULL") || updateMaterialRequest.getNotes().equals("") || updateMaterialRequest.getNotes().equals(" ")) material.setNotes(null);
-        else material.setNotes(updateMaterialRequest.getNotes());
+        // if(updateMaterialRequest.getNotes().equals("NULL") || updateMaterialRequest.getNotes().equals("") || updateMaterialRequest.getNotes().equals(" ")) material.setNotes(null);
+        // else material.setNotes(updateMaterialRequest.getNotes());
         if(updateMaterialRequest.getPlasticizer().equals("NULL") || updateMaterialRequest.getPlasticizer().equals("") || updateMaterialRequest.getPlasticizer().equals(" ")) material.setPlasticizer(null);
         else material.setPlasticizer(updateMaterialRequest.getPlasticizer());        
         Material.MaterialFamily family = MaterialFamily.valueOf(updateMaterialRequest.getFamily());

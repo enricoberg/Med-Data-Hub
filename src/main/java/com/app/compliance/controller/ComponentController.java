@@ -235,8 +235,10 @@ public class ComponentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteComponent(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
+            String article=componentRepository.findById(id).get().getComp_id();
+            String description=componentRepository.findById(id).get().getDescription();
             componentRepository.deleteById(id);
-            logService.writeToLog("Deleted the component with id  "+id,token);
+            logService.writeToLog("Deleted the component "+article+" - "+description,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the component");
         }
@@ -250,7 +252,9 @@ public class ComponentController {
         
         Optional<Component> opt_component = componentRepository.findById(id);
         if(!opt_component.isPresent()) return ResponseEntity.status(500).body("The user you requested to update does not exist");
-        Component component = opt_component.get();       
+        Component component = opt_component.get();   
+        //GET THE OLD COMP INFO
+        String oldinfo="(article: "+component.getComp_id()+", description: "+component.getDescription()+", contact: "+component.isContact()+", intecompany: "+component.isIntercompany()+", ca65: "+component.isCa65()+", packaging: "+component.isPackagingmaterial()+", standard: "+component.getStandard()+", family: "+component.getFamily()+")";    
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
         component.setComp_id(updateComponentRequest.getArticle());
         component.setContact(updateComponentRequest.isContact());
@@ -267,7 +271,7 @@ public class ComponentController {
         component.setFamily(compfamily);
         
         componentRepository.save(component);
-        logService.writeToLog("Update component "+updateComponentRequest.getArticle()+" - "+updateComponentRequest.getDescription()+", Intercompany: "+updateComponentRequest.isIntercompany()+", Packaging: "+updateComponentRequest.isPackaging()+", CA65: "+updateComponentRequest.isCa65()+", Family: "+updateComponentRequest.getFamily()+", Standard: "+updateComponentRequest.getStandard(),token);
+        logService.writeToLog("Update component "+updateComponentRequest.getArticle()+" - "+updateComponentRequest.getDescription()+", Intercompany: "+updateComponentRequest.isIntercompany()+", Packaging: "+updateComponentRequest.isPackaging()+", CA65: "+updateComponentRequest.isCa65()+", Family: "+updateComponentRequest.getFamily()+", Standard: "+updateComponentRequest.getStandard()+". Old values: "+oldinfo,token);
         return ResponseEntity.ok("Component updated successfully");
     }
 }

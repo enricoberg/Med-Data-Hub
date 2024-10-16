@@ -6,8 +6,7 @@ import lombok.Data;
 public class MatUpdate {
 
     String brandname;
-    String supplier;
-    String notes;
+    String supplier;    
     String family;
     String plasticizer;
     

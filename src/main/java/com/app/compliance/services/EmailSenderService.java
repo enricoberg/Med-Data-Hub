@@ -28,7 +28,7 @@ public class EmailSenderService {
         helper.setTo(toMail);
         helper.setSubject(subject);
         helper.setText(body, true);
-        mailSender.send(message);
+        // mailSender.send(message);
 
     }
 }

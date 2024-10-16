@@ -308,17 +308,17 @@ function saveMaterialsModifications(){
              if(!result) return;
              else{
                 let processed_items=0;
-    
-                modified_items.forEach(function(button){
+                let allmodifiedrows=document.querySelectorAll(".row:has(.edited)");
+                allmodifiedrows.forEach(function(parentRow){
                     processed_items++;
-                    const parentRow = button.closest('.row');
+                    // const parentRow = button.closest('.row');
                     if (parentRow) {
                         const id = parentRow.querySelector('.boxid').innerHTML;
                         const brandname = parentRow.querySelector('.boxarticle').innerHTML;
                         const plasticizer= parentRow.querySelector('.boxplasticizer').innerHTML;            
                         const family = parentRow.querySelector('.boxfamily').value;
                         const supplier= parentRow.querySelector('.boxsupplier').innerHTML;
-                        const notes = parentRow.querySelector('.boxnotes').innerHTML;
+                        // const notes = parentRow.querySelector('.boxnotes').innerHTML;
                         
             
                         
@@ -326,15 +326,19 @@ function saveMaterialsModifications(){
                                                 plasticizer: plasticizer,
                                                 brandname: brandname,
                                                 family: family  ,
-                                                supplier: supplier,
-                                                notes: notes
+                                                supplier: supplier
+                                                // notes: null
                                             };
                         
-                        axios.put(`/querymat/updatematerial/${id}`, mat_correct,{ headers: { 'Authorization': authenticationheader()}}) ;
-                        if (processed_items==modified_items.length)  setTimeout(()=>{updateMaterialsTable()},250);         
-                        
+                        axios.put(`/querymat/updatematerial/${id}`, mat_correct,{ headers: { 'Authorization': authenticationheader()}})
+                        .then((response) => {
+                            
+                            if(response.status!=200) createCustomAlert('Error','Something went wrong trying to save modifications', 'ok');
+                        })
                     }
                 });
+                setTimeout(()=>{updateMaterialsTable();},250);  
+                setTimeout(()=>{toggleEditMode(['ENGINEER']);},300); 
              }
             });
 
