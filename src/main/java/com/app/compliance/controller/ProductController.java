@@ -225,13 +225,15 @@ public class ProductController {
     public ResponseEntity<String> deleteUseProduct(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
             Product prodToDestroy=productRepository.findById(id).get();
+            String article=prodToDestroy.getCode();
+            String description=prodToDestroy.getDescription();
             List<Bom> allboms = bomRepository.findByProdid(prodToDestroy);
             if(allboms.size()>0) {
                 for(Bom bom : allboms) bomRepository.delete(bom);
             }
 
             productRepository.deleteById(id);
-            logService.writeToLog("deleted product with id "+id,token);
+            logService.writeToLog("Deleted Product  "+article+" - "+description,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete product");
         }
@@ -245,7 +247,10 @@ public class ProductController {
         
         Optional<Product> opt_prod = productRepository.findById(id);
         if(!opt_prod.isPresent()) return ResponseEntity.status(500).body("The user you requested to update does not exist");
-        Product product = opt_prod.get();       
+        Product product = opt_prod.get();      
+        //GET THE OLD PRODUCT INFO
+        String oldinfo="(article: "+product.getCode()+", description: "+product.getDescription()+", sap status: "+product.getSapstatus().name()+", family: "+product.getFamily().name()+", intercompany: "+product.isIntercompany()+", semifinished: "+product.isSemifinished()+", dhf: "+product.getDhf()+", rmf: "+product.getRmf()+", budi: "+product.getBudi()+", shelf life: "+product.getShelflife()+", sterilization cycle: "+product.getSterilizationcycle().name()+", sterilization site: "+product.getSterilizationsite().name()+", supplier id: "+product.getSupplierid()+")";
+        
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
        
         product.setCode(updateProductRequest.getArticle());
@@ -285,7 +290,7 @@ public class ProductController {
         Product.SterilizationCycle stericycle = SterilizationCycle.valueOf(updateProductRequest.getStericycle());
         product.setSterilizationcycle(stericycle);
         productRepository.save(product);
-        logService.writeToLog("Updated product with ID"+id+", Code: "+updateProductRequest.getArticle()+", Description: "+updateProductRequest.getDescription()+", Family: "+updateProductRequest.getFamily()+", SAP Status: "+updateProductRequest.getSapstatus()+", Intercompany: "+updateProductRequest.isIntercompany()+", Semifinished: "+updateProductRequest.isSemifinished()+", DHF: "+updateProductRequest.getDhf()+", RMF: "+updateProductRequest.getRmf()+", BUDI: "+updateProductRequest.getBudi()+", Shelflife: "+updateProductRequest.getShelflife()+", Sterilization Site: "+updateProductRequest.getSterisite()+", Sterilization Cycle: "+updateProductRequest.getStericycle(),token);
+        logService.writeToLog("Updated product with ID"+id+", Code: "+updateProductRequest.getArticle()+", Description: "+updateProductRequest.getDescription()+", Family: "+updateProductRequest.getFamily()+", SAP Status: "+updateProductRequest.getSapstatus()+", Intercompany: "+updateProductRequest.isIntercompany()+", Semifinished: "+updateProductRequest.isSemifinished()+", DHF: "+updateProductRequest.getDhf()+", RMF: "+updateProductRequest.getRmf()+", BUDI: "+updateProductRequest.getBudi()+", Shelflife: "+updateProductRequest.getShelflife()+", Sterilization Site: "+updateProductRequest.getSterisite()+", Sterilization Cycle: "+updateProductRequest.getStericycle()+". Old values: "+oldinfo,token);
         return ResponseEntity.ok("Component updated successfully");
     }
 }

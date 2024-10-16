@@ -283,7 +283,7 @@ function saveSuppliersModifications(){
                     }
                 });
                 setTimeout(()=>{updateSuppliersTable();},250);  
-                setTimeout(()=>{toggleEditMode(['ENGINEER']);},300);  
+                setTimeout(()=>{toggleEditMode(['ENGINEER']);},500);  
              }
             });
 

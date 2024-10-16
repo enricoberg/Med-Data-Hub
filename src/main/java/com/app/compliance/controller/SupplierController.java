@@ -109,8 +109,10 @@ public class SupplierController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteSupplier(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
+            Supplier supplier = supplierRepository.findById(id).get();
+            String name=supplier.getSupplier_name();
             supplierRepository.deleteById(id);
-            logService.writeToLog("Deleted supplier with ID "+id,token);
+            logService.writeToLog("Deleted supplier  "+name,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the supplier");
         }
@@ -124,7 +126,10 @@ public class SupplierController {
         
         Optional<Supplier> opt_supplier = supplierRepository.findById(id);
         if(!opt_supplier.isPresent()) return ResponseEntity.status(500).body("The supplier you requested to update does not exist");
-        Supplier supplier = opt_supplier.get();       
+        Supplier supplier = opt_supplier.get();     
+        //RETRIEVE THE OLD INFORMATION ABOUT THE SUPPLIER
+        String oldinfo="(Name: "+supplier.getSupplier_name()+", SAP code: "+supplier.getSap_code()+", Contact: "+supplier.getContact()+")";
+        
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
 
         supplier.setSap_code(updateSupplierRequest.getSapcode());
@@ -132,7 +137,7 @@ public class SupplierController {
         else supplier.setContact(updateSupplierRequest.getContact());
         supplier.setSupplier_name(updateSupplierRequest.getName());
         supplierRepository.save(supplier);        
-        logService.writeToLog("Updated supplier with ID "+id+", Name: "+supplier.getSupplier_name()+", SAP code: "+supplier.getSap_code()+", Contact: "+supplier.getContact(),token);
+        logService.writeToLog("Updated supplier with ID "+id+", Name: "+supplier.getSupplier_name()+", SAP code: "+supplier.getSap_code()+", Contact: "+supplier.getContact()+". Old values: "+oldinfo,token);
         
         return ResponseEntity.ok("Supplier updated successfully");
     }

@@ -217,8 +217,10 @@ public class MaterialController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteMaterial(@PathVariable Integer id,@RequestHeader(name = "Authorization") String token) {
         try{
+            Material material = materialRepository.findById(id).get();
+            String brandname = material.getBrandname();
             materialRepository.deleteById(id);
-            logService.writeToLog("Deleted material with ID "+id,token);
+            logService.writeToLog("Deleted Material  "+brandname,token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the material");
         }
@@ -232,7 +234,8 @@ public class MaterialController {
         Optional<Material> opt_material = materialRepository.findById(id);
         if(!opt_material.isPresent()) return ResponseEntity.status(500).body("The material you requested to update does not exist");
         Material material = opt_material.get();    
-        
+        //RETRIEVE THE OLD MATERIAL INFORMATION
+        String oldinfo="(Brandname: "+material.getBrandname()+", Supplier: "+material.getSupplier()+", Family: "+material.getFamily()+", Plasticizer: "+material.getPlasticizer()+")";
         //CHANGE ONLY THE PARAMETERS SENT WITH THE REQUEST
         
         material.setBrandname(updateMaterialRequest.getBrandname());
@@ -248,7 +251,7 @@ public class MaterialController {
         
         
         materialRepository.save(material);
-        logService.writeToLog("Updated material with ID "+id+", Brandname: "+material.getBrandname()+", Supplier: "+material.getSupplier()+", Family: "+material.getFamily()+", Plasticizer: "+material.getPlasticizer(),token);
+        logService.writeToLog("Updated material with ID "+id+", Brandname: "+material.getBrandname()+", Supplier: "+material.getSupplier()+", Family: "+material.getFamily()+", Plasticizer: "+material.getPlasticizer()+". Old values= "+oldinfo,token);
         return ResponseEntity.ok("Component updated successfully");
     }
 
