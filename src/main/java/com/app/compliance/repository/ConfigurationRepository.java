@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface ConfigurationRepository extends JpaRepository<Configuration, Integer> {
     List<Configuration> findAll();
-
+    Optional<Configuration> findById(Integer id); 
     Optional<Configuration> findBySuppliercompnumber(String code);
     Optional<Configuration> findBySuppliercompnumberAndSupplier(String code, Supplier supplier);
     Optional<Configuration> findBySuppliercompnumberAndSupplierAndCompid(String code, Supplier supplier, Integer comp_id);

@@ -1,7 +1,8 @@
 async function renderdashboard(){
     const logged = await validateuser();    
     if(!logged) window.location.replace("/app/");
-    
+    axios.get(`/user/logaccess`,{ headers: { 'Authorization': authenticationheader()}});
+                        
     resetPage();
     document.cookie= 'refreshcount=0';
     const newTitle = document.createElement("div");

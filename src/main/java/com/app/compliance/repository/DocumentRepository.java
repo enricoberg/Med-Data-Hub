@@ -1,4 +1,5 @@
 package com.app.compliance.repository;
+import com.app.compliance.dto.DocumentView;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
 
@@ -23,44 +24,51 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     
     List<Document> findByArticlecodeAndDocumenttype(String article, Document.DocumentType documenttype);
 
-    
-
-    @Query(value="select d.articlecode, c.description, d.revision, d.document_type, d.ppc, d.active, d.id\n" +
-            "from documents d LEFT JOIN components c\n" +
-            "ON d.articlecode = c.comp_id  \n" +
-            "where d.assembly=FALSE\n" +
-            "UNION\n" +
-            "select d.articlecode, p.description, d.revision, d.document_type, d.ppc, d.active, d.id\n" +
-            "from documents d LEFT JOIN products p\n" +
-            "ON d.articlecode = p.code  \n" +
-            "where d.assembly=TRUE ;",nativeQuery = true)
-    List<Object[]>  getDocumentViews();
-
-
-    @Query(value="select d.articlecode, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
-            "from documents d LEFT JOIN components c\n" +
-            "ON d.articlecode = c.comp_id  \n" +
-            "where d.assembly=FALSE AND d.active=true\n" +
-            "UNION\n" +
-            "select d.articlecode, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
-            "from documents d LEFT JOIN products p\n" +
-            "ON d.articlecode = p.code  \n" +
-            "where d.assembly=TRUE AND d.active=true;",nativeQuery = true)
-    List<Object[]>  getActiveDocumentViews();
-
-
-    @Query(value="select d.articlecode, c.description, d.revision, d.document_type, d.ppc, d.active\n" +
-        "from documents d LEFT JOIN components c\n" +
-        "ON d.articlecode = c.comp_id  \n" +
-        "where d.assembly=FALSE AND d.active=true\n AND d.document_type='InternalSpecification' AND c.comp_id=?1\n" +
-        "UNION\n" +
-        "select d.articlecode, p.description, d.revision, d.document_type, d.ppc, d.active\n" +
-        "from documents d LEFT JOIN products p\n" +
-        "ON d.articlecode = p.code  \n" +
-        "where d.assembly=TRUE AND d.active=true AND d.document_type='InternalSpecification' AND p.code=?1", nativeQuery = true)
-    List<Object[]> getActiveSpec(String article);
+    List<Document> findAll();
 
     
 
+    //EXAMPLE OF USAGE
+    
+    // @Query("SELECT d.id, d.articlecode " +
+    //     "FROM Document d  " +
+    //     "WHERE d.assembly = TRUE")
+    // List<Object[]> findDocumentsORM();
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  c.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Component c " +
+        "ON d.articlecode = c.compid "+
+        "WHERE d.assembly = FALSE")
+    List<DocumentView> findDocumentsWithoutAssembly();
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  p.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Product p " +
+        "ON d.articlecode = p.code "+
+        "WHERE d.assembly = TRUE")
+    List<DocumentView> findDocumentsWithAssembly();
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  c.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Component c " +
+        "ON d.articlecode = c.compid "+
+        "WHERE d.assembly = FALSE AND d.active=TRUE")
+    List<DocumentView> findActiveDocumentsWithoutAssembly();
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  p.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Product p " +
+        "ON d.articlecode = p.code "+
+        "WHERE d.assembly = TRUE AND d.active=TRUE")
+    List<DocumentView> findActiveDocumentsWithAssembly();
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  c.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Component c " +
+        "ON d.articlecode = c.compid "+
+        "WHERE d.assembly = FALSE AND d.active=TRUE AND d.documenttype='InternalSpecification' AND c.compid=?1")
+    List<DocumentView> findActiveSpecWithoutAssembly(String article);
+
+    @Query("SELECT new com.app.compliance.dto.DocumentView(d.articlecode,  p.description, d.revision, d.documenttype, d.ppc, d.active, d.id) " +
+        "FROM Document d  LEFT JOIN Product p " +
+        "ON d.articlecode = p.code "+
+        "WHERE d.assembly = TRUE AND d.active=TRUE AND d.documenttype='InternalSpecification' AND p.code=?1")
+    List<DocumentView> findActiveSpecWithAssembly(String article);
 
 }

@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers("/app/auth/validate").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
-                        .requestMatchers("/user").hasAnyAuthority("USER")
+                        .requestMatchers("/user").hasAnyAuthority("ADMIN", "USER", "ENGINEER","DOCUMENTATION")
                         .requestMatchers("/querydocs").hasAnyAuthority("ADMIN", "USER","ENGINEER","DOCUMENTATION")
                         .requestMatchers("/querydocs/getnextrev").hasAnyAuthority("ADMIN", "DOCUMENTATION")
                         .requestMatchers("/querycomp").hasAnyAuthority("ADMIN", "USER","ENGINEER","DOCUMENTATION")

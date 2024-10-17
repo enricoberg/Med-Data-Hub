@@ -151,7 +151,7 @@ public class BomController {
                 bomline.setUm(um);
                 bomRepository.save(bomline);
                 
-                logService.writeToLog("Added BOM element. Component "+component_code+"(assembly="+obj.isAssembly()+"), Product: "+product.getCode()+", qty: "+qty+" "+um,token);
+                logService.writeToLog("Added article "+component_code+" (assembly="+obj.isAssembly()+") to the BOM of Product: "+product.getCode()+", qty: "+qty+" "+um,token);
 
             }
 
@@ -167,75 +167,7 @@ public class BomController {
     public String whereIsComponentUsed(
             @RequestParam(required = true) String article
     ) {
-        // List<ComponentExplosion> results =  new ArrayList<>();
-        // boolean exit=false;        
-        // boolean assembly=!isComponent(article);
-        // Integer codetosearch;
-        // if (assembly) codetosearch=productRepository.findByCode(article).get().getId();
-        // else codetosearch = componentRepository.findByCompid(article).getId();
-        // Integer level=1;
-        // ComponentExplosion first_element= new ComponentExplosion();
-        // first_element.setLevel(level);
-        // first_element.setId(codetosearch);
-        // first_element.setAssembly(assembly);
-        // first_element.setControlled(false);
-        // results.add(first_element);
 
-        // while(!exit){
-            
-        //     for(ComponentExplosion c: results) {
-        //         if(c.isControlled()) continue;
-        //         codetosearch=c.getId();
-        //         assembly=c.isAssembly();
-        //         level=c.getLevel()+1;
-
-
-        //         List<Bom> bomresults = bomRepository.findByCompid(codetosearch);
-
-        //         if (!bomresults.isEmpty()) {
-        //             for (Bom b : bomresults) {
-
-        //                 Integer prodid= b.getProdid().getId();
-        //                 ComponentExplosion newcompexplosion = new ComponentExplosion();
-        //                 newcompexplosion.setId(prodid);
-        //                 newcompexplosion.setAssembly(b.isAssembly());
-        //                 newcompexplosion.setLevel(level);
-        //                 newcompexplosion.setControlled(false);
-        //                 try{
-        //                     results.add(results.indexOf(c)+1,newcompexplosion);
-
-        //                 }
-        //                 catch(Exception e){
-        //                     System.out.println("ERROR");
-        //                 }
-
-
-        //             }
-        //             c.setControlled(true);
-        //             break;
-        //         }
-        //         else{
-        //             c.setControlled(true);
-        //             break;
-        //         }
-
-
-        //     }
-        //     exit=true;
-        //     for(ComponentExplosion c: results){
-        //         if(!c.isControlled()) {
-        //             exit=false;
-        //             break;
-        //         }
-        //     }
-
-
-
-
-
-        
-
-        // }
 
 
         UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
@@ -249,73 +181,7 @@ public class BomController {
     public String explodeBOM(
             @RequestParam(required = false) String article
     ) {
-    //    List<ComponentExplosion> results =  new ArrayList<>();
-    //    boolean exit=false;
-    //    Integer codetosearch;
-    //    codetosearch=productRepository.findByCode(article).get().getId();
-
-    //    Integer level=1;
-    //    ComponentExplosion first_element= new ComponentExplosion();
-    //    first_element.setLevel(level);
-    //    first_element.setId(codetosearch);
-    //    first_element.setAssembly(true);
-    //    first_element.setControlled(false);
-    //    results.add(first_element);
-
-    //    while(!exit){
-    //        boolean assembly;
-    //        for(ComponentExplosion c: results) {
-    //            if(c.isControlled()) continue;
-    //            codetosearch=c.getId();
-    //            assembly=c.isAssembly();
-    //            level=c.getLevel()+1;
-    //            if(!assembly) {
-    //                c.setControlled(true);
-    //                continue;
-    //            }
-
-    //            List<Bom> bomresults = bomRepository.findByProdid(productRepository.findById(codetosearch).get());
-
-    //            if (!bomresults.isEmpty()) {
-    //                for (Bom b : bomresults) {
-
-    //                    Integer compid= b.getCompid();
-
-    //                    ComponentExplosion newcompexplosion = new ComponentExplosion();
-    //                    newcompexplosion.setId(compid);
-    //                    newcompexplosion.setAssembly(b.isAssembly());
-    //                    newcompexplosion.setLevel(level);
-    //                    newcompexplosion.setControlled(false);
-    //                    try{
-    //                        results.add(results.indexOf(c)+1,newcompexplosion);
-
-    //                    }
-    //                    catch(Exception e){
-    //                        System.out.println("ERROR");
-    //                    }
-
-
-    //                }
-    //                c.setControlled(true);
-    //                break;
-    //            }
-    //            else{
-    //                c.setControlled(true);
-    //                break;
-    //            }
-
-
-    //        }
-    //        exit=true;
-    //        for(ComponentExplosion c: results){
-    //            if(!c.isControlled()) {
-    //                exit=false;
-    //                break;
-    //            }
-    //        }
-
-
-    //    }
+ 
 
         
         UsageController usageController = new UsageController(bomRepository, componentRepository, productRepository);
@@ -359,13 +225,17 @@ public class BomController {
             if(!productRepository.existsById(prodid)) throw new Exception();
             
             Product product = productRepository.findById(prodid).get();
+            String productcode=product.getCode();
+            String prod_description=product.getDescription();
             Integer comp_id;
+            String article;
             if(assembly) {
                 
                 if(!productRepository.existsByCode(compid)) throw new Exception();
                 
                 Product component= productRepository.findByCode(compid).get();
                 comp_id=component.getId();
+                article=component.getCode();
             }
             else{
                 
@@ -373,12 +243,13 @@ public class BomController {
                 
                 Component component = componentRepository.findByCompid(compid);
                 comp_id=component.getId();
+                article=component.getComp_id();
             }
             
             // Bom bom = bomRepository.findByCompidAndProdidAndAssembly(comp_id, product, assembly).get();
             Bom bom = bomRepository.findById(id).get();
             bomRepository.delete(bom);
-            logService.writeToLog("Deleted BOM element. Component "+comp_id+"(assembly="+assembly+"), Product: "+prodid,token);
+            logService.writeToLog("Deleted article "+article+" (assembly="+assembly+") from the BOM of Product: "+productcode+" - "+prod_description,token);
             
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the component: "+e);

@@ -98,7 +98,12 @@ public class ConfigController {
                     materialConfigurationRepository.save(newmatconf);     
                                          
                 }
-                logService.writeToLog("Added new configuration for component ID "+obj.getCompid()+", Supplier ID: "+obj.getSupid()+", Supplier component number: "+obj.getSupcompcode()+", Material ID: "+obj.getMatid()+"",token);
+                Component component = componentRepository.findById(obj.getCompid()).get();
+                String comp_article= component.getComp_id();
+                String suppliername = supplier.getSupplier_name();
+                Material material = materialRepository.findById(obj.getMatid()).get();
+                String brandname = material.getBrandname();
+                logService.writeToLog("Added new configuration for component "+comp_article+", Supplier : "+suppliername+", Supplier component number: "+obj.getSupcompcode()+", Material: "+brandname+"",token);
             }
         // } catch (Exception e) {
         //     return ResponseEntity.status(500).body("Failed to save the bom");
@@ -125,10 +130,17 @@ public class ConfigController {
                 Configuration config_to_delete = configRepository.findById(confid).get();
                 configRepository.delete(config_to_delete);
             }
+            Material material = materialRepository.findById(matid).get();
+            String brandname = material.getBrandname();
+            Configuration conf = configRepository.findById(confid).get();
+            String confname=conf.getSuppliercompnumber();
+            Component component=componentRepository.findById(conf.getCompid()).get();
+            String article=component.getComp_id();            
+            logService.writeToLog("Deleted configuration of component "+article+" with material  "+brandname+" and supplier code "+confname,token);
             
-            logService.writeToLog("Deleted configuration with material ID "+matid+" and configuration ID "+confid,token);
             
         }catch(Exception e ){
+            System.out.println(e);
             return ResponseEntity.status(500).body("Failed to delete the component: "+e);
         }
         return ResponseEntity.ok("Component deleted successfully");

@@ -3,12 +3,14 @@ package com.app.compliance.controller;
 import com.app.compliance.dto.DocumentView;
 import com.app.compliance.model.Component;
 import com.app.compliance.model.Document;
+import com.app.compliance.model.Material;
 import com.app.compliance.model.Product;
 import com.app.compliance.model.Component.ComponentFamily;
 import com.app.compliance.model.Product.ProductFamily;
 import com.app.compliance.model.Product.SterilizationCycle;
 import com.app.compliance.repository.ComponentRepository;
 import com.app.compliance.repository.DocumentRepository;
+import com.app.compliance.repository.MaterialRepository;
 import com.app.compliance.repository.ProductRepository;
 import com.app.compliance.services.EmailSenderService;
 import com.app.compliance.services.LogService;
@@ -49,6 +51,9 @@ public class DocumentController {
     private final ProductRepository productRepository;
 
     @Autowired
+    private final MaterialRepository  materialRepository;
+
+    @Autowired
     private LogService logService;
 
     @Autowired
@@ -80,20 +85,19 @@ public class DocumentController {
         if(artwork==null) artwork=true;
         //ELIMINATE ALL THE RECORDS THAT DO NOT MATCH WITH THE PARAMETERS REQUESTED
         List<DocumentView> toRemove = new ArrayList<>();
+        List<DocumentView> alldocs =new ArrayList<>();
         
         
+        // List<Object[]> resultobjects = documentRepository.getDocumentViews();
+        // List<DocumentView> alldocs = getDocumentViews((resultobjects));   
         
-        List<Object[]> resultobjects = documentRepository.getDocumentViews();
-
-        List<DocumentView> alldocs = getDocumentViews((resultobjects));     
-        //EXCEUTE ONE FILTER AT A TIME BUT ONLY IF REQUESTED
-        if(active){
-            for(DocumentView doc : alldocs){
-                if(!doc.isActive()) toRemove.add(doc);
-            }
-            alldocs.removeAll(toRemove);
-            toRemove.clear();
-        }
+        
+        if(active) alldocs=getAllDocViews(true);
+        else alldocs=getAllDocViews(false);
+        
+        
+        //EXECUTE ONE FILTER AT A TIME BUT ONLY IF REQUESTED
+        
         for(DocumentView doc : alldocs){
             if (doc.getDocumentType().equals("WI") && !wi) {toRemove.add(doc); continue;}
             else if (doc.getDocumentType().equals("InternalSpecification") && !intspec) {toRemove.add(doc); continue;}
@@ -113,6 +117,7 @@ public class DocumentController {
         }
 
         if(article!=null){
+            
             for (DocumentView doc : alldocs){
                 if(!doc.getId().toUpperCase().contains(article.toUpperCase())) toRemove.add(doc);      
             }
@@ -152,11 +157,11 @@ public class DocumentController {
         
 
 
-
+        return new ArrayList<>(alldocs.subList((page-1)*50, Math.min(page * 50, alldocs.size())));
         // return alldocs;
-        return alldocs.stream()
-                .filter(doc -> alldocs.indexOf(doc) >= (page-1)*50 && alldocs.indexOf(doc) <= (page*50)-1)
-                .collect(Collectors.toList());
+        // return alldocs.stream()
+        //         .filter(doc -> alldocs.indexOf(doc) >= (page-1)*50 && alldocs.indexOf(doc) <= (page-1)*50)
+        //         .collect(Collectors.toList());
 
     }
 
@@ -379,7 +384,8 @@ public class DocumentController {
             @RequestHeader(name = "Authorization") String token) {
 
         if (file != null && !file.isEmpty()) {                      
-            
+            Material material = materialRepository.findById(materialid).get();
+            String brandname = material.getBrandname();
                     
             //Save the file with the correct name and path
             try {
@@ -389,7 +395,7 @@ public class DocumentController {
                 String fileName = docutype + "_" + materialid +  EXTENSION;
                 Path destination = new File(SERVER_LOCATION, fileName).toPath();
                 Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-                logService.writeToLog("Added the new certificate:  "+fileName+ " ( " + docutype + " ) ",token);
+                logService.writeToLog("Added the new certificate:  "+fileName+ " ( " + docutype + " ) for the material "+brandname+".",token);
             }
             catch (IOException e) {
                 return ResponseEntity.status(500).body("Failed to save the file");
@@ -409,10 +415,45 @@ public class DocumentController {
             String completefilename= docToDelete.getArticlecode() + "_" + docToDelete.getRevision() + "_" + docToDelete.getDocumenttype() + ".pdf";
             File fileToDelete = new File(SERVER_LOCATION + File.separator + completefilename);
             if(!fileToDelete.delete()) throw new Exception();
-            logService.writeToLog("Deleted the document with id  "+id+" - ("+completefilename+")",token);
+            logService.writeToLog("Deleted the document "+completefilename+" - ("+completefilename+")",token);
         }catch(Exception e ){
             return ResponseEntity.status(500).body("Failed to delete the document");
         }
         return ResponseEntity.ok("Document deleted successfully");
+    }
+
+    
+    // private List<DocumentView> getDocViews() {
+    //     List<DocumentView> withoutAssembly = documentRepository.findDocumentsWithoutAssembly();
+    //     List<DocumentView> withAssembly = documentRepository.findDocumentsWithAssembly();
+    
+    //     // Optionally combine the results if needed
+    //     List<DocumentView> combined = new ArrayList<>();
+    //     combined.addAll(withoutAssembly);
+    //     combined.addAll(withAssembly);
+        
+    //     return combined;
+
+    // }
+
+
+    
+    private List<DocumentView> getAllDocViews(boolean onlyactive){
+        List<DocumentView> alldocs = new ArrayList<>();
+        List<DocumentView> allcomponentdocs= new ArrayList<>();
+        List<DocumentView> allproductdocs= new ArrayList<>();
+        if(!onlyactive){
+            allcomponentdocs= documentRepository.findDocumentsWithoutAssembly();
+            allproductdocs= documentRepository.findDocumentsWithAssembly();
+        }
+        else{
+            allcomponentdocs= documentRepository.findActiveDocumentsWithoutAssembly();
+            allproductdocs= documentRepository.findActiveDocumentsWithAssembly();
+        }
+        
+        alldocs.addAll(allcomponentdocs);
+        alldocs.addAll(allproductdocs);
+        return alldocs;
+
     }
 }

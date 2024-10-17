@@ -136,7 +136,7 @@ async function updateDocumentsTable(){
     url+=`?description=${description}&revision=${revision}&article=${article}&ppc=${ppc}&active=${active}&wi=${wi}&intspec=${intspec}&supplierspec=${supspec}&page=${getCookie("resultpage")}&artwork=${artwork}&tr=${testreport}&dd=${designdocument}&dhr=${dhr}&ppcdoc=${ppcdoc}`;
     
 
-
+    
     const requestOptions = {
       method: 'GET', 
       headers: {

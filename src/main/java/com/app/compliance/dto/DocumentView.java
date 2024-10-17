@@ -1,5 +1,7 @@
 package com.app.compliance.dto;
 
+import com.app.compliance.model.Document.DocumentType;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +28,14 @@ public class DocumentView {
                 this.ppc = ppc;
                 this.active=active;
                 this.docid=docid;
+        }
+        public DocumentView(String id, String description, String revision, DocumentType documentType, String ppc, boolean active, Integer docid) {
+                this.id = id;
+                this.description = description;
+                this.revision = revision;
+                this.documentType = documentType.toString();
+                this.ppc = ppc;
+                this.active=active;
+                this.docid=String.valueOf(docid);
         }
 }
