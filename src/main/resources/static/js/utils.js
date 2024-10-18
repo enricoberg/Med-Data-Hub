@@ -145,7 +145,24 @@ function listenForDownloads(){
                                 .then(pdfBlob => {
                                   var pdfUrl = URL.createObjectURL(pdfBlob);
                                   var newTab = window.open();
-                                  newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
+                                  let downloadLink=item.getAttribute('targetref');
+                                  downloadLink=downloadLink.replace("/download/?filename=","");
+                                  // newTab.document.write('<object width="100%" height="100%" data="' + pdfUrl + '" type="application/pdf"></object>');
+                                  newTab.document.write(`
+                                    <html>
+                                      <head>
+                                        <title>${downloadLink}</title>
+                                      </head>
+                                      <body style="margin:0">
+                                        <object width="100%" height="100%" data="${pdfUrl}" type="application/pdf" style="height: calc(100vh - 40px);"></object>
+                                        <div style="text-align: center; padding: 10px; background: linear-gradient(90deg, rgba(43,43,193,1) 0%, rgba(0,212,255,1) 44%, #fe7aff 100%);  font-family: 'Arial'; ">
+                                            <a href="${pdfUrl}" download="${downloadLink}" style="text-decoration: none; color: white;  font-size: 24px; font-weight: bold; position:relative; bottom: 5px;">
+                                               Download PDF
+                                            </a>
+                                        </div>
+                                      </body>
+                                    </html>
+                                `);
                                 })
                                 .catch(error => createCustomAlert('Error','The Document you are looking for does not exists', 'ok'))
                             });

@@ -29,26 +29,11 @@ function renderNavbar(){
                     <span class="nav-text" onclick="renderspecifications()">
                         Documents
                     </span>
-                    <i class="fas fa-chevron-down menuexpander"></i>
+                    
                 </a>
                 
             </li>
-            <li style="display: none;" class="submenu" >
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewdocuments()">
-                        Add new document
-                     </span>
-                 </a>
-             </li>
-             <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="renderReplaceDocumentPage()">
-                        Replace existing document
-                     </span>
-                 </a>
-             </li>
+            
             <li >
                 <a href="#">
                    <i class="fa-solid fa-puzzle-piece fa-1-5x "></i>
@@ -59,14 +44,7 @@ function renderNavbar(){
                 </a>
                
             </li>
-            <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewcomponents()">
-                        Add new component
-                     </span>
-                 </a>
-             </li>
+            
             <li style="display: none;" class="submenu">
                 <a href="#" >
                     <i class="fas fa-stream fa-1-5x  "></i>
@@ -86,14 +64,7 @@ function renderNavbar(){
                     <i class="fas fa-chevron-down menuexpander"></i>
                 </a>
             </li>
-            <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewproduct()">
-                        Add new product
-                     </span>
-                 </a>
-             </li>
+            
             <li style="display: none;" class="submenu">
                 <a href="#" >
                     <i class="fas fa-stream fa-1-5x submenu "></i>
@@ -108,47 +79,26 @@ function renderNavbar(){
                     <span class="nav-text" onclick="rendermaterials()">
                        Materials
                     </span>
-                    <i class="fas fa-chevron-down menuexpander"></i>
+                    
                 </a>
             </li>
             
-            <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewmaterials()">
-                        Add new material
-                     </span>
-                 </a>
-             </li>
-             <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewcertificate()">
-                        Add new certificate
-                     </span>
-                 </a>
-             </li>
+            
+             
             <li>
                <a href="#">
                    <i class="fa-solid fa-users fa-1-5x"></i>
                     <span class="nav-text" onclick="rendersuppliers()">
                         Suppliers
                     </span>
-                    <i class="fas fa-chevron-down menuexpander"></i>
+                    
                 </a>
             </li>
-            <li style="display: none;" class="submenu">
-                <a href="#" >
-                    <i class="fas fa-stream fa-1-5x  "></i>
-                     <span class="nav-text" onclick="rendernewsuppliers()">
-                        Add new supplier
-                     </span>
-                 </a>
-             </li>
+            
              <li>
                 <a href="#">
                     <i class="fa-solid fa-rotate fa-1-5x"></i>
-                    <span class="nav-text">
+                    <span class="nav-text" onclick="renderchanges()">
                        Changes
                     </span>
                     <i class="fas fa-chevron-down menuexpander"></i>
@@ -180,7 +130,14 @@ function renderNavbar(){
                 </a>
               
             </li>
-             
+            <li>
+               <a href="#">
+                   <i class="fa-solid fa-pen-nib fa-1-5x"></i>
+                    <span class="nav-text" onclick="renderaudit()">
+                        Audit Trail
+                    </span>                    
+                </a>
+            </li> 
              
             <li></li>
         </ul>
